@@ -1,0 +1,13 @@
+diff --git a/node_modules/next/dist/lib/is-serializable-props.js b/node_modules/next/dist/lib/is-serializable-props.js
+index 4953dd6..7fe3825 100644
+--- a/node_modules/next/dist/lib/is-serializable-props.js
++++ b/node_modules/next/dist/lib/is-serializable-props.js
+@@ -33,7 +33,7 @@ function isSerializableProps(page, method, input) {
+             return true;
+         }
+         if (type === "undefined") {
+-            throw new SerializableError(page, method, path, "`undefined` cannot be serialized as JSON. Please use `null` or omit this value.");
++            return true;
+         }
+         if ((0, _isPlainObject).isPlainObject(value)) {
+             visit(refs, value, path);

@@ -1,6 +1,7 @@
 {
   "extends": "next/core-web-vitals",
   "rules": {
-    "semi": 0
+    "semi": 0,
+    "semicolon": false
   }
 }

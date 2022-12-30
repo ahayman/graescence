@@ -1,0 +1,124 @@
+
+.container {
+  background-color: var(--background-secondary-color);
+  border-radius: 5pt;
+  padding: 0.6rem;
+}
+
+.icon {
+  font-size: 1.2rem;
+  size: 1.2rem;
+}
+
+.iconContainer {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.alignContainer {
+  margin-top: 0.7rem;
+}
+
+.optionText {
+  margin-left: 1.2rem;
+  margin-right: 1.2rem;
+  font-size: 1rem;
+  text-align: center;
+}
+
+.optionsShowing {
+  overflow: hidden;
+  transition: opacity 200ms linear 100ms, max-height 300ms ease-in-out, max-width 300ms ease-in-out;
+}
+
+.optionsHiding {
+  overflow: hidden;
+  transition: opacity 200ms linear, max-height 300ms ease-in-out 100ms, max-width 300ms ease-in-out 100ms;
+}
+
+.row {
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.button {
+  padding: 0.2rem;
+  width: 1.5rem;
+  height: 1.5rem;
+  border-width: 1pt;
+  border-color: transparent;
+  background-color: var(--background-color);
+  border-radius: 5pt;
+}
+
+.buttonSelect {
+  background-color: var(--select-background-color);
+  border-color: var(--select-foreground-color);
+  color: var(--select-foreground-color);
+  width: 2rem;
+  height: 2rem;
+  padding: 0.4rem;
+}
+
+.buttonUnSelect {
+  background-color: var(--unSelect-background-color);
+  border-color: var(--unSelect-foreground-color);
+  color: var(--unSelect-foreground-color);
+  width: 2rem;
+  height: 2rem;
+  padding: 5pt;
+}
+
+.buttonLeft {
+  border-top-left-radius: 5pt;
+  border-bottom-left-radius: 5pt;
+  border-width: 0pt;
+  margin-right: 1pt;
+}
+
+.buttonMiddle {
+  border-width: 0pt;
+  margin-right: 1pt;
+}
+
+.buttonRight {
+  border-top-right-radius: 5pt;
+  border-bottom-right-radius: 5pt;
+  border-width: 0pt;
+}
+
+.fontSelectContainer {
+  width: 100%;
+  overflow: scroll;
+}
+
+.fontSelect {
+  margin: 5pt 5pt 0pt;
+  padding: 0pt 5pt;
+  border-radius: 5pt;
+  background-color: var(--select-background-color);
+}
+
+.fontUnselect {
+  margin: 5pt 5pt 0pt;
+  padding: 0pt 5pt;
+  border-radius: 5pt;
+  background-color: var(--unSelect-background-color);
+}
+
+.fontSelect .fontSelectAa, .fontSelectTitle {
+  color: var(--select-foreground-color);
+  text-align: center;
+}
+
+.fontUnselect .fontSelectAa, .fontSelectTitle {
+  color: var(--unSelect-foreground-color)
+}
+
+.fontSelectAa {
+  font-size: 2rem;
+}
+
+.fontSelectTitle {
+  font-size: 0.7rem;
+}

@@ -1,0 +1,33 @@
+.post {
+  padding: 0rem 2rem;
+
+  p, span {
+    font-family: var(--reading-font-family);
+    font-size: var(--reading-font-size);
+    text-indent: var(--reading-paragraph-indent);
+    margin-bottom: var(--reading-paragraph-spacing);
+    line-height: var(--reading-line-spacing);
+    letter-spacing: var(--reading-letter-spacing);
+    word-spacing: var(--reading-word-spacing);
+    text-align: var(--reading-text-align);
+  }
+
+  hr {
+    border-color: transparent;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+  }
+
+  hr:after {
+    content: "⸻ ༺✧༻ ⸻";
+    display: inline-block;
+    position: relative;
+    left: 18rem;
+    font-size: 1.5em;
+  }
+
+  ul {
+    margin-left: 3em;
+    margin-bottom: 0.5rem;
+  }
+}

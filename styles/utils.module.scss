@@ -47,10 +47,33 @@
   margin: 0 0 1.25rem;
 }
 
+.verticalSpaced {
+  margin: 1rem 0rem;
+}
+
 .lightText {
-  color: #666;
+  color: var(--foreground-secondary-color);
 }
 
 .smallText {
   font-size: 0.8em;
+}
+
+.lightHR {
+  border-color: var(--foreground-secondary-color);
+  align-self: stretch;
+}
+
+.indentedHR {
+  align-self: stretch;
+  margin: 0pt 20pt 0pt 20pt;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+}
+
+.justifyBetween {
+  justify-content: space-between;
 }
