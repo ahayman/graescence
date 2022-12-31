@@ -11,7 +11,7 @@ export type Props = {
   children?: ReactNode
 }
 
-export const siteTitle = 'Graescence, a web novel'
+const siteTitle = 'Graescence, a web novel'
 
 const Layout = async ({ children }: Props) => {
   const posts = await getSortedPostsData()

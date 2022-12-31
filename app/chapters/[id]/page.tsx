@@ -1,4 +1,4 @@
-import { getAllChapterIds } from '../../../api/chapters'
+import { generateRSS, getAllChapterIds } from '../../../api/chapters'
 import Chapter from './chapter'
 
 export type Params = {
@@ -6,6 +6,7 @@ export type Params = {
 }
 
 export async function generateStaticParams(): Promise<Params[]> {
+  generateRSS()
   return getAllChapterIds().map(p => ({ id: p.params.id }))
 }
 

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+    <channel>
+        <title>Graescence Chapter Feed</title>
+        <link>undefined</link>
+        <description>Complete list of Chapters for the Graescence web novel</description>
+        <lastBuildDate>Sat, 31 Dec 2022 01:09:01 GMT</lastBuildDate>
+        <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
+        <generator>Feed npm package</generator>
+        <language>en</language>
+        <image>
+            <title>Graescence Chapter Feed</title>
+            <url>http://localhost:3000/images/profile.png</url>
+            <link>undefined</link>
+        </image>
+        <copyright>All rights reserved 2022, apotesanon</copyright>
+        <item>
+            <title><![CDATA[Chapter 1 Jump]]></title>
+            <link>http://localhost:3000/chapters/v01c01-Stan-Jump</link>
+            <guid>v1.c1.v01c01-Stan-Jump</guid>
+            <pubDate>Sat, 31 Dec 2022 05:00:00 GMT</pubDate>
+            <description><![CDATA[Jump]]></description>
+            <content:encoded><![CDATA[Jump]]></content:encoded>
+        </item>
+        <item>
+            <title><![CDATA[Chapter 2 Run]]></title>
+            <link>http://localhost:3000/chapters/v01c02-Stan-Run</link>
+            <guid>v1.c2.v01c02-Stan-Run</guid>
+            <pubDate>Mon, 26 Dec 2022 05:00:00 GMT</pubDate>
+            <description><![CDATA[Run]]></description>
+            <content:encoded><![CDATA[Run]]></content:encoded>
+        </item>
+    </channel>
+</rss>

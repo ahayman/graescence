@@ -1,4 +1,4 @@
-import { getAllPostIds } from '../../../api/posts'
+import { generateRSS, getAllPostIds } from '../../../api/posts'
 import Post from './post'
 
 export type Params = {
@@ -6,6 +6,7 @@ export type Params = {
 }
 
 export async function generateStaticParams(): Promise<Params[]> {
+  await generateRSS()
   return getAllPostIds().map(p => ({ id: p.params.id }))
 }
 

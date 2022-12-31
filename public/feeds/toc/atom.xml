@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+    <id>Graescence Chapter Feed</id>
+    <title>Graescence Chapter Feed</title>
+    <updated>2022-12-31T01:09:01.703Z</updated>
+    <generator>Feed npm package</generator>
+    <author>
+        <name>apoetsanon</name>
+    </author>
+    <link rel="self" href="http://localhost:3000/feeds/toc/atom.xml"/>
+    <subtitle>Complete list of Chapters for the Graescence web novel</subtitle>
+    <logo>http://localhost:3000/images/profile.png</logo>
+    <icon>http://localhost:3000/favicon.ico</icon>
+    <rights>All rights reserved 2022, apotesanon</rights>
+    <entry>
+        <title type="html"><![CDATA[Chapter 1 Jump]]></title>
+        <id>v1.c1.v01c01-Stan-Jump</id>
+        <link href="http://localhost:3000/chapters/v01c01-Stan-Jump"/>
+        <updated>2022-12-31T05:00:00.000Z</updated>
+        <summary type="html"><![CDATA[Jump]]></summary>
+        <content type="html"><![CDATA[Jump]]></content>
+        <author>
+            <name>apoetsanon</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Chapter 2 Run]]></title>
+        <id>v1.c2.v01c02-Stan-Run</id>
+        <link href="http://localhost:3000/chapters/v01c02-Stan-Run"/>
+        <updated>2022-12-26T05:00:00.000Z</updated>
+        <summary type="html"><![CDATA[Run]]></summary>
+        <content type="html"><![CDATA[Run]]></content>
+        <author>
+            <name>apoetsanon</name>
+        </author>
+    </entry>
+</feed>

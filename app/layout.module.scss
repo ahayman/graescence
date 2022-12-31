@@ -1,6 +1,5 @@
 .container {
     height: 100vh;
-    padding: 0 1rem;
     flex: 1;
     margin: 0 auto 0;
     background-color: var(--background-color);
@@ -24,7 +23,6 @@
 
 .nav {
     height: 100vh;
-    padding: 0rem 1rem;
     background-color: var(--background-secondary-color);
     @media screen and (max-width: 640px) {
         height: auto;

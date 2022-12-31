@@ -1,11 +1,12 @@
 import fs from 'fs'
 import { Feed } from 'feed'
 import path from 'path'
-import matter from 'gray-matter'
+import matter, { language } from 'gray-matter'
 import { StaticParam } from '../lib/types'
 import { remark } from 'remark'
 import html from 'remark-html'
 import { isNotEmpty } from '../lib/utils'
+import { parseISO } from 'date-fns'
 
 const chaptersDirectory = path.join(process.cwd(), 'chapters')
 const markdownExt = /\.md|\.markdown$/
@@ -15,7 +16,7 @@ type Meta = {
   volumeNo: number
   chapterNo: number
   tags: string[]
-  date?: string
+  date: string
 }
 
 export type ChapterMeta = Meta & {
@@ -26,17 +27,43 @@ export type ChapterID = {
   id: string
 }
 
-const generateRSS = async () => {
+export const generateRSS = () => {
   const data = getSortedChapterMeta()
   const title = `${process.env.SITE_NAME ?? 'Graescence'} Chapter Feed`
-  const feedUrl = `${}`
+  const siteUrl = process.env.HOST ?? 'http://localhost:3000'
   const date = new Date()
   const feed = new Feed({
     id: title,
     title,
-    description: "Complete list of Chapters for the Graescence web novel",
+    description: 'Complete list of Chapters for the Graescence web novel',
     copyright: `All rights reserved ${date.getFullYear()}, apotesanon`,
+    updated: date,
+    favicon: siteUrl + '/favicon.ico',
+    image: siteUrl + '/images/profile.png',
+    generator: 'Feed npm package',
+    language: 'en',
+    feedLinks: {
+      rss2: `${siteUrl}/feeds/toc/feed.xml`,
+      json: `${siteUrl}/feeds/toc/feed.json`,
+      atom: `${siteUrl}/feeds/toc/atom.xml`,
+    },
+    author: {
+      name: 'apoetsanon',
+    },
   })
+  feed.items = data.map(chapter => ({
+    title: `Chapter ${chapter.chapterNo} ${chapter.title}`,
+    id: `v${chapter.volumeNo}.c${chapter.chapterNo}.${chapter.id}`,
+    link: `${siteUrl}/chapters/${chapter.id}`,
+    description: chapter.title,
+    content: chapter.title,
+    author: [{ name: 'apoetsanon' }],
+    date: parseISO(chapter.date),
+  }))
+  fs.mkdirSync('./public/feeds/toc', { recursive: true })
+  fs.writeFileSync('./public/feeds/toc/feed.xml', feed.rss2())
+  fs.writeFileSync('./public/feeds/toc/atom.xml', feed.atom1())
+  fs.writeFileSync('./public/feeds/toc/feed.json', feed.json1())
 }
 
 const chapterMetaFromMatter = (result: matter.GrayMatterFile<string>): Meta | undefined => {
@@ -48,7 +75,7 @@ const chapterMetaFromMatter = (result: matter.GrayMatterFile<string>): Meta | un
   const tagData = frontMatter.tags
   const tags = typeof tagData === 'string' ? tagData.split(/,\s*/) : []
 
-  if (isNaN(volumeNo) || isNaN(chapterNo)) {
+  if (isNaN(volumeNo) || isNaN(chapterNo) || !date) {
     return undefined
   }
 
@@ -64,26 +91,24 @@ const chapterMetaFromMatter = (result: matter.GrayMatterFile<string>): Meta | un
 export const getSortedChapterMeta = (): ChapterMeta[] => {
   // Get file names under /posts
   const fileNames = fs.readdirSync(chaptersDirectory)
-  const allPostsData: ChapterMeta[] = (
-    await Promise.all(
-      fileNames.map(async name => {
-        const id = name.replace(markdownExt, '')
+  const allPostsData: ChapterMeta[] = fileNames
+    .map(name => {
+      const id = name.replace(markdownExt, '')
 
-        // Read markdown file as string
-        const fullPath = path.join(chaptersDirectory, name)
-        const fileContents = fs.readFileSync(fullPath, 'utf8')
+      // Read markdown file as string
+      const fullPath = path.join(chaptersDirectory, name)
+      const fileContents = fs.readFileSync(fullPath, 'utf8')
 
-        // Use gray-matter to parse the post metadata section
-        const matterResult = matter(fileContents)
-        let meta = chapterMetaFromMatter(matterResult)
-        if (!meta) {
-          return undefined
-        }
+      // Use gray-matter to parse the post metadata section
+      const matterResult = matter(fileContents)
+      let meta = chapterMetaFromMatter(matterResult)
+      if (!meta) {
+        return undefined
+      }
 
-        return { id, ...meta }
-      }),
-    )
-  ).filter(isNotEmpty)
+      return { id, ...meta }
+    })
+    .filter(isNotEmpty)
   // Sort posts by date
   return allPostsData.sort((a, b) => {
     if (a.volumeNo === b.volumeNo) {
