@@ -6,8 +6,15 @@ import styles from './chapter.module.css'
 import ReadingOptions from '../../../components/ReadingOptions/ReadingOptions'
 import Row from '../../../components/Row'
 import Column from '../../../components/Column'
-import { useContext } from 'react'
-import { ContentContext } from '../../../contexts/Content/Provider'
+import { useContext, useEffect } from 'react'
+import { ContentContext } from '../../../providers/Content/Provider'
+import ContentBlock from '../../../components/ContentBlock/ContentBlock'
+import Header from '../../../components/Header/Header'
+import Tags from '../../../components/Tags/Tags'
+import { classes } from '../../../lib/utils'
+import Link from 'next/link'
+import { ProgressContext } from '../../../providers/Progress/Provider'
+import { DisplayContext } from '../../../providers/Display/Provider'
 
 export type Props = {
   id: string
@@ -15,37 +22,80 @@ export type Props = {
 
 const Chapter = ({ id }: Props) => {
   const { chapters } = useContext(ContentContext)
-  const chapter = chapters.find(c => c.id === id)
+  const {
+    actions: { setOptions, clearOptions },
+  } = useContext(DisplayContext)
+  const {
+    actions: { updateCurrentChapter },
+  } = useContext(ProgressContext)
+  const chapterIdx = chapters.byID[id]
+  const chapter = chapters.items[chapterIdx]
+  const nextChapter = chapters.items[chapterIdx + 1]
+  const prevChapter = chapters.items[chapterIdx - 1]
+
+  useEffect(() => {
+    if (chapter) {
+      updateCurrentChapter(chapter.id)
+    }
+  }, [chapter, updateCurrentChapter])
+
+  useEffect(() => {
+    setOptions(<ReadingOptions />)
+    return () => {
+      clearOptions()
+    }
+  }, [setOptions, clearOptions])
+
   if (!chapter) {
     return <div> No Chapter Found!</div>
   }
   const { chapterNo, title, date, volumeNo, html, tags } = chapter
+
+  const chapterNav = () => {
+    if (!nextChapter && !prevChapter) {
+      return null
+    }
+    return (
+      <Row className={styles.bottomNav} horizontal="space-between">
+        {prevChapter ? (
+          <Link className={utilStyles.coloredLink} href={`chapters/${prevChapter.id}`}>{`← ${prevChapter.title}`}</Link>
+        ) : (
+          <div />
+        )}
+        {nextChapter ? (
+          <Link className={utilStyles.coloredLink} href={`chapters/${nextChapter.id}`}>{`${nextChapter.title} →`}</Link>
+        ) : (
+          <div />
+        )}
+      </Row>
+    )
+  }
+
   return (
     <>
-      <div className={styles.readOptions}>
-        <ReadingOptions />
-      </div>
-      <Row horizontal="space-between" vertical="center">
-        <Column>
-          {tags.length > 0 && (
-            <h1 className={[utilStyles.headingMd, utilStyles.lightText].join(' ')}>{tags.join(', ')}</h1>
-          )}
-        </Column>
-        <h1 className={utilStyles.headingLg}>{title}</h1>
-        <Column>
-          {date && (
-            <div className={utilStyles.lightText}>
-              <Date dateString={date} />
+      <Header type="Primary">
+        <Row horizontal="center">{title}</Row>
+      </Header>
+      <Header type="Secondary">
+        <Row horizontal="space-between" vertical="center">
+          <Tags tags={tags} />
+          <Column>
+            {date && (
+              <div className={classes(utilStyles.lightText, utilStyles.smallText)}>
+                <Date dateString={date} />
+              </div>
+            )}
+            <div className={classes(utilStyles.lightText, utilStyles.smallText)}>
+              {`Volume ${volumeNo}, Chapter ${chapterNo}`}
             </div>
-          )}
-          <div className={[utilStyles.lightText, utilStyles.smallText].join(' ')}>
-            {`Volume ${volumeNo}, Chapter ${chapterNo}`}
-          </div>
-        </Column>
-      </Row>
-      <br />
-      <br />
-      <div className={postStyles.post} dangerouslySetInnerHTML={{ __html: html }} />
+          </Column>
+        </Row>
+      </Header>
+      <ContentBlock>
+        <div className={postStyles.post} dangerouslySetInnerHTML={{ __html: html }} />
+        <br />
+        {chapterNav()}
+      </ContentBlock>
     </>
   )
 }

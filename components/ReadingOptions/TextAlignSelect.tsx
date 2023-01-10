@@ -1,4 +1,4 @@
-import { TextAlign } from '../../contexts/Options/Types'
+import { TextAlign } from '../../providers/Options/Types'
 import styles from './ReadingOptions.module.css'
 import Row from '../Row'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'

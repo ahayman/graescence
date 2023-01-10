@@ -1,4 +1,4 @@
-import { Adjustment, ReadingOption } from '../../contexts/Options/Types'
+import { Adjustment, ReadingOption } from '../../providers/Options/Types'
 import styles from './ReadingOptions.module.css'
 import Row from '../Row'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'

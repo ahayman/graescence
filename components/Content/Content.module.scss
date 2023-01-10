@@ -1,0 +1,26 @@
+ .main {
+    max-width: 50rem;
+    min-width: 20rem;
+    max-height: 100vh;
+    overflow: scroll;
+    border-right-width: 1pt;
+    border-left-width: 1pt;
+    border-color: var(--background-secondary-color);
+    border-left-style: groove;
+    border-right-style: groove;
+ } 
+
+ .options {
+    border-left-width: 1pt;
+    border-left-style: groove;
+    border-left-color: var(--background-secondary-color);
+
+ }
+
+.mainContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0pt 1pt;
+    flex: 1;
+}

@@ -7,8 +7,11 @@ export type GlobalVariable =
   | '--reading-word-spacing'
   | '--reading-text-align'
   | '--reading-font-family'
+  | 'data-theme'
 
-export type StorageVariable = GlobalVariable
+export type StorageVariable = GlobalVariable | '--current-chapter-id'
+
+export type UITheme = 'dark' | 'light'
 
 export const Fonts = [
   'Arial',

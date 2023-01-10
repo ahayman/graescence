@@ -4,51 +4,56 @@ import Date from '../components/date'
 import Link from 'next/link'
 import { classes } from '../lib/utils'
 import { useContext } from 'react'
-import { ContentContext } from '../contexts/Content/Provider'
+import { ContentContext } from '../providers/Content/Provider'
+import ContentBlock from '../components/ContentBlock/ContentBlock'
+import Header from '../components/Header/Header'
+import Column from '../components/Column'
 
 const Home = () => {
-  const content = useContext(ContentContext)
-  const latestChapter = content?.chapters[content?.chapters.length - 1]
-  const latestPost = content?.posts[content?.posts.length - 1]
+  const { chapters, updates } = useContext(ContentContext)
+  const latestChapter = chapters.items[chapters.items.length - 1]
+  const latestPost = updates[updates.length - 1]
   return (
     <>
-      <section
+      <Header type="Primary">
+        <Column horizontal="center">
+          <h3>Graescence</h3>
+          <span className={utilStyles.smallText}>a web novel</span>
+        </Column>
+      </Header>
+      <ContentBlock
         className={utilStyles.smallText}
         style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', paddingTop: 10 }}>
         <p>Initial Next site that may or may not be destined to become my web novel blog.</p>
-        <hr className={classes(utilStyles.indentedHR, utilStyles.lightHR)} />
-      </section>
+      </ContentBlock>
       {latestChapter && (
-        <section className={`${utilStyles.headingMid} ${utilStyles.padding1px}`}>
-          <h2 className={utilStyles.headingLg}>Latest Chapter</h2>
-          <div className={utilStyles.listItem}>
-            <hr />
+        <Column>
+          <Header type="Secondary" title="Latest Chapter" />
+          <ContentBlock>
             <Link href={`/chapters/${latestChapter.id}`}>
               <h4>{latestChapter.title}</h4>
-              <br />
               {latestChapter.date && (
                 <div className={classes(utilStyles.lightText, utilStyles.smallText)}>
                   <Date dateString={latestChapter.date} />
                 </div>
               )}
             </Link>
-          </div>
-        </section>
+          </ContentBlock>
+        </Column>
       )}
       {latestPost && (
-        <section className={`${utilStyles.headingMid} ${utilStyles.padding1px}`}>
-          <h2 className={utilStyles.headingLg}>Latest Update</h2>
-          <div className={utilStyles.listItem}>
-            <hr />
-            <Link href={`/posts/${latestPost.id}`}>
+        <Column>
+          <Header type="Secondary" title="Latest Update" />
+          <ContentBlock>
+            <Link href={`/updates/${latestPost.id}`}>
               <h4>{latestPost.title}</h4>
               <div className={[utilStyles.lightText, utilStyles.smallText].join(' ')}>
                 <Date dateString={latestPost.date} />
               </div>
             </Link>
             {latestPost.excerpt && <div dangerouslySetInnerHTML={{ __html: latestPost.excerpt }} />}
-          </div>
-        </section>
+          </ContentBlock>
+        </Column>
       )}
     </>
   )

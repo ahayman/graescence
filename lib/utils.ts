@@ -23,3 +23,19 @@ export const groupArray = <T>(size: number, array: T[]): T[][] => {
   }
   return arr
 }
+
+export type ObjectKeys<T> = T extends object
+  ? (keyof T)[]
+  : T extends number
+  ? []
+  : T extends Array<any> | string
+  ? string[]
+  : never
+
+export const TypedKeys = <T extends object>(object: T): ObjectKeys<T> => {
+  return Object.keys(object) as ObjectKeys<T>
+}
+
+export interface ObjectConstructor {
+  keys<T>(o: T): ObjectKeys<T>
+}

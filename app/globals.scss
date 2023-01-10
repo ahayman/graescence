@@ -1,19 +1,30 @@
-:root {
+:root, :root[data-theme="dark"] {
   --border-radius: 12px;
   --font-mono: ui-monospace, Menlo, Monaco, 'Cascadia Mono', 'Segoe UI Mono',
     'Roboto Mono', 'Oxygen Mono', 'Ubuntu Monospace', 'Source Code Pro',
     'Fira Mono', 'Droid Sans Mono', 'Courier New', monospace;
 
-  --foreground-color: rgb(32, 32, 32);
-  --foreground-secondary-color: rgb(171, 161, 154);
-  --background-color: rgb(206, 206, 206);
-  --background-secondary-color: rgb(188, 188, 188);
-  --highlight-color: rgb(135, 43, 4);
+  --background-color: #32302f;
+  --background-secondary-color: #1d2021;
+  --border-highlight-color: #000;
+  --foreground-color: #fbf1c7;
+  --foreground-secondary-color: #afa17c;
+  --highlight-color: #714f09;
+  --accent-color: rgb(15, 82, 95);
+  --error-color: #cc241d;
+  --primary-header-color: #a34100;
+  --secondary-header-color: #504945;
 
-  --select-foreground-color: rgb(53, 53, 53);
-  --select-background-color: rgb(131, 167, 65);
-  --unSelect-foreground-color: rgb(90, 90, 90);
-  --unSelect-background-color: rgb(215, 215, 215);
+  --link-color: #83a598;
+  --select-foreground-color: #fbf1c7;
+  --select-background-color: #59590f;
+  --unSelect-foreground-color: #fbf1c7;
+  --unSelect-background-color: rgb(53, 53, 53);
+
+  --theme-select-dark-background: #32302f;
+  --theme-select-dark-foreground: #fbf1c7;
+  --theme-select-light-backgroung: #f2debf;
+  --theme-select-light-foreground: #322b1e;
 
   --reading-font-family: Arial, sans-serif;
   --reading-font-size: 1rem;
@@ -25,19 +36,23 @@
   --reading-text-align: left;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background-color: rgb(32, 32, 32);
-    --background-secondary-color: rgb(23, 23, 23);
-    --foreground-color: rgb(200, 189, 182);
-    --foreground-secondary-color: rgb(171, 161, 154);
-    --highlight-color: rgb(231, 138, 98);
+:root[data-theme="light"] {
+  --foreground-color: #322b1e;
+  --foreground-secondary-color: #504735;
+  --background-color: #f2debf;
+  --background-secondary-color: #ffeacb;
+  --border-highlight-color: #fff;
+  --highlight-color: #a18b64;
+  --accent-color: rgb(163, 204, 212);
+  --error-color: #901712;
+  --primary-header-color: #cd965c;
+  --secondary-header-color: #d9c19e;
 
-    --select-foreground-color: rgb(213, 213, 213);
-    --select-background-color: rgb(70, 90, 32);
-    --unSelect-foreground-color: rgb(213, 213, 213);
-    --unSelect-background-color: rgb(53, 53, 53);
-  }
+  --link-color: #114270;
+  --select-foreground-color: #322b1e;
+  --select-background-color: #c7dda4;
+  --unSelect-foreground-color: #322b1e;
+  --unSelect-background-color: #ffeacb;
 }
 
 * {

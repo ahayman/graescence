@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <rss version="2.0">
     <channel>
-        <title>Graescence Chapter Feed</title>
+        <title>Graescence Updates Feed</title>
         <link>undefined</link>
-        <description>Complete list of Chapters for the Graescence web novel</description>
-        <lastBuildDate>Sat, 31 Dec 2022 01:09:47 GMT</lastBuildDate>
+        <description>RSS Feed of updates from the Graescence Webnovel</description>
+        <lastBuildDate>Tue, 10 Jan 2023 15:22:50 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>Feed npm package</generator>
         <language>en</language>
         <image>
-            <title>Graescence Chapter Feed</title>
+            <title>Graescence Updates Feed</title>
             <url>http://localhost:3000/images/profile.png</url>
             <link>undefined</link>
         </image>
-        <copyright>All rights reserved 2022, apotesanon</copyright>
+        <copyright>All rights reserved 2023, apotesanon</copyright>
         <item>
             <title><![CDATA[When to Use Static Generation v.s. Server-side Rendering]]></title>
-            <link>http://localhost:3000/posts/ssg-ssr</link>
+            <link>http://localhost:3000/updates/ssg-ssr</link>
             <guid>ssg-ssr</guid>
             <pubDate>Thu, 02 Jan 2020 05:00:00 GMT</pubDate>
             <description><![CDATA[<p>We recommend using <strong>Static Generation</strong> (with and without data) whenever possible because your page can be built once and served by CDN, which makes it much faster than having a server render the page on every request.</p>
@@ -34,7 +34,7 @@
         </item>
         <item>
             <title><![CDATA[Two Forms of Pre-rendering]]></title>
-            <link>http://localhost:3000/posts/pre-rendering</link>
+            <link>http://localhost:3000/updates/pre-rendering</link>
             <guid>pre-rendering</guid>
             <pubDate>Wed, 01 Jan 2020 05:00:00 GMT</pubDate>
             <description><![CDATA[<p>Next.js has two forms of pre-rendering: <strong>Static Generation</strong> and <strong>Server-side Rendering</strong>. The difference is in <strong>when</strong> it generates the HTML for a page.</p>

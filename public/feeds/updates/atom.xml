@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-    <id>Graescence Chapter Feed</id>
-    <title>Graescence Chapter Feed</title>
-    <updated>2022-12-31T01:09:47.966Z</updated>
+    <id>Graescence Updates Feed</id>
+    <title>Graescence Updates Feed</title>
+    <updated>2023-01-10T15:22:50.762Z</updated>
     <generator>Feed npm package</generator>
     <author>
         <name>apoetsanon</name>
     </author>
     <link rel="self" href="http://localhost:3000/feeds/updates/atom.xml"/>
-    <subtitle>Complete list of Chapters for the Graescence web novel</subtitle>
+    <subtitle>RSS Feed of updates from the Graescence Webnovel</subtitle>
     <logo>http://localhost:3000/images/profile.png</logo>
     <icon>http://localhost:3000/favicon.ico</icon>
-    <rights>All rights reserved 2022, apotesanon</rights>
+    <rights>All rights reserved 2023, apotesanon</rights>
     <entry>
         <title type="html"><![CDATA[When to Use Static Generation v.s. Server-side Rendering]]></title>
         <id>ssg-ssr</id>
-        <link href="http://localhost:3000/posts/ssg-ssr"/>
+        <link href="http://localhost:3000/updates/ssg-ssr"/>
         <updated>2020-01-02T05:00:00.000Z</updated>
         <summary type="html"><![CDATA[<p>We recommend using <strong>Static Generation</strong> (with and without data) whenever possible because your page can be built once and served by CDN, which makes it much faster than having a server render the page on every request.</p>
 <p>You can use Static Generation for many types of pages, including:</p>
@@ -36,7 +36,7 @@
     <entry>
         <title type="html"><![CDATA[Two Forms of Pre-rendering]]></title>
         <id>pre-rendering</id>
-        <link href="http://localhost:3000/posts/pre-rendering"/>
+        <link href="http://localhost:3000/updates/pre-rendering"/>
         <updated>2020-01-01T05:00:00.000Z</updated>
         <summary type="html"><![CDATA[<p>Next.js has two forms of pre-rendering: <strong>Static Generation</strong> and <strong>Server-side Rendering</strong>. The difference is in <strong>when</strong> it generates the HTML for a page.</p>
 <ul>

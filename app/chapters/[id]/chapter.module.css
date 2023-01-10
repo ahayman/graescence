@@ -2,5 +2,21 @@
 .readOptions {
   position: absolute;
   right: 20pt;
-  top: 30pt;
+  top: 2pt;
+}
+
+.topNav {
+  border-bottom-width: 1pt;
+  border-bottom-color: var(--background-secondary-color);
+  border-bottom-style: groove;
+  padding-top: 20pt;
+  padding-bottom: 20pt;
+}
+
+.bottomNav {
+  border-top-width: 1pt;
+  border-top-color: var(--background-secondary-color);
+  border-top-style: groove;
+  padding-top: 20pt;
+  padding-bottom: 20pt;
 }

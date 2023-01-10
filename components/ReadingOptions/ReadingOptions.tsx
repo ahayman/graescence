@@ -1,5 +1,5 @@
 import { useContext } from 'react'
-import { OptionsContext } from '../../contexts/Options/Provider'
+import { OptionsContext } from '../../providers/Options/Provider'
 import styles from './ReadingOptions.module.css'
 import utilStyles from '../../styles/utils.module.scss'
 import Column from '../Column'

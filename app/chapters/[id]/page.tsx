@@ -1,4 +1,4 @@
-import { generateRSS, getAllChapterIds } from '../../../api/chapters'
+import { getAllContentIds, generateRSS } from '../../../api/contentData'
 import Chapter from './chapter'
 
 export type Params = {
@@ -6,8 +6,9 @@ export type Params = {
 }
 
 export async function generateStaticParams(): Promise<Params[]> {
-  generateRSS()
-  return getAllChapterIds().map(p => ({ id: p.params.id }))
+  generateRSS('chapters')
+  const ids = await getAllContentIds('chapters')
+  return ids.map(p => ({ id: p.params.id }))
 }
 
 type Props = {

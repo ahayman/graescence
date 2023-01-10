@@ -2,6 +2,6 @@
   "extends": "next/core-web-vitals",
   "rules": {
     "semi": 0,
-    "semicolon": false
+    "semicolon": 0
   }
 }

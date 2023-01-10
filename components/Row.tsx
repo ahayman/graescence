@@ -1,4 +1,4 @@
-import React, { CSSProperties, MouseEventHandler, ReactNode } from 'react'
+import React, { CSSProperties, ReactNode } from 'react'
 export type Alignment = 'center' | 'start' | 'end' | 'space-between' | 'space-around'
 
 interface Props extends React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement> {

@@ -1,22 +1,28 @@
 'use client'
-import { ChapterData } from '../api/chapters'
+import { ChapterData, PostData, LoreData } from '../api/contentData'
 import { ReactNode } from 'react'
-import { PostData } from '../api/posts'
-import ContentProvider from '../contexts/Content/Provider'
-import OptionsProvider from '../contexts/Options/Provider'
+import ContentProvider from '../providers/Content/Provider'
+import OptionsProvider from '../providers/Options/Provider'
+import ProgressProvider from '../providers/Progress/Provider'
+import DisplayProvider from '../providers/Display/Provider'
 
 export type Props = {
   children: ReactNode
   content: {
-    posts: PostData[]
+    updates: PostData[]
     chapters: ChapterData[]
+    lore: LoreData[]
   }
 }
 
-const Providers = ({ children, content }: Props) => {
+const Providers = ({ children, content: { updates, chapters, lore } }: Props) => {
   return (
     <OptionsProvider>
-      <ContentProvider value={content}>{children}</ContentProvider>
+      <ContentProvider updates={updates} chapters={chapters} lore={lore}>
+        <DisplayProvider>
+          <ProgressProvider>{children}</ProgressProvider>
+        </DisplayProvider>
+      </ContentProvider>
     </OptionsProvider>
   )
 }

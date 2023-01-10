@@ -2,10 +2,10 @@ import './globals.scss'
 import Head from 'next/head'
 import { ReactNode } from 'react'
 import styles from './layout.module.scss'
-import Nav from '../components/nav'
-import { getSortedChapterData } from '../api/chapters'
-import { getSortedPostsData } from '../api/posts'
+import Nav from '../components/Nav/nav'
 import Providers from './providers'
+import { getSortedContentData } from '../api/contentData'
+import Content from '../components/Content/Content'
 
 export type Props = {
   children?: ReactNode
@@ -14,8 +14,9 @@ export type Props = {
 const siteTitle = 'Graescence, a web novel'
 
 const Layout = async ({ children }: Props) => {
-  const posts = await getSortedPostsData()
-  const chapters = await getSortedChapterData()
+  const updates = await getSortedContentData('updates')
+  const chapters = await getSortedContentData('chapters')
+  const lore = await getSortedContentData('lore')
   return (
     <html>
       <Head>
@@ -25,16 +26,12 @@ const Layout = async ({ children }: Props) => {
       </Head>
       <body>
         <div className={styles.container}>
-          <Providers content={{ posts, chapters }}>
+          <Providers content={{ updates, chapters, lore }}>
             <div className={styles.split}>
               <div className={styles.nav}>
                 <Nav />
               </div>
-              <div className={styles.mainContainer}>
-                <div className={styles.main}>
-                  <main>{children}</main>
-                </div>
-              </div>
+              <Content>{children}</Content>
             </div>
           </Providers>
         </div>

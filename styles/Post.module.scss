@@ -1,5 +1,4 @@
 .post {
-  padding: 0rem 2rem;
 
   p, span {
     font-family: var(--reading-font-family);
@@ -10,6 +9,29 @@
     letter-spacing: var(--reading-letter-spacing);
     word-spacing: var(--reading-word-spacing);
     text-align: var(--reading-text-align);
+  }
+
+  li {
+    font-family: var(--reading-font-family);
+    font-size: var(--reading-font-size);
+    line-height: var(--reading-line-spacing);
+    letter-spacing: var(--reading-letter-spacing);
+    word-spacing: var(--reading-word-spacing);
+    text-align: var(--reading-text-align);
+  }
+
+  h2 {
+    margin-top: 0.25em;
+    margin-bottom: 0.5em;
+  }
+
+  h3 {
+    margin-top: 0.5em;
+    margin-bottom: 0.2em;
+  }
+
+  h4, h5, h6 {
+    margin-top: 0.25em
   }
 
   hr {

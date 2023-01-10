@@ -1,0 +1,24 @@
+.container {
+  width: 100%;
+  align-self: stretch;
+  flex: 1;
+}
+
+.tagsContainer {
+  padding: 10pt 3pt 5pt;
+}
+
+.icon {
+  font-size: 1.2rem;
+  size: 1.2rem;
+  color: var(--foreground-secondary-color);
+}
+
+.chapterTitle {
+  margin-right: 5pt;
+}
+
+.chapterRow {
+  margin: 5pt 0pt;
+  align-self: stretch;
+}

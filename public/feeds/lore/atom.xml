@@ -1,0 +1,546 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+    <id>Graescence Lore Feed</id>
+    <title>Graescence Lore Feed</title>
+    <updated>2023-01-10T15:22:54.492Z</updated>
+    <generator>Feed npm package</generator>
+    <author>
+        <name>apoetsanon</name>
+    </author>
+    <link rel="self" href="http://localhost:3000/feeds/lore/atom.xml"/>
+    <subtitle>RSS Feed of lore from the Graescence Webnovel</subtitle>
+    <logo>http://localhost:3000/images/profile.png</logo>
+    <icon>http://localhost:3000/favicon.ico</icon>
+    <rights>All rights reserved 2023, apotesanon</rights>
+    <entry>
+        <title type="html"><![CDATA[Anastasia Longsun]]></title>
+        <id>People.Anna_Longsun</id>
+        <link href="http://localhost:3000/lore/People.Anna_Longsun"/>
+        <updated>2023-01-02T05:00:00.000Z</updated>
+        <summary type="html"><![CDATA[<p>Anna is the second child and only daughter of Richard Longsun, King of the Santonia province, richest and most powerful of all the provinces of the Rotakan Empire. Known as the "spitfire princess", she's a short temper and fierce fighter. Fiercely independent, she chafes against the requirements of her station, often devoting her time to training.</p>
+<p>When not training, she's usually engaged in the normal machinations of the Royals. Yet no matter how independent she wishes to be, she cannot escape the duties thrust upon her...until she does.</p>
+<ul>
+<li>Called Princess normally, at home, when she's a princess, which is most of the time.</li>
+<li>Goes by Stasia when she's out in the city, hiding her identity and doing what princesses do when they're attempting to get away... or something.</li>
+<li>Goes by Anna when she actually runs away. This becomes her accepted name (to herself and how she views herself.)</li>
+</ul>
+<h2>Physical Description</h2>
+<p>Brown skin, dark brown eyes (almost black), black hair, medium-tall height for her people and sex (about 5' 5"). She's got a straight, strong nose, almond shaped eyes with long eyelashes, well defined lips, heart shaped face. She'd considered a beauty, but since she's a princess, but of course she is (who would say different?)</p>
+<hr>
+<h2>Background</h2>
+<p>Anna is the second child and only daughter with three brothers. Her older brother is set to inherit the throne, while her two younger brothers (twins) are mostly set to de-flower much of the city's precious youth, preferably amidst a drunken stupor.</p>
+<p>She will be expected to marry Royalty, largely to strengthen allies, but her father has mostly given her freedom to chose her own husband.  He doesn't believe in forcing it on her, and he trusts her— she already knows the value of strengthening their position. It's something she was born to.</p>
+<hr>
+<h2>Personality Profile</h2>
+<h3>Extroversion</h3>
+<p>Score: 7/10</p>
+<p>Anna is extroverted and manipulative. Having grown up in the court, she's accustomed to not only getting her way, but also manipulating others to make sure it happens.  She's accustomed to power, in all its forms, and has no issues wielding it.</p>
+<p>After running away, she tries to do away with those manipulative tendencies. She succeed instead to make them better, more subtle, and more genuine. She learns to identify with the 'common' man, and use it to her advantage.</p>
+<h3>Neurosis</h3>
+<p>Score: 9/10</p>
+<h3>Openness</h3>
+<p>Score: 5/10</p>
+<h3>Aggressiveness</h3>
+<p>Score: 6/10</p>
+<h3>Ego</h3>
+<p>Score: 9/10</p>
+<hr>
+<h2>Character Flaws</h2>
+<hr>
+<h2>Control</h2>
+<hr>
+<h2>Prose</h2>
+]]></summary>
+        <author>
+            <name>apoetsanon</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Casters]]></title>
+        <id>Magic_%26_Tech.Casters</id>
+        <link href="http://localhost:3000/lore/Magic_%26_Tech.Casters"/>
+        <updated>2023-01-02T05:00:00.000Z</updated>
+        <summary type="html"><![CDATA[<p>Casters generally come in two types: slings and rails. Both are designed to fire some sort of small projective at high speeds with relatively good precision (depending on the caster). Like any weapon, they come in a large number of configurations and styles with the requisite breadth of quality. Generally, the configurations can be divided into two main styles: Handcasters and Longcasters.</p>
+<p>Handcasters are smaller and can be fired by a single hand. They are generally affixed to the hip or hidden beneath clothes. They normally contain only a few bolts (often only one) and are usually considered more of a defensive weapon. Many don't have sights and aren't very accurate beyond a dozen paces.</p>
+<p>Longcasters are larger and require two hands to fire. They're considerably more expensive, but also much more powerful and accurate. While Longcasters aren't restricted, neither are they generally available to the public, mostly because a good Longcaster can cost half as much as a decent home. Richer merchants and Royals tend to prefer them, often for hunting game.</p>
+<h2>Slings</h2>
+<p>Slings are the most common by far. They're simple devices that have a reservoir, a chamber, a sling, and a barrel. Generally, someone will place a bolt, usually something dense but cheap, in the chamber, which sits in front of the sling. They then feed graescence into the reservoir, which builds up a charge. Once it gets full, it releases its stored energy into the chamber, which causes the sling to propel forward along tracks in the bottom of the barrel, slinging the bolt out ahead of it at... some speed. There's trade off between reservoir size, which takes time to fill, efficiency, and the speed of the sling.</p>
+<p>There are innumerable variations, including pre-fill reservoirs, multiple reservoirs, partial discharge reservoirs (usually paired with some form of ammunition feeder), etc. Lower end casters can sling just about anything that'll fit down the barrel. Higher end slings, though, will require custom ammunition. These often included rifled barrels and are highly accurate.</p>
+<h2>Rails</h2>
+<p>Rails are slings without the sling. The basic design is the same except instead of using a sling, the bolt itself is propelled directly. For that to happen, the bolt needs a core to react to the graescence. Most modern day rail casters use a single core— really just a sliver —and spiralled rails to spin the bolt.</p>
+<p>Rails have several distinct advantages over slings: they are extremely efficient, have no moving parts and thus more reliable, can propel a bolt at many times the speed of a sling, and are far, far more accurate. They don't suffer as much from the delays inherent to slings and can punch through just about anything.</p>
+<p>They're also the equivalent of firing money at your enemy. Even Royals blanch at the cost, and so almost nobody uses them. That isn't to say Royals don't <em>own</em> them— Railcasters are a fantastic statement of money and power —they just don't use them all that often, preferring a more sane method of conflict resolution that doesn't require one to empty one's pocket just to get some satisfaction... like duels. Royals love duels.</p>
+<p>Railcasters otherwise tend to be limited to high grade military weapons, and here is where they get interesting.</p>
+<p>Perhaps the most common variant is the two-stage Snipercaster. A type of Longcaster, it contains two sets of staggered rails— one spiralled, the other straight —fed by independent reservoirs. This helps compensate for the loss of momentum inherent in using spiralled rails. A high end Snipercaster can hit a single leaf from leagues away... at least, that's what they say.</p>
+<p>Even more fun are the "highly theoretical and often rumored" special bolts that may or may not exist depending on who you ask. Skipper bolts can literally jump through space, effectively bypassing people, walls, entire armies... to hit the target from out of nowhere. Benders... bend around corners. Piercers generate a shaped edge to pierce through virtually anything.</p>
+<p>Any special bolt like this, assuming they even exist, would be prohibitively expensive, and who's money could be arguable put to better uses. Though there's something ironic in being killed by a bolt that is literally worth more than you are.</p>
+]]></summary>
+        <author>
+            <name>apoetsanon</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Empire of Chairs]]></title>
+        <id>Politics.Empire_of_Chairs</id>
+        <link href="http://localhost:3000/lore/Politics.Empire_of_Chairs"/>
+        <updated>2023-01-02T05:00:00.000Z</updated>
+        <summary type="html"><![CDATA[<p>Rotakan politics is a political system balances between three main components: The Emperor, the Chairs, and the Provinces. It makes up the backbone of the Empire's politics.</p>
+<h2>The Emperor/ess</h2>
+<p>Consisting of the Emperor(ess), his/her family, and political allies/organization. Both sexes have ruled the Empire at one point of another, but the current Emperor is male and his son is expected to succeed him, provided the boy can reign in his mis-adventures and take on actual responsibility.</p>
+<p>The immaturity of the current crown is a source of enormous political intrigue, with some suggesting (very very quietly) that the next Emperor might end up falling outside the immediate Royal family.</p>
+<p>While the Emperor is the most powerful political entity, and arguable the most powerful person in the world, they are hardly able to do anything they want. Their primary spheres of power revolve around execution and distribution:</p>
+<h3>The Military</h3>
+<p>The full might of the Empire's military is, of course, under the control of the Emperor. The Empire's army is generally considered equal to any two or three province armies combined.</p>
+<p>There is one notable exception: Santonia. The sheer size of the Santonian province allows it to field it's own considerable military. While their military isn't quite the equal of the Empire's, the difference is considered a formality. Santonia could field a larger military just as the Emperor could draft more soldiers to match them. For either of them to try would create an arms race that neither side wants.</p>
+<p>While the Emperor's military is an obvious source of power, it's usefulness is more as a deterrent and balance check on powers than any actual political power. "Do as I say or I will wipe your province off the map" would only work to commit political suicide.</p>
+<p>It's the draft itself that constitutes the bulk of the Emperor's source of political power from the military. By leveraging the requirements of draft, the Emperor yields significant political power over the provinces. Not only can the Emperor dictate how many people are required per province and the length of stay within the military, but perhaps more importantly, he/she can dictate <em>how those soldiers are trained.</em>  When, at the end of the draft, those individuals get sent home (assuming they don't choose to stay), the level of their training can change the balance of power between the provinces.</p>
+<p>What the Emperor cannot do is choose <em>who</em> is included in the draft. It is quite possible for a province to send their poorest, weakest members.</p>
+<p>It is also possible for the Emperor to use them as lance fodder.</p>
+<h3>Food Distribution</h3>
+<p>A significant portion of the Empire's bulk grain foods are produced by the slave colonies on Ionia. While the Emperor does not control the actual slave colonies nor their production (that's controlled by the Chairs), they <em>do</em> control the distribution of food.</p>
+<p>This also ends up being a significant portion of political power over the provinces, who depend on this food to feed their populace.</p>
+<p>While is is possible for a province to feed itself, it would require massive industrial shifts that would become <em>very</em> obvious to basically everyone. That, in turn, would prompt some very pointed investigations by both the Emperor and the Inquisitors. That's enough of a deterrent that no one has ever tried.</p>
+<h3>Law</h3>
+<p>The Emperor has the authority to legislate. However, in order for the legislation to become law, it must be ratified by a three quarters majority of the Chairs. This provides a significant check of balance for the Emperor.</p>
+<p>Within the bounds of the existing law, though, it is the Emperors prerogative in how to enforce it. And so part of the Emperor's government is a vast system of judges overseen directly by the Emperor.</p>
+<p>With one exception: the slave courts. This is a system of courts specifically designed to render judgement upon potential slaves. In order for someone to become a slave, they must first be judged by the Emperor's courts. The prisoner is then shipped off to the slave courts, who will either ratify the judgement or kick back the judgement (if they deem the offense not severe enough for a life of slavery). This ostensibly prevents abuse of the slave system, though it is arguable how well it works. In practice, political power is more likely to get the judgement rejected than an unfair ruling.</p>
+<h2>The Chairs</h2>
+<p>The Chairs are, roughly speaking, responsible for "procurement". Each Chair tends to have a single responsibility, or realm of dominion as they're sometimes called. This gives the chair absolute authority for the procurement of everything under their domain, even though the distribution of what they procure is left entirely in the hands of the Emperor(ess).</p>
+<p>For instance, the Chair of Finance is responsible to handling the production of money. Every quarter, the Chair must decide how much money to inject into the economy.  Too much, and they risk inflation (degrading their own wealth).  Too little, and they risk political blowback, especially from the Emperor, as well as a chance to line their own pockets.</p>
+<p>There are exceptions. The slave courts aren't technically procurement as much as they're filtering slaves. They still have a lot of power though.</p>
+<p>No Chair owes allegiance to any province to prevent conflict of interests, although there do tend to be alliances, especially if the province is directly related to the production of what's being procured.  For instance, the Caldonian province has a long history with the Chair of Arms.</p>
+<p>Examples of Chairs:</p>
+<ul>
+<li>Chair of Finance: Responsible for the procurement of money.</li>
+<li>Chair of Arms: Responsible for the procurement of weapons.</li>
+<li>Chair of Bread: Responsible for managing slave colonies on Ionia, using them to procure the grains distributed by the Emperor to the provinces.</li>
+<li>Slave Courts: Only chair not called one. Responsible for ratifying the slaves sent to Ionia.</li>
+<li>Chair of Commerce: Responsible for taxation.</li>
+</ul>
+]]></summary>
+        <author>
+            <name>apoetsanon</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Finley Sanchar]]></title>
+        <id>People.Finley_Sanchar</id>
+        <link href="http://localhost:3000/lore/People.Finley_Sanchar"/>
+        <updated>2023-01-02T05:00:00.000Z</updated>
+        <summary type="html"><![CDATA[<p>Finley loves exactly three things in life: women, booze, and sword fighting.</p>
+<p>Finley (but only call him that if you want a sword in your belly) or "Fin" at his insistence, had issues with authority... scratch that, he had issues with <em>people</em>.  Well, in his mind it was only stupid people who did stupid things, but somehow he always found himself surrounded by morons.</p>
+<p>Despite his obvious attitude, he exhibit exceptional skill with the sword and caught the attention of a local sword master who took him in.  After quite a few beat downs, Fin learned to temper his attitude.  Not that it helped much as this extended exactly to the sword master and precisely to no one else.</p>
+<p>Over the next ten years he trained under the sword master, learning the forms and stances necessary to utilize his skill.  Once it was clear he could learn nothing more, this knowledge gained by a proper beating of the sword master himself, Fin moved on.  Despite Fin's attempted remediation of his attitude, the sword master vowed never to teach another student... or perhaps to more thoroughly vet their attitude in addition to their skill with the sword.</p>
+<p>Fin tried a variety of places to apply his skill, mostly finding a temporary place in various mercenary groups.  However, his attitude inevitably would get him kicked out on one mercenary group only for his skill to get him invited into the next.  He was never out of good work and yet he was never really satisfied.  Mercenary work was <em>boring</em> and repetitive.  Sure, there were the occasional battles but more often than not Fin found himself slaughtering greenhorns instead of rising to any actual challenge.</p>
+<p>Eventually, he came across an expedition heading into the Gravwood forest. He'd never considered pitting himself against some of the fiercest monsters of the world, but once the idea took hold he simply could not say no.  After demonstrating his exceptional skills with the sword</p>
+]]></summary>
+        <author>
+            <name>apoetsanon</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Glass & Crystal]]></title>
+        <id>Magic_%26_Tech.Glass_%26_Crystal</id>
+        <link href="http://localhost:3000/lore/Magic_%26_Tech.Glass_%26_Crystal"/>
+        <updated>2023-01-02T05:00:00.000Z</updated>
+        <summary type="html"><![CDATA[<p>Glass is a term used to describe the effect that occurs when "shaping" graescence into a surface. Since Shapers and Shielders are rare, the term is most often used to describe graetech weapons that shape graescence into pre-defined forms. Those who carry such expensive weapons are said to be "packing glass".</p>
+<p>Shapers are often called glass or crystal mages, though among shapers the term "glass mage" is a derogatory term used for those who are poor at shaping.</p>
+<p>A surface is created by locking opposing gravimetric forces into a resonance. These forces interact with light, causing a small portion it to bend and reflect in such a way that the surface looks like glass, thus earning the moniker.</p>
+<p>When glass is created, the light bends in such a way that makes it appear as though it is folding into shape, especially when it's formed into an edge (this is less obvious when shaping a shield). Thus, those who are creating glass are said to be "folding glass." Occasionally, they're also called glass folders.</p>
+<p>The color and smoothness of the "glass" reflects the quality of the surface. As the quality of glass increases, the energy necessary to maintain it decreases while the strength, durability, and sharpness of the glass increases:</p>
+<ul>
+<li>Exceedingly poor glass will have ripples in it with a light rainbow affect, indicating a misalignment in the resonance between the forces. Glass like this will take a lot of energy to maintain and the edge it forms will be less sharp than sharpened steel.</li>
+<li>Very poor glass will have a violet tint, created when the forces involved interact primarily with higher energy particles, bending and reflecting them. Violet glass is approximately on par with a well made steel blade. The edge is sharp, but mundane armor will deflect it easily enough.</li>
+<li>A surface is considered "proper glass" once it starts veering into the blue spectrum. At this point the glass is contending with the highest quality steel. While mundane armor is effective, the glass will likely do a number on it. Blue glass is the most common kind (although all glass is rare).</li>
+<li>Once a surface shifts into the green spectrum, it is considered superior glass. There's very little it won't cut, though it's possible for it to be stymied by thicker or rigid material. While glass is essentially frictionless, some substances will press "in" on the surface as it cuts, creating opposing force. Generally, it is advisable to only defend against green glass other glass, less you risk loosing appendages. Green glass is very rare. It is often a source of pride to own it.</li>
+<li>After green, the light shifts into the white spectrum. This is called crystal and is considered the pinnacle of all glass. While crystal is extremely sharp, it does no better than green glass at cutting mundane substances (which is to say: extremely well). What it is good at is defeating other glass. One would need green glass or better to successfully defend against crystal. The techniques to develop crystal weapons has been lost, however, leaving relics as the only crystal graetech left in the world... for now.</li>
+<li>Black glass is entirely theoretical. Any crystal graetech should be capable of creating black glass if the user were to feed an insane amount of graescence into it, strengthening the resonant forces until they form a contained event horizon. Black glass doesn't cut, it obliterates, tearing apart any matter it comes into contact with. There is no known instance of anyone creating black glass.</li>
+</ul>
+<p>Generally, one can defend against glass by shielding with glass as much as one tier below. So, one can use blue glass to defend against green, so long as the gap isn't too large and the attacking glass doesn't interact with the edge of the shielding glass. This is because an edge, while sharp, is also somewhat fragile, and interacting with other glass will cause it to destabilize. This is a visible phenomenon, as glass will flicker into a lower tier when impacting other glass. For this reason, attackers will favor attacking the edge of a shield to unravel it, while defenders will attempt to make their shield as large as possible, keeping their edge out of reach.</p>
+<p>Both shapers and graetech are classified by the kind of glass they can produce. Thus, a blue shaper can create blue glass, a green shaper can create green glass, etc. Crystal shapers are considered the absolute best, though there are generally only a few in each generation.</p>
+<p>Just because a weapon can create a tier of glass doesn't mean a person can use it to create that glass. Even with a weapon designed for it, higher tiered glass requires exquisite control of one's graescence. It can take years for someone to learn to create green glass, even though the weapon is perfectly capable of it. It is considered a mark of achievement to create it, something many Royals aspire to.</p>
+]]></summary>
+        <author>
+            <name>apoetsanon</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Heating]]></title>
+        <id>Magic_%26_Tech.Heating</id>
+        <link href="http://localhost:3000/lore/Magic_%26_Tech.Heating"/>
+        <updated>2023-01-02T05:00:00.000Z</updated>
+        <summary type="html"><![CDATA[<p>Heating things up with graescence is a rather simple affair, requiring two graescent fields interacting with enough dissonance to heat up the particles within. Two separate coils of Elderin core filament will do it, though there are ways to increase efficiency. The most common way is to split the filaments into spiralled fractals rotating in opposition to one another. The more fractals, the more efficient it will be, and the more costly. High end plates, stove, and ovens will have hundreds of branching, spiralling filaments working together to create heat with as little effort as possible. A low end hotplate, on the other hand, may only have two.</p>
+<p>The most common way of creating a heating element is to pour molten iron around the Elderin core filaments, which are set in a cast. This allows the graescence to directly heat up the iron. A more elaborate, artisan approach would be to carve the exact filament pattern into a clear substrate (ex: clear quartz). This is only done for very expensive, high-end pieces. Not only does it display the beauty of the design, but also makes it easy to verify the authenticity of the workmanship. When a design is hidden in iron, it can be quite the temptation to overstate the workmanship for extra money.</p>
+<p>That said, keeping a clear quartz stove clean is an exercise in frustration. Most cooks don't like using them for that reason. However many <em>Royals</em> do like them, even if it's only as a status symbol. So cooks who do use them (willing or not) tend to leave the cleaning to someone else "lower" in the social hierarchy. This phenomena has led to the saying, "cooking on quartz", which is used to describe someone who's doing something elaborate and/or unnecessary, while leaving the fallout/cleanup to someone else.</p>
+]]></summary>
+        <author>
+            <name>apoetsanon</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Lighting]]></title>
+        <id>Magic_%26_Tech.Lighting</id>
+        <link href="http://localhost:3000/lore/Magic_%26_Tech.Lighting"/>
+        <updated>2023-01-02T05:00:00.000Z</updated>
+        <summary type="html"><![CDATA[<p>Lights are made by spiralling elderin core filaments around a cylindrical shaft of space. The filament conducts graescence toward the center line and resonates to excite the gases in that space. Lights will have tighter spirals on one end than the other, causing a build up of electrons on near the tighter spiral. This, in turn, creates a potential differential that's directed along the spirals axis by the graescence fields. Depending on how the filaments are arranged, this cause various gases to emit light. The position and arrangement of the filaments is very important and will affect not only the efficiency and potency of the light, but also the color(s) it can produce.</p>
+<p>Small misalignments in a design can have a drastic effect on how much graescence is needed to produce a desired effect, and thus more expensive lamps tend to be easier to use.</p>
+<p>The specific designs and colors tend to be predominant to specific regions. For instance, regions in or around mountains have higher mercury and argon content, which results in a blue-tinted light. Volcanic regions tend toward orange or red colored lights. Even the plant life can affect what lights work best in a region.</p>
+<p>Despite their complexity, lighting is a long-solved problem and one of the most common tech available. Though not cheap by any means, most families can afford at least one lamp if they are anywhere near civilization. Even if the light itself is cheap and difficult to use, it's generally preferable to light things on fire.</p>
+<p>More complex (and expensive) lights do exist. A common variant will have a reinforced glass tube along the lamps axis, filled with the specific gas(es) required to produce light. These tend to be highly efficient and very expensive. Despite the cost (or perhaps because of it), they are favored for stationary purposes, usually as part of building or city designs.</p>
+<p>It is possible to manually manipulate one's graescence to create light without a lamp, though it is difficult, requires extensive knowledge most people don't have, and usually takes a lot of practice (years), assuming one doesn't have a Trait to help facilitate it.</p>
+]]></summary>
+        <author>
+            <name>apoetsanon</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Nelendria Kamaka]]></title>
+        <id>People.Nelendria_Kamaka</id>
+        <link href="http://localhost:3000/lore/People.Nelendria_Kamaka"/>
+        <updated>2023-01-02T05:00:00.000Z</updated>
+        <summary type="html"><![CDATA[<p>Dia is a woman preoccupied with tech, and for good reason. She has a gift that allows her to understand tech in a way no one else can, and the drive to use it. Consumed with a driving desire to learn and create, Dia often ignores her friends, her own needs, and often just ignores reality itself. She's a woman in her head, but the real problems arise when what's in her head begins to make their way into the real world, a world not ready to handle what she's ready to create.</p>
+<h2>Physical Description</h2>
+<p>Female, medium height and build, a little weight but not considered overweight, dark brown (almost black) straight hair. She has light brown skin, slightly slanted brown eyes with a medium-sized, straight nose and thin lips. She would be considered somewhere between Asian and Puerto Rican on Earth. She fits in and can be mostly ignored, drawing attention only when someone notices her beauty.</p>
+<p>She generally wears well-made but as ordinary clothes as possible, preferring outfits that don't draw attention. Cardonians prefer long sleeves, an affectation due to living inside a mountain in a cooler climate. Women generally wear palazzo pants (pant legs fashioned like a long flowing skirt), with varying flairs, often more colorful than their male counterparts (who stick to slacks, though using the same flowing fabric). Dia does as well, though she prefers muted colors with less flair to draw attention.</p>
+<p>Cardonian woman are known for their long black, silky hair, and hers is no different. But where most women would accentuate their beauty, often adding subtle braids or weaving ribbons, Dia's hair is normally pulled back into a pony-tail or a bun to keep it out of the way, both as a practicality, which would be more noticeable with her hair down (something her mother is constantly on her for). She would cut it if she could but her mother would kill her for it.</p>
+<hr>
+<h2>Background</h2>
+<p>Born to a lower middle-class family, daughter of Jake and Sheary (Sher) Stanford.</p>
+<p>Her father works as a low-level arms broker. He started as a paper pusher, submitting initial analysis of (usually) provincial needs to "true brokers" who would then work out agreements between the provinces and weapons manufacturers. After a some time, he made enough connections to broker his own agreements, but these were, while lucrative, infrequent and far between. More recently, he's begun to make a name for himself matching custom designs with the appropriate manufacturers, even going so far as converting specs, ensuring quality, and suggesting improvements. His grasp of both fundamental and even advanced gravtech design has earned him a reputation as the go-to for custom work, from both clients and manufacturers. This is much more consistent and lucrative work, though his firm retains most of the profits.</p>
+<p>Antosa has thousands of manufacturers in the arms sector, ranging from one-person custom shops, to multi-billion chit plants churning out endless copies of lances or casters for the many armies of the Empire's provinces and the Empire's own army. Each manufacturer has their own strengths and weaknesses, and finding the best manufacturer can have a drastic effect on the end product. Navigating these manufacturers is a matter of tact and connections: thus brokers. And this is where Sheary comes in.</p>
+<p>Sheary is a socialite, endlessly consumed with her (and her husband's) rising social status. She constantly plans dinners and parties, arranges lunches, etc. She's responsible for choosing their home which, in truth, is less home than showcase for whomever she's invited over. Her social arrangements are the primary driver behind Jake's success. Without the connections he's made from her arrangements, he would still be an overlooked paper pusher who submitted often brilliant, yet mostly ignored analysis.</p>
+<p>Sheary and her daughter have a tense relationship. Sheary loves her daughter but doesn't understand her. She tries very hard to provide Dia with the same kind of opportunities she does for Jake, and for a teenage girl, Sheary can think of nothing better than to find for Dia a suitable husband. In her mind, she wants Dia to have what she and Jake have. Dia does not see it that way. Preoccupied mostly with her projects, Dia resents her mother's constantly trying to force on her "suitable mates", wasting precious time she could use to further her projects. She finds it "gross" to even attempt to facilitate (or in her mind, force) a relationship like that. She normally looks for every opportunity to avoid or, in the case that's not possible, undermine the opportunities her mother arranges for her.</p>
+<hr>
+<h2>Personality Profile</h2>
+<p>Dia shares her mother's sense of order (though not in a way her mother would recognize) and inherited her father's brilliance (and more besides). She is highly intelligent, an unrecognized genius prodigy, and she takes it as given. She can be abrasive, but only out of ignorance— she doesn't see that she is. She uses wit as a wall against others, and prefers to keep in her own mind.</p>
+<h3>Extroversion</h3>
+<p>Score: 3/10</p>
+<p>Dia is introverted. She normally presents a witty, often snarky personality to the world, but it exhausts her. She spends most of her time with her projects. While she has had friends in the past, the constant moving "up" of her family has forced her to re-make new friends too often, so now she doesn't even try. She rationalizes this by characterizing the "new" people she meets as increasingly "stuffy" and "fake", and while this is undoubtably true for some, her broad characterizations cause her to miss true opportunities. When she does make friends, she makes them one on one, preferring fewer, deeper friendships than many shallow ones.</p>
+<p>Her beauty catches eyes, but she mostly obscures it, not wanting the attention.</p>
+<h3>Neurosis</h3>
+<p>Score: 7/10</p>
+<p>Dia would not consider herself neurotic, and anyone who saw her workshop would not think so either, yet Dia could easily close her eyes and point out every single tool, every project, every discarded piece of wood in the shop. Chaos it may be, but it's <em>her</em> chaos, and she knows it well. Her neurosis manifests not in orderly detail, but in always knowing where everything is. Instinctually, she places tools and projects in the most efficient place, where she can access them with the least effort. She might not consider herself neurotic, but woe to anyone who would mess with her chaos.</p>
+<h3>Openness</h3>
+<p>Score: 2/10</p>
+<p>She does not desire or need new experiences. Those that she seeks out, are usually for a specific purpose, and once she establishes a routine, she sticks to it, freeing her mind to focus on the things that truly matter: her projects. For example, her need of an inscriptor drove her out of her basement into the underworld, where she met Jed, a mostly illegal weapons seller who gave her a broken inscriptor in exchange for her producing with it "products" he could sell. Once that relationship was established, she never tried to alter it, instead supplying him with a constant supply of weapons while she got all the material she needed for her projects. She did not consider how much he makes of her work, nor how her product might be used, too far removed from it to even consider it. She lives most of the world in her head, often walks while solving problems, can easily be nerd-sniped, and in general, might be considered absent minded.</p>
+<h3>Aggressiveness</h3>
+<p>Score: 4/10</p>
+<p>Similar to her openness, she's aggressive only to a purpose. Most of the time, though, she'd rather avoid conflict and the drama that results, and this results in her acquiescing to other's demands right up to the point that they interfere with her own. She's mostly a "leave me alone and I'll leave you alone" kind of person. This may lead others to believe she's rather easy to push around, which is kind of true, but any who believe this is due to a weak soul will be in for an unpleasant surprise when they push too far.</p>
+<p>She is not competitive, mostly due to the fact that she doesn't care if she wins or not. That, in her opinion, is quite opposed to the point of doing anything, which is the sheer enjoyment she gets out of creating something new. That, more than anything, is what drives her.</p>
+<h3>Ego</h3>
+<p>Score: 8/10</p>
+<p>Dia is intelligent, she knows it, and she's not beyond calling someone out for their perceived stupidity. She generally assumes she's right, and often is. She cannot see, however, that her own beliefs define her reality, instead assuming that she simply knows the truth. Moreover, she's perfectly capable of defending her truth to anyone. This leaves her fragile, and her own mind can trap her into self-fulfilling prophecies.</p>
+<hr>
+<h2>Character Flaws</h2>
+<ul>
+<li>Dia's assumption of always being right makes it difficult for her to change. Once she's convinced herself something, it's almost impossible for anyone to gainsay her. Those who disagree with her are labelled idiots and ignored. This goes for the negative judgements as well; once she's convinced herself something negative, it is exceedingly difficult for anyone to convince her otherwise.</li>
+<li>Dia's introversion plus snark makes it difficult to make friends. She often chases off the few would-be friends with ill-placed, often improper, commentary. She cannot see the effect of her insults, or even recognize them as such. Yet once she makes friends, she does so deeply. With her parent's constant "socializing" and moving, she's mostly given up making friends. She doesn't allow herself to recognize her own loneliness.</li>
+<li>Dia finds it easy to rationalize self-destructive behavior.</li>
+</ul>
+<h2>Control</h2>
+<ul>
+<li>When presented with a situation she can't control, Dia will withdrawal into the things she can control. In this case, she would dive into her projects or, in case those aren't available, into her mind to solve a puzzle, any puzzle.</li>
+<li>Early on, she discovers her penchant for retreat makes it easy for her to use measures to ensure it, including drugs.</li>
+</ul>
+<hr>
+<h2>Prose</h2>
+<p>Dia has a tendency to notice space and patterns. Whether it's the layout of a room, or the way paint is brushed on, her eyes is drawn to these sorts of details. She'll notice how things are organized, their placement in a room. For instance, if the sun is shining on the floor, whereas Roland might notice the colors it makes, she would notice how it bisected the room at a specific angle.</p>
+]]></summary>
+        <author>
+            <name>apoetsanon</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Rocsillian]]></title>
+        <id>Magic_%26_Tech.Rocs</id>
+        <link href="http://localhost:3000/lore/Magic_%26_Tech.Rocs"/>
+        <updated>2023-01-02T05:00:00.000Z</updated>
+        <summary type="html"><![CDATA[<p>The principle currency of the Rotakan Empire. The Rocsillian takes the form of a small rectangular piece of cloth-like paper about three fingers wide and five fingers long. While other currencies do exist, the Empire actively discourages their use to the point of violence if they believe another currency might threaten the Rocsillian. As such, the Rocsillian is by far the common currency of the world, with others taking only niche applications.</p>
+<p>The Rocsillian is a woven currency. Using a proprietary, carefully guarded technique, leaf stems from the Elderin tree are turned into dyed fiber that is then woven into the slips of paper used around the world. While the leaf stems are considered the weakest part of the Elderin tree, they nevertheless are extremely resilient, waterproof, virtually immune to tampering, and easy to identify. A single Rocsillian can last decades before having to be replaced.</p>
+<p>As with most currencies, the Roc has earned several nicknames:</p>
+<ul>
+<li>Roc(s): Just a shortening of the official currency name, this is the most common nomenclature.</li>
+<li>Slip(s): Because of their diminutive size, Rocs are often called slips.</li>
+<li>Ridgeback(s): The weaving process creates an almost invisible ridge alongside along the outside edge of the paper that can be felt if you rub your thumb across it. For this reason, they're often called Ridgebacks.  This includes a couple shorternings of the name: ridges and backs. Though it should be noted that both of these shortenings are often mixed with sexual innuendos, and not always in a flattering manner.</li>
+<li>Chit(s): No one really knows where this nickname comes from, though many theorize it was derived from a prior form of currency. The Rocsillian has been in play for thousands of years, though, which makes verifying this very difficult. However, some ancient texts do use the word, supporting the theory.</li>
+<li>Cred(s): The term is a fairly obvious shortening of "Credit". It's almost exclusively used around larger banking centers, where wealthy personages can "exchange" their Rocs for Creds. Creds don't usually exist. It's just a term that means you've entrusted your wealth to a bank— in other words, creds are your Rocs being held by the bank. Of note: occasionally, a bank will issue their own currency (exchange Rocs physical creds). The Empire cracks down hard on that sort of thing to the point where physical creds are more collector items than actual currency.</li>
+</ul>
+]]></summary>
+        <author>
+            <name>apoetsanon</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Rosiland]]></title>
+        <id>People.Rosiland</id>
+        <link href="http://localhost:3000/lore/People.Rosiland"/>
+        <updated>2023-01-02T05:00:00.000Z</updated>
+        <summary type="html"><![CDATA[<p>An immortal, Rosiland is the worm eating the Empire from within.</p>
+<p>When she comes across an opportunity of unparalleled opportunity, she doesn't hesitate to take it.</p>
+]]></summary>
+        <author>
+            <name>apoetsanon</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Rotakan Empire]]></title>
+        <id>Politics.Rotakan_Empire</id>
+        <link href="http://localhost:3000/lore/Politics.Rotakan_Empire"/>
+        <updated>2023-01-02T05:00:00.000Z</updated>
+        <summary type="html"><![CDATA[<p>The Rotakan Empire is a world-spanning empire that operates as the unifying government for the Rotakan world.  If propaganda were to be believed, it has always existed.  As much propaganda does, this lie contains a certain kernel of truth.  The Rotakan Empire has only existed in its current form for about 1500 years.  However, before the empire existed an empire called the Rotakan empire.  The Empire goes through iterations every few thousand years (soft average), where it will be overthrown only to re-establish itself as another Rotakan Empire under new management.  To date, no one has overthrown the empire in order to remove it and virtually no one know when the first empire was actually established or how.  A single unifying government has existed for so long it may not even occur to the Rotakan people that another was is even possible.  Instead, the Empire is overthrown mostly because some province (or alliance of provinces) believe they have a better way to run the empire.</p>
+<p>The latest iteration overthrew the prior empire by establishing a propaganda machine among the provinces that turned the people away from the Empire.  It also made a liberal use of assassins to thin out the power structure.  It was not hard.  That prior empire had emphasized freedom and technology with little oversight.  By the time of the overthrow, most of the power had consolidated into the hands of a select few that hoarded it over the rest.  Poverty was rampant and hunger was literally the number one cause of death.</p>
+<p>The new Empire established a completely different paradigm.  It solidified a provincial structure that had decayed under the old empire, establishing Royals to govern and manage each province.  It outlawed most gravtech in an effort to maintain control and prevent any one individual or group from attaining too much power.  Godlings were hunted and killed for the same reason.  The new empire also established slavery as an integral part of the government's penal system.  All prisons were removed and convicts were shipped off to Ionia to work in a newly minted food program the government created.  Ionia, until then, had been mostly a curiosity.  Only the rich would go there and usually not for long, given it was a desert planet.  Most new you <em>could</em> grow food there, but there was little incentive as the sheer effort it took was simply too great.  The new empire changed this paradigm.  Slave labor is cheap, and they used that labor to grow food.   Eventually, the empire's food production grew so prevalent and cheap that it started driving other producers out of business.  Several hundred years after it's establishment, the empire delivered its coup de grace and made all of its food production completely free to all citizens of the empire.  It was a masterful move.  Criminals were literally removed from the planet and instead of draining resources were used to generate food instead.  Once the empire's slave-generated food was made free, it solidified the system.  No one could justify moving against 'slavery' when it was only the criminals who were made slaves.  No one wanted to bite the hand that fed it.</p>
+<p>The free food also gave the empire an iron grip on the provinces they'd 'created' (in truth these provinces existed but closer to city-states at the time).  No province could move against the Empire without alienating their own people, who depended on the food the empire provided them.  The Empire also conscripted soldiers from each province into the Empire's army making it virtually impossible for any one province to field anything close to what the empire had on standby.  Of course, the Empire had a solution to that as well: war.</p>
+<p>War was a government <em>sactioned</em> event in the Empire.  War had, of course, always been present no matter what form the Empire took.  Early iterations of the empire had attempted to rid itself of war but somehow that only built pressure instead, often resulting in a world-wide revolt.  The current iteration took a different approach and made war <em>integral</em> to the Empire.  With provinces now being ruled by families of Royals, the empire decided to codify the standard for war.  By decree, <em>no</em> provincial land ownership could change hands unless it was freely given or else won during a government sanctioned war.  Any province that attempted war without a War Writ would find themselves facing off against the empire itself with devastating consequences.  The only time this happened the province that dared ended up half its size on half rations for a decade.  It never truly recovered and continues to serve as a warning to other Royals.</p>
+<p>A war writ lasted a year, to provide both sides the time they needed to resolve their conflict.  The Empire was very free with its war writs, seeming to only avoid them if too many wars were being fought at once.  Indeed, the Empire seemed to encourage conflict among the Royals by throwing bi-yearly provincial parties where all provinces were invited.  These parties actually carried a fatality rate due to assissanations, duels and other intrigue among the Royals and inevitably sparked a war or two.</p>
+<p>The common people were generally left out of the political intrigue but the Empire had setup certain protections to prevent abuse.  Any citizen was free to live where ever they wanted and no Royal could prevent them.  Royals could also move out of their province but would become common citizenry at that point, which rarely happened.  Royals who abused their citizens soon found themselves with no citizens, no money and no power.  With food being free over the entire empire, the barrier to moving was lower to commoners.  This provided an incentive for Royals to at least treat their citizens decently.   Of course, some do better than others.</p>
+]]></summary>
+        <author>
+            <name>apoetsanon</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Saleen Absed]]></title>
+        <id>People.Sal</id>
+        <link href="http://localhost:3000/lore/People.Sal"/>
+        <updated>2023-01-02T05:00:00.000Z</updated>
+        <summary type="html"><![CDATA[<p>A slight, short boy know for being very particular about his clothing.</p>
+<h1>(Sal)</h1>
+<h2>Physical Description</h2>
+<p>Brown skin, dark brown hair, brown eyes, short even among his people — he'll be lucky to reach 5'.  He's free of excess fat, even though his body tends toward it; his father would never allow that. He's still slightly on the stocky side, bigger boned than Roland though far shorter.</p>
+<hr>
+<h2>Background</h2>
+<p>Sal was brought to Larstead when he was an infant by his father. Sal does not know of his mother and his father won't speak of it. In truth, his father refuses to speak anything of his past in general, though Sal has come to learn (sometimes the hard way) about his father's past, which included the military.</p>
+<p>His father is quick to anger at perceived slights, and had beaten Sal for something so little as coming home dirty. He demands perfection, forcing his son to stand at attention a single hour every morning. This has burned into Sal's soul a neurotic sense of perfection, one he can never achieve.</p>
+<p>Even though his people are the dominant race of the province, arguably of the entire Empire, Larstead is a remote village filled with white people (what his people commonly refer to as barbarians). While Sal tries to fit in, he does not succeed.  His diminutive stature and brown skin single him out as 'other', something the local kids take extra measure to remind him. He is often the focus of their anger against perceived slights.</p>
+<p>His only friend is Roland, his best friend, who protects him from the other kids. Roland is not only his protection, but his escape from his father. He can stand coming home dirty, endure the beatings, if only he can escape for a time in Roland's adventures. He could not stand coming home to his father having no friends, even should his father not lay a single finger on him.</p>
+<hr>
+<h2>Personality Profile</h2>
+<p>Sal initially appears as a meek, introverted boy. He is, however, repressing deep aggression and rage. He is particular, neurotic about his appearance and time. He seeks to control the world by controlling himself, and when he fails, his rage comes out.</p>
+<h3>Extroversion</h3>
+<p>Score: 3/10</p>
+<p>Sal is initially introverted, though its hard to determine whether that lies due to internal proclivity or external factors.  He lives in a place where he is constantly an outsider, deals with an abusive father, and has a single friend with which to balance out the difficulties of his life.</p>
+<p>Loyalty is very, very important.  He does not handle betrayal well, and for most of his childhood this is not an issue. He'll only discover this truth later, when he feels betrayed by Roland for destroying their home.</p>
+<p>What he becomes remains to be seen.</p>
+<h3>Neurosis</h3>
+<p>Score: 9/10</p>
+<p>Sal is highly neurotic, from the condition of his clothes to the very time of day (of which he is always aware, even down to the second), he is aware and particular about it all. Roland provides him a counter balance to this, luring him into adventure and allowing him to let go of his neurosis for a time. But he always comes back to it.</p>
+<p>After Roland, it gets worse.  Without that single outlet, his neurosis over takes all, and he finds himself constantly trying to keep everything in order and on time.</p>
+<h3>Openness</h3>
+<p>Score: 3/10</p>
+<p>This score might be lower, but Sal longs to be like Roland, so he forces himself to enjoy new experiences... and usually fails. No matter how much he wants to be Roland, he is not, and he so much prefers environments that he can control.</p>
+<h3>Aggressiveness</h3>
+<p>Score: 8/10</p>
+<p>This may be counter-intuitive, but Sal has a strong innate aggression. He suppresses it, but that only makes it worse, and his outburst are much more likely to be rage induced. This comes not only from his father, but from the constant pressure of being an outcast, dealing with beatings, and failing to live up to his own expectations.</p>
+<p>Sal is prone to rage-induced outbursts.  In Larstead, this never happened. Not only did he have no place he could express his rage, but his adventures with Roland provided a safe outlet for him to vent.  Problem is, he's incapable of venting that way <em>without</em> Roland, and once he's gone, his rage will come out in the most inopportune times.</p>
+<h3>Ego</h3>
+<p>Score: 2/10</p>
+<p>Sal does not think highly of himself, is prone to idealize others, and downplay his own ability.  His seeks perfection in himself, but cannot define what that perfection might look like.  He is never enough no matter how hard he strives.</p>
+<p>Despite all this, his inner-monologue is turned outward, focused on control.  When he looses control of himself, he will blame the environment, something he learned (or inherited) from his father. He is initially rewarded for this behavior, as his rage comes out during actual battle and results in saving others. This feeds his inclination. When it does not go well, he'll blame the outside, any scapegoat he can find. His inner-monologue will rewrite the narrative to justify the action he took: "It was the only thing he <em>could</em> do."</p>
+<hr>
+<h2>Character Flaws</h2>
+<ul>
+<li>Sal's repression expresses itself in rage.</li>
+<li>He's deluded himself into believing that things can change if only he does well enough. This feeds his neurosis.</li>
+<li>His impeccable (and arguably perfect) sense of time is expressed as neurosis, and often alienates others (along with his other needs for perfection).</li>
+<li>He can be critical of others, projecting his faults onto them.</li>
+</ul>
+<hr>
+<h2>Skills</h2>
+<hr>
+<h2>Control</h2>
+<ul>
+<li>Sal seeks to control the world by controlling himself.  If he can just be good enough, perfect enough, he can, if not bend the world to his will, at least form a shield against its onslaught.</li>
+</ul>
+<hr>
+<h2>Prose</h2>
+<p>Sal sees the world in time, quantities, and precision. A person won't look at him for a moment or two, but for exactly 7 seconds. He always knows how long something takes. Likewise, he'll catalog the names of things, their species, quantity, etc. When he opens his eyes, he doesn't see a bunch of large leaves, but thirteen maple leaves blocking the sun.  He always knows how much, how long, and what exactly.  Prose needs to be precise and exact.</p>
+]]></summary>
+        <author>
+            <name>apoetsanon</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Shaping]]></title>
+        <id>Magic_%26_Tech.Shaping</id>
+        <link href="http://localhost:3000/lore/Magic_%26_Tech.Shaping"/>
+        <updated>2023-01-02T05:00:00.000Z</updated>
+        <summary type="html"><![CDATA[<p>Shaping is a difficult discipline in which a person generates two opposing forces using their graescence, then solidifies them together using a form of resonance between the fields. This creates an invisible "surface" that is often referred to as a "shield", reflecting its most common application. A Shaper can generate these surfaces and manipulate them into "shapes".</p>
+<p>Shaped surfaces can take on virtually any form, theoretically. It is possibly the most difficult discipline to master, and takes most people who try over a decade of study to become barely proficient at it. Those who do master the discipline are highly valuable.</p>
+<p>The most common configuration for a Shaper to master is to create a simple "edge", achieved by folding a shape over on itself. A properly formed edge will cut through virtually anything (except other shapes, possibly, depending on how well formed they are). If the Shaper can move and orient their edge at will, they can easily become the most dangerous combatant on a battle field, killing with little more than a thought.</p>
+<p>This is assuming the surface are "solid" enough, which is an important aspect of shaping. An excellent surface is one that feels like a solid object, albeit frictionless. Not only are solid objects stronger, but they take less energy to form, even if learning how to do it is exceedingly difficult.</p>
+<p>The most advanced shapers can create complex shapes with their surfaces and even manage multiple at once, though they are often quite elderly by the time they've managed this. It it far more common for a shaper to learn to form a shield and edge and then solidify those as much as possible. This makes them a terror on the battlefield.</p>
+]]></summary>
+        <author>
+            <name>apoetsanon</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Sleds]]></title>
+        <id>Magic_%26_Tech.Sleds</id>
+        <link href="http://localhost:3000/lore/Magic_%26_Tech.Sleds"/>
+        <updated>2023-01-02T05:00:00.000Z</updated>
+        <summary type="html"><![CDATA[<p>A Sled has two (or more, but usually only two) strips of Elderin core filaments (usually called runners) that run parallel to each other. The graescent fields generated will "press" against latent graescence below it, causing the sled to "float" in the air about a pace. Because something floating in the air has virtually no friction, the ends of the runner are curved up, causing them to press outward and provide a modicum of friction.</p>
+<p>For a Sled to function, it must be placed above something with stable, latent graescence. This is most things with some notable exceptions:</p>
+<ul>
+<li>Water has latent graescence but is not stable (constantly fluctuating with the movement of the water). Technically, if the water was perfectly still, it would work, though that's almost impossible to find out of extremely controlled situations. Ice works, though.</li>
+<li>Pure crystal (like quartz) contains very little latent graescence. A sled will struggle to work properly over ground that contains a high enough concentration of crystal in the substrates below.</li>
+<li>Glass contains no latent graescence. So if you happen to see a glass bridge, maybe don't try to take a sled across it.</li>
+</ul>
+<p>While Sleds can and are operated by people (Royals are fond of them for Palanquins), they are most commonly paired with Drajin, a very large lizard uniquely suited to powering Sleds. While Drajin are slow compared to other animals like a horse, they can power a sled for leagues without tiring. As such, they are the most common form of transportation for goods. Drajin merchant trains commonly criss cross the Empire.</p>
+<p>The amount of graescence required to lift a Sled increases exponentially with the height, with a sweet spot around a pace off the ground. For this reason, Sleds cannot be used for flight. However, the "ground" can affect this quite a bit. The more structured the latent graescence below, the easier it is to float the Sled. Structural Elderin, for instance, is very easy to float a Sled above. It would make for a fantastic road if it weren't absurdly expensive to create such a thing.</p>
+]]></summary>
+        <author>
+            <name>apoetsanon</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Sora Yeng]]></title>
+        <id>People.Sora_Yeng</id>
+        <link href="http://localhost:3000/lore/People.Sora_Yeng"/>
+        <updated>2023-01-02T05:00:00.000Z</updated>
+        <summary type="html"><![CDATA[<p>Weapons Master</p>
+<p>An older gentlemen hired by Rose to help train Roland.</p>
+<p>He was born in Bueiro Sutan as the sole son of a rich merchant. His family was killed when he was eight by a rival merchant. He alone survived by hiding in the family's safe room. While the rival merchant took everything, his father had arranged a secure fund held by the bank. In case anything happened to him, that fund would bequeath to first his wife, and then his son. The money was enough to start his own business and, ostensibly, rebuild the family legacy. Or he could choose vengeance.</p>
+<p>He chose vengeance.</p>
+<p>He used every last scrap of cash to put himself through the most prestigious fighting school in all of the Sutan province, perhaps in all of the world. He quickly took to it, specializing in unarmed and polearm combat. While he was better at unarmed combat, it was his skill in polearms that propelled him to fame.</p>
+<p>The art itself had almost been lost, polearms having largely been supplanted by lances in most wide-scale battles. While gravtech swords kept the sword style alive, especially among the Royals, polearms had been long been deemed an inferior weapon. Scouring old books, Sora Yeng rebuilt the art, and then used it to defeat every single champion of the day, all who specialized in the sword art.</p>
+<p>While polearms are great at distance, they are usually ineffective if the opponent can close in. Sora, however, would simply drop his weapon, disarm, and then incapacitate his opponent using his unarmed skills. His opponents had no advantage. They couldn't deal with him at range, but if they got too close, they'd find themselves suddenly <em>too close</em>, and quickly would loose the match.</p>
+<p>It was about this time that he met Rose. She had sought him out after she'd learned of his fighting prowess but, perhaps more importantly, after she'd learned of his history.</p>
+<p>She challenged him to a duel and he, seeing what appeared to be a young inexperienced, well-dressed woman, turned her down. But he was young and prideful, and she used that to spur him. He continued to turn her down until she sweetened the pot: if she won, he would owe her a lifetime of service. If he won, she would use her considerable resources to help him exact his revenge on what was now one of the greatest merchant families in the city.</p>
+<p>He agreed, and she beat him handidly. It wasn't even close. She even gave him two more tries, and not once did he come close to touching her. She was simply too fast, with too much grace. Even after closing, his unarmed combat style would simply grab air.</p>
+<p>Having lost his one chance at vengeance would have put him into despair. But Rose flipped it on his head by planning the demise of the richest merchant family of the city, with him as her center piece. Where she had first won his sense of duty, this had won a lifetime of loyalty.</p>
+<p>After his revenge had been satiated (and a more suitable merchant family in control, one beholden to Rose), he found himself with nothing left. He had no money, no purpose, no family. It was only then that he began to realize just how stupid he'd been. If he'd have used the money to rebuild, he could have had an even better revenge: seeing the family put out on the street. Even if it took longer, that was only a good thing— loosing one's sole purpose in life by completing it had become the worst imaginable possibility. His depression became suicidal at this point.</p>
+<p>The only thing that kept him from taking his life was Rose, who preemptively forbade it. And so his sense of honor, duty, and loyalty forced him to stay alive. Instead, she seeded him money to start his own training center, one that would specialize in training Royals: The Sutan Arts Academy. While he only accepted it out of duty, over time it became a home to him. Yes, Royals were always an arrogant, prickly bunch, but he took satisfaction in seeing them learn and grow (even if some of them would eventually go on to kill each other).</p>
+<p>Over time he began to age, as these things tend to go. Rose did not, though she disappeared from the political scene, and became scarce. She would see him occasionally, tie up loose ends and (he suspected) continue to embed herself deeply into the society economic and political system, even if from a distance. She never aged and he never asked. He only took comfort from the fact the only person to ever beat him was clearly an immortal.</p>
+<p>Years went by. His compound became famous and highly sought after. It grew, and he began delegating to others until he found himself mostly in an administrative role... and then eventually as little more than a figurehead. Without purpose, that deep depression began to consume him again as he felt himself pushed out by the younger generation. He never said anything, never showed it. To the students and even the teachers he was a fixture, an icon. But he'd stopped teaching others and his loneliness and regret would visit him at night. In his darkest hours, he would wonder if Rose had forgotten him; he would wonder if he could end it.</p>
+<p>Then she showed up again. She had a new project, a boy who needed training, clearly someone special. She said that this would be the most important thing he'd ever do in his life. And this time she asked. She wouldn't force him, not that she'd ever needed to. For unspoken in her request was another truth: it would be his last purpose in life.</p>
+<p>He heartily agreed.</p>
+<hr>
+<p>"The foundation given to a Royal is obvious. They are trained from a young age, given personal tutors, layered with high expectations, and spared no expense. When they arrive at the academy, I could always anticipate their knowledge, their forms, their attitudes. Roland had none of that. Where they would study and train, he played in the woods and had adventures. While they strengthened their social contacts, he invested in a single friend. It was with this foundation that he survived something they never could have."</p>
+]]></summary>
+        <author>
+            <name>apoetsanon</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[The Caldonian Rail System]]></title>
+        <id>Magic_%26_Tech.Caldonian_Rail_System</id>
+        <link href="http://localhost:3000/lore/Magic_%26_Tech.Caldonian_Rail_System"/>
+        <updated>2023-01-02T05:00:00.000Z</updated>
+        <summary type="html"><![CDATA[<p>The Caldonian Rail system consists of a pair of stacked tunnels, each lined with two thin rails upon which sit the railcars. The lower rail moves clockwise, while the upper counterclockwise. The railcars pull graescence from the rails themselves, powering a variety of graetech within the cars, causing the cars to hover above the rails, and providing power to accelerate the cars along the rails. All of this is handled by the driver in the lead car.</p>
+<p>The rail system is made of thousand of tunnels that branch off and feed back into two main lines. Despite the proximity of the upper and lower rails, they do not connect— there is no way for a car to move from one to the other without having to be taken apart and reassembled.</p>
+<p>No one knows exactly who built the rail system, but most agree it was built at the same time as the mountain cities. The truth has long been lost to ancient history.</p>
+<p>Most parts of the railcars have been replaced repeatedly over the years, all except for the rail tech. No one has successfully recreated that tech despite the apparent simplicity of the design. While current tech can replicate the feat of hovering and even moving at slow speeds, it breaks down at higher speeds, causing the cars to derail.</p>
+<p>Nobody knows why (or how), but the cars generate a series of tones when they're in motion: a high whirring and a low thrum that is more felt than heard. Most engineers suspect this is the key to making the tech work, though they've never been able to replicate it.</p>
+<p>Most of the cars in use are designed for short term travel, with a lot of standing room and simple benches lining the walls. These are generally free so long as you are in of the proper social standing.</p>
+<p>Long distance cars are much more luxurious, often featuring beds and comfortable seating. Travel on these are paid for, usually fairly expensive.</p>
+<p>There are thousands of railcars. Each car can take anywhere from ten days to over a month make a complete circuit, depending on the route they take and the stops they make.</p>
+]]></summary>
+        <author>
+            <name>apoetsanon</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[The Santonian Subterfuge]]></title>
+        <id>Politics.The_Santonian_Subterfuge</id>
+        <link href="http://localhost:3000/lore/Politics.The_Santonian_Subterfuge"/>
+        <updated>2023-01-02T05:00:00.000Z</updated>
+        <summary type="html"><![CDATA[<p>The Santonian province, ruled by the Longsun family, is one of the most powerful provinces of the Empire for two primary reasons:</p>
+<ul>
+<li>It was the 'victim' during the early empire where the Solenar province waged war without a war writ.  In order to make an example of Solenar, the empire 'gave' half of Solenar to Santonia, greatly increasing their land <em>and</em> their economic power.  While Solenar never recovered, Santonia began to thrive on the additional land and economic power they gained.</li>
+<li>Sometime later, Anteria began to have their own civil war as half their population lived on the plains while the other half were mountain folk.  The Anteres mountain range is very rich in resources and the plains were essentially milking the mountains for as much money as possible simply because the mountain folk had to travel through the plains for trade.  Obscene road tolls were popular among the plains at the time.  Eventually the mountain rebelled against the plains, seeking to establish their own province.  Of course, the plains had no intention of letting the mountains, with all their lucritive recources, go.  This eventually became one of the largest unsactioned 'wars' the empire did nothing about.  The empire had no strict rules on civil war and so it made no move against either side.  Still, the empire became very nervous about the turn of events.  Santonia saved them from action by requesting their own war writ against Anteria.  Moreover, they applied for a <em>silent</em> war writ, which would grant the writ without notifying anyone.  These were exceedingly rare, as they gave a province time to marshal an ambush offensive at a significant advantage.  Likely, the only reason the empire agreed was because they saw it as an excellent solution to the civil war.  Of course, they would have to be able to marshal their troops without the other province noticing, which was hard to do.  But without a formal declaration, it was at least possible.  Anteria, being caught up in their own civil war, had no idea what Santonia was up to.  In the third year of the civil Anterian civil war, Santonia fielded a large force and decimated the Antonian plains, essentially claiming the entire plains as their own.  They then offered a treatise to the remaining Anterians, essentially the mountain folk.  Santonia had no desire to conquer the entire Anterians.  They probably could have, but it would entail significant losses if they attempted to wage war in the mountains, the Anterian's home.  So instead they would have their independence... for a few trade agreements.  First, Santonia would provide protection against other provinces, freeing the Anterians to focus on production.  Second, Santonia would <em>build</em> roads and maintain them for the Anterians to transport their trade goods.  No tolls would be issued on any roads.   In exchange, Anteria would funnel <em>all</em> their trade goods through Castel, the Santonian capital and trade port for a small tax on the goods.  After negotiations, that 'small' tax turned out to be ten percent, which would earn Santonia a veritable <em>windfall</em> of income, but was so much less than the 'road tolls' that the Anterians eagerly signed the agreement.  While some Anterians still grumble that it was too much, on the whole Anteria and Santonia have been amicable trade partners ever since.</li>
+</ul>
+<p>The problem is that Santonia is a huge economic powerhouse that commands almost three provinces-worth of territories.  Santonia, though, has always been favorable toward the empire, and so the empire has allowed them to be.  This will change though, as wispered gossip will begin circulating through the Empire's capital, Tehere, about Santonia desiring to <em>be</em> the empire.  At the same time, large shipments of weapons will go missing, somehow 'appearing' in various warehouses around Castel while depriving the empire of vital weaponry.  More and more evidence will build up regarding Santonia's impending rebellion that eventually the Empire decides to send almost half their soldiers to invade Santonia.</p>
+<p>Santonia, however, will be dealing with their own problems as an 'apparent' rebellion will appear to be in effect among some of their royals.  Several of the weapon caches will be found and appear to belong to one particular faction of the royals.  The Longsuns will field an impressive army to march against that faction, intending to squash any intended rebellion.  This will appear to the empire, though, as though they're prepping for war and will be the final impetus that causes the empire to invade.</p>
+<p>All of this will include stories from:</p>
+<ul>
+<li>Silchan, who will be heavily involved in Castel, will find himself embroiled in the city's underworld and Royal politics.</li>
+<li>The Merchan, who will also be involved, though unwittingly.  He'll be trying to import some illicit goods, only to find he unintentionally stole weapons from the empire.</li>
+<li>The Sabautor, who has been manipulating events from Tehere to create the whole scenario.</li>
+</ul>
+<p>By the time that Roland and Anna emerge, the majority of the Santonian army will have been deployed to the north even while the empire's soldiers are already marching on Castel.  They will run into a stream of people evacuating from <em>both</em> sides, causing Anna to desperately head home to help, dragging Roland and the gang (sans Silchan, who'll want to be somewhere else) with her.</p>
+]]></summary>
+        <author>
+            <name>apoetsanon</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Traits]]></title>
+        <id>Magic_%26_Tech.Traits</id>
+        <link href="http://localhost:3000/lore/Magic_%26_Tech.Traits"/>
+        <updated>2023-01-02T05:00:00.000Z</updated>
+        <summary type="html"><![CDATA[<p>Sometimes called a 'gift', a Trait is a rare, natural ability to do something that would normally be either impossible, or take years of study to accomplish. While there is certainly a genetic component involved, Traits are rare enough that most wouldn't consider it worth the effort to breed or create bloodlines to establish Traits in their children. Not that people don't try.</p>
+<p>Traits grant a wide diversity of abilities, most of which have long been cataloged and studied. Occasionally, a new Trait will be discovered, and depending on its characteristics, studied... forcibly if it's considered dangerous.</p>
+<p>For this reason, many who discover they have a Trait may hide their ability. Others use their ability to gain power and/or fame, especially if it's one desired by the Empire.</p>
+<h2>Shaping Traits</h2>
+<p>Possibly the most desirable Trait to have, a Shaping trait allows a person to essentially skip the decade(s) of study necessary to become a Shaper, depending on the nature of the Trait.</p>
+<p>Shaping Traits come in a wide variety of forms, from those who simply have no issue generating a surface, to those who seem to "grasp" the process easier, to those who effortless create any shape they want (this is extremely rare).</p>
+<p>There is some ambiguity and debate around what constitutes a Shaping Trait. Does a person who seems to naturally "get it" have a Trait, or are they simply intelligent and/or industrious? However, a four year old who creates a surface and "accidentally" cuts down a tree, <em>definitely</em> has a Trait... and should be treated very, very carefully.</p>
+<p>This is the most common trait bred for... and the least successful, though some Royals claim to have done it.</p>
+<h2>Shielding Trait</h2>
+<p>This a Shaping Trait variant, but common and desirable enough that it's generally spoken of as a separate Trait. Essentially, it allow someone to easily generate a "shield", which is an unaltered surface. It's considered a kind of sub-variant of a Shaping Trait in that it allow a person to create a shape that aligns to the natural curvature of a field warp.</p>
+<p>This is considered the easiest "surface" to create but it's also an extremely useful one. A field warp curves around the person generating it. If that warp becomes a surface, then the person creating it has a natural shield against all sorts of harm.</p>
+<p>Even better, if that person can expand the shield, especially the width, then they can quickly become a valued member of any army.</p>
+<p>They are called Shielders, and  they are a natural stopping point for un-gifted shapers. The army especially pays well for them, providing an incentive against the decades it can take to become a proper Shaper.</p>
+<h2>Crushing Trait</h2>
+<p>Singular— this Trait does one thing and only one thing. Also highly desirable... or at least it is so long as the user can generate a crush far enough away from themselves to not die. Either way, this Trait allows a person to create a localized center of gravity of varying intensity, possibly strong enough to kill.</p>
+<p>A person who can generate a crush at a reasonable distance it <em>highly</em> sought after by the military. Even if it can't kill, a crush can reap havoc on a battle field.</p>
+<p>While there are numerous graetech devices that can create a Crush, there is no known way to create one personally outside of this Trait. It's just not a thing that can be learned no matter how hard people have tried.</p>
+<p>There was one case of a person capable of creating a crush centered on themselves. They did not live a long life.</p>
+<p>There are a few cases where a person was able to create a crush intense enough to become a warp. Unfortunately, no one has ever figured out how to <em>launch</em> the warp, though if they could they would likely become the most dangerous person on a battle field, even more so than a Shaper.</p>
+<h2>Travelling Traits</h2>
+<p>Sometimes called an Anchor Trait.</p>
+<p>This is one of the most common Traits, which is to say not common at all but a hellava lot more common than the others. While there are variations, this Trait allows a person to interact with a gate anchor more easily, or perhaps augment their attunement to an anchor in some way.</p>
+<p>An Anchor Trait can allow a person to attune themselves to more anchors, increase the distance they can form a gate from an anchor, or simply make it easier to form the gate in the first place.</p>
+<p>Having this Trait is a quick way to an easy, wealthy life, even if the job itself is rather boring— creating Gates all day gets old quick.</p>
+<p>There are rumors of a Travelling Trait that allows a person to form a gate <em>without</em> an Anchor. While theoretically possible, it's considered a practical impossibility. No one is known to be capable of such a thing, and even most historical accounts of such an ability have been thoroughly discredited.</p>
+<h2>Pushing/Pulling Traits</h2>
+<p>This Trait grants an ability that can not be learned. Moreover, there is currently no known Graetech that can replicate the effect.</p>
+<p>Also a common trait, this gives a person the ability to push away graescence or pull on it. Rarely will someone be capable of doing both both, but if they can, it's generally a secondary ability.</p>
+<p>Pushing is considered a more valuable Trait to have, mostly because of its defensive uses. The ability to redirect a warp or even shaped graescence can, quite literally, save a person's life. For this reason, a "Puller" is much more likely to discover "Pushing", whereas a "Pusher" is far less likely to discover "Pulling", if only because of a lack of interest.</p>
+<p>So pulling is less desirable— pulling on a warp would be suicidal. However, more subtle applications for pulling have been studied and used extensively. The ability to pull (and push) your opponent off balance cannot be underestimated. Many people who have this Trait go to extreme efforts to hide it, using it during their fights to keep their opponent off balance.</p>
+<p>Of course, this assumes one is actually a fighter. But in truth, practical application outside of combat are fairly limited. It is quite likely that many with this Trait either remain ignorant of it, or ignore it completely for lack of any practical application.</p>
+<p>Aside from Travelling Traits, this is one of the most studied Traits, if only because of one person who devoted their life to it: Voris Helshen. His research led to a rather sophisticated theory of resonance, by which the Trait's effect are accomplished by establishing a resonance with the target, and then shifting that resonance to create a kind of force generating anti-sympathy (not antipathy, <em>anti-sympathy</em>... he was extremely particular about this).</p>
+<p>It should be noted that the laws of physics still apply. Push on something, and it pushed back on you. There are accounts of strong users able to <em>push</em> or <em>pull</em> themselves into the air for a short distance. While useful in an emergency, it invariably leaves the user exhausted. This led to Helshen to research using this Trait as a form of locomotion. Shortly thereafter his funding dried up. His career followed not long after.</p>
+<h2>Feeding Traits</h2>
+<p>Feeding Traits are very controversial, mostly because they're difficult to quantify and validate. They essentially come down to an ability to "feed" graetech device more efficiently, achieving the same effect using less energy.</p>
+<p>For one, this is something that can be learned. Efficiently using one's graescence is basic training to any Royal. It's not even a particularly difficult thing to learn; it just requires time, discipline, and awareness which— okay, so it may be a little difficult. Still, it's a thing that can be learned and commonly is amongst those with resources. Disentangling this from a supposed Trait becomes difficult.</p>
+<p>Second, personal power is a separate issue. Some people are simple more powerful than others. To determine efficiency, one must first figure out what a person's power level is. That is... subjective. The most common method is to have them create a field warp, then measure the distortion. The greater the distortion, the more power a person has. This is, though, a limited perspective on a complex issue. Some people can create short bursts power easier than others. Some are better at endurance. You can have them fill some kind of reservoir, but you always run into a singular issue: what if they don't try. Cause if they don't, their overall power appears to be lower, thus increasing their apparent efficiency and lending credence to the Trait.</p>
+<p>Finally, Feeding Traits are generally considered lower class. No Royal would ever admit to having one, even if they were certain they did. Doing so would be tantamount to admitting either laziness or lack of power, either of which would invite death. Thus, not only would Royal never admit such a Trait, but they actively avoid financing research into the very subject.</p>
+<h2>Distance Feeding Trait</h2>
+<p>A somewhat common, if weird feeding trait that Royals generally don't mind admitting to, though it's usefulness is debatable. It allows a person to feed graetech at some significant distance. Usually, that distance is about the span of a room, though sometimes it can go as far as a house.</p>
+<p>What makes it of dubious usefulness is that is even at smaller distance, it take far more energy to feed the device than it would be to simply get up and walk over to it.</p>
+<p>It is also an ability that can be learned. Anyone can feed a device at a distance of a finger or two. It's just harder to do. There are thieves that learn the ability, and possibly spies and assassins do as well, though no one can agree on what exactly they would use it for.</p>
+<h2>Knowledge Traits</h2>
+<p>Also don't exist. If they do, their owners will never admit to it. Why would you? Would you rather admit that you have a Trait or that you're... just intelligent?</p>
+<p>Knowledge Traits are widely believed to exist and impossible to verify. While some have tried to claim such Traits, they have just as often been consigned to some mental ward for their (and other's) protection.</p>
+<p>...yet everyone is pretty sure they exist... somewhere.</p>
+<p>If they do exist, they give preternatural awareness, heightened intelligence, or just "gut" intuition that somehow never goes wrong... or just makes a person absurdly intelligent. None of these are verifiable.</p>
+<h2>Spacial Traits</h2>
+<p>Completely theoretical and, according to most, an impossible Trait to exist. No one known has it, and perhaps never did, and for good reason. It defies the very fabric of reality, allowing one who has it to bend space itself to their will. It's widely assumed that such a... "perspective" would render the user utterly insane, incapable of any rational action.</p>
+<p>Regardless of whether it's real or not, this Trait grants the ability to bend the fabric of space itself. Someone with this Trait could (theoretically) collapse or expand space at will. A single step could traverse a thousand leagues... or a micro-pace. Someone with this Trait could "shrink" themselves to the size of an atom, or expand themselves to a planet. They could... do anything, theoretically. There's assumed to be limits, but since it's all theoretical, no one knows what those limits are.</p>
+<h2>Elementalist Traits</h2>
+<p>Also don't exist? This is controversial not because it's impossible, but because lot's of researchers believe they <em>should</em> exist, yet for some reason do not. Even more concerning, these "Traits" have definitely existed in history at various points. Problem is, they were never described as Traits. Instead, they were described as "schools", as though the denizens of distant path actually chose their path rather than were gifted it.</p>
+<p>It'd be a concerning thought, if anyone were an Elementalist. But no one is. They don't exist, and perhaps they never did. Still, people wonder why not.</p>
+<p>An Elementalist has gained abnormal control over specific elements like heat, cold, air, stone, or other "elements", who's membership is constantly debated. Why air? Why water? ... heat and cold at least make some sort of sense. But what makes up an element is entirely subjective and thus the idea of an Elementalist is a kind of oxymoron. Why not a "metal" Elementalist?  A "wood" elementalist, perhaps?</p>
+<p>It's all absurd... and yet people persist in believing they must exist, or at least be possible.</p>
+<h2>Light and Heat Traits</h2>
+<p>Technically, they might be considered a kind of Elementalist Traits but nobody does. Both of these Traits embody a skill that can be learned with enough training. They are also considered curiosities with limited value given the same effects can be achieved with graetech, which does not require years of study and effort.</p>
+<p>Light based Traits allow a person to generate either sustained or bursts of light. Bursts of light are arguably more useful, and some have used it to distract or blind during battle. As with any Trait, there is a large variety of colors and intensities among those who have this Trait.</p>
+<p>A Heat Trait is singular and simple. It allows a person to create heat. Note: it does not create fire itself, which would fall under the Elementalist Trait. A person with this trait would be lucky if they could generate enough heat to even <em>start</em> a fire with dry kindling, but it has been known to happen.</p>
+<p>This is also something that can be learned and it's not even all that difficult, at least conceptually, sort of— it's more tricky than anything. Simply place your hands opposite of each other and "press" your graescence out to create conflicting, dissonant fields. These will interact and create excite the particles between your hands to create heat.</p>
+<p>Dissonant is where it becomes tricky, as a person's graescence will naturally resonate with itself. To create dissonance, one must modulate the graescence in one hand to resonant differently. While this is difficult to do, it can usually be learned with a few days of meditation and effort. Virtually no one does this except monks... and very bored children.</p>
+<p>Note: Creating heat and light is a favored trick of monks, who <em>do</em> have the time to spend on meditating endlessly on their own bodies enough to gain the fine control of their graescence needed to create the desired effect.</p>
+<h2>Time Traits</h2>
+<p>Also don't exist. They only reason anyone thinks it could be possible is because there is an understanding (among scientists and the learned, at least) that space and time are intrinsically bound. Yet the mechanics or even conception of a Time Trait remains beyond even the realm of theoretical. And certainly anyone who might have this highly, doubtful theoretical Trait, isn't speaking of it.</p>
+<h2>Mind Traits</h2>
+<p>Also don't exist. There's also no research on the subject. Literally none. Which begs the question: Why would no one research this potentially incredible weapon of altering other people's minds? You would think that given such an incredible, potent weapon, <em>someone</em> would think to—</p>
+<p>—but of course they don't exist. It was stupid to even think such a thing. You're not even certain why you had thought to question it in the first place. It's obvious. They don't exist; they never did.</p>
+<p>Perhaps you should get back to your life.</p>
+]]></summary>
+        <author>
+            <name>apoetsanon</name>
+        </author>
+    </entry>
+</feed>
