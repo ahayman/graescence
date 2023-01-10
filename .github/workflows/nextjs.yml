@@ -59,7 +59,7 @@ jobs:
           #
           # You may remove this line if you want to manage the configuration yourself.
           static_site_generator: next
-          deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
+          token: ${{ secrets.ACTIONS_DEPLOY_KEY }}
       - name: Restore cache
         uses: actions/cache@v3
         with:
