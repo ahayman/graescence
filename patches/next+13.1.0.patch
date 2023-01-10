@@ -1,29 +1,3 @@
-diff --git a/node_modules/next/dist/export/index.js b/node_modules/next/dist/export/index.js
-index 83359a4..3fc3b11 100644
---- a/node_modules/next/dist/export/index.js
-+++ b/node_modules/next/dist/export/index.js
-@@ -377,7 +377,7 @@ async function exportApp(dir, options, span, configuration) {
-                 const distPagesDir = (0, _path).join(pagePath, // strip leading / and then recurse number of nested dirs
-                 // to place from base folder
-                 pageName.slice(1).split("/").map(()=>"..").join("/"));
--                const orig = (0, _path).join(distPagesDir, route);
-+                const orig = (0, _path).join(distDir, "server/app", route);
-                 const htmlDest = (0, _path).join(outDir, `${route}${subFolders && route !== "/index" ? `${_path.sep}index` : ""}.html`);
-                 const ampHtmlDest = (0, _path).join(outDir, `${route}.amp${subFolders ? `${_path.sep}index` : ""}.html`);
-                 const jsonDest = (0, _path).join(pagesDataDir, `${route}.json`);
-@@ -390,7 +390,11 @@ async function exportApp(dir, options, span, configuration) {
-                 const htmlSrc = `${orig}.html`;
-                 const jsonSrc = `${orig}.json`;
-                 await _fs.promises.copyFile(htmlSrc, htmlDest);
--                await _fs.promises.copyFile(jsonSrc, jsonDest);
-+                try{
-+                    await _fs.promises.copyFile(jsonSrc, jsonDest);
-+                } catch {
-+                    //It's okay if the json doesn't exist
-+                }
-                 if (await exists(`${orig}.amp.html`)) {
-                     await _fs.promises.mkdir((0, _path).dirname(ampHtmlDest), {
-                         recursive: true
 diff --git a/node_modules/next/dist/lib/is-serializable-props.js b/node_modules/next/dist/lib/is-serializable-props.js
 index 4953dd6..7fe3825 100644
 --- a/node_modules/next/dist/lib/is-serializable-props.js
@@ -37,35 +11,3 @@ index 4953dd6..7fe3825 100644
          }
          if ((0, _isPlainObject).isPlainObject(value)) {
              visit(refs, value, path);
-diff --git a/node_modules/next/dist/server/initialize-require-hook.js b/node_modules/next/dist/server/initialize-require-hook.js
-index 774f9e1..e644086 100644
---- a/node_modules/next/dist/server/initialize-require-hook.js
-+++ b/node_modules/next/dist/server/initialize-require-hook.js
-@@ -1,7 +1,7 @@
- "use strict";
- var _requireHook = require("../build/webpack/require-hook");
- (0, _requireHook).loadRequireHook();
--const isPrebundled = false;
-+const isPrebundled = true;
- if (isPrebundled) {
-     (0, _requireHook).overrideBuiltInReactPackages();
- }
-diff --git a/node_modules/next/dist/server/require.js b/node_modules/next/dist/server/require.js
-index d76a931..d475c13 100644
---- a/node_modules/next/dist/server/require.js
-+++ b/node_modules/next/dist/server/require.js
-@@ -35,8 +35,13 @@ function getMaybePagePath(page, distDir, locales, appDirEnabled) {
-     }
-     const serverBuildPath = (0, _path).join(distDir, _constants.SERVER_DIRECTORY);
-     let appPathsManifest;
--    if (appDirEnabled) {
-+    if (true) {
-         appPathsManifest = require((0, _path).join(serverBuildPath, _constants.APP_PATHS_MANIFEST));
-+        for (const key in appPathsManifest) {
-+            let newkey = key.replace(/\/page$/, "");
-+            if (newkey === "") {newkey = "/"}
-+            appPathsManifest[newkey] = appPathsManifest[key];
-+        }
-     }
-     const pagesManifest = require((0, _path).join(serverBuildPath, _constants.PAGES_MANIFEST));
-     try {
