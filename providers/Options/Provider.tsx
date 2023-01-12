@@ -14,6 +14,7 @@ const InitialState: State = {
     letterSpacing: 1,
     wordSpacing: 1,
     textAlign: 'left',
+    readingWidth: 60,
   },
   uiTheme: 'dark',
 }
@@ -114,6 +115,7 @@ const Provider = ({ children }: Props) => {
         lineSpacing: getSetInitialValue('--reading-line-spacing'),
         wordSpacing: getSetInitialValue('--reading-word-spacing', 0),
         textAlign: (getSetInitial('--reading-text-align') as TextAlign) ?? 'left',
+        readingWidth: getSetInitialValue('--max-content-width', 50),
       },
       uiTheme: (getSetInitial('data-theme') as UITheme) ?? 'dark',
     }

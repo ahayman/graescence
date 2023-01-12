@@ -1,6 +1,6 @@
  .main {
-    max-width: 50rem;
-    min-width: 20rem;
+    max-width: var(--max-content-width);
+    min-width: 10rem;
     max-height: 100vh;
     overflow: scroll;
     border-right-width: 1pt;

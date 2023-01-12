@@ -7,6 +7,7 @@ export type GlobalVariable =
   | '--reading-word-spacing'
   | '--reading-text-align'
   | '--reading-font-family'
+  | '--max-content-width'
   | 'data-theme'
 
 export type StorageVariable = GlobalVariable | '--current-chapter-id'

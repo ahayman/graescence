@@ -8,13 +8,14 @@ type ReadingParam = {
   min: number
 }
 
-const ReadingParams: { [key in ReadingOption]: ReadingParam } = {
+export const ReadingParams: { [key in ReadingOption]: ReadingParam } = {
   fontSize: { step: 0.1, max: 5, min: 0.1 },
   paragraphIndent: { step: 0.1, max: 10, min: 0 },
   paragraphSpacing: { step: 0.1, max: 10, min: 0 },
   lineSpacing: { step: 0.05, max: 3, min: 0 },
   letterSpacing: { step: 0.01, max: 2, min: 0 },
   wordSpacing: { step: 0.02, max: 4, min: 0 },
+  readingWidth: { step: 1, max: 160, min: 10 },
 }
 
 const ReadingGlobals: { [key in ReadingOption]: GlobalVariable } = {
@@ -24,6 +25,7 @@ const ReadingGlobals: { [key in ReadingOption]: GlobalVariable } = {
   lineSpacing: '--reading-line-spacing',
   letterSpacing: '--reading-letter-spacing',
   wordSpacing: '--reading-word-spacing',
+  readingWidth: '--max-content-width',
 }
 
 const clamp = (value: number, min: number, max: number) => {
@@ -66,22 +68,27 @@ const Reducer = (state: State, action: Action): State => {
         letterSpacing: 0,
         wordSpacing: 0,
         textAlign: 'left',
+        readingWidth: 60,
       }
       Global.set('--reading-font-family', readingOptions.font)
       Global.set('--reading-text-align', readingOptions.textAlign)
       Global.setValue('--reading-font-size', readingOptions.fontSize)
       Global.setValue('--reading-paragraph-indent', readingOptions.paragraphIndent)
+      Global.setValue('--reading-paragraph-spacing', readingOptions.paragraphSpacing)
       Global.setValue('--reading-line-spacing', readingOptions.lineSpacing)
       Global.setValue('--reading-letter-spacing', readingOptions.letterSpacing)
       Global.setValue('--reading-word-spacing', readingOptions.wordSpacing)
+      Global.setValue('--max-content-width', readingOptions.readingWidth)
 
       Storage.set('--reading-font-family', readingOptions.font)
       Storage.set('--reading-text-align', readingOptions.textAlign)
       Storage.setValue('--reading-font-size', readingOptions.fontSize)
       Storage.setValue('--reading-paragraph-indent', readingOptions.paragraphIndent)
+      Storage.setValue('--reading-paragraph-spacing', readingOptions.paragraphSpacing)
       Storage.setValue('--reading-line-spacing', readingOptions.lineSpacing)
       Storage.setValue('--reading-letter-spacing', readingOptions.letterSpacing)
       Storage.setValue('--reading-word-spacing', readingOptions.wordSpacing)
+      Storage.setValue('--max-content-width', readingOptions.readingWidth)
 
       return { ...state, readingOptions }
     }

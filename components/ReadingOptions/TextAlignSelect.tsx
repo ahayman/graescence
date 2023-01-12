@@ -1,5 +1,5 @@
 import { TextAlign } from '../../providers/Options/Types'
-import styles from './ReadingOptions.module.css'
+import styles from './ReadingOptions.module.scss'
 import Row from '../Row'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faAlignCenter, faAlignJustify, faAlignLeft, faAlignRight } from '@fortawesome/free-solid-svg-icons'

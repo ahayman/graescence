@@ -1,11 +1,10 @@
 import { useContext, useEffect, useRef, MouseEvent } from 'react'
 import { OptionsContext } from '../../providers/Options/Provider'
-import styles from './ReadingOptions.module.css'
-import utilStyles from '../../styles/utils.module.scss'
+import styles from './ReadingOptions.module.scss'
 import Column from '../Column'
 import Row from '../Row'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faGlasses } from '@fortawesome/free-solid-svg-icons'
+import { faGlasses, faRefresh } from '@fortawesome/free-solid-svg-icons'
 import { classes } from '../../lib/utils'
 import TextAlignSelect from './TextAlignSelect'
 import ReadingAdjustment from './ReadingAdjustment'
@@ -18,28 +17,27 @@ type Position = {
 
 const ReadingOptions = () => {
   const {
-    state: {
-      readingOptions: { showOptions, textAlign, font },
-    },
+    state: { readingOptions },
     actions: {
       adjustReadingOption,
+      setReadingOption,
       setShowReadingOptions,
       toggleShowReadingOptions,
       setReadingTextAlign,
       selectReadingFont,
+      resetReadingOptions,
     },
   } = useContext(OptionsContext)
   const iconPos = useRef<Position>({ top: 0, right: 0 }).current
+  const { showOptions, textAlign, font } = readingOptions
 
   const updateIconPos = () => {
     const pos = document.getElementById('readingIcon')?.getBoundingClientRect()
-    console.log('readingPosition: ', pos)
     if (pos) {
       iconPos.top = pos.bottom + 5
       iconPos.right = window.innerWidth - pos.right
     }
   }
-  useEffect(updateIconPos)
 
   useEffect(() => {
     return () => {
@@ -72,19 +70,59 @@ const ReadingOptions = () => {
         onClick={event => toggle(event)}
         className={classes(styles.menuContainer, showOptions ? styles.menuShowing : styles.menuHiding)}>
         <div style={{ marginTop: iconPos.top, marginRight: iconPos.right }} className={styles.menu}>
-          <h1 className={styles.optionText}>Text</h1>
-          <hr className={classes(utilStyles.lightHR)} />
+          <div className={styles.optionHeader}>Text</div>
           <FontSelect selected={font} onSelect={selectReadingFont} />
-          <ReadingAdjustment option="fontSize" onAdjust={adjustReadingOption} />
-          <ReadingAdjustment option="wordSpacing" onAdjust={adjustReadingOption} />
-          <ReadingAdjustment option="letterSpacing" onAdjust={adjustReadingOption} />
-          <ReadingAdjustment option="lineSpacing" onAdjust={adjustReadingOption} />
-          <br />
-          <h1 className={styles.optionText}>Paragraph</h1>
-          <hr className={classes(utilStyles.lightHR)} />
+          <ReadingAdjustment
+            value={readingOptions}
+            option="fontSize"
+            onAdjust={adjustReadingOption}
+            onSet={setReadingOption}
+          />
+          <ReadingAdjustment
+            value={readingOptions}
+            option="wordSpacing"
+            onAdjust={adjustReadingOption}
+            onSet={setReadingOption}
+          />
+          <ReadingAdjustment
+            value={readingOptions}
+            option="letterSpacing"
+            onAdjust={adjustReadingOption}
+            onSet={setReadingOption}
+          />
+          <ReadingAdjustment
+            value={readingOptions}
+            option="lineSpacing"
+            onAdjust={adjustReadingOption}
+            onSet={setReadingOption}
+          />
+          <div style={{ marginTop: 5 }} className={styles.optionHeader}>
+            Paragraph
+          </div>
           <TextAlignSelect align={textAlign} onSelect={setReadingTextAlign} />
-          <ReadingAdjustment option="paragraphIndent" onAdjust={adjustReadingOption} />
-          <ReadingAdjustment option="paragraphSpacing" onAdjust={adjustReadingOption} />
+          <ReadingAdjustment
+            value={readingOptions}
+            option="paragraphIndent"
+            onAdjust={adjustReadingOption}
+            onSet={setReadingOption}
+          />
+          <ReadingAdjustment
+            value={readingOptions}
+            option="paragraphSpacing"
+            onAdjust={adjustReadingOption}
+            onSet={setReadingOption}
+          />
+          <ReadingAdjustment
+            value={readingOptions}
+            option="readingWidth"
+            onAdjust={adjustReadingOption}
+            onSet={setReadingOption}
+          />
+          <Row horizontal="center">
+            <div className={styles.reset} onClick={resetReadingOptions}>
+              <FontAwesomeIcon icon={faRefresh} className={styles.icon} />
+            </div>
+          </Row>
         </div>
       </div>
     </Column>

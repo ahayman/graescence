@@ -10,6 +10,7 @@ export type ReadingOptions = {
   letterSpacing: number
   wordSpacing: number
   textAlign: TextAlign
+  readingWidth: number
 }
 
 export type State = {
@@ -26,6 +27,7 @@ export type ReadingOption =
   | 'lineSpacing'
   | 'letterSpacing'
   | 'wordSpacing'
+  | 'readingWidth'
 
 export type Adjustment = 'increase' | 'decrease'
 

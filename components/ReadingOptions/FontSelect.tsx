@@ -2,7 +2,7 @@ import { Font, FontDefinitions, Fonts } from '../../lib/globals'
 import { groupArray } from '../../lib/utils'
 import Column from '../Column'
 import Row from '../Row'
-import styles from './ReadingOptions.module.css'
+import styles from './ReadingOptions.module.scss'
 
 type Props = {
   selected: Font
