@@ -199,8 +199,10 @@ export const getSortedContentData = async <T extends ContentType>(
       : encodeURIComponent(
           dir
             .replace(rootDir + '/', '')
+            .replace(' & ', '-')
             .replaceAll(' ', '_')
-            .replaceAll('/', '.'),
+            .replaceAll('/', '.')
+            .replaceAll('&', '-'),
         )
   const contents = fs.readdirSync(dir, { withFileTypes: true })
   const sort = sortFn(type)
@@ -216,7 +218,13 @@ export const getSortedContentData = async <T extends ContentType>(
           return undefined
         }
 
-        const fileId = encodeURIComponent(file.name.replace(/\.md|\.markdown$/, '').replaceAll(' ', '_'))
+        const fileId = encodeURIComponent(
+          file.name
+            .replace(/\.md|\.markdown$/, '')
+            .replace(' & ', '-')
+            .replaceAll(' ', '_')
+            .replaceAll('&', '-'),
+        )
         const id = [rootId, fileId].filter(i => !!i).join('.')
         const fileContents = fs.readFileSync(fullPath, 'utf8')
 
