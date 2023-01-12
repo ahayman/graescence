@@ -47,6 +47,7 @@ export type Action =
   | ReducerAction<'resetReadingOptions'>
   | ReducerAction<'setReadingAlign', { textAlign: TextAlign }>
   | ReducerAction<'toggleReadingOptions'>
+  | ReducerAction<'setShowReadingOptions', { show: boolean }>
   | ReducerAction<'selectReadingFont', { font: Font }>
   | ReducerAction<'setUITheme', { theme: UITheme }>
 
@@ -111,6 +112,15 @@ const Reducer = (state: State, action: Action): State => {
           showOptions: !state.readingOptions.showOptions,
         },
       }
+    case 'setShowReadingOptions':
+      return {
+        ...state,
+        readingOptions: {
+          ...state.readingOptions,
+          showOptions: action.show,
+        },
+      }
+
     case 'adjustReadingOption': {
       const adjustment = adjust(state.readingOptions[action.option], ReadingParams[action.option], action.adjustment)
       Global.setValue(ReadingGlobals[action.option], adjustment)

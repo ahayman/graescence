@@ -74,7 +74,10 @@ const Chapter = ({ id }: Props) => {
   return (
     <>
       <Header type="Primary">
-        <Row horizontal="center">{title}</Row>
+        <Row horizontal="space-between" vertical="center">
+          {title}
+          <ReadingOptions />
+        </Row>
       </Header>
       <Header type="Secondary">
         <Row horizontal="space-between" vertical="center">

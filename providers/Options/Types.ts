@@ -33,6 +33,7 @@ export type Actions = {
   adjustReadingOption: (option: ReadingOption, adjust: Adjustment) => void
   setReadingOption: (option: ReadingOption, value: number) => void
   toggleShowReadingOptions: () => void
+  setShowReadingOptions: (show: boolean) => void
   setReadingTextAlign: (textAlign: TextAlign) => void
   resetReadingOptions: () => void
   selectReadingFont: (font: Font) => void

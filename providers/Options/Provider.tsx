@@ -68,6 +68,13 @@ const Provider = ({ children }: Props) => {
     dispatch({ type: 'toggleReadingOptions' })
   }, [dispatch])
 
+  const setShowReadingOptions = useCallback(
+    (show: boolean) => {
+      dispatch({ type: 'setShowReadingOptions', show })
+    },
+    [dispatch],
+  )
+
   const setReadingTextAlign = useCallback(
     (textAlign: TextAlign) => {
       dispatch({ type: 'setReadingAlign', textAlign })
@@ -127,6 +134,7 @@ const Provider = ({ children }: Props) => {
           selectReadingFont,
           resetReadingOptions,
           setUITheme,
+          setShowReadingOptions,
         },
       }}>
       {children}

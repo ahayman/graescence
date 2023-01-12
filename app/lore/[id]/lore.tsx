@@ -8,6 +8,7 @@ import { ContentContext } from '../../../providers/Content/Provider'
 import ContentBlock from '../../../components/ContentBlock/ContentBlock'
 import Tags from '../../../components/Tags/Tags'
 import Header from '../../../components/Header/Header'
+import ReadingOptions from '../../../components/ReadingOptions/ReadingOptions'
 
 export type Props = {
   id: string
@@ -22,7 +23,12 @@ const Lore = ({ id }: Props) => {
   const { title, date, html, tags, category } = loreItem
   return (
     <>
-      <Header title={title} type="Primary" />
+      <Header type="Primary">
+        <Row horizontal="space-between" vertical="center">
+          {title}
+          <ReadingOptions />
+        </Row>
+      </Header>
       <Header type="Secondary">
         <Row horizontal="space-between" vertical="center">
           <span>{category}</span>

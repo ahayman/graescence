@@ -1,19 +1,78 @@
+@use '../../styles/mixins' as *;
 
 .container {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   max-width: 20rem;
   height: 100vh;
   overflow: scroll;
 
-  @media screen and (max-width: 640px) {
+  @include mobile {
     flex-direction: row;
-    justify-content: center;
-    max-height: 4rem;
+    justify-content: space-between;
+    align-items: center;
+    padding-left: 5pt;
+    padding-right: 5pt;
+    height: auto;
     max-width: 100%;
   }
+}
+
+.icon {
+  font-size: 1rem;
+  size: 1rem;
+}
+
+.desktopContainer {
+  display: flex;
+  flex-direction: column;
+  @include mobile {
+    display: none;
+  }
+}
+
+.mobileContainer {
+  display: none;
+  flex-direction: column;
+  @include mobile {
+    display: flex;
+  }
+}
+
+.menuContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  position: absolute;
+  right: 0pt;
+  top: 0pt;
+  left: 0pt;
+  bottom: 0pt;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.menuShowing {
+  overflow: scroll;
+  visibility: visible;
+  opacity: 1;
+  transition: visibility 0s linear 0s, opacity 300ms;
+}
+
+.menuHiding {
+  overflow: scroll;
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0s linear 300ms, opacity 300ms;
+}
+
+.menu {
+  background-color: var(--background-secondary-color);
+  border-radius: 5pt;
+  border-color: var(--border-highlight-color);
+  border-width: 1pt;
+  border-style: groove;
 }
 
 .headingContainer {
@@ -27,7 +86,7 @@
   font-size: 1.2rem;
   line-height: 1.5;
 
-  @media screen and (max-width: 640px) {
+  @include mobile {
     font-size: 0.8rem;
     line-height: 1;
   }
@@ -36,7 +95,7 @@
 .subHeading {
   font-size: 0.8em;
   color: var(--foreground-secondary-color);
-  @media screen and (max-width: 640px) {
+  @include mobile {
     font-size: 0.4rem;
   }
 }
@@ -46,8 +105,8 @@
   border-color: var(--highlight-color);
   align-self: stretch;
 
-  @media screen and (max-width: 640px) {
-    margin: 15pt 0pt;
+  @include mobile {
+    margin: 0pt 0pt;
   }
 }
 
@@ -56,9 +115,12 @@
   width: 80;
   text-align: center;
 
-  @media screen and (max-width: 640px) {
-    height: 30pt;
-    width: 30pt;
+  @include mobile {
+    text-align: center;
+    vertical-align: middle;
+    margin: 2pt 0pt;
+    height: 20pt;
+    width: 20pt;
   }
 }
 
@@ -70,7 +132,7 @@
   margin: 0.5rem 0.5rem;
   font-size: 1rem;
 
-  @media screen and (max-width: 640px) {
+  @include mobile {
     margin: 0.5rem 0.2rem;
     font-size: 0.8rem;
   }
@@ -80,7 +142,7 @@
   text-align: center;
   margin-bottom: 0.1rem;
 
-  @media screen and (max-width: 640px) {
+  @include mobile {
     font-size: 0.8rem;
   }
 }
@@ -90,24 +152,24 @@
   text-align: center;
   font-size: 0.8rem;
 
-  @media screen and (max-width: 640px) {
+  @include mobile {
     font-size: 0.6rem;
   }
 }
 
 
 .themeButton {
+  cursor: pointer;
   padding: 2pt 3pt;
   font-size: 0.6rem;
   letter-spacing: 0.1rem;
-  margin-bottom: 2pt;
+  margin: 5pt 0pt;
   border-width: 1pt;
   border-color: var(--foreground-color);
   border-style: solid;
   color: var(--unSelect-foreground-color);
   background-color: var(--unSelect-background-color);
-  @media screen and (max-width: 640px) {
-    margin-bottom: 0pt;
+  @include mobile {
     letter-spacing: 0rem;
   }
 }
@@ -116,14 +178,13 @@
   padding: 2pt 3pt;
   letter-spacing: 0.1rem;
   font-size: 0.6rem;
-  margin-bottom: 2pt;
+  margin: 5pt 0pt;
   border-width: 1pt;
   border-color: var(--foreground-color);
   border-style: solid;
   color: var(--select-foreground-color);
   background-color: var(--select-background-color);
-  @media screen and (max-width: 640px) {
-    margin-bottom: 0pt;
+  @include mobile {
     letter-spacing: 0rem;
   }
 }

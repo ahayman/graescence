@@ -1,22 +1,52 @@
-
 .container {
-  background-color: var(--background-secondary-color);
-  border-radius: 5pt;
-  padding: 0.6rem;
+  padding: 0pt;
 }
 
 .icon {
-  font-size: 1rem;
-  size: 1rem;
+  font-size: 1.2rem;
+  size: 1.2rem;
+  color: var(--foreground-color);
 }
 
 .iconContainer {
-  width: 1.3rem;
-  height: 1.3rem;
 }
 
 .alignContainer {
   margin-top: 0.7rem;
+}
+
+.menuContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  position: absolute;
+  right: 0pt;
+  top: 0pt;
+  left: 0pt;
+  bottom: 0pt;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.menuShowing {
+  overflow: scroll;
+  visibility: visible;
+  opacity: 1;
+  transition: visibility 0s linear 0s, opacity 300ms;
+}
+
+.menuHiding {
+  overflow: scroll;
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0s linear 300ms, opacity 300ms;
+}
+
+.menu {
+  background-color: var(--background-secondary-color);
+  border-radius: 5pt;
+  border-color: var(--border-highlight-color);
+  border-width: 1pt;
+  border-style: groove;
 }
 
 .optionText {
@@ -24,16 +54,6 @@
   margin-right: 1rem;
   font-size: 1rem;
   text-align: center;
-}
-
-.optionsShowing {
-  overflow: hidden;
-  transition: opacity 200ms linear 100ms, max-height 300ms ease-in-out, max-width 300ms ease-in-out;
-}
-
-.optionsHiding {
-  overflow: hidden;
-  transition: opacity 200ms linear, max-height 300ms ease-in-out 100ms, max-width 300ms ease-in-out 100ms;
 }
 
 .row {
@@ -94,29 +114,31 @@
 
 .fontSelect {
   margin: 5pt 5pt 0pt;
-  padding: 0pt 5pt;
+  padding: 2pt 3pt;
   border-radius: 5pt;
   background-color: var(--select-background-color);
 }
 
 .fontUnselect {
   margin: 5pt 5pt 0pt;
-  padding: 0pt 5pt;
+  padding: 2pt 3pt;
   border-radius: 5pt;
   background-color: var(--unSelect-background-color);
 }
 
-.fontSelect .fontSelectAa, .fontSelectTitle {
+.fontSelect .fontSelectAa,
+.fontSelectTitle {
   color: var(--select-foreground-color);
   text-align: center;
 }
 
-.fontUnselect .fontSelectAa, .fontSelectTitle {
-  color: var(--unSelect-foreground-color)
+.fontUnselect .fontSelectAa,
+.fontSelectTitle {
+  color: var(--unSelect-foreground-color);
 }
 
 .fontSelectAa {
-  font-size: 2rem;
+  font-size: 1.2rem;
 }
 
 .fontSelectTitle {

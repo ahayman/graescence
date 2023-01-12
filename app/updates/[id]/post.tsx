@@ -8,6 +8,7 @@ import Header from '../../../components/Header/Header'
 import ContentBlock from '../../../components/ContentBlock/ContentBlock'
 import Row from '../../../components/Row'
 import { classes } from '../../../lib/utils'
+import ReadingOptions from '../../../components/ReadingOptions/ReadingOptions'
 
 export type Props = {
   id: string
@@ -23,11 +24,14 @@ const Post = ({ id }: Props) => {
     <div>
       <Header type="Primary">
         <Row horizontal="space-between" vertical="center">
-          <span>{postData.title}</span>
-          <span className={classes(utilStyles.lightText, utilStyles.smallText)}>
-            <Date dateString={postData.date} />
-          </span>
+          {postData.title}
+          <ReadingOptions />
         </Row>
+      </Header>
+      <Header type="Secondary">
+        <span className={classes(utilStyles.lightText, utilStyles.smallText)}>
+          <Date dateString={postData.date} />
+        </span>
       </Header>
       <div className={utilStyles.lightText}></div>
       <ContentBlock>
