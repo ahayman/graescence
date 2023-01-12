@@ -1,4 +1,5 @@
 'use client'
+import Script from 'next/script'
 import { ReactNode, useContext, useEffect, useState } from 'react'
 import { DisplayContext } from '../../providers/Display/Provider'
 import ContentBlock from '../ContentBlock/ContentBlock'
@@ -17,6 +18,21 @@ const Content = ({ children }: Props) => {
 
   return (
     <div className={styles.mainContainer}>
+      <Script id="fathom-analytics" strategy="afterInteractive">
+        {`
+          (function(f, a, t, h, o, m){
+            a[h]=a[h]||function(){
+              (a[h].q=a[h].q||[]).push(arguments)
+            };
+            o=f.createElement('script'),
+            m=f.getElementsByTagName('script')[0];
+            o.async=1; o.src=t; o.id='fathom-script';
+            m.parentNode.insertBefore(o,m)
+          })(document, window, '//fathom.aaronhayman.com/tracker.js', 'fathom');
+          fathom('set', 'siteId', 'IRIBQ');
+          fathom('trackPageview');
+          `}
+      </Script>
       <div className={styles.main}>
         <main>{load ? children : null}</main>
         <ContentBlock>
