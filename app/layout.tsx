@@ -7,6 +7,7 @@ import Nav from '../components/Nav/nav'
 import Providers from './providers'
 import { getSortedContentData } from '../api/contentData'
 import Content from '../components/Content/Content'
+import Script from 'next/script'
 
 export type Props = {
   children?: ReactNode
