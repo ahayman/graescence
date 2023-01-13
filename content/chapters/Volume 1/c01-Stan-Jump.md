@@ -7,6 +7,12 @@ chapter: 1
 tags: Stan
 ---
 
+Testing the note capability.
+
+This is my first note, which I will surely delete once I get real content up intended for consumption. For now, this just lets me test the notes feature of my website.
+
+<-- note -->
+
 Stanley Chao stood on the edge of a flimsy wooden board over a hundred paces above the ground. Far below, patches of dirt and worn grass were revealed as featureless browns and greens from dizzying spotlights that roamed the earth below.
 
 A man stood center among three fixed spotlights, himself a red blur under the intense light. He gestured gregariously, sweeping his arm in a wide circle before raising it to point at Stan. Several spotlights followed, blinding Stan from seeing anything else. The man bellowed something but his words were drowned out by the roar of a crowd.

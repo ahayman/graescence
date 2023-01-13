@@ -2,11 +2,11 @@
 import Date from '../../../components/date'
 import utilStyles from '../../../styles/utils.module.scss'
 import postStyles from '../../../styles/post.module.scss'
-import styles from './chapter.module.css'
+import styles from './chapter.module.scss'
 import ReadingOptions from '../../../components/ReadingOptions/ReadingOptions'
 import Row from '../../../components/Row'
 import Column from '../../../components/Column'
-import { useContext, useEffect } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { ContentContext } from '../../../providers/Content/Provider'
 import ContentBlock from '../../../components/ContentBlock/ContentBlock'
 import Header from '../../../components/Header/Header'
@@ -14,7 +14,9 @@ import Tags from '../../../components/Tags/Tags'
 import { classes } from '../../../lib/utils'
 import Link from 'next/link'
 import { ProgressContext } from '../../../providers/Progress/Provider'
-import { DisplayContext } from '../../../providers/Display/Provider'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faNotesMedical, faNoteSticky } from '@fortawesome/free-solid-svg-icons'
+import Popover from '../../../components/Popover/Popover'
 
 export type Props = {
   id: string
@@ -39,25 +41,31 @@ const Chapter = ({ id }: Props) => {
   if (!chapter) {
     return <div> No Chapter Found!</div>
   }
-  const { chapterNo, title, date, volumeNo, html, tags } = chapter
+  const { chapterNo, title, date, volumeNo, html, tags, notes } = chapter
 
   const chapterNav = () => {
     if (!nextChapter && !prevChapter) {
       return null
     }
     return (
-      <Row className={styles.bottomNav} horizontal="space-between">
-        {prevChapter ? (
-          <Link className={utilStyles.coloredLink} href={`chapters/${prevChapter.id}`}>{`← ${prevChapter.title}`}</Link>
-        ) : (
-          <div />
-        )}
-        {nextChapter ? (
-          <Link className={utilStyles.coloredLink} href={`chapters/${nextChapter.id}`}>{`${nextChapter.title} →`}</Link>
-        ) : (
-          <div />
-        )}
-      </Row>
+      <ContentBlock>
+        <Row className={styles.bottomNav} horizontal="space-between">
+          {prevChapter ? (
+            <Link
+              className={utilStyles.coloredLink}
+              href={`chapters/${prevChapter.id}`}>{`← ${prevChapter.title}`}</Link>
+          ) : (
+            <div />
+          )}
+          {nextChapter ? (
+            <Link
+              className={utilStyles.coloredLink}
+              href={`chapters/${nextChapter.id}`}>{`${nextChapter.title} →`}</Link>
+          ) : (
+            <div />
+          )}
+        </Row>
+      </ContentBlock>
     )
   }
 
@@ -66,7 +74,15 @@ const Chapter = ({ id }: Props) => {
       <Header type="Primary">
         <Row horizontal="space-between" vertical="center">
           {title}
-          <ReadingOptions />
+          <Row>
+            <ReadingOptions />
+            {!!notes && (
+              <Popover style={{ marginLeft: 10 }} icon={faNoteSticky}>
+                <Header type="Secondary" title="Author Notes" />
+                <div style={{ padding: 5 }} className={postStyles.post} dangerouslySetInnerHTML={{ __html: notes }} />
+              </Popover>
+            )}
+          </Row>
         </Row>
       </Header>
       <Header type="Secondary">
@@ -86,9 +102,16 @@ const Chapter = ({ id }: Props) => {
       </Header>
       <ContentBlock>
         <div className={postStyles.post} dangerouslySetInnerHTML={{ __html: html }} />
-        <br />
-        {chapterNav()}
       </ContentBlock>
+      {!!notes && (
+        <>
+          <Header type="Secondary" title="Author Notes" />
+          <ContentBlock>
+            <div style={{ padding: 5 }} className={postStyles.post} dangerouslySetInnerHTML={{ __html: notes }} />
+          </ContentBlock>
+        </>
+      )}
+      {chapterNav()}
     </>
   )
 }

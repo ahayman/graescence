@@ -13,6 +13,7 @@ export type ContentType = 'updates' | 'chapters' | 'lore'
 
 const contentDir = (type: ContentType) => path.join(process.cwd(), `content/${type}`)
 const excerpt_separator = '<-- excerpt -->'
+const notes_separator = '<-- note -->'
 
 const VolumeNames: { [key: number]: string | undefined } = {}
 const Cache: { [key in ContentType]: ContentData[key][] | undefined } = {
@@ -27,6 +28,7 @@ export type ChapterData = Meta & {
   volumeNo: number
   volumeName?: string
   chapterNo: number
+  notes?: string
   tags: string[]
   html: string
 }
@@ -84,9 +86,13 @@ const extractData = async <T extends ContentType>(
         volumeName = data.volumeName
         VolumeNames[volumeNo] = volumeName
       }
-      const processedContent = await remark().use(HTML).process(front.content)
+      const parts = front.content.split(notes_separator)
+      const [notesMd, contentMd] = parts.length >= 2 ? [parts[0], parts[1]] : [undefined, parts[0]]
+      const processedContent = await remark().use(HTML).process(contentMd.trim())
+      const processedNotes = notesMd ? await remark().use(HTML).process(notesMd.trim()) : undefined
       const html = processedContent.toString()
-      const extract: ContentData['chapters'] = { id, title, date, volumeNo, chapterNo, tags, html, volumeName }
+      const notes = processedNotes?.toString()
+      const extract: ContentData['chapters'] = { id, title, date, volumeNo, chapterNo, tags, html, volumeName, notes }
       return extract as ContentData[T]
     }
     case 'updates': {
