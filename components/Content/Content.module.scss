@@ -5,9 +5,11 @@
     overflow: scroll;
     border-right-width: 1pt;
     border-left-width: 1pt;
+    border-bottom-width: 1pt;
     border-color: var(--background-secondary-color);
     border-left-style: groove;
     border-right-style: groove;
+    border-bottom-style: groove;
  } 
 
  .options {

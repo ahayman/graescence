@@ -41,7 +41,9 @@ const Content = ({ children }: Props) => {
             --------------------------------------------------------------------------------------------------------------------------------------------
           </span>
         </ContentBlock>
-        <div id="commento"></div>
+        <ContentBlock>
+          <div id="commento"></div>
+        </ContentBlock>
       </div>
     </div>
   )

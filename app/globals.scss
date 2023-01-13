@@ -6,6 +6,7 @@
 
   --background-color: #32302f;
   --background-secondary-color: #1d2021;
+  --text-entry-background-color: #0b0d0d;
   --border-highlight-color: #000;
   --foreground-color: #fbf1c7;
   --foreground-secondary-color: #afa17c;
@@ -42,6 +43,7 @@
   --foreground-secondary-color: #504735;
   --background-color: #f2debf;
   --background-secondary-color: #ffeacb;
+  --text-entry-background-color: #fff9ef;
   --border-highlight-color: #fff;
   --highlight-color: #a18b64;
   --accent-color: rgb(163, 204, 212);
@@ -84,7 +86,7 @@ a {
 }
 
 .commento-root textarea {
-  background: var(--background-secondary-color) !important;
+  background: var(--text-entry-background-color) !important;
   color: var(--foreground-color) !important;
 }
 
