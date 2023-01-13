@@ -114,10 +114,10 @@ const Provider = ({ children }: Props) => {
         letterSpacing: getSetInitialValue('--reading-letter-spacing', 0),
         lineSpacing: getSetInitialValue('--reading-line-spacing'),
         wordSpacing: getSetInitialValue('--reading-word-spacing', 0),
-        textAlign: (getSetInitial('--reading-text-align') as TextAlign) ?? 'left',
+        textAlign: (getSetInitial('--reading-text-align') as TextAlign) || 'left',
         readingWidth: getSetInitialValue('--max-content-width', 50),
       },
-      uiTheme: (getSetInitial('data-theme') as UITheme) ?? 'dark',
+      uiTheme: (getSetInitial('data-theme') as UITheme) || 'dark',
     }
     document.documentElement.setAttribute('data-theme', state.uiTheme)
     document.body.dataset.theme = state.uiTheme
