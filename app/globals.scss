@@ -11,7 +11,7 @@
   --foreground-secondary-color: #afa17c;
   --highlight-color: #714f09;
   --accent-color: rgb(15, 82, 95);
-  --error-color: #cc241d;
+  --error-color: #ae3c38;
   --primary-header-color: #a34100;
   --secondary-header-color: #504945;
   --max-content-width: 60rem;
@@ -77,6 +77,48 @@ body {
 a {
   color: inherit;
   text-decoration: none;
+}
+
+.commento-root * {
+  color: var(--foreground-color) !important;
+}
+
+.commento-root textarea {
+  background: var(--background-secondary-color) !important;
+  color: var(--foreground-color) !important;
+}
+
+.commento-login-box {
+  background: var(--background-secondary-color) !important;
+}
+
+.commento-login-box .commento-login-box-subtitle {
+  color: var(--foreground-secondary-color) !important;
+}
+
+.commento-login-box .commento-forgot-link {
+  color: var(--foreground-secondary-color) !important;
+}
+
+.commento-error-box {
+  color: var(--error-color) !important;
+}
+
+.commento-email {
+  background: var(--background-color) !important;
+}
+
+.commento-email .commento-input {
+  background: var(--background-color) !important;
+}
+
+.commento-email .commento-email-button {
+  background: var(--background-color) !important;
+  color: var(--link-color) !important;
+}
+
+.commento-root .commento-submit-button {
+  background: var(--accent-color) !important;
 }
 
 @media (prefers-color-scheme: dark) {

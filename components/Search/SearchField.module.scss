@@ -4,7 +4,6 @@
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
-  flex: 1;
   margin-left: 5pt;
   height: 1.5rem;
   border-radius: 3pt;
@@ -23,6 +22,11 @@
   :focus {
     outline: none;
   }
+}
+
+.searched {
+  font-size: 0.8rem;
+  margin-right: 5pt;
 }
 
 .input {

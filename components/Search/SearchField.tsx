@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faSearch } from '@fortawesome/free-solid-svg-icons'
+import { faSearch, faSearchPlus } from '@fortawesome/free-solid-svg-icons'
 import { useState } from 'react'
 import styles from './SearchField.module.scss'
 
@@ -25,7 +25,14 @@ const SearchField = ({ text, onChange }: Props) => {
           onBlur={() => setFocused(false)}
         />
       ) : (
-        <FontAwesomeIcon className={styles.searchIcon} onClick={() => setFocused(true)} icon={faSearch} />
+        <>
+          <span className={styles.searched}>{text}</span>
+          <FontAwesomeIcon
+            className={styles.searchIcon}
+            onClick={() => setFocused(true)}
+            icon={text ? faSearchPlus : faSearch}
+          />
+        </>
       )}
     </div>
   )

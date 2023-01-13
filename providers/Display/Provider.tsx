@@ -1,5 +1,6 @@
-import { createContext, ReactNode, useCallback, useState } from 'react'
-import { Context, State } from './Types'
+import { createContext, ReactNode, useCallback, useReducer } from 'react'
+import Reducer from './Reducer'
+import { Context } from './Types'
 
 export type Props = {
   children: ReactNode
@@ -8,21 +9,41 @@ export type Props = {
 export const DisplayContext = createContext<Context>({} as any)
 
 const DisplayProvider = ({ children }: Props) => {
-  const [state, setState] = useState<State>({})
+  const [state, dispatch] = useReducer(Reducer, {})
 
-  const setOptions = useCallback((node: ReactNode) => {
-    setState({ optionsNode: node })
-  }, [])
+  const setChapterTag = useCallback(
+    (tag?: string | 'All') => {
+      dispatch({ type: 'setChapterTag', tag })
+    },
+    [dispatch],
+  )
 
-  const clearOptions = useCallback(() => {
-    setState({})
-  }, [])
+  const setChapterFilter = useCallback(
+    (filter?: string) => {
+      dispatch({ type: 'setChapterFilter', filter })
+    },
+    [dispatch],
+  )
+
+  const setLoreCategory = useCallback(
+    (category?: string | 'All') => {
+      dispatch({ type: 'setLoreCategory', category })
+    },
+    [dispatch],
+  )
+
+  const setLoreFilter = useCallback(
+    (filter?: string) => {
+      dispatch({ type: 'setLoreFilter', filter })
+    },
+    [dispatch],
+  )
 
   return (
     <DisplayContext.Provider
       value={{
         state,
-        actions: { setOptions, clearOptions },
+        actions: { setChapterTag, setChapterFilter, setLoreCategory, setLoreFilter },
       }}>
       {children}
     </DisplayContext.Provider>

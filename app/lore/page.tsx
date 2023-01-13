@@ -1,6 +1,6 @@
 'use client'
 import Link from 'next/link'
-import { useContext, useMemo, useState } from 'react'
+import { useContext, useEffect, useMemo, useState } from 'react'
 import { LoreData } from '../../api/contentData'
 import ContentBlock from '../../components/ContentBlock/ContentBlock'
 import Header from '../../components/Header/Header'
@@ -9,6 +9,7 @@ import SearchField from '../../components/Search/SearchField'
 import Tags from '../../components/Tags/Tags'
 import { useStateDebouncer } from '../../lib/useStateDebouncert'
 import { ContentContext } from '../../providers/Content/Provider'
+import { DisplayContext } from '../../providers/Display/Provider'
 import postStyles from '../../styles/post.module.scss'
 import utilStyles from '../../styles/utils.module.scss'
 import styles from './lore.module.scss'
@@ -28,39 +29,45 @@ const includeLoreItem = (filter: string, item: LoreData): boolean => {
   return false
 }
 
-type AllCategory = 'All'
-const allCategory: AllCategory = 'All'
-type Category = AllCategory | string
-
 const LoreHub = () => {
   const { lore } = useContext(ContentContext)
-  const [category, setCategory] = useState<Category>('All')
-  const [activeFilter, filter, setFilter] = useStateDebouncer('', 500)
-  const categories = useMemo<Category[]>(() => [allCategory, ...Object.keys(lore.byCategory)], [lore.byCategory])
+  const {
+    state: { loreCategory, loreFilter },
+    actions: { setLoreCategory, setLoreFilter },
+  } = useContext(DisplayContext)
+  const [activeFilter, filter, setFilter] = useStateDebouncer(loreFilter, 500)
+  const categories = useMemo(() => ['All', ...Object.keys(lore.byCategory)], [lore.byCategory])
   const data: LoreViewData[] = useMemo(() => {
-    const categoryLore = category !== 'All' ? lore.byCategory[category] : undefined
-    const data = categoryLore
-      ? [
-          {
+    const categoryLore = loreCategory && loreCategory !== 'All' ? lore.byCategory[loreCategory] : undefined
+    const data =
+      loreCategory && categoryLore
+        ? [
+            {
+              category: loreCategory,
+              items: categoryLore.map(idx => lore.items[idx]),
+            },
+          ]
+        : Object.keys(lore.byCategory).map(category => ({
             category,
-            items: categoryLore.map(idx => lore.items[idx]),
-          },
-        ]
-      : Object.keys(lore.byCategory).map(category => ({
-          category,
-          items: lore.byCategory[category].map(idx => lore.items[idx]),
-        }))
-    if (!activeFilter) {
+            items: lore.byCategory[category].map(idx => lore.items[idx]),
+          }))
+    if (!loreFilter) {
       return data
     }
     //Filter Lore according to search
     const filteredLore = data.map(({ category, items }) => ({
       category,
-      items: items.filter(i => includeLoreItem(activeFilter, i)),
+      items: items.filter(i => includeLoreItem(loreFilter, i)),
     }))
     //Filter out categories with no items, and return
     return filteredLore.filter(l => l.items.length > 0)
-  }, [lore, category, activeFilter])
+  }, [lore, loreCategory, loreFilter])
+
+  useEffect(() => {
+    if (loreFilter !== activeFilter) {
+      setLoreFilter(activeFilter)
+    }
+  }, [loreFilter, activeFilter, setLoreFilter])
 
   return (
     <>
@@ -71,7 +78,7 @@ const LoreHub = () => {
         </Row>
       </Header>
       <Row vertical="center" horizontal="start" className={styles.tagsContainer}>
-        <Tags tags={categories} selected={category} onSelect={setCategory} />
+        <Tags tags={categories} selected={loreCategory || 'All'} onSelect={setLoreCategory} />
       </Row>
       {data.map(viewData => (
         <section key={viewData.category}>

@@ -33,6 +33,7 @@ const Content = ({ children }: Props) => {
           fathom('trackPageview');
           `}
       </Script>
+      <Script id="commento-script" src="https://comments.aaronhayman.com/js/commento.js" strategy="afterInteractive" />
       <div className={styles.main}>
         <main>{load ? children : null}</main>
         <ContentBlock>
@@ -40,6 +41,7 @@ const Content = ({ children }: Props) => {
             --------------------------------------------------------------------------------------------------------------------------------------------
           </span>
         </ContentBlock>
+        <div id="commento"></div>
       </div>
     </div>
   )

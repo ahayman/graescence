@@ -23,9 +23,6 @@ export type Props = {
 const Chapter = ({ id }: Props) => {
   const { chapters } = useContext(ContentContext)
   const {
-    actions: { setOptions, clearOptions },
-  } = useContext(DisplayContext)
-  const {
     actions: { updateCurrentChapter },
   } = useContext(ProgressContext)
   const chapterIdx = chapters.byID[id]
@@ -38,13 +35,6 @@ const Chapter = ({ id }: Props) => {
       updateCurrentChapter(chapter.id)
     }
   }, [chapter, updateCurrentChapter])
-
-  useEffect(() => {
-    setOptions(<ReadingOptions />)
-    return () => {
-      clearOptions()
-    }
-  }, [setOptions, clearOptions])
 
   if (!chapter) {
     return <div> No Chapter Found!</div>
