@@ -12,6 +12,7 @@ const ProgressProvider = ({ children }: Props) => {
   const [state, setState] = useState<State>({ currentChapterId: undefined })
 
   const updateCurrentChapter = useCallback((currentChapterId?: string) => {
+    Storage.set('--current-chapter-id', currentChapterId)
     setState({ currentChapterId })
   }, [])
 

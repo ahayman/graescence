@@ -4,14 +4,15 @@ import matter from 'gray-matter'
 import { StaticParam } from '../lib/types'
 import { remark } from 'remark'
 import HTML from 'remark-html'
+import remarkGfm from 'remark-gfm'
 import { Feed } from 'feed'
 import { parseISO } from 'date-fns'
 import { isNotEmpty } from '../lib/utils'
 
 //Must match the actual content directory name
 export type ContentType = 'updates' | 'chapters' | 'lore'
-
-const contentDir = (type: ContentType) => path.join(process.cwd(), `content/${type}`)
+const contentDir = path.join(process.cwd(), 'content')
+const contentTypeDir = (type: ContentType) => path.join(contentDir, type)
 const excerpt_separator = '<-- excerpt -->'
 const notes_separator = '<-- note -->'
 
@@ -58,6 +59,8 @@ export type ContentId = {
   id: string
 }
 
+export type PageContent = 'home'
+
 const extractData = async <T extends ContentType>(
   type: T,
   id: string,
@@ -88,8 +91,8 @@ const extractData = async <T extends ContentType>(
       }
       const parts = front.content.split(notes_separator)
       const [notesMd, contentMd] = parts.length >= 2 ? [parts[0], parts[1]] : [undefined, parts[0]]
-      const processedContent = await remark().use(HTML).process(contentMd.trim())
-      const processedNotes = notesMd ? await remark().use(HTML).process(notesMd.trim()) : undefined
+      const processedContent = await remark().use(remarkGfm).use(HTML).process(contentMd.trim())
+      const processedNotes = notesMd ? await remark().use(remarkGfm).use(HTML).process(notesMd.trim()) : undefined
       const html = processedContent.toString()
       const notes = processedNotes?.toString()
       const extract: ContentData['chapters'] = { id, title, date, volumeNo, chapterNo, tags, html, volumeName, notes }
@@ -97,10 +100,13 @@ const extractData = async <T extends ContentType>(
     }
     case 'updates': {
       const excerpt = front.excerpt
-        ? (await remark().use(HTML).process(front.excerpt)).toString()
-        : (await remark().use(HTML).process(front.content.replace(excerpt_separator, ''))).toString()
+        ? (await remark().use(remarkGfm).use(HTML).process(front.excerpt)).toString()
+        : (await remark().use(remarkGfm).use(HTML).process(front.content.replace(excerpt_separator, ''))).toString()
 
-      const processedContent = await remark().use(HTML).process(front.content.replace(excerpt_separator, ''))
+      const processedContent = await remark()
+        .use(remarkGfm)
+        .use(HTML)
+        .process(front.content.replace(excerpt_separator, ''))
       const html = processedContent.toString()
       const extract: ContentData['updates'] = { id, title, date, excerpt, html }
       return extract as ContentData[T]
@@ -111,11 +117,14 @@ const extractData = async <T extends ContentType>(
         return undefined
       }
       const tags = typeof data.tags === 'string' ? data.tags.split(/,\s*/) : []
-      const processedContent = await remark().use(HTML).process(front.content.replace(excerpt_separator, ''))
+      const processedContent = await remark()
+        .use(remarkGfm)
+        .use(HTML)
+        .process(front.content.replace(excerpt_separator, ''))
       const html = processedContent.toString()
       const excerpt = front.excerpt
-        ? (await remark().use(HTML).process(front.excerpt)).toString()
-        : (await remark().use(HTML).process(front.content.replace(excerpt_separator, ''))).toString()
+        ? (await remark().use(remarkGfm).use(HTML).process(front.excerpt)).toString()
+        : (await remark().use(remarkGfm).use(HTML).process(front.content.replace(excerpt_separator, ''))).toString()
       const extract: ContentData['lore'] = { id, title, date, category, tags, html, excerpt }
       return extract as ContentData[T]
     }
@@ -147,6 +156,17 @@ const sortFn = <T extends ContentType>(type: T): ContentSortFn<T> => {
       return 1
     } else {
       return -1
+    }
+  }
+}
+
+export const getContent = async (type: PageContent): Promise<string> => {
+  switch (type) {
+    case 'home': {
+      const homePath = path.join(contentDir, 'home.md')
+      const fileContents = fs.readFileSync(homePath, 'utf8')
+      const processedContent = await remark().use(remarkGfm).use(HTML).process(fileContents)
+      return processedContent.toString()
     }
   }
 }
@@ -191,14 +211,14 @@ export const generateRSS = async (type: ContentType) => {
 
 export const getSortedContentData = async <T extends ContentType>(
   type: T,
-  dir: string = contentDir(type),
+  dir: string = contentTypeDir(type),
 ): Promise<ContentData[T][]> => {
   const cached = Cache[type]
   if (cached !== undefined) {
     return cached
   }
   //Remove the rootDirectory and replace slashes with a dot to create a rootId
-  const rootDir = contentDir(type)
+  const rootDir = contentTypeDir(type)
   const rootId =
     rootDir === dir
       ? ''

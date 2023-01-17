@@ -19,4 +19,5 @@ export type State = {
   updates: PostData[]
   chapters: Chapters
   lore: Lore
+  home: string
 }

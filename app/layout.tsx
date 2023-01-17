@@ -5,7 +5,7 @@ import { ReactNode } from 'react'
 import styles from './layout.module.scss'
 import Nav from '../components/Nav/nav'
 import Providers from './providers'
-import { getSortedContentData } from '../api/contentData'
+import { getSortedContentData, getContent } from '../api/contentData'
 import Content from '../components/Content/Content'
 
 export type Props = {
@@ -18,6 +18,7 @@ const Layout = async ({ children }: Props) => {
   const updates = await getSortedContentData('updates')
   const chapters = await getSortedContentData('chapters')
   const lore = await getSortedContentData('lore')
+  const home = await getContent('home')
   return (
     <html>
       <Head>
@@ -27,7 +28,7 @@ const Layout = async ({ children }: Props) => {
       </Head>
       <body>
         <div className={styles.container}>
-          <Providers content={{ updates, chapters, lore }}>
+          <Providers content={{ updates, chapters, lore, home }}>
             <div className={styles.split}>
               <div className={styles.nav}>
                 <Nav />

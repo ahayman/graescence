@@ -54,4 +54,12 @@
     margin-left: 3em;
     margin-bottom: 0.5rem;
   }
+
+  li {
+    margin-bottom: var(--reading-paragraph-spacing);
+  }
+
+  del {
+    color: var(--foreground-secondary-color);
+  }
 }

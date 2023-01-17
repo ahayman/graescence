@@ -82,8 +82,12 @@ export const Storage = {
   get: (name: StorageVariable) => {
     return localStorage.getItem(name) ?? undefined
   },
-  set: (name: StorageVariable, value: string) => {
-    localStorage.setItem(name, value)
+  set: (name: StorageVariable, value?: string) => {
+    if (value) {
+      localStorage.setItem(name, value)
+    } else {
+      localStorage.removeItem(name)
+    }
   },
   getValue: (name: StorageVariable, defaultValue: number = 1) => {
     let variable = localStorage.getItem(name) ?? undefined

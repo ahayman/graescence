@@ -9,9 +9,10 @@ export type Props = {
   updates: PostData[]
   chapters: ChapterData[]
   lore: LoreData[]
+  home: string
 }
 
-const ContentProvider = ({ children, updates, chapters, lore }: Props) => {
+const ContentProvider = ({ children, updates, chapters, lore, home }: Props) => {
   const loreData = useMemo(() => extractLoreFromData(lore), [lore])
   const chapterData = useMemo(() => extractChaptersFromData(chapters), [chapters])
   return (
@@ -20,6 +21,7 @@ const ContentProvider = ({ children, updates, chapters, lore }: Props) => {
         lore: loreData,
         chapters: chapterData,
         updates,
+        home,
       }}>
       {children}
     </ContentContext.Provider>

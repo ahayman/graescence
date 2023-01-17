@@ -12,13 +12,14 @@ export type Props = {
     updates: PostData[]
     chapters: ChapterData[]
     lore: LoreData[]
+    home: string
   }
 }
 
-const Providers = ({ children, content: { updates, chapters, lore } }: Props) => {
+const Providers = ({ children, content: { updates, chapters, lore, home } }: Props) => {
   return (
     <OptionsProvider>
-      <ContentProvider updates={updates} chapters={chapters} lore={lore}>
+      <ContentProvider updates={updates} chapters={chapters} lore={lore} home={home}>
         <DisplayProvider>
           <ProgressProvider>{children}</ProgressProvider>
         </DisplayProvider>

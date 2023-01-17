@@ -101,7 +101,6 @@ const LoreHub = () => {
               )}
             </ContentBlock>
           ))}
-          <br />
         </section>
       ))}
     </>
