@@ -2,7 +2,7 @@
 title: Glass & Crystal
 date: '2023-01-02'
 category: Magic & Tech
-tags: Glass, Crystal
+tags: Glass, Crystal, glass, crystal
 ---
 
 Glass is a term used to describe the effect that occurs when "shaping" graescence into a surface. Since Shapers and Shielders are rare, the term is most often used to describe graetech weapons that shape graescence into pre-defined forms. Those who carry such expensive weapons are said to be "packing glass".

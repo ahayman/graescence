@@ -2,10 +2,10 @@
 title: Casters
 date: '2023-01-02'
 category: Magic & Tech
-tags: Casters, Handcasters, Longcasters, Railcasters, Slingcasters, Snipercasters
+tags: Casters, caster, Handcasters, Longcasters, Railcasters, Slingcasters, Snipercasters
 ---
 
-Casters generally come in two types: slings and rails. Both are designed to fire some sort of small projective at high speeds with relatively good precision (depending on the caster). Like any weapon, they come in a large number of configurations and styles with the requisite breadth of quality. Generally, the configurations can be divided into two main styles: Handcasters and Longcasters.
+Casters generally come in two types: slings and rails. Both are designed to fire some sort of small projective at high speeds with relatively good precision (depending on the caster). Like any weapon, they come in a large number of configurations and styles with the requisite breadth of quality. Generally, the configurations can be divided into two main styles, Handcasters and Longcasters, while the quality of casters tends to be divided into Slings and Rails.
 
 <-- excerpt -->
 
