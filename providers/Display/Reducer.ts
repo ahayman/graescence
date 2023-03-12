@@ -1,11 +1,12 @@
 import { ReducerAction } from '../../lib/types'
-import { State } from './Types'
+import { PopoverContent, State } from './Types'
 
 type Action =
   | ReducerAction<'setChapterTag', { tag?: string | 'All' }>
   | ReducerAction<'setChapterFilter', { filter?: string }>
   | ReducerAction<'setLoreCategory', { category?: string | 'All' }>
   | ReducerAction<'setLoreFilter', { filter?: string }>
+  | ReducerAction<'setPopover', { content?: PopoverContent }>
 
 const Reducer = (state: State, action: Action): State => {
   switch (action.type) {
@@ -17,6 +18,8 @@ const Reducer = (state: State, action: Action): State => {
       return { ...state, loreCategory: action.category }
     case 'setLoreFilter':
       return { ...state, loreFilter: action.filter }
+    case 'setPopover':
+      return { ...state, popover: action.content }
   }
 }
 export default Reducer

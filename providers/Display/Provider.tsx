@@ -1,6 +1,6 @@
 import { createContext, ReactNode, useCallback, useReducer } from 'react'
 import Reducer from './Reducer'
-import { Context } from './Types'
+import { Context, PopoverContent } from './Types'
 
 export type Props = {
   children: ReactNode
@@ -39,11 +39,22 @@ const DisplayProvider = ({ children }: Props) => {
     [dispatch],
   )
 
+  const openPopover = useCallback(
+    (content: PopoverContent) => {
+      dispatch({ type: 'setPopover', content })
+    },
+    [dispatch],
+  )
+
+  const closePopover = useCallback(() => {
+    dispatch({ type: 'setPopover' })
+  }, [dispatch])
+
   return (
     <DisplayContext.Provider
       value={{
         state,
-        actions: { setChapterTag, setChapterFilter, setLoreCategory, setLoreFilter },
+        actions: { setChapterTag, setChapterFilter, setLoreCategory, setLoreFilter, openPopover, closePopover },
       }}>
       {children}
     </DisplayContext.Provider>

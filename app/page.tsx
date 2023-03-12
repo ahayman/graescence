@@ -19,8 +19,7 @@ const Home = () => {
   const latestChapter = chapters.items[chapters.items.length - 1]
   const latestPost = updates[updates.length - 1]
   const currentChapter = currentChapterId ? chapters.items[chapters.byID[currentChapterId]] : undefined
-  console.log('currentChapterId: ', currentChapterId)
-  console.log('currentChapter: ', currentChapter)
+
   return (
     <>
       <Header type="Primary">

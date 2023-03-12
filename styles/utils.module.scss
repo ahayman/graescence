@@ -1,3 +1,5 @@
+@use '../styles/mixins' as *;
+
 .heading2Xl {
   font-size: 2.5rem;
   line-height: 1.2;
@@ -34,6 +36,9 @@
   background-color: var(--primary-header-color);
   padding: 4pt 5pt;
   font-size: 1.5rem;
+    @include mobile {
+      padding: 1pt 5pt;
+    }
 }
 
 .secondaryHeader {
@@ -106,4 +111,11 @@
 .leftRounded {
   border-top-left-radius: 5pt;
   border-bottom-left-radius: 5pt;
+}
+
+.sticky {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  z-index: 9999;
 }

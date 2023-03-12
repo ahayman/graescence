@@ -14,21 +14,27 @@ import Tags from '../../../components/Tags/Tags'
 import { classes } from '../../../lib/utils'
 import Link from 'next/link'
 import { ProgressContext } from '../../../providers/Progress/Provider'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faNotesMedical, faNoteSticky } from '@fortawesome/free-solid-svg-icons'
+import { faNoteSticky, faListSquares } from '@fortawesome/free-solid-svg-icons'
 import Popover from '../../../components/Popover/Popover'
+import { useChapterLore } from './hooks/useChapterLore'
+import ChapterLore from './chapterLore'
+import { DisplayContext } from '../../../providers/Display/Provider'
 
 export type Props = {
   id: string
 }
 
 const Chapter = ({ id }: Props) => {
-  const { chapters } = useContext(ContentContext)
+  const {
+    state: { popover },
+  } = useContext(DisplayContext)
+  const highlightLore = popover?.name === 'ChapterLore'
+  const { chapters, lore } = useContext(ContentContext)
   const {
     actions: { updateCurrentChapter },
   } = useContext(ProgressContext)
   const chapterIdx = chapters.byID[id]
-  const chapter = chapters.items[chapterIdx]
+  const chapter = useChapterLore(chapters.items[chapterIdx], lore.items)
   const nextChapter = chapters.items[chapterIdx + 1]
   const prevChapter = chapters.items[chapterIdx - 1]
 
@@ -41,7 +47,7 @@ const Chapter = ({ id }: Props) => {
   if (!chapter) {
     return <div> No Chapter Found!</div>
   }
-  const { chapterNo, title, date, volumeNo, html, tags, notes } = chapter
+  const { chapterNo, title, date, volumeNo, html, tags, notes, highlightedHtml } = chapter
 
   const chapterNav = () => {
     if (!nextChapter && !prevChapter) {
@@ -71,15 +77,20 @@ const Chapter = ({ id }: Props) => {
 
   return (
     <>
-      <Header type="Primary">
+      <Header type="Primary" sticky>
         <Row horizontal="space-between" vertical="center">
-          {title}
+          {`${chapterNo} | ${title}`}
           <Row>
             <ReadingOptions />
             {!!notes && (
-              <Popover style={{ marginLeft: 10 }} icon={faNoteSticky}>
+              <Popover style={{ marginLeft: 20 }} icon={faNoteSticky} name="ChapterNotes">
                 <Header type="Secondary" title="Author Notes" />
                 <div style={{ padding: 5 }} className={postStyles.post} dangerouslySetInnerHTML={{ __html: notes }} />
+              </Popover>
+            )}
+            {chapter.lore.length > 0 && (
+              <Popover style={{ marginLeft: 20 }} icon={faListSquares} name="ChapterLore">
+                <ChapterLore data={chapter.lore} />
               </Popover>
             )}
           </Row>
@@ -101,7 +112,10 @@ const Chapter = ({ id }: Props) => {
         </Row>
       </Header>
       <ContentBlock>
-        <div className={postStyles.post} dangerouslySetInnerHTML={{ __html: html }} />
+        <div
+          className={postStyles.post}
+          dangerouslySetInnerHTML={{ __html: highlightLore ? highlightedHtml ?? html : html }}
+        />
       </ContentBlock>
       {!!notes && (
         <>

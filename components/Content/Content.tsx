@@ -1,20 +1,33 @@
 'use client'
 import Script from 'next/script'
-import { ReactNode, useContext, useEffect, useState } from 'react'
+import { ReactNode, useContext, useEffect, useId, useState, MouseEvent } from 'react'
 import { DisplayContext } from '../../providers/Display/Provider'
 import ContentBlock from '../ContentBlock/ContentBlock'
-import Row from '../Row'
+import { classes } from '../../lib/utils'
 import styles from './Content.module.scss'
+import popoverStyles from '../Popover/Popover.module.scss'
 
 type Props = {
   children: ReactNode
 }
 const Content = ({ children }: Props) => {
   const [load, setLoad] = useState(false)
+  const {
+    state: { popover },
+    actions: { closePopover },
+  } = useContext(DisplayContext)
+  const contId = useId()
 
   //Note: Displaying after an initial render allows user variables to load before display.
   //This prevents text from displaying, then re-displaying with the loaded parameters.
   useEffect(() => setLoad(true), [])
+
+  const toggle = (event: MouseEvent<HTMLDivElement>) => {
+    const container = document.getElementById(contId)
+    if (event.target === container) {
+      closePopover()
+    }
+  }
 
   return (
     <div className={styles.mainContainer}>
@@ -44,6 +57,17 @@ const Content = ({ children }: Props) => {
         <ContentBlock>
           <div id="commento"></div>
         </ContentBlock>
+      </div>
+      <div
+        id={contId}
+        onClick={event => toggle(event)}
+        className={classes(
+          popoverStyles.popoverContainer,
+          popover !== undefined ? popoverStyles.popoverShowing : popoverStyles.popoverHiding,
+        )}>
+        <div style={{ marginTop: popover?.top, marginRight: popover?.right }} className={popoverStyles.popover}>
+          {popover?.content}
+        </div>
       </div>
     </div>
   )

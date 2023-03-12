@@ -7,6 +7,7 @@
   border-style: groove;
   overflow: hidden;
   max-width: max(calc(var(--max-content-width) / 2), 30rem);
+  z-index: 9999;
 }
 
 .popoverContainer {

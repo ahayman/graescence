@@ -23,8 +23,14 @@ const Cache: { [key in ContentType]: ContentData[key][] | undefined } = {
   lore: undefined,
 }
 
+/**
+ * The definition of content includes the type of content along with the data.
+ */
 export type ContentDefinition<Type extends ContentType, Data extends {}> = { [key in Type]: Data }
 
+/**
+ * All data associated with a Chapter
+ */
 export type ChapterData = Meta & {
   volumeNo: number
   volumeName?: string
@@ -32,13 +38,21 @@ export type ChapterData = Meta & {
   notes?: string
   tags: string[]
   html: string
+  lore: LoreData[]
+  highlightedHtml?: string
 }
 
+/**
+ * The data associated with a Blog Post/Update
+ */
 export type PostData = Meta & {
   excerpt: string
   html: string
 }
 
+/**
+ * The data associated with Lore
+ */
 export type LoreData = Meta & {
   category: string
   tags: string[]
@@ -46,21 +60,34 @@ export type LoreData = Meta & {
   html: string
 }
 
+/**
+ * Content Data is a union type that represents Updates, Chapters,
+ * and Lore.
+ */
 type ContentData = ContentDefinition<'updates', PostData> &
   ContentDefinition<'chapters', ChapterData> &
   ContentDefinition<'lore', LoreData>
 
+/// Metadat common to all Content
 export type Meta = ContentId & {
   title: string
   date: string
 }
 
+/// Content ID for all content.
 export type ContentId = {
   id: string
 }
 
 export type PageContent = 'home'
 
+/**
+ * The primary function to extract the content data from the front matter
+ * @param type The type of data to extract from the front matter.
+ * @param id  The id, usually derived from the filename. Needed to fill out the content data.
+ * @param front  The front matter to extract data from.
+ * @returns
+ */
 const extractData = async <T extends ContentType>(
   type: T,
   id: string,
@@ -95,7 +122,18 @@ const extractData = async <T extends ContentType>(
       const processedNotes = notesMd ? await remark().use(remarkGfm).use(HTML).process(notesMd.trim()) : undefined
       const html = processedContent.toString()
       const notes = processedNotes?.toString()
-      const extract: ContentData['chapters'] = { id, title, date, volumeNo, chapterNo, tags, html, volumeName, notes }
+      const extract: ContentData['chapters'] = {
+        id,
+        title,
+        date,
+        volumeNo,
+        chapterNo,
+        tags,
+        html,
+        volumeName,
+        notes,
+        lore: [],
+      }
       return extract as ContentData[T]
     }
     case 'updates': {
@@ -133,6 +171,10 @@ const extractData = async <T extends ContentType>(
 
 type ContentSortFn<T extends ContentType> = (l: ContentData[T], r: ContentData[T]) => number
 
+/**
+ * A sort function to sort content data. Sort order depends on the type
+ * of data.
+ */
 const sortFn = <T extends ContentType>(type: T): ContentSortFn<T> => {
   if (type === 'chapters') {
     const sort: ContentSortFn<'chapters'> = (l, r) => {
@@ -171,6 +213,10 @@ export const getContent = async (type: PageContent): Promise<string> => {
   }
 }
 
+/**
+ * Generates RSS data from the content, and then writes the
+ * rss data to public/feeds folder.
+ */
 export const generateRSS = async (type: ContentType) => {
   const data = await getSortedContentData(type)
   const title = `${process.env.SITE_NAME ?? 'Graescence'} ${type.charAt(0).toUpperCase() + type.slice(1)} Feed`
@@ -209,6 +255,11 @@ export const generateRSS = async (type: ContentType) => {
   fs.writeFileSync(`./public/feeds/${type}/feed.json`, feed.json1())
 }
 
+/**
+ * Retrieves content data from the provided directory, then recursively
+ * retrieves additional content data from subfolders. If no directory is provided,
+ * then the root directory for the specified type is used.
+ */
 export const getSortedContentData = async <T extends ContentType>(
   type: T,
   dir: string = contentTypeDir(type),

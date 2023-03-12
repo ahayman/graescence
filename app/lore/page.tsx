@@ -1,8 +1,6 @@
 'use client'
-import Link from 'next/link'
 import { useContext, useEffect, useMemo, useState } from 'react'
 import { LoreData } from '../../api/contentData'
-import ContentBlock from '../../components/ContentBlock/ContentBlock'
 import Header from '../../components/Header/Header'
 import Row from '../../components/Row'
 import SearchField from '../../components/Search/SearchField'
@@ -10,9 +8,8 @@ import Tags from '../../components/Tags/Tags'
 import { useStateDebouncer } from '../../lib/useStateDebouncert'
 import { ContentContext } from '../../providers/Content/Provider'
 import { DisplayContext } from '../../providers/Display/Provider'
-import postStyles from '../../styles/post.module.scss'
-import utilStyles from '../../styles/utils.module.scss'
 import styles from './lore.module.scss'
+import LoreItem from './loreItem'
 
 type LoreViewData = {
   category: string
@@ -84,22 +81,7 @@ const LoreHub = () => {
         <section key={viewData.category}>
           <Header title={viewData.category} type="Secondary" />
           {viewData.items.map(item => (
-            <ContentBlock key={item.id}>
-              <Link href={`/lore/${item.id}`}>
-                <h4>{item.title}</h4>
-              </Link>
-              <div className={styles.tagsRow}>
-                <Tags tags={item.tags} />
-              </div>
-              <div className={postStyles.post} dangerouslySetInnerHTML={{ __html: item.excerpt }} />
-              {item.excerpt.length < item.html.length && (
-                <Row horizontal="end">
-                  <Link className={utilStyles.coloredLink} href={`/lore/${item.id}`}>
-                    {'More →'}
-                  </Link>
-                </Row>
-              )}
-            </ContentBlock>
+            <LoreItem key={item.id} lore={item} />
           ))}
         </section>
       ))}
