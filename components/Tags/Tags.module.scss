@@ -1,5 +1,8 @@
 
 .container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
   padding: 0pt 0pt;
   flex-wrap: wrap;
 }
@@ -10,7 +13,6 @@
   margin-right: 5pt;
   background-color: var(--accent-color);
   color: var(--foreground-color);
-  margin-bottom: 4pt;
   font-size: 0.8rem;
 }
 
@@ -20,6 +22,5 @@
   padding: 2pt 8pt;
   border-radius: 10pt;
   margin-right: 5pt;
-  margin-bottom: 4pt;
   font-size: 0.8rem;
 }

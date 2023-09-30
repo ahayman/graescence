@@ -57,16 +57,12 @@ const Chapter = ({ id }: Props) => {
       <ContentBlock>
         <Row className={styles.bottomNav} horizontal="space-between">
           {prevChapter ? (
-            <Link
-              className={utilStyles.coloredLink}
-              href={`chapters/${prevChapter.id}`}>{`← ${prevChapter.title}`}</Link>
+            <Link className={utilStyles.coloredLink} href={`${prevChapter.id}`}>{`← ${prevChapter.title}`}</Link>
           ) : (
             <div />
           )}
           {nextChapter ? (
-            <Link
-              className={utilStyles.coloredLink}
-              href={`chapters/${nextChapter.id}`}>{`${nextChapter.title} →`}</Link>
+            <Link className={utilStyles.coloredLink} href={`${nextChapter.id}`}>{`${nextChapter.title} →`}</Link>
           ) : (
             <div />
           )}
@@ -79,7 +75,10 @@ const Chapter = ({ id }: Props) => {
     <>
       <Header type="Primary" sticky>
         <Row horizontal="space-between" vertical="center">
-          {`${chapterNo} | ${title}`}
+          <Row>
+            <div style={{ marginRight: 5 }}>{`${chapterNo} | ${title}`}</div>
+            <Tags tags={tags} />
+          </Row>
           <Row>
             <ReadingOptions />
             {!!notes && (
@@ -98,17 +97,14 @@ const Chapter = ({ id }: Props) => {
       </Header>
       <Header type="Secondary">
         <Row horizontal="space-between" vertical="center">
-          <Tags tags={tags} />
-          <Column>
-            {date && (
-              <div className={classes(utilStyles.lightText, utilStyles.smallText)}>
-                <Date dateString={date} />
-              </div>
-            )}
+          <div className={classes(utilStyles.lightText, utilStyles.smallText)}>
+            {`Volume ${volumeNo}, Chapter ${chapterNo}`}
+          </div>
+          {date && (
             <div className={classes(utilStyles.lightText, utilStyles.smallText)}>
-              {`Volume ${volumeNo}, Chapter ${chapterNo}`}
+              <Date dateString={date} />
             </div>
-          </Column>
+          )}
         </Row>
       </Header>
       <ContentBlock>

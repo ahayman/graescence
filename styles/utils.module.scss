@@ -3,7 +3,7 @@
 .heading2Xl {
   font-size: 2.5rem;
   line-height: 1.2;
-  font-weight: 800;
+  font-weight: 400;
   letter-spacing: -0.05rem;
   margin: 1rem 0;
 }
@@ -11,7 +11,7 @@
 .headingXl {
   font-size: 2rem;
   line-height: 1.3;
-  font-weight: 800;
+  font-weight: 400;
   letter-spacing: -0.05rem;
   margin: 1rem 0;
 }
@@ -35,7 +35,7 @@
   width: 100%;
   background-color: var(--primary-header-color);
   padding: 4pt 5pt;
-  font-size: 1.5rem;
+  font-size: 1.3rem;
     @include mobile {
       padding: 1pt 5pt;
     }
@@ -43,8 +43,14 @@
 
 .secondaryHeader {
   background-color: var(--secondary-header-color);
+  padding: 3pt 2pt;
+  font-size: 1.2rem;
+}
+
+.tertiaryHeader {
   padding: 3pt 4pt;
   font-size: 1.2rem;
+  text-decoration: underline;
 }
 
 .colorInherit {

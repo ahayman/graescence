@@ -36,7 +36,7 @@ const Home = () => {
           <Header type="Secondary" title="Continue Reading" />
           <ContentBlock>
             <Link href={`/chapters/${currentChapter.id}`}>
-              <h4>{currentChapter.title}</h4>
+              <Header type="Tertiary" title={currentChapter.title} />
               {currentChapter.date && (
                 <div className={classes(utilStyles.lightText, utilStyles.smallText)}>
                   <Date dateString={currentChapter.date} />
@@ -51,7 +51,7 @@ const Home = () => {
           <Header type="Secondary" title="Latest Chapter" />
           <ContentBlock>
             <Link href={`/chapters/${latestChapter.id}`}>
-              <h4>{latestChapter.title}</h4>
+              <Header type="Tertiary" title={latestChapter.title} />
               {latestChapter.date && (
                 <div className={classes(utilStyles.lightText, utilStyles.smallText)}>
                   <Date dateString={latestChapter.date} />
@@ -66,7 +66,7 @@ const Home = () => {
           <Header type="Secondary" title="Latest Update" />
           <ContentBlock>
             <Link href={`/updates/${latestPost.id}`}>
-              <h4>{latestPost.title}</h4>
+              <Header type="Tertiary" title={latestPost.title} />
               <div className={[utilStyles.lightText, utilStyles.smallText].join(' ')}>
                 <Date dateString={latestPost.date} />
               </div>

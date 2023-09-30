@@ -104,8 +104,10 @@ const TOC = () => {
             <ContentBlock>
               {vol.chapters.map(({ id, tags, date, title, chapterNo }) => (
                 <Link href={`/chapters/${id}`} key={id}>
-                  <Row className={styles.chapterRow}>
-                    <h4 className={styles.chapterTitle}>{`${chapterNo} | ${title}`}</h4>
+                  <Row horizontal="center" className={styles.chapterRow}>
+                    <div className={styles.chapterTitle}>
+                      {chapterNo} | {title}
+                    </div>
                     <Tags tags={tags} />
                     <div style={{ flex: 1 }} />
                     {date && (

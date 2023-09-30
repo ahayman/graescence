@@ -6,6 +6,7 @@ import Tags from '../../components/Tags/Tags'
 import styles from './lore.module.scss'
 import postStyles from '../../styles/post.module.scss'
 import utilStyles from '../../styles/utils.module.scss'
+import Header from '../../components/Header/Header'
 
 export type Props = {
   lore: LoreData
@@ -13,7 +14,7 @@ export type Props = {
 const LoreItem = ({ lore }: Props) => (
   <ContentBlock key={lore.id}>
     <Link href={`/lore/${lore.id}`}>
-      <h4>{lore.title}</h4>
+      <Header type="Tertiary" title={lore.title} />
     </Link>
     <div className={styles.tagsRow}>
       <Tags tags={lore.tags} />

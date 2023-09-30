@@ -59,16 +59,16 @@ const Reducer = (state: State, action: Action): State => {
       return action.state
     case 'resetReadingOptions': {
       const readingOptions: ReadingOptions = {
-        font: 'Arial',
+        font: 'Helvetica',
         showOptions: true,
         fontSize: 1,
-        paragraphIndent: 2,
-        paragraphSpacing: 0.5,
-        lineSpacing: 1.35,
+        paragraphIndent: 3,
+        paragraphSpacing: 0,
+        lineSpacing: 1.2,
         letterSpacing: 0,
         wordSpacing: 0,
         textAlign: 'left',
-        readingWidth: 60,
+        readingWidth: 50,
       }
       Global.set('--reading-font-family', readingOptions.font)
       Global.set('--reading-text-align', readingOptions.textAlign)

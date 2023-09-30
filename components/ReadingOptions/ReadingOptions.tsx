@@ -1,11 +1,9 @@
-import { useContext, useEffect, useRef, MouseEvent } from 'react'
+import { useContext, useEffect } from 'react'
 import { OptionsContext } from '../../providers/Options/Provider'
 import styles from './ReadingOptions.module.scss'
-import Column from '../Column'
 import Row from '../Row'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faGlasses, faRefresh } from '@fortawesome/free-solid-svg-icons'
-import { classes } from '../../lib/utils'
+import { faRefresh, faSliders } from '@fortawesome/free-solid-svg-icons'
 import TextAlignSelect from './TextAlignSelect'
 import ReadingAdjustment from './ReadingAdjustment'
 import FontSelect from './FontSelect'
@@ -32,7 +30,7 @@ const ReadingOptions = () => {
   }, [setShowReadingOptions])
 
   return (
-    <Popover icon={faGlasses} name="ReadingOptions">
+    <Popover icon={faSliders} name="ReadingOptions">
       <div className={styles.optionHeader}>Text</div>
       <FontSelect selected={font} onSelect={selectReadingFont} />
       <ReadingAdjustment

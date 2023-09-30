@@ -1,6 +1,7 @@
 import { LoreData } from '../../../api/contentData'
 import Header from '../../../components/Header/Header'
 import LoreItem from '../../lore/loreItem'
+import styles from './chapter.module.scss'
 
 export type Props = {
   data: LoreData[]
@@ -8,9 +9,11 @@ export type Props = {
 const ChapterLore = ({ data }: Props) => (
   <>
     <Header type="Primary" title="Lore" />
-    {data.map(item => (
-      <LoreItem key={item.id} lore={item} />
-    ))}
+    <div className={styles.loreContainer}>
+      {data.map(item => (
+        <LoreItem key={item.id} lore={item} />
+      ))}
+    </div>
   </>
 )
 export default ChapterLore

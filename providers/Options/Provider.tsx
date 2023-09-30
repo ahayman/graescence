@@ -5,16 +5,16 @@ import { Adjustment, Context, ReadingOption, State, TextAlign } from './Types'
 
 const InitialState: State = {
   readingOptions: {
-    font: 'Arial',
+    font: 'Helvetica',
     showOptions: false,
     fontSize: 1,
-    paragraphIndent: 1,
-    paragraphSpacing: 1,
+    paragraphIndent: 3,
+    paragraphSpacing: 0,
     lineSpacing: 1,
     letterSpacing: 1,
     wordSpacing: 1,
     textAlign: 'left',
-    readingWidth: 60,
+    readingWidth: 50,
   },
   uiTheme: 'dark',
 }
@@ -102,17 +102,17 @@ const Provider = ({ children }: Props) => {
   )
 
   useEffect(() => {
-    const fontFamily = getSetInitial('--reading-font-family') ?? FontDefinitions['Arial'].family
-    const font = Object.values(FontDefinitions).find(d => d.family === fontFamily)?.name ?? 'Arial'
+    const fontFamily = getSetInitial('--reading-font-family') ?? FontDefinitions['Helvetica'].family
+    const font = Object.values(FontDefinitions).find(d => d.family === fontFamily)?.name ?? 'Helvetica'
     const state: State = {
       readingOptions: {
         showOptions: false,
         font,
         fontSize: getSetInitialValue('--reading-font-size'),
-        paragraphIndent: getSetInitialValue('--reading-paragraph-indent'),
-        paragraphSpacing: getSetInitialValue('--reading-paragraph-spacing'),
+        paragraphIndent: getSetInitialValue('--reading-paragraph-indent', 2.2),
+        paragraphSpacing: getSetInitialValue('--reading-paragraph-spacing', 0),
         letterSpacing: getSetInitialValue('--reading-letter-spacing', 0),
-        lineSpacing: getSetInitialValue('--reading-line-spacing'),
+        lineSpacing: getSetInitialValue('--reading-line-spacing', 1.3),
         wordSpacing: getSetInitialValue('--reading-word-spacing', 0),
         textAlign: (getSetInitial('--reading-text-align') as TextAlign) || 'left',
         readingWidth: getSetInitialValue('--max-content-width', 50),

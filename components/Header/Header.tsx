@@ -7,10 +7,12 @@ const styleFor = (type: HeaderType): string => {
       return styles.primaryHeader
     case 'Secondary':
       return styles.secondaryHeader
+    case 'Tertiary':
+      return styles.tertiaryHeader
   }
 }
 
-export type HeaderType = 'Primary' | 'Secondary'
+export type HeaderType = 'Primary' | 'Secondary' | 'Tertiary'
 
 export interface Props extends React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
   type: HeaderType
