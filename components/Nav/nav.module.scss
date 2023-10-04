@@ -102,7 +102,11 @@
 
 .navHR {
   margin: 2pt 3pt;
-  border-color: var(--highlight-color);
+  border: 0;
+  height: 1px;
+  border-top: 1px solid var(--highlight-color);
+  background-color: var(--highlight-color);
+  color: var(--highlight-color);
   align-self: stretch;
 
   @include mobile {
