@@ -34,7 +34,7 @@
 .primaryHeader {
   width: 100%;
   background-color: var(--primary-header-color);
-  padding: 4pt 5pt;
+  padding: 4pt 6pt;
   font-size: 1.3rem;
     @include mobile {
       padding: 1pt 5pt;
@@ -43,7 +43,7 @@
 
 .secondaryHeader {
   background-color: var(--secondary-header-color);
-  padding: 3pt 2pt;
+  padding: 3pt 8pt;
   font-size: 1.2rem;
 }
 
@@ -51,6 +51,25 @@
   padding: 3pt 4pt;
   font-size: 1.2rem;
   text-decoration: underline;
+}
+
+.infoBlock {
+  border-radius: 6pt;
+  overflow: hidden;
+  margin: 10pt 5pt;
+  @include mobile {
+    margin: 5pt 10pt;
+  }
+}
+
+.infoContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  @include mobile {
+    flex-direction: column;
+    justify-content: start;
+  }
 }
 
 .colorInherit {

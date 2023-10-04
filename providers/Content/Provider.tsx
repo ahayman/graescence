@@ -1,18 +1,17 @@
 import { createContext, ReactNode, useMemo } from 'react'
-import { ChapterMeta, LoreMeta, PostMeta } from '../../api/contentData'
+import { ChapterMeta, LoreMeta, Meta } from '../../api/contentData'
 import { Chapters, Lore, State } from './Types'
 
 export const ContentContext = createContext<State>({} as any)
 
 export type Props = {
   children: ReactNode
-  updates: PostMeta[]
+  updates: Meta[]
   chapters: ChapterMeta[]
   lore: LoreMeta[]
-  home: string
 }
 
-const ContentProvider = ({ children, updates, chapters, lore, home }: Props) => {
+const ContentProvider = ({ children, updates, chapters, lore }: Props) => {
   const loreData = useMemo(() => extractLoreFromData(lore), [lore])
   const chapterData = useMemo(() => extractChaptersFromData(chapters), [chapters])
   return (
@@ -21,7 +20,6 @@ const ContentProvider = ({ children, updates, chapters, lore, home }: Props) => 
         lore: loreData,
         chapters: chapterData,
         updates,
-        home,
       }}>
       {children}
     </ContentContext.Provider>

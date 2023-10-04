@@ -5,7 +5,7 @@
     'Fira Mono', 'Droid Sans Mono', 'Courier New', monospace;
 
   --background-color: #32302f;
-  --background-secondary-color: #211e1d;
+  --background-secondary-color: #151312;
   --text-entry-background-color: #181614;
   --border-highlight-color: #000;
   --foreground-color: #fbf1c7;
@@ -13,7 +13,7 @@
   --highlight-color: #714f09;
   --accent-color: rgb(15, 82, 95);
   --error-color: #ae3c38;
-  --primary-header-color: #602803;
+  --primary-header-color: #011f2d;
   --secondary-header-color: #2e2a28;
   --max-content-width: 60rem;
 
@@ -41,21 +41,21 @@
 :root[data-theme="light"] {
   --foreground-color: #322b1e;
   --foreground-secondary-color: #504735;
-  --background-color: #f2debf;
-  --background-secondary-color: #ffeacb;
+  --background-color: #f1eee9;
+  --background-secondary-color: #fffcf8;
   --text-entry-background-color: #fff9ef;
   --border-highlight-color: #fff;
   --highlight-color: #a18b64;
-  --accent-color: rgb(163, 204, 212);
+  --accent-color: rgb(177, 217, 225);
   --error-color: #901712;
-  --primary-header-color: #cd965c;
-  --secondary-header-color: #d9c19e;
+  --primary-header-color: #a5bcc9;
+  --secondary-header-color: #eceae8;
 
   --link-color: #114270;
   --select-foreground-color: #322b1e;
-  --select-background-color: #c7dda4;
+  --select-background-color: #d4e1c0;
   --unSelect-foreground-color: #322b1e;
-  --unSelect-background-color: #ffeacb;
+  --unSelect-background-color: #f2f2f2;
 }
 
 * {

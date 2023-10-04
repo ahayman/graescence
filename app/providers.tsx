@@ -1,5 +1,5 @@
 'use client'
-import { PostMeta, ChapterMeta, LoreMeta } from '../api/contentData'
+import { Meta, ChapterMeta, LoreMeta } from '../api/contentData'
 import { ReactNode } from 'react'
 import ContentProvider from '../providers/Content/Provider'
 import OptionsProvider from '../providers/Options/Provider'
@@ -9,17 +9,16 @@ import DisplayProvider from '../providers/Display/Provider'
 export type Props = {
   children: ReactNode
   content: {
-    updates: PostMeta[]
+    updates: Meta[]
     chapters: ChapterMeta[]
     lore: LoreMeta[]
-    home: string
   }
 }
 
-const Providers = ({ children, content: { updates, chapters, lore, home } }: Props) => {
+const Providers = ({ children, content: { updates, chapters, lore } }: Props) => {
   return (
     <OptionsProvider>
-      <ContentProvider updates={updates} chapters={chapters} lore={lore} home={home}>
+      <ContentProvider updates={updates} chapters={chapters} lore={lore}>
         <DisplayProvider>
           <ProgressProvider>{children}</ProgressProvider>
         </DisplayProvider>
