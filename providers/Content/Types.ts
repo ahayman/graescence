@@ -1,10 +1,10 @@
-import { ChapterData, PostData, LoreData } from '../../api/contentData'
+import { LoreMeta, ChapterMeta, PostMeta } from '../../api/contentData'
 
 export type Lore = {
   byID: { [key: string]: number }
   byCategory: { [key: string]: number[] }
   byTag: { [key: string]: number[] }
-  items: LoreData[]
+  items: LoreMeta[]
 }
 
 export type Chapters = {
@@ -12,11 +12,11 @@ export type Chapters = {
   byTag: { [key: string]: number[] }
   byVolume: { [key: number]: number[] }
   volumeName: { [key: number]: string | undefined }
-  items: ChapterData[]
+  items: ChapterMeta[]
 }
 
 export type State = {
-  updates: PostData[]
+  updates: PostMeta[]
   chapters: Chapters
   lore: Lore
   home: string

@@ -17,7 +17,7 @@ const Updates = () => {
     <>
       <Column className={`${utilStyles.headingMd} ${utilStyles.padding1px}`}>
         <Header type="Primary" title="Updates" />
-        {updates.map(({ id, date, title, excerpt, html }) => (
+        {updates.map(({ id, date, title, excerpt }) => (
           <Link href={`/updates/${id}`} key={id}>
             <Header type="Secondary">
               <Row horizontal="space-between" vertical="center">
@@ -30,13 +30,11 @@ const Updates = () => {
             <ContentBlock key={id}>
               <div className={[utilStyles.lightText, utilStyles.smallText].join(' ')}></div>
               {excerpt && <div className={postStyles.post} dangerouslySetInnerHTML={{ __html: excerpt }} />}
-              {excerpt.length < html.length && (
-                <Row horizontal="end">
-                  <Link className={utilStyles.coloredLink} href={`/updates/${id}`}>
-                    {'More →'}
-                  </Link>
-                </Row>
-              )}
+              <Row horizontal="end">
+                <Link className={utilStyles.coloredLink} href={`/updates/${id}`}>
+                  {'More →'}
+                </Link>
+              </Row>
             </ContentBlock>
           </Link>
         ))}

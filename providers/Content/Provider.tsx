@@ -1,14 +1,14 @@
 import { createContext, ReactNode, useMemo } from 'react'
-import { ChapterData, LoreData, PostData } from '../../api/contentData'
+import { ChapterMeta, LoreMeta, PostMeta } from '../../api/contentData'
 import { Chapters, Lore, State } from './Types'
 
 export const ContentContext = createContext<State>({} as any)
 
 export type Props = {
   children: ReactNode
-  updates: PostData[]
-  chapters: ChapterData[]
-  lore: LoreData[]
+  updates: PostMeta[]
+  chapters: ChapterMeta[]
+  lore: LoreMeta[]
   home: string
 }
 
@@ -29,7 +29,7 @@ const ContentProvider = ({ children, updates, chapters, lore, home }: Props) => 
 }
 export default ContentProvider
 
-const extractChaptersFromData = (items: ChapterData[]): Chapters => {
+const extractChaptersFromData = (items: ChapterMeta[]): Chapters => {
   const byID: { [key: string]: number } = {}
   const byVolume: { [key: string]: number[] } = {}
   const byTag: { [key: string]: number[] } = {}
@@ -59,7 +59,7 @@ const extractChaptersFromData = (items: ChapterData[]): Chapters => {
   return { byID, byVolume, byTag, items, volumeName }
 }
 
-const extractLoreFromData = (items: LoreData[]): Lore => {
+const extractLoreFromData = (items: LoreMeta[]): Lore => {
   const byID: { [key: string]: number } = {}
   const byCategory: { [key: string]: number[] } = {}
   const byTag: { [key: string]: number[] } = {}

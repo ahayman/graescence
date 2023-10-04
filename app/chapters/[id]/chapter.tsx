@@ -5,8 +5,7 @@ import postStyles from '../../../styles/post.module.scss'
 import styles from './chapter.module.scss'
 import ReadingOptions from '../../../components/ReadingOptions/ReadingOptions'
 import Row from '../../../components/Row'
-import Column from '../../../components/Column'
-import { useContext, useEffect, useState } from 'react'
+import { useContext, useEffect } from 'react'
 import { ContentContext } from '../../../providers/Content/Provider'
 import ContentBlock from '../../../components/ContentBlock/ContentBlock'
 import Header from '../../../components/Header/Header'
@@ -16,32 +15,30 @@ import Link from 'next/link'
 import { ProgressContext } from '../../../providers/Progress/Provider'
 import { faNoteSticky, faListSquares } from '@fortawesome/free-solid-svg-icons'
 import Popover from '../../../components/Popover/Popover'
-import { useChapterLore } from './hooks/useChapterLore'
 import ChapterLore from './chapterLore'
 import { DisplayContext } from '../../../providers/Display/Provider'
+import { ChapterData } from '../../../api/contentData'
 
 export type Props = {
   id: string
+  chapter: ChapterData
 }
 
-const Chapter = ({ id }: Props) => {
+const Chapter = ({ id, chapter }: Props) => {
   const {
     state: { popover },
   } = useContext(DisplayContext)
   const highlightLore = popover?.name === 'ChapterLore'
-  const { chapters, lore } = useContext(ContentContext)
+  const { chapters } = useContext(ContentContext)
   const {
     actions: { updateCurrentChapter },
   } = useContext(ProgressContext)
   const chapterIdx = chapters.byID[id]
-  const chapter = useChapterLore(chapters.items[chapterIdx], lore.items)
   const nextChapter = chapters.items[chapterIdx + 1]
   const prevChapter = chapters.items[chapterIdx - 1]
 
   useEffect(() => {
-    if (chapter) {
-      updateCurrentChapter(chapter.id)
-    }
+    updateCurrentChapter(chapter.id)
   }, [chapter, updateCurrentChapter])
 
   if (!chapter) {

@@ -3,24 +3,19 @@ import Date from '../../../components/date'
 import utilStyles from '../../../styles/utils.module.scss'
 import postStyles from '../../../styles/post.module.scss'
 import Row from '../../../components/Row'
-import { useContext } from 'react'
-import { ContentContext } from '../../../providers/Content/Provider'
 import ContentBlock from '../../../components/ContentBlock/ContentBlock'
 import Tags from '../../../components/Tags/Tags'
 import Header from '../../../components/Header/Header'
 import ReadingOptions from '../../../components/ReadingOptions/ReadingOptions'
+import { LoreData } from '../../../api/contentData'
 
 export type Props = {
   id: string
+  lore: LoreData
 }
 
-const Lore = ({ id }: Props) => {
-  const { lore } = useContext(ContentContext)
-  const loreItem = lore.items[lore.byID[id]]
-  if (!loreItem) {
-    return <div> No Chapter Found!</div>
-  }
-  const { title, date, html, tags, category } = loreItem
+const Lore = ({ lore }: Props) => {
+  const { title, date, html, tags, category } = lore
   return (
     <>
       <Header type="Primary">

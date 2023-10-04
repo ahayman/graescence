@@ -14,12 +14,12 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons'
 import Tags from '../../components/Tags/Tags'
 import { IncludeFn } from '../../hooks/useFilter'
-import { ChapterData } from '../../api/contentData'
+import { ChapterMeta } from '../../api/contentData'
 import SearchField from '../../components/Search/SearchField'
 import { DisplayContext } from '../../providers/Display/Provider'
 import { useStateDebouncer } from '../../lib/useStateDebouncert'
 
-const Include: IncludeFn<ChapterData> = (chapter, filter) => {
+const Include: IncludeFn<ChapterMeta> = (chapter, filter) => {
   if (chapter.title.includes(filter)) {
     return true
   }
@@ -32,7 +32,7 @@ const Include: IncludeFn<ChapterData> = (chapter, filter) => {
 type ChapaterViewData = {
   volume: string
   volNo: number
-  chapters: ChapterData[]
+  chapters: ChapterMeta[]
 }
 
 const TOC = () => {
@@ -58,7 +58,7 @@ const TOC = () => {
       return true
     })
 
-    const byVolume: { [k: number]: ChapterData[] } = {}
+    const byVolume: { [k: number]: ChapterMeta[] } = {}
     for (const c of filtered) {
       byVolume[c.volumeNo] = [...(byVolume[c.volumeNo] ?? []), c]
     }

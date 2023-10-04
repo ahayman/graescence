@@ -1,4 +1,4 @@
-import { getAllContentIds, generateRSS } from '../../../api/contentData'
+import { generateRSS, getSortedContentData, LoreData } from '../../../api/contentData'
 import Lore from './lore'
 
 export type Params = {
@@ -7,14 +7,15 @@ export type Params = {
 
 export async function generateStaticParams(): Promise<Params[]> {
   generateRSS('lore')
-  const ids = await getAllContentIds('lore')
-  return ids.map(p => ({ id: p.params.id }))
+  const data = await getSortedContentData('lore')
+  return data.map(d => ({ id: d.id }))
 }
 
 type Props = {
   params: Params
 }
 
-export default function ChapterID({ params: { id } }: Props) {
-  return <Lore id={id} />
+export default async function PageData({ params: { id } }: Props) {
+  const lore = (await getSortedContentData('lore')).find(l => l.id === id)
+  return <Lore id={id} lore={lore!} />
 }

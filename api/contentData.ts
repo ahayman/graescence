@@ -29,33 +29,52 @@ const Cache: { [key in ContentType]: ContentData[key][] | undefined } = {
 export type ContentDefinition<Type extends ContentType, Data extends {}> = { [key in Type]: Data }
 
 /**
- * All data associated with a Chapter
+ * Meta associated with a chapter (missing content)
  */
-export type ChapterData = Meta & {
+export type ChapterMeta = Meta & {
   volumeNo: number
   volumeName?: string
   chapterNo: number
-  notes?: string
   tags: string[]
+}
+
+/**
+ * All data associated with a Chapter
+ */
+export type ChapterData = ChapterMeta & {
+  notes?: string
   html: string
   lore: LoreData[]
-  highlightedHtml?: string
+  highlightedHtml: string
+}
+
+export type PostMeta = Meta & {
+  excerpt: string
 }
 
 /**
  * The data associated with a Blog Post/Update
  */
-export type PostData = Meta & {
-  excerpt: string
+export type PostData = PostMeta & {
   html: string
 }
 
 /**
- * The data associated with Lore
+ * Lore Metatdata includes everything except lore content.
  */
-export type LoreData = Meta & {
+export type LoreMeta = Meta & {
   category: string
   tags: string[]
+}
+
+export type LoreExcerpt = LoreMeta & {
+  excerpt: string
+}
+
+/**
+ * The data associated with Lore (meta + content)
+ */
+export type LoreData = LoreMeta & {
   excerpt: string
   html: string
 }
@@ -122,6 +141,8 @@ const extractData = async <T extends ContentType>(
       const processedNotes = notesMd ? await remark().use(remarkGfm).use(HTML).process(notesMd.trim()) : undefined
       const html = processedContent.toString()
       const notes = processedNotes?.toString()
+      const lore = Cache['lore'] ?? (await getSortedContentData('lore'))
+      const { chapterLore, highlightedHtml } = parseHighlightedLore(html, lore)
       const extract: ContentData['chapters'] = {
         id,
         title,
@@ -132,7 +153,8 @@ const extractData = async <T extends ContentType>(
         html,
         volumeName,
         notes,
-        lore: [],
+        highlightedHtml,
+        lore: chapterLore,
       }
       return extract as ContentData[T]
     }
@@ -268,6 +290,12 @@ export const getSortedContentData = async <T extends ContentType>(
   if (cached !== undefined) {
     return cached
   }
+
+  //If we're retrieving chapter data, and Lore isn't cached, cache the lore first (it's needed for Chapter lore)
+  if (type === 'chapters' && Cache['lore'] === undefined) {
+    getSortedContentData('lore')
+  }
+
   //Remove the rootDirectory and replace slashes with a dot to create a rootId
   const rootDir = contentTypeDir(type)
   const rootId =
@@ -324,4 +352,40 @@ export const getAllContentIds = async (type: ContentType): Promise<StaticParam<C
   return data.map(({ id }) => {
     return { params: { id } }
   })
+}
+
+/**
+ * Takes a chapter's html plus all LoreData and produces a highlighted html string (using class="loreHighlight")
+ * and a subset of lore data that represents all lore within the chapter.
+ */
+const parseHighlightedLore = (
+  chapterHtml: string,
+  lore: LoreData[],
+): { highlightedHtml: string; chapterLore: LoreData[] } => {
+  const chapterLore: LoreData[] = []
+  let highlightedHtml = chapterHtml
+  for (const l of lore) {
+    let add = false
+    for (const tag of l.tags) {
+      const re = new RegExp('\\b' + tag + '\\b', 'g')
+      var indexes: number[] = []
+      let match: RegExpExecArray | null = null
+      while ((match = re.exec(highlightedHtml)) !== null) {
+        indexes.unshift(match.index)
+      }
+      for (const idx of indexes) {
+        add = true
+        highlightedHtml =
+          highlightedHtml.substring(0, idx) +
+          '<span class="loreHighlight">' +
+          tag +
+          '</span>' +
+          highlightedHtml.substring(idx + tag.length)
+      }
+    }
+    if (add) {
+      chapterLore.push(l)
+    }
+  }
+  return { highlightedHtml, chapterLore }
 }
