@@ -249,6 +249,7 @@ export const generateRSS = async (type: ContentType) => {
     title,
     description: `RSS Feed of ${type} from the Graescence Webnovel`,
     copyright: `All rights reserved ${date.getFullYear()}, apotesanon`,
+    link: siteUrl,
     updated: date,
     favicon: siteUrl + '/favicon.ico',
     image: siteUrl + '/images/profile.png',
