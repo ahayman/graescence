@@ -51,12 +51,16 @@ const Chapter = ({ id, chapter }: Props) => {
       <ContentBlock>
         <Row className={styles.bottomNav} horizontal="space-between">
           {prevChapter ? (
-            <Link className={utilStyles.coloredLink} href={`${prevChapter.id}`}>{`← ${prevChapter.title}`}</Link>
+            <Link
+              className={utilStyles.coloredLink}
+              href={`/chapters/${prevChapter.id}`}>{`← ${prevChapter.title}`}</Link>
           ) : (
             <div />
           )}
           {nextChapter ? (
-            <Link className={utilStyles.coloredLink} href={`${nextChapter.id}`}>{`${nextChapter.title} →`}</Link>
+            <Link
+              className={utilStyles.coloredLink}
+              href={`/chapters/${nextChapter.id}`}>{`${nextChapter.title} →`}</Link>
           ) : (
             <div />
           )}
