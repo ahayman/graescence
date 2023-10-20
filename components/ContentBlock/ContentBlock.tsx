@@ -8,7 +8,7 @@ export interface Props extends React.DetailedHTMLProps<React.HTMLAttributes<HTML
 }
 
 const ContentBlock = ({ children, className, ...props }: Props) => (
-  <div {...props} className={classes(className, styles.container)}>
+  <div {...props} className={classes(className, styles.content)}>
     {children}
   </div>
 )

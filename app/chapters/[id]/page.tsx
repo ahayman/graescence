@@ -6,7 +6,7 @@ export type Params = { id: string }
 export async function generateStaticParams(): Promise<Params[]> {
   generateRSS('chapters')
   const data = await getSortedContentData('chapters')
-  return data.map(d => ({ id: d.id, chapter: d }))
+  return data.map(d => ({ id: d.id }))
 }
 
 type Props = {

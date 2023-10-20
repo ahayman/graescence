@@ -41,9 +41,6 @@ const Chapter = ({ id, chapter }: Props) => {
     updateCurrentChapter(chapter.id)
   }, [chapter, updateCurrentChapter])
 
-  if (!chapter) {
-    return <div> No Chapter Found!</div>
-  }
   const { chapterNo, title, date, volumeNo, html, tags, notes, highlightedHtml } = chapter
 
   const chapterNav = () => {
@@ -105,10 +102,7 @@ const Chapter = ({ id, chapter }: Props) => {
         </Row>
       </Header>
       <ContentBlock>
-        <div
-          className={postStyles.post}
-          dangerouslySetInnerHTML={{ __html: highlightLore ? highlightedHtml ?? html : html }}
-        />
+        <div className={postStyles.post} dangerouslySetInnerHTML={{ __html: highlightLore ? highlightedHtml : html }} />
       </ContentBlock>
       {!!notes && (
         <>

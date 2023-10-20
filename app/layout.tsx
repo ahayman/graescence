@@ -54,9 +54,7 @@ const Layout = async ({ children }: Props) => {
         <div className={styles.container}>
           <Providers content={{ updates, chapters, lore }}>
             <div className={styles.split}>
-              <div className={styles.nav}>
-                <Nav />
-              </div>
+              <div className={styles.nav}>{<Nav />}</div>
               <Content>{children}</Content>
             </div>
           </Providers>

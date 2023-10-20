@@ -48,7 +48,10 @@ const Content = ({ children }: Props) => {
       </Script>
       <Script id="commento-script" src="https://comments.aaronhayman.com/js/commento.js" strategy="afterInteractive" />
       <div className={styles.main}>
-        <main>{load ? children : null}</main>
+        <main>
+          <noscript>{children}</noscript>
+          {load ? children : null}
+        </main>
         <ContentBlock>
           <span style={{ color: 'transparent' }}>
             --------------------------------------------------------------------------------------------------------------------------------------------
