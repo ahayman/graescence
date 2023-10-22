@@ -1,6 +1,6 @@
 'use client'
 import Script from 'next/script'
-import { ReactNode, useContext, useEffect, useId, useState, MouseEvent } from 'react'
+import { ReactNode, useContext, useId, MouseEvent } from 'react'
 import { DisplayContext } from '../../providers/Display/Provider'
 import ContentBlock from '../ContentBlock/ContentBlock'
 import { classes } from '../../lib/utils'
@@ -11,23 +11,12 @@ type Props = {
   children: ReactNode
 }
 
-const InitLoad = () => {
-  const load = typeof window == 'undefined'
-  console.log('Init Load: ', load)
-  return load
-}
-
 const Content = ({ children }: Props) => {
-  const [load, setLoad] = useState(InitLoad())
   const {
     state: { popover },
     actions: { closePopover },
   } = useContext(DisplayContext)
   const contId = useId()
-
-  //Note: Displaying after an initial render allows user variables to load before display.
-  //This prevents text from displaying, then re-displaying with the loaded parameters.
-  useEffect(() => setLoad(true), [])
 
   const toggle = (event: MouseEvent<HTMLDivElement>) => {
     const container = document.getElementById(contId)
@@ -56,8 +45,7 @@ const Content = ({ children }: Props) => {
       <Script id="commento-script" src="https://comments.aaronhayman.com/js/commento.js" strategy="afterInteractive" />
       <div className={styles.main}>
         <main>
-          {/* <noscript>{children}</noscript> */}
-          <div style={{ opacity: load ? 1 : 0 }}>{children}</div>
+          <div>{children}</div>
         </main>
         <ContentBlock>
           <span style={{ color: 'transparent' }}>
