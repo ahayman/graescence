@@ -39,7 +39,7 @@ const ReadingOptions = () => {
         onAdjust={adjustReadingOption}
         onSet={setReadingOption}
       />
-      <ReadingAdjustment
+      {/* <ReadingAdjustment
         value={readingOptions}
         option="wordSpacing"
         onAdjust={adjustReadingOption}
@@ -56,7 +56,7 @@ const ReadingOptions = () => {
         option="lineSpacing"
         onAdjust={adjustReadingOption}
         onSet={setReadingOption}
-      />
+      /> */}
       <div style={{ marginTop: 5 }} className={styles.optionHeader}>
         Paragraph
       </div>
