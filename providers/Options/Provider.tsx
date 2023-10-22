@@ -1,3 +1,4 @@
+import { formatDistanceToNowStrict } from 'date-fns'
 import React, { useCallback, useEffect, useReducer } from 'react'
 import { Font, FontDefinitions, Global, GlobalVariable, Storage, UITheme } from '../../lib/globals'
 import Reducer from './Reducer'
@@ -8,7 +9,7 @@ const InitialState: State = {
     font: 'Helvetica',
     showOptions: false,
     fontSize: 1,
-    paragraphIndent: 3,
+    paragraphIndent: 2,
     paragraphSpacing: 0,
     lineSpacing: 1,
     letterSpacing: 1,
@@ -38,10 +39,10 @@ const getSetInitial = (name: GlobalVariable): string | undefined => {
   return value
 }
 
-const getSetInitialValue = (name: GlobalVariable, defaultValue: number = 1): number => {
+const getSetInitialValue = (name: GlobalVariable, defaultValue: number = 1, base: number): number => {
   let value = Storage.getValue(name, defaultValue)
   if (value === undefined) {
-    value = Global.getValue(name, defaultValue)
+    value = Global.getValue(name, defaultValue * base)
     return value
   }
   Global.setValue(name, value)
@@ -51,18 +52,19 @@ const getSetInitialValue = (name: GlobalVariable, defaultValue: number = 1): num
 const InitState = (): State => {
   const fontFamily = getSetInitial('--reading-font-family') ?? FontDefinitions['Helvetica'].family
   const font = Object.values(FontDefinitions).find(d => d.family === fontFamily)?.name ?? 'Helvetica'
+  const fontSize = getSetInitialValue('--reading-font-size', 1, 1)
   const state: State = {
     readingOptions: {
       showOptions: false,
       font,
-      fontSize: getSetInitialValue('--reading-font-size'),
-      paragraphIndent: getSetInitialValue('--reading-paragraph-indent', 2.2),
-      paragraphSpacing: getSetInitialValue('--reading-paragraph-spacing', 0),
-      letterSpacing: getSetInitialValue('--reading-letter-spacing', 0),
-      lineSpacing: getSetInitialValue('--reading-line-spacing', 1.3),
-      wordSpacing: getSetInitialValue('--reading-word-spacing', 0),
+      fontSize,
+      paragraphIndent: getSetInitialValue('--reading-paragraph-indent', 2.2, fontSize),
+      paragraphSpacing: getSetInitialValue('--reading-paragraph-spacing', 0, fontSize),
+      letterSpacing: getSetInitialValue('--reading-letter-spacing', 0, fontSize),
+      lineSpacing: getSetInitialValue('--reading-line-spacing', 1.3, fontSize),
+      wordSpacing: getSetInitialValue('--reading-word-spacing', 0, fontSize),
       textAlign: (getSetInitial('--reading-text-align') as TextAlign) || 'left',
-      readingWidth: getSetInitialValue('--max-content-width', 50),
+      readingWidth: getSetInitialValue('--max-content-width', 50, 1),
     },
     uiTheme: (getSetInitial('data-theme') as UITheme) || 'dark',
   }
@@ -72,7 +74,9 @@ const InitState = (): State => {
 }
 
 const Provider = ({ children }: Props) => {
-  const [state, dispatch] = useReducer(Reducer, typeof window == 'undefined' ? InitialState : InitState())
+  const [state, dispatch] = useReducer(Reducer, typeof window == 'undefined', isServer =>
+    isServer ? InitialState : InitState(),
+  )
 
   const adjustReadingOption = useCallback(
     (option: ReadingOption, adjust: Adjustment) => {

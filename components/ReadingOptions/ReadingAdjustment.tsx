@@ -18,26 +18,18 @@ const OptionText: { [key in ReadingOption]: string } = {
 
 type Props = {
   option: ReadingOption
-  value: ReadingOptions
+  value: number
+  uom: string
   onAdjust: (option: ReadingOption, adjust: Adjustment) => void
-  onSet: (option: ReadingOption, value: number) => void
 }
-const ReadingAdjustment = ({ onAdjust, option, onSet, value }: Props) => (
+const ReadingAdjustment = ({ onAdjust, option, value, uom }: Props) => (
   <Column horizontal="center" className={styles.optionGroup}>
     <span className={styles.optionText}>{OptionText[option]}</span>
     <Row horizontal="space-between" vertical="center" className={styles.row}>
       <div className={styles.button} onClick={() => onAdjust(option, 'decrease')}>
         <FontAwesomeIcon icon={faMinus} className={styles.icon} />
       </div>
-      <input
-        className={styles.slider}
-        type="range"
-        onChange={event => onSet(option, Number.parseFloat(event.target.value))}
-        value={value[option]}
-        min={ReadingParams[option].min}
-        max={ReadingParams[option].max}
-        step={ReadingParams[option].step}
-      />
+      <div className={styles.valueDisplay}>{`${value} ${uom}`}</div>
       <div className={styles.button} onClick={() => onAdjust(option, 'increase')}>
         <FontAwesomeIcon icon={faPlus} className={styles.icon} />
       </div>

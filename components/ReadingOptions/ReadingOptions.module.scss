@@ -62,7 +62,7 @@
 
 .optionGroup {
   margin: 5pt 5pt 0pt;
-  padding: 3pt 0pt;
+  padding: 3pt 5pt;
   border-radius: 5pt;
   background-color: var(--unSelect-background-color);
 }
@@ -73,7 +73,9 @@
 }
 
 .row {
-  padding: 0pt;
+  margin-top: 5pt;
+  padding: 0pt 5pt;
+  width: 100%;
 }
 
 .optionHeader {
@@ -91,6 +93,15 @@
   border-color: transparent;
   background-color: var(--background-secondary-color);
   border-radius: 50pt;
+}
+
+.valueDisplay {
+  display: inline-block;
+  color: var(--foreground-color);
+  font-family: var(--reading-font-family, Helvetica, sans-serif);
+  text-align: center;
+  vertical-align: middle;
+  align-self: stretch;
 }
 
 .buttonSelect {

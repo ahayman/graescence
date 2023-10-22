@@ -13,7 +13,7 @@ import Tags from '../../../components/Tags/Tags'
 import { classes } from '../../../lib/utils'
 import Link from 'next/link'
 import { ProgressContext } from '../../../providers/Progress/Provider'
-import { faNoteSticky, faListSquares } from '@fortawesome/free-solid-svg-icons'
+import { faNoteSticky, faListSquares, faSliders } from '@fortawesome/free-solid-svg-icons'
 import Popover from '../../../components/Popover/Popover'
 import ChapterLore from './chapterLore'
 import { DisplayContext } from '../../../providers/Display/Provider'
@@ -78,7 +78,9 @@ const Chapter = ({ id, chapter }: Props) => {
             <Tags tags={tags} />
           </Row>
           <Row>
-            <ReadingOptions />
+            <Popover icon={faSliders} name="ReadingOptions">
+              <ReadingOptions />
+            </Popover>
             {!!notes && (
               <Popover style={{ marginLeft: 20 }} icon={faNoteSticky} name="ChapterNotes">
                 <Header type="Secondary" title="Author Notes" />

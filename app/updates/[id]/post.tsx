@@ -8,6 +8,8 @@ import Row from '../../../components/Row'
 import { classes } from '../../../lib/utils'
 import ReadingOptions from '../../../components/ReadingOptions/ReadingOptions'
 import { PostData } from '../../../api/contentData'
+import { faSliders } from '@fortawesome/free-solid-svg-icons'
+import Popover from '../../../components/Popover/Popover'
 
 export type Props = {
   id: string
@@ -20,7 +22,9 @@ const Post = ({ post }: Props) => {
       <Header type="Primary">
         <Row horizontal="space-between" vertical="center">
           {post.title}
-          <ReadingOptions />
+          <Popover icon={faSliders} name="ReadingOptions">
+            <ReadingOptions />
+          </Popover>
         </Row>
       </Header>
       <Header type="Secondary">

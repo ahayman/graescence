@@ -26,7 +26,7 @@ export const Fonts = [
   'CourierNew',
   // 'Monaco',
 ] as const
-export type Font = typeof Fonts[number]
+export type Font = (typeof Fonts)[number]
 
 export type FontDef = {
   title: string

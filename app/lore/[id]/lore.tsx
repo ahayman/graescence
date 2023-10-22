@@ -8,6 +8,8 @@ import Tags from '../../../components/Tags/Tags'
 import Header from '../../../components/Header/Header'
 import ReadingOptions from '../../../components/ReadingOptions/ReadingOptions'
 import { LoreData } from '../../../api/contentData'
+import { faSliders } from '@fortawesome/free-solid-svg-icons'
+import Popover from '../../../components/Popover/Popover'
 
 export type Props = {
   id: string
@@ -21,7 +23,9 @@ const Lore = ({ lore }: Props) => {
       <Header type="Primary">
         <Row horizontal="space-between" vertical="center">
           {title}
-          <ReadingOptions />
+          <Popover icon={faSliders} name="ReadingOptions">
+            <ReadingOptions />
+          </Popover>
         </Row>
       </Header>
       <Header type="Secondary">
