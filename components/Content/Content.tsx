@@ -10,8 +10,15 @@ import popoverStyles from '../Popover/Popover.module.scss'
 type Props = {
   children: ReactNode
 }
+
+const InitLoad = () => {
+  const load = typeof window == 'undefined'
+  console.log('Init Load: ', load)
+  return load
+}
+
 const Content = ({ children }: Props) => {
-  // const [load, setLoad] = useState(false)
+  const [load, setLoad] = useState(InitLoad())
   const {
     state: { popover },
     actions: { closePopover },
@@ -20,7 +27,7 @@ const Content = ({ children }: Props) => {
 
   //Note: Displaying after an initial render allows user variables to load before display.
   //This prevents text from displaying, then re-displaying with the loaded parameters.
-  // useEffect(() => setLoad(true), [])
+  useEffect(() => setLoad(true), [])
 
   const toggle = (event: MouseEvent<HTMLDivElement>) => {
     const container = document.getElementById(contId)
@@ -48,7 +55,10 @@ const Content = ({ children }: Props) => {
       </Script>
       <Script id="commento-script" src="https://comments.aaronhayman.com/js/commento.js" strategy="afterInteractive" />
       <div className={styles.main}>
-        <main>{children}</main>
+        <main>
+          {/* <noscript>{children}</noscript> */}
+          <div style={{ opacity: load ? 1 : 0 }}>{children}</div>
+        </main>
         <ContentBlock>
           <span style={{ color: 'transparent' }}>
             --------------------------------------------------------------------------------------------------------------------------------------------

@@ -1,5 +1,5 @@
  .main {
-    max-width: var(--max-content-width);
+    max-width: var(--max-content-width, 60rem);
     min-width: 10rem;
     max-height: 100vh;
     overflow: scroll;
@@ -25,4 +25,8 @@
     align-items: center;
     margin: 0pt 1pt;
     flex: 1;
+}
+
+.hidden {
+   opacity: 0;
 }

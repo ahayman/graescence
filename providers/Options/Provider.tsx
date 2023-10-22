@@ -48,8 +48,31 @@ const getSetInitialValue = (name: GlobalVariable, defaultValue: number = 1): num
   return value
 }
 
+const InitState = (): State => {
+  const fontFamily = getSetInitial('--reading-font-family') ?? FontDefinitions['Helvetica'].family
+  const font = Object.values(FontDefinitions).find(d => d.family === fontFamily)?.name ?? 'Helvetica'
+  const state: State = {
+    readingOptions: {
+      showOptions: false,
+      font,
+      fontSize: getSetInitialValue('--reading-font-size'),
+      paragraphIndent: getSetInitialValue('--reading-paragraph-indent', 2.2),
+      paragraphSpacing: getSetInitialValue('--reading-paragraph-spacing', 0),
+      letterSpacing: getSetInitialValue('--reading-letter-spacing', 0),
+      lineSpacing: getSetInitialValue('--reading-line-spacing', 1.3),
+      wordSpacing: getSetInitialValue('--reading-word-spacing', 0),
+      textAlign: (getSetInitial('--reading-text-align') as TextAlign) || 'left',
+      readingWidth: getSetInitialValue('--max-content-width', 50),
+    },
+    uiTheme: (getSetInitial('data-theme') as UITheme) || 'dark',
+  }
+  document.documentElement.setAttribute('data-theme', state.uiTheme)
+  document.body.dataset.theme = state.uiTheme
+  return state
+}
+
 const Provider = ({ children }: Props) => {
-  const [state, dispatch] = useReducer(Reducer, InitialState)
+  const [state, dispatch] = useReducer(Reducer, typeof window == 'undefined' ? InitialState : InitState())
 
   const adjustReadingOption = useCallback(
     (option: ReadingOption, adjust: Adjustment) => {
@@ -100,29 +123,6 @@ const Provider = ({ children }: Props) => {
     },
     [dispatch],
   )
-
-  useEffect(() => {
-    const fontFamily = getSetInitial('--reading-font-family') ?? FontDefinitions['Helvetica'].family
-    const font = Object.values(FontDefinitions).find(d => d.family === fontFamily)?.name ?? 'Helvetica'
-    const state: State = {
-      readingOptions: {
-        showOptions: false,
-        font,
-        fontSize: getSetInitialValue('--reading-font-size'),
-        paragraphIndent: getSetInitialValue('--reading-paragraph-indent', 2.2),
-        paragraphSpacing: getSetInitialValue('--reading-paragraph-spacing', 0),
-        letterSpacing: getSetInitialValue('--reading-letter-spacing', 0),
-        lineSpacing: getSetInitialValue('--reading-line-spacing', 1.3),
-        wordSpacing: getSetInitialValue('--reading-word-spacing', 0),
-        textAlign: (getSetInitial('--reading-text-align') as TextAlign) || 'left',
-        readingWidth: getSetInitialValue('--max-content-width', 50),
-      },
-      uiTheme: (getSetInitial('data-theme') as UITheme) || 'dark',
-    }
-    document.documentElement.setAttribute('data-theme', state.uiTheme)
-    document.body.dataset.theme = state.uiTheme
-    dispatch({ type: 'load', state })
-  }, [])
 
   return (
     <OptionsContext.Provider

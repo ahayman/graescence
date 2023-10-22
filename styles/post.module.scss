@@ -1,23 +1,23 @@
 .post {
 
   p, span {
-    font-family: var(--reading-font-family);
-    font-size: var(--reading-font-size);
-    text-indent: var(--reading-paragraph-indent);
-    margin-bottom: var(--reading-paragraph-spacing);
-    line-height: var(--reading-line-spacing);
-    letter-spacing: var(--reading-letter-spacing);
-    word-spacing: var(--reading-word-spacing);
-    text-align: var(--reading-text-align);
+    font-family: var(--reading-font-family, Helvetica, sans-serif);
+    font-size: var(--reading-font-size, 1rem);
+    text-indent: var(--reading-paragraph-indent, 3rem);
+    margin-bottom: var(--reading-paragraph-spacing, 0rem);
+    // line-height: var(--reading-line-spacing, 1rem);
+    // letter-spacing: var(--reading-letter-spacing, 0rem);
+    // word-spacing: var(--reading-word-spacing, 0rem);
+    text-align: var(--reading-text-align, left);
   }
 
   li {
-    font-family: var(--reading-font-family);
-    font-size: var(--reading-font-size);
-    line-height: var(--reading-line-spacing);
-    letter-spacing: var(--reading-letter-spacing);
-    word-spacing: var(--reading-word-spacing);
-    text-align: var(--reading-text-align);
+    font-family: var(--reading-font-family, Helvetica, sans-serif);
+    font-size: var(--reading-font-size), 1rem;
+    // line-height: var(--reading-line-spacing, 1rem);
+    // letter-spacing: var(--reading-letter-spacing, 0rem);
+    // word-spacing: var(--reading-word-spacing, 0rem);
+    text-align: var(--reading-text-align, left);
   }
 
   h2 {
@@ -57,7 +57,7 @@
   }
 
   li {
-    margin-bottom: var(--reading-paragraph-spacing);
+    margin-bottom: var(--reading-paragraph-spacing, 0rem);
   }
 
   del {

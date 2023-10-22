@@ -6,7 +6,7 @@
   border-width: 1pt;
   border-style: groove;
   overflow: hidden;
-  max-width: max(calc(var(--max-content-width) / 2), 30rem);
+  max-width: max(calc(var(--max-content-width, 60rem) / 2), 30rem);
   z-index: 9999;
 }
 
