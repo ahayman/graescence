@@ -269,7 +269,7 @@ export const generateRSS = async (type: ContentType) => {
   if (type === 'chapters') {
     feed.addExtension({
       name: 'rf:lore',
-      objects: { _text: `${siteUrl}/feeds/lore/feed.xml` },
+      objects: `${siteUrl}/feeds/lore/feed.xml`,
     })
   }
   feed.items = data.map(content => {
@@ -284,10 +284,14 @@ export const generateRSS = async (type: ContentType) => {
     switch (content.type) {
       case 'lore':
       case 'chapter': {
-        item.extensions = content.tags.map(tag => ({
-          name: 'rf:tag',
-          objects: { _text: tag },
-        }))
+        if (content.tags.length > 0) {
+          item.extensions = [
+            {
+              name: 'rf:tags',
+              objects: content.tags.join(','),
+            },
+          ]
+        }
       }
     }
     return item
