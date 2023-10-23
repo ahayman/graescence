@@ -5,7 +5,7 @@ import { StaticParam } from '../lib/types'
 import { remark } from 'remark'
 import HTML from 'remark-html'
 import remarkGfm from 'remark-gfm'
-import { Feed } from 'feed'
+import { Feed, Item } from 'feed'
 import { parseISO } from 'date-fns'
 import { isNotEmpty } from '../lib/utils'
 
@@ -42,6 +42,7 @@ export type ChapterMeta = Meta & {
  * All data associated with a Chapter
  */
 export type ChapterData = ChapterMeta & {
+  type: 'chapter'
   notes?: string
   html: string
   lore: LoreData[]
@@ -49,6 +50,7 @@ export type ChapterData = ChapterMeta & {
 }
 
 export type PostMeta = Meta & {
+  type: 'post'
   excerpt: string
 }
 
@@ -63,6 +65,7 @@ export type PostData = PostMeta & {
  * Lore Metatdata includes everything except lore content.
  */
 export type LoreMeta = Meta & {
+  type: 'lore'
   category: string
   tags: string[]
 }
@@ -144,6 +147,7 @@ const extractData = async <T extends ContentType>(
       const lore = Cache['lore'] ?? (await getSortedContentData('lore'))
       const { chapterLore, highlightedHtml } = parseHighlightedLore(html, lore)
       const extract: ContentData['chapters'] = {
+        type: 'chapter',
         id,
         title,
         date,
@@ -168,7 +172,7 @@ const extractData = async <T extends ContentType>(
         .use(HTML)
         .process(front.content.replace(excerpt_separator, ''))
       const html = processedContent.toString()
-      const extract: ContentData['updates'] = { id, title, date, excerpt, html }
+      const extract: ContentData['updates'] = { type: 'post', id, title, date, excerpt, html }
       return extract as ContentData[T]
     }
     case 'lore': {
@@ -185,7 +189,7 @@ const extractData = async <T extends ContentType>(
       const excerpt = front.excerpt
         ? (await remark().use(remarkGfm).use(HTML).process(front.excerpt)).toString()
         : (await remark().use(remarkGfm).use(HTML).process(front.content.replace(excerpt_separator, ''))).toString()
-      const extract: ContentData['lore'] = { id, title, date, category, tags, html, excerpt }
+      const extract: ContentData['lore'] = { type: 'lore', id, title, date, category, tags, html, excerpt }
       return extract as ContentData[T]
     }
   }
@@ -257,25 +261,39 @@ export const generateRSS = async (type: ContentType) => {
     language: 'en',
     feedLinks: {
       rss2: `${siteUrl}/feeds/${type}/feed.xml`,
-      json: `${siteUrl}/feeds/${type}/feed.json`,
-      atom: `${siteUrl}/feeds/${type}/atom.xml`,
     },
     author: {
       name: 'apoetsanon',
     },
   })
-  feed.items = data.map(content => ({
-    title: content.title,
-    id: content.id,
-    link: `${siteUrl}/${type}/${content.id}`,
-    description: content.html,
-    author: [{ name: 'apoetsanon' }],
-    date: parseISO(content.date),
-  }))
+  if (type === 'chapters') {
+    feed.addExtension({
+      name: 'rf:lore',
+      objects: { _text: `${siteUrl}/feeds/lore/feed.xml` },
+    })
+  }
+  feed.items = data.map(content => {
+    const item: Item = {
+      title: content.title,
+      id: content.id,
+      link: `${siteUrl}/${type}/${content.id}`,
+      description: content.html,
+      author: [{ name: 'apoetsanon' }],
+      date: parseISO(content.date),
+    }
+    switch (content.type) {
+      case 'lore':
+      case 'chapter': {
+        item.extensions = content.tags.map(tag => ({
+          name: 'rf:tag',
+          objects: { _text: tag },
+        }))
+      }
+    }
+    return item
+  })
   fs.mkdirSync(`./public/feeds/${type}`, { recursive: true })
   fs.writeFileSync(`./public/feeds/${type}/feed.xml`, feed.rss2())
-  fs.writeFileSync(`./public/feeds/${type}/atom.xml`, feed.atom1())
-  fs.writeFileSync(`./public/feeds/${type}/feed.json`, feed.json1())
 }
 
 /**

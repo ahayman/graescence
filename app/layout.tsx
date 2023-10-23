@@ -26,7 +26,8 @@ const Layout = async ({ children }: Props) => {
     date,
   }))
   const chapters: ChapterMeta[] = (await getSortedContentData('chapters')).map(
-    ({ id, title, date, volumeNo, volumeName, chapterNo, tags }) => ({
+    ({ type, id, title, date, volumeNo, volumeName, chapterNo, tags }) => ({
+      type,
       id,
       title,
       date,
@@ -36,7 +37,8 @@ const Layout = async ({ children }: Props) => {
       tags,
     }),
   )
-  const lore: LoreMeta[] = (await getSortedContentData('lore')).map(({ id, title, date, tags, category }) => ({
+  const lore: LoreMeta[] = (await getSortedContentData('lore')).map(({ type, id, title, date, tags, category }) => ({
+    type,
     id,
     title,
     date,
