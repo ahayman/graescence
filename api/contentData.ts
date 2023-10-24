@@ -253,7 +253,7 @@ export const generateRSS = async (type: ContentType) => {
     title,
     namespaces: [
       {
-        name: 'xmlns:rf',
+        name: 'xmlns:readform',
         link: 'https://readform.app/faq',
       },
     ],
@@ -274,7 +274,7 @@ export const generateRSS = async (type: ContentType) => {
   })
   if (type === 'chapters') {
     feed.addExtension({
-      name: 'rf:lore',
+      name: 'readform:lore',
       objects: `${siteUrl}/feeds/lore/feed.xml`,
     })
   }
@@ -293,7 +293,7 @@ export const generateRSS = async (type: ContentType) => {
         if (content.tags.length > 0) {
           item.extensions = [
             {
-              name: 'rf:tags',
+              name: 'readform:tags',
               objects: content.tags.join(','),
             },
           ]
