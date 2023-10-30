@@ -5,7 +5,7 @@ import { StaticParam } from '../lib/types'
 import { remark } from 'remark'
 import HTML from 'remark-html'
 import remarkGfm from 'remark-gfm'
-import { Feed, Item } from 'feed'
+import { Extension, Feed, Item } from 'feed'
 import { parseISO } from 'date-fns'
 import { isNotEmpty } from '../lib/utils'
 
@@ -287,19 +287,25 @@ export const generateRSS = async (type: ContentType) => {
       author: [{ name: 'apoetsanon' }],
       date: parseISO(content.date),
     }
+    let extensions: Extension[] = []
     switch (content.type) {
       case 'lore':
       case 'chapter': {
         if (content.tags.length > 0) {
-          item.extensions = [
-            {
-              name: 'readform:tags',
-              objects: content.tags.join(','),
-            },
-          ]
+          extensions.push({
+            name: 'readform:tags',
+            objects: content.tags.join(','),
+          })
+        }
+        if (content.type == 'chapter' && content.notes !== undefined) {
+          extensions.push({
+            name: 'readform:notes',
+            objects: { _cdata: content.notes },
+          })
         }
       }
     }
+    item.extensions = extensions
     return item
   })
   fs.mkdirSync(`./public/feeds/${type}`, { recursive: true })
