@@ -15,7 +15,7 @@ This is my first note, which I will surely delete once I get real content up int
 
 Stanley Chao stood on the edge of a flimsy wooden board perched atop a metal pole over a hundred paces above the ground. It swayed lightly, almost imperceptible except for the persistent sense of almost tipping over. Dizzying spotlights roamed the earth below, revealing little more than patches of dirt and worn grass.
 
-A man stood center among the only three fixed spotlights as little more than a red blur under the intense light. He gestured gregariously, sweeping his arm in a wide circle before raising it to point at Stan. Spotlights followed, blinding Stan from seeing anything else. The man bellowed something, but his words were drowned out by the roar of a crowd.
+A man stood center among the only three fixed spotlights, looking like a red blur trimmed in gold under the intense light. He gestured gregariously, sweeping his arm in a wide circle before raising it to point at Stan. Spotlights followed, blinding Stan from seeing anything else. The man bellowed something, but his words were drowned out by the roar of a crowd.
 
 Stan tied a blindfold over his eyes with slow, exaggerated motions. He edged forward until half his toes dangled over the edge. A chest-high swing rested horizontally on two wooden poles extended an arm's length beyond him. The swing was little more than a wooden rod, lightly polished from extended use. From it, the swing's ropes curved upward, swaying lightly in time with the platform.
 
