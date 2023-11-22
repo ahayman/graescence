@@ -1,0 +1,2 @@
+{"rule":"YOU_GOOD","sentence":"^\\Q\"You done?\"\\E$"}
+{"rule":"MORFOLOGIK_RULE_EN_US","sentence":"^\\Q\"Noooo...\"\\E$"}
