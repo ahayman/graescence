@@ -55,15 +55,15 @@ With a dramatic flourish, Stan ripped off his blindfold and bowed.
 
 A roar of cheers and applause erupted. The sound pressed on Stan with a kind of physical presence that broadened his smile. He nodded to his counterpart, and they both stepped off their platforms to begin a complicated dance of flips and tricks, all done to the thunder of an approving crowd.
 
+---
+
 Not all applauded. A man and woman dressed in sharply tailored suits of black and gray had watched the affair with detached interest. A bubble of empty seats surrounded them, and those on the edges the bubble shot frequent uneasy looks at the pair, like one would at snakes sitting within striking distance.
 
-The pair had not gasped at the falling man, nor applauded the stunt's finale. They didn't seem concerned at all, their stoic expressions barely shifting throughout the performance.
-
-They both watched with an unsettling intensity. Not as one would a performance, but calculating as one might to solve a puzzle. While Stan flailed about and people gasped, they paid close attention to how _slowly_ he had accelerated. It was subtle, and in light of a 'tragedy' not something anyone would notice. But when compared to the woman's descent, Stan's drop was practically a leisure stroll.
+The pair watched with an unsettling intensity. Not as one would a performance, but calculating as one might to solve a puzzle. While Stan flailed about and people gasped, they paid close attention to how _slowly_ he had accelerated. It was subtle, and in light of a 'tragedy' not something anyone would notice. But when compared to the woman's descent, Stan's drop was practically a leisure stroll.
 
 "He's gotten better," the man said threw the words like an argument, head tilted toward the woman.
 
-She pursed her lips, looking annoyed, but said nothing.
+She pursed her lips, annoyed, but said nothing.
 
 Both of their eyes latched to the swing the moment it has glossed.
 
@@ -73,19 +73,19 @@ They watched for a few minutes as the acrobats flipped through the air. There we
 
 "Approach?"
 
-The woman shook her head at the question. "Not here. Too public. We'll take him when he's done."
+The woman shook her head. "Not here. Too public. We'll take him when he's done."
 
-"Alive?"
+"...alive?"
 
-Her middle finger tapped against her thumb as she tensed. The man leaned back, looking resigned at a response he knew was coming.
+Her middle finger tapped against her thumb as she tensed.
 
 "No. Too dangerous."
 
-"He could be useful," the man said with worn words to an old argument he had long since lost.
+"He could be useful," the man said with worn words thin from overuse.
 
-"As you said, he's gotten better." Her tone had become flat and cold.
+"As you said, he's gotten better." Her tone had become flat and cold, delivered from a tense jaw.
 
-The man looked as though he wanted to argue, but instead sat back, resigned, as he watched the performance.
+For a moment, the man looked as though he wanted to argue. He didn't. Instead, he sat back, his face settling into an annoyed resignation.
 
 ---
 
@@ -93,11 +93,11 @@ The man looked as though he wanted to argue, but instead sat back, resigned, as 
 
 Stanley smiled politely and returned to the younger man a small nod.
 
-"You flatter me," Stan said with an undercurrent of, 'please, stop talking'.
+"You flatter me," Stan returned, polite but tense.
 
-Chi had always been excitable in a way that made Stan uncomfortable, a rather odd irony. He could soak up thunderous applause all day, but individual adulation always made him feel uncomfortable.
+Chi had always been excitable in a way that made Stan uncomfortable, a rather odd irony. He could soak up thunderous applause all day, but individual adulation always made him feel awkward.
 
-He continued walking through a narrow hallway made of waxed canvas, the younger man only half a step behind. The pitter-patter of a light rain filled the brief silence as they both picked their way around puddles seeping in from under the folds of fabric.
+He continued walking through a narrow hallway of waxed canvas, the younger man only half a step behind. The pitter-patter of a light rain filled the brief silence as they both picked their way around puddles seeping in from under the folds of fabric.
 
 "You know I don't. There's a performance, and then there's you two. You? You're...ah, I could only wish to be as good as you."
 
@@ -107,13 +107,15 @@ Stan had no doubt Chi would eventually become a great performer—the boy had a 
 
 Tricks. That's all it was. Stan's stomach soured at the thought of it, sapping the afterglow of his performance. He hated the trick. Always had. No matter how many seats it filled, no matter how loud the applause, that it came from a simple trick soured it all, poisoned it.
 
-"But it's more than that—oh I know, I know. You practice just as much—no, _more_ than any of us. Right? I know you do. But you? You've got a trick or something. I couldn't do that, just...fall like you did. That..." the boy shook his head, "that's something else."
+"But it's more than that—oh I know, I know. You practice just as much—no, _more_ than any of us. Right? I know you do. But you? You've got a trick or something," the boy said, wagging his finger in the air. "I couldn't do that, just...fall like you did. That..." he sighed dramatically, shaking his head, "that's something else."
 
 Stan frowned at the boy's words but kept walking, silent. He couldn't condemn the boy his enthusiasm, but also couldn't help but feel the kid had quite missed the entire point off all this.
 
-Applause. Glory. Money. Everyone wanted to be a star. Everyone wanted to soak up that thunderous roar of adulation, and Stan was hardly the exception. Standing there above with thousands screaming acclamation, there was an _energy_ to it. Excitement. It grabbed you, filled you with adrenaline better than any drug, kept you wanting more.
+Applause. Glory. Money.
 
-And like most drugs, it felt so very thin afterwards. A lie. A seductive lie, one that made you think it would stick the next time. But still, a lie.
+Everyone wanted to be a star. Everyone wanted to soak up that thunderous roar, and Stan was hardly the exception. Standing there above with thousands screaming acclamation, there was an _energy_ to it. Excitement. It grabbed you, filled you with adrenaline better than any drug, kept you wanting more.
+
+And like most drugs, it felt so very thin afterwards. A lie. A seductive lie, though, one that made you think it would stick the next time. But still, a lie.
 
 The drab walkway gave way to a spacious tent filled with a riot of color and sound where upcoming performers stretched, practiced, or simply relaxed. They passed strange animals with their trainers enticing treats for tricks, performers twisted into convoluted shapes, clowns on stilts, and ever-increasing oddities.
 
