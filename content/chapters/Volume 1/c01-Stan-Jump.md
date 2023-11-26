@@ -31,13 +31,13 @@ He began to flail in the air, arms stretching, fingers grasping.
 
 Several in the audience jumped to their feet, looking as though they might rush to save him. Children's eyes were covered, who cried outrage at the injustice. Many in the audience had gripped their chairs, or spouses, or friends. A few looked skeptical and glanced around, looking for a net or something that might give away the trick. They found nothing.
 
-A woman in a patterned red leotard stood on a stand that mirrored Stan's on the opposite side of the arena. She gasped loudly enough to draw some of the crowd's attention. And then, in a seemingly futile act of desperation, threw her swing down, presumably in an attempt to save the doomed man. On her face was shock and horror.
+A woman acrobat in a patterned red leotard stood on a stand that mirrored Stan's on the opposite side of the arena. She gasped loudly enough to draw some of the crowd's attention. And then, in a seemingly futile act of desperation, threw her swing down, presumably in an attempt to save the doomed man. On her face was shock and horror.
 
 More in the audience stood as it became clear her swing wouldn't make it in time. A different kind of silence fell upon the crowd, a memorial silence, the kind wrought from a tragedy unfolding. There was nothing to do but revel in the horror of a stunt gone terribly wrong.
 
 They'd paid to see something fantastic, after all. The poster guaranteed it, or your money back.
 
-When it had become clear that nothing could save the falling man, the women did something even more desperate, something so insane that half the audience tore their eyes off the plummeting man to watch a new tragedy unfold.
+When it had become clear that nothing could save the falling man, the woman did something even more desperate, something so insane that half the audience tore their eyes off the plummeting man to watch a new tragedy unfold.
 
 She leapt, and somehow that leap contained all the grace one would expect from a acrobat at the top of their game.
 
@@ -61,7 +61,7 @@ Not all applauded. A man and woman dressed in sharply tailored suits of black an
 
 The pair watched with an unsettling intensity. Not as one would a performance, but calculating as one might to solve a puzzle. While Stan flailed about and people gasped, they paid close attention to how _slowly_ he had accelerated. It was subtle, and in light of a 'tragedy' not something anyone would notice. But when compared to the woman's descent, Stan's drop was practically a leisure stroll.
 
-"He's gotten better," the man said threw the words like an argument, head tilted toward the woman.
+"He's gotten better," the man threw the words like an argument, head tilted toward the woman.
 
 She pursed her lips, annoyed, but said nothing.
 

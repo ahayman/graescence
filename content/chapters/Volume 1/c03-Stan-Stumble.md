@@ -288,7 +288,17 @@ That he noticed, and so shoddily at that, made him certain they couldn't be ther
 
 So why were his feet already walking toward town?
 
-The idea of Min becoming a distraction for the Inquisitors made him angry. But not scared. This...this made him scared. Perhaps because he didn't understand it.
+The idea of Min becoming a distraction for the Inquisitors made him angry but not scared. There was a reason for that. Inquisitors, for all their brutality, had a certain impartiality and even fairness to their madness. Or if not fairness, their rules were consistent. They might kill without hesitation, but they would also take extreme measures to avoid hurting anyone not complicit. Even those who were complicit were usually safe if they cooperated. They never tortured, but they didn't need to when refusing to answer their questions could be considered abetting, and thus a death sentence.
+
+It was this consistency that made them so effective. When talking was its own form of protection, people tended to jump at the chance. He'd read of entire conspiracies being blown open by the mere presence of Inquisitors.
+
+It's why he didn't fear for his family, and why he could never see them again. The Inquisitors no doubt learned everything they could from his parents and younger sister, and then left them alone. They would continue to leave them alone so long as they had nothing more to say.
+
+His parents hadn't even suffered for hiding Stan's talent, as it was natural for a parent to protect their children. They applauded his parent's paternal instinct even as they hunted Stan himself down.
+
+That was the logic of the Inquisitor. It's what made them feared, and even loved by some. They were brutal, yes, but they were known, a thing you could understand.
+
+This town? It made him scared. Perhaps because he didn't understand it.
 
 Stan forcibly shut down his cyclic thoughts as he approached the village along one of the paths that led to it. He used no crystal, opting to half-climb, half-slide down the steep terrain. No need to announce what he was.
 
@@ -306,7 +316,7 @@ The man glanced toward the center of town, then slowly shook his head before ref
 
 "I guess that's a no?"
 
-No further acknowledgment was offered. He simply continued to shave more off the...shiv with practiced strokes. A shiv. Stan stared at it for a long second before deciding further interrogate was not warranted.
+No further acknowledgment was offered. He simply continued to shave more off the...shiv with practiced strokes. A _shiv_. Stan stared at it for a long second before deciding further interrogate was not warranted.
 
 Besides, the man had glanced toward the only home with an active chimney, dead center of town.
 
@@ -316,15 +326,15 @@ Eyes followed him from within the hovels—he could practically feel them peekin
 
 A growing dread crept silently behind him as more than eyes followed him. Those who watched flicked their gaze behind him, giving it away. Reflected in them was a wary fear.
 
-He scrapped out the willpower to not wrap himself up in crystal. Nor did he look behind, fearing it might trigger...something. He didn't know. Dread was weird that way. Like a shadow in the corner of the eye that might become a monster in truth should it be seen.
+He scrapped out the willpower to not wrap himself up in crystal. Nor did he look behind, fearing it might trigger...something. He didn't know. Dread kept his eyes forward. Like a shadow in the corner of the eye that might become a monster in truth should it be seen.
 
-Men appeared in alleys, watching idly with a predatory look. It took longer than it should have for him to realize he was being funneled toward the home with smoke pouring from the only chimney in town.
+Men appeared in alleys, watching idly with a predatory look. It took longer than it should have for him to realize he was being funneled toward the home with smoke pouring from the only chimney in town, probably because he was heading there anyway.
 
-The home stood straight, the only one with a porch and a properly thatched roof. On the porch stood an old woman with a face wizened by cruelty. She stared down at him imperiously.
+The home stood straight, the only one with a porch and a properly thatched roof. On the porch stood an old woman with a face wizened by innumerable lines. She stared down at him imperiously.
 
 "Matron." He bowed.
 
-She said nothing as rough-looking men flanked him to lean against the porch. They casually held battered bolt casters aimed toward the earth that nevertheless looked functional enough. Her eyes peered down at him imperiously.
+She said nothing as rough-looking men flanked him to lean against the porch. They casually held battered bolt casters that nevertheless looked functional enough. They were aimed at the ground, fingers held on their triggers.
 
 Stan swallowed hard. "I'm sorry to bother you but—"
 
@@ -334,15 +344,15 @@ Stan swallowed hard. "I'm sorry to bother you but—"
 
 "Do they seek to insult, then? Anger us into a false trap?"
 
-Stan hesitated. "A woman in a poncho? Have you seen her?"
+Stan hesitated. "A woman...in a poncho? Have you seen her?"
 
-"Or perhaps you're a fool, kicked out as useless? And now what, you seek asylum?"
+"Or perhaps you're a fool, kicked out as useless? And now, what? You seek asylum?"
 
 "I..." he took a breath, "have no idea what you're talking about."
 
 Her eyes narrowed. "Or a spy."
 
-"Look, I'm just looking for my friend," Stan said, growing exasperated. "She was wearing a poncho and she came here looking for—"
+"Look, I'm just looking for my friend," Stan said, growing exasperated. "She was wearing a poncho, and she came here looking for—"
 
 "You want to see your friend?"
 
@@ -362,12 +372,12 @@ He ground his teeth in frustration as stepped onto the porch. The Matron gesture
 
 He slowed after a few steps to allow his eyes time to adjust. The darkness eased to reveal a figure sitting in a chair. It took seconds for him to understand what he was looking at.
 
+"No no no..."
+
 Stan staggered back as though struck. Fire and ice surged through his veins. His fist bawled and he began to shake.
 
 "You get to watch, spy, what we do to gifts from the Wu Clan."
 
-Min had been tied to the chair naked, her tights ripped and pooled at her feet. The rope had been cruelly tied tight enough to bruise. Her head lolled to the side, unconscious, and her eye was swollen shut.
+Min had been tied to the chair naked, her unitard ripped and pooled at her feet. The rope had been cruelly tied tight enough to bruise. Her head lolled to the side, unconscious, and her eye was swollen shut.
 
 "Was gonna give her to one of my sons, but I figure bitches just need to breed."
-
-Crystal shards formed around his fist as men filled the room.
