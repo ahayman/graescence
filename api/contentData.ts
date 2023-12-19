@@ -10,7 +10,7 @@ import { parseISO } from 'date-fns'
 import { isNotEmpty } from '../lib/utils'
 
 //Must match the actual content directory name
-export type ContentType = 'updates' | 'chapters' | 'lore'
+export type ContentType = 'Updates' | 'Chapters' | 'Lore'
 const contentDir = path.join(process.cwd(), 'content')
 const contentTypeDir = (type: ContentType) => path.join(contentDir, type)
 const excerpt_separator = '<-- excerpt -->'
@@ -18,9 +18,9 @@ const notes_separator = '<-- note -->'
 
 const VolumeNames: { [key: number]: string | undefined } = {}
 const Cache: { [key in ContentType]: ContentData[key][] | undefined } = {
-  updates: undefined,
-  chapters: undefined,
-  lore: undefined,
+  Updates: undefined,
+  Chapters: undefined,
+  Lore: undefined,
 }
 
 /**
@@ -86,9 +86,9 @@ export type LoreData = LoreMeta & {
  * Content Data is a union type that represents Updates, Chapters,
  * and Lore.
  */
-type ContentData = ContentDefinition<'updates', PostData> &
-  ContentDefinition<'chapters', ChapterData> &
-  ContentDefinition<'lore', LoreData>
+type ContentData = ContentDefinition<'Updates', PostData> &
+  ContentDefinition<'Chapters', ChapterData> &
+  ContentDefinition<'Lore', LoreData>
 
 /// Metadat common to all Content
 export type Meta = ContentId & {
@@ -101,7 +101,7 @@ export type ContentId = {
   id: string
 }
 
-export type PageContent = 'home'
+export type PageContent = 'Home'
 
 /**
  * The primary function to extract the content data from the front matter
@@ -113,29 +113,33 @@ export type PageContent = 'home'
 const extractData = async <T extends ContentType>(
   type: T,
   id: string,
+  fileName: string,
+  parent: string,
   front: matter.GrayMatterFile<string>,
 ): Promise<ContentData[T] | undefined> => {
   const data = front.data
   const title = data.title
-  const date = data.date.toString()
+  const date = data.date instanceof Date ? data.date.toISOString() : data.date?.toString()
+  const published = data.published
 
-  if (!date || !title) {
+  if (!date || !title || !published) {
     return undefined
   }
 
   switch (type as ContentType) {
-    case 'chapters': {
-      const volumeNo = Number.parseInt(data.volume)
-      const chapterNo = Number.parseInt(data.chapter)
+    case 'Chapters': {
+      const volumeNo = Number.parseInt(parent.split(' ')[1].split(' - ')[0])
+      const chapterNo = Number.parseInt(fileName.split(' ')[0])
       const tagData = data.tags
-      const tags = typeof tagData === 'string' ? tagData.split(/,\s*/) : []
+      const tags: string[] =
+        typeof tagData === 'string' ? tagData.split(/,\s*/) : tagData instanceof Array ? tagData : []
 
       if (isNaN(volumeNo) || isNaN(chapterNo)) {
         return undefined
       }
       let volumeName = VolumeNames[volumeNo]
       if (!volumeName) {
-        volumeName = data.volumeName
+        volumeName = parent.split(' - ')[1]
         VolumeNames[volumeNo] = volumeName
       }
       const parts = front.content.split(notes_separator)
@@ -144,9 +148,9 @@ const extractData = async <T extends ContentType>(
       const processedNotes = notesMd ? await remark().use(remarkGfm).use(HTML).process(notesMd.trim()) : undefined
       const html = processedContent.toString()
       const notes = processedNotes?.toString()
-      const lore = Cache['lore'] ?? (await getSortedContentData('lore'))
+      const lore = Cache['Lore'] ?? (await getSortedContentData('Lore'))
       const { chapterLore, highlightedHtml } = parseHighlightedLore(html, lore)
-      const extract: ContentData['chapters'] = {
+      const extract: ContentData['Chapters'] = {
         type: 'chapter',
         id,
         title,
@@ -162,7 +166,7 @@ const extractData = async <T extends ContentType>(
       }
       return extract as ContentData[T]
     }
-    case 'updates': {
+    case 'Updates': {
       const excerpt = front.excerpt
         ? (await remark().use(remarkGfm).use(HTML).process(front.excerpt)).toString()
         : (await remark().use(remarkGfm).use(HTML).process(front.content.replace(excerpt_separator, ''))).toString()
@@ -172,15 +176,13 @@ const extractData = async <T extends ContentType>(
         .use(HTML)
         .process(front.content.replace(excerpt_separator, ''))
       const html = processedContent.toString()
-      const extract: ContentData['updates'] = { type: 'post', id, title, date, excerpt, html }
+      const extract: ContentData['Updates'] = { type: 'post', id, title, date, excerpt, html }
       return extract as ContentData[T]
     }
-    case 'lore': {
-      const category = data.category
-      if (!category) {
-        return undefined
-      }
-      const tags = typeof data.tags === 'string' ? data.tags.split(/,\s*/) : []
+    case 'Lore': {
+      const tagData = data.tags
+      const tags: string[] =
+        typeof tagData === 'string' ? tagData.split(/,\s*/) : tagData instanceof Array ? tagData : []
       const processedContent = await remark()
         .use(remarkGfm)
         .use(HTML)
@@ -189,7 +191,7 @@ const extractData = async <T extends ContentType>(
       const excerpt = front.excerpt
         ? (await remark().use(remarkGfm).use(HTML).process(front.excerpt)).toString()
         : (await remark().use(remarkGfm).use(HTML).process(front.content.replace(excerpt_separator, ''))).toString()
-      const extract: ContentData['lore'] = { type: 'lore', id, title, date, category, tags, html, excerpt }
+      const extract: ContentData['Lore'] = { type: 'lore', id, title, date, category: parent, tags, html, excerpt }
       return extract as ContentData[T]
     }
   }
@@ -202,8 +204,8 @@ type ContentSortFn<T extends ContentType> = (l: ContentData[T], r: ContentData[T
  * of data.
  */
 const sortFn = <T extends ContentType>(type: T): ContentSortFn<T> => {
-  if (type === 'chapters') {
-    const sort: ContentSortFn<'chapters'> = (l, r) => {
+  if (type === 'Chapters') {
+    const sort: ContentSortFn<'Chapters'> = (l, r) => {
       if (l.volumeNo === r.volumeNo) {
         return l.chapterNo - r.chapterNo
       } else {
@@ -212,8 +214,8 @@ const sortFn = <T extends ContentType>(type: T): ContentSortFn<T> => {
     }
     return sort as ContentSortFn<T>
   }
-  if (type === 'lore') {
-    const sort: ContentSortFn<'lore'> = (l, r) => {
+  if (type === 'Lore') {
+    const sort: ContentSortFn<'Lore'> = (l, r) => {
       return l.title.localeCompare(r.title)
     }
     return sort as ContentSortFn<T>
@@ -230,8 +232,8 @@ const sortFn = <T extends ContentType>(type: T): ContentSortFn<T> => {
 
 export const getContent = async (type: PageContent): Promise<string> => {
   switch (type) {
-    case 'home': {
-      const homePath = path.join(contentDir, 'home.md')
+    case 'Home': {
+      const homePath = path.join(contentDir, 'Pages/Home.md')
       const fileContents = fs.readFileSync(homePath, 'utf8')
       const processedContent = await remark().use(remarkGfm).use(HTML).process(fileContents)
       return processedContent.toString()
@@ -272,7 +274,7 @@ export const generateRSS = async (type: ContentType) => {
       name: 'apoetsanon',
     },
   })
-  if (type === 'chapters') {
+  if (type === 'Chapters') {
     feed.addExtension({
       name: 'readform:lore',
       objects: `${siteUrl}/feeds/lore/feed.xml`,
@@ -320,6 +322,7 @@ export const generateRSS = async (type: ContentType) => {
 export const getSortedContentData = async <T extends ContentType>(
   type: T,
   dir: string = contentTypeDir(type),
+  parent: string = 'root',
 ): Promise<ContentData[T][]> => {
   const cached = Cache[type]
   if (cached !== undefined) {
@@ -327,8 +330,8 @@ export const getSortedContentData = async <T extends ContentType>(
   }
 
   //If we're retrieving chapter data, and Lore isn't cached, cache the lore first (it's needed for Chapter lore)
-  if (type === 'chapters' && Cache['lore'] === undefined) {
-    getSortedContentData('lore')
+  if (type === 'Chapters' && Cache['Lore'] === undefined) {
+    getSortedContentData('Lore')
   }
 
   //Remove the rootDirectory and replace slashes with a dot to create a rootId
@@ -352,7 +355,7 @@ export const getSortedContentData = async <T extends ContentType>(
         // Remove ".md" from file name to get id
         const fullPath = path.join(dir, file.name)
         if (file.isDirectory()) {
-          return await getSortedContentData(type, fullPath)
+          return await getSortedContentData(type, fullPath, file.name)
         }
         if (!file.name.endsWith('.md') && !file.name.endsWith('.markdown')) {
           return undefined
@@ -370,7 +373,7 @@ export const getSortedContentData = async <T extends ContentType>(
 
         // Use gray-matter to parse the post metadata section
         const result = matter(fileContents, { excerpt: true, excerpt_separator })
-        return await extractData(type, id, result)
+        return await extractData(type, id, file.name, parent, result)
       }),
     )
   )

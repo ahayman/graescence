@@ -6,8 +6,8 @@ export type Params = {
 }
 
 export async function generateStaticParams(): Promise<Params[]> {
-  generateRSS('lore')
-  const data = await getSortedContentData('lore')
+  generateRSS('Lore')
+  const data = await getSortedContentData('Lore')
   return data.map(d => ({ id: d.id }))
 }
 
@@ -16,6 +16,6 @@ type Props = {
 }
 
 export default async function PageData({ params: { id } }: Props) {
-  const lore = (await getSortedContentData('lore')).find(l => l.id === id)
+  const lore = (await getSortedContentData('Lore')).find(l => l.id === id)
   return <Lore id={id} lore={lore!} />
 }

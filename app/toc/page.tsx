@@ -66,7 +66,7 @@ const TOC = () => {
       .sort()
       .map(no => ({
         volNo: no,
-        volume: `Volume ${no}: ${chapters.volumeName[no]}`,
+        volume: `Volume ${no}${chapters.volumeName[no] ? ': ' + chapters.volumeName[no] : ''}`,
         chapters: byVolume[no],
       }))
   }, [chapters, chapterTag, chapterFilter])
@@ -92,11 +92,15 @@ const TOC = () => {
         <SearchField text={filter} onChange={setFilter} />
       </Row>
       {data.map(vol => (
-        <>
+        <Column key={vol.volume}>
           <Header type="Secondary">
-            <Row horizontal="space-between" onClick={() => toggleVolume(vol.volNo)}>
-              <span>{vol.volume}</span>
-              {collapsed[vol.volNo] && <span>{`${vol.chapters.length} Chapters`}</span>}
+            <Row horizontal="space-between" vertical="center" onClick={() => toggleVolume(vol.volNo)}>
+              <Row horizontal="start" vertical="center">
+                <span>{vol.volume}</span>
+                {collapsed[vol.volNo] && (
+                  <span style={{ marginLeft: 10, fontSize: 12 }}>{`(${vol.chapters.length} Chapters)`}</span>
+                )}
+              </Row>
               <FontAwesomeIcon icon={collapsed[vol.volNo] ? faChevronDown : faChevronUp} className={styles.icon} />
             </Row>
           </Header>
@@ -120,7 +124,7 @@ const TOC = () => {
               ))}
             </ContentBlock>
           )}
-        </>
+        </Column>
       ))}
     </Column>
   )

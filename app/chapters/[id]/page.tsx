@@ -4,8 +4,8 @@ import Chapter from './chapter'
 export type Params = { id: string }
 
 export async function generateStaticParams(): Promise<Params[]> {
-  generateRSS('chapters')
-  const data = await getSortedContentData('chapters')
+  generateRSS('Chapters')
+  const data = await getSortedContentData('Chapters')
   return data.map(d => ({ id: d.id }))
 }
 
@@ -14,6 +14,6 @@ type Props = {
 }
 
 export default async function PageData({ params: { id } }: Props) {
-  let chapter = (await getSortedContentData('chapters')).find(c => c.id === id)!
+  let chapter = (await getSortedContentData('Chapters')).find(c => c.id === id)!
   return <Chapter id={id} chapter={chapter} />
 }
