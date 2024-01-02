@@ -22,6 +22,7 @@ const Cache: { [key in ContentType]: ContentData[key][] | undefined } = {
   Chapters: undefined,
   Lore: undefined,
 }
+const Paths: { [k: string]: string } = {}
 
 /**
  * The definition of content includes the type of content along with the data.
@@ -187,6 +188,7 @@ const extractData = async <T extends ContentType>(
         .use(remarkGfm)
         .use(HTML)
         .process(front.content.replace(excerpt_separator, ''))
+
       const html = processedContent.toString()
       const excerpt = front.excerpt
         ? (await remark().use(remarkGfm).use(HTML).process(front.excerpt)).toString()
@@ -329,8 +331,8 @@ export const getSortedContentData = async <T extends ContentType>(
     return cached
   }
 
-  //If we're retrieving chapter data, and Lore isn't cached, cache the lore first (it's needed for Chapter lore)
-  if (type === 'Chapters' && Cache['Lore'] === undefined) {
+  //Always cache Lore first
+  if (type !== 'Lore' && Cache['Lore'] === undefined) {
     getSortedContentData('Lore')
   }
 
@@ -373,7 +375,13 @@ export const getSortedContentData = async <T extends ContentType>(
 
         // Use gray-matter to parse the post metadata section
         const result = matter(fileContents, { excerpt: true, excerpt_separator })
-        return await extractData(type, id, file.name, parent, result)
+        const extracted = await extractData(type, id, file.name, parent, result)
+        if (extracted) {
+          const fileName = file.name.replace(/\.md|\.markdown$/, '')
+          const path = `/${type.toLocaleLowerCase()}/${extracted.id}`
+          Paths[fileName] = path
+        }
+        return extracted
       }),
     )
   )
@@ -381,6 +389,18 @@ export const getSortedContentData = async <T extends ContentType>(
     .flatMap(i => i)
     .sort(sort)
 
+  //Processess obsidian links
+  if (type === 'Lore') {
+    for (const l of data as ContentData['Lore'][]) {
+      l.excerpt = processObsidianLinks(l.excerpt)
+      l.html = processObsidianLinks(l.html)
+    }
+  } else if (type === 'Updates') {
+    for (const l of data as ContentData['Updates'][]) {
+      l.excerpt = processObsidianLinks(l.excerpt)
+      l.html = processObsidianLinks(l.html)
+    }
+  }
   Cache[type] = data as any
   return data
 }
@@ -390,6 +410,31 @@ export const getAllContentIds = async (type: ContentType): Promise<StaticParam<C
   return data.map(({ id }) => {
     return { params: { id } }
   })
+}
+
+const processObsidianLinks = (content: string): string => {
+  const re = new RegExp(/\[\[(.*?)\]\]/g)
+  let found: RegExpExecArray[] = []
+  let match: RegExpExecArray | null = null
+  let processed = content
+  while ((match = re.exec(processed)) !== null) {
+    found.unshift(match)
+  }
+  for (const match of found) {
+    const found = match[1]
+    const matchLength = match[0].length
+    if (!found) continue
+    const path = Paths[found]
+    if (path) {
+      processed =
+        processed.substring(0, match.index) +
+        `<a class='inter_link' href="${path}">${found}</a>` +
+        processed.substring(match.index + matchLength)
+    } else {
+      processed = processed.substring(0, match.index) + found + processed.substring(match.index + matchLength)
+    }
+  }
+  return processed
 }
 
 /**
