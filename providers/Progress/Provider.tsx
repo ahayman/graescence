@@ -9,15 +9,31 @@ export type Props = {
 }
 
 const ProgressProvider = ({ children }: Props) => {
-  const [state, setState] = useState<State>({ currentChapterId: undefined })
+  const [state, setState] = useState<State>({
+    currentChapterId: undefined,
+    chapterProgress: {},
+  })
 
-  const updateCurrentChapter = useCallback((currentChapterId?: string) => {
+  const updateCurrentChapter = useCallback((currentChapterId?: string, progress?: number) => {
     Storage.set('--current-chapter-id', currentChapterId)
-    setState({ currentChapterId })
+    setState(current => {
+      const state = { ...current }
+      state.currentChapterId = currentChapterId
+      if (progress !== undefined && currentChapterId !== undefined) {
+        state.chapterProgress[currentChapterId] = progress
+        Storage.set('--chapter-progress', JSON.stringify(state.chapterProgress))
+      }
+      console.log(`updateCurrentChapterState: `, state)
+      return state
+    })
   }, [])
 
   useEffect(() => {
-    setState({ currentChapterId: Storage.get('--current-chapter-id') })
+    const currentChapterId = Storage.get('--current-chapter-id')
+    const chapterProgressJson = Storage.get('--chapter-progress')
+    const chapterProgress = chapterProgressJson ? JSON.parse(chapterProgressJson) : {}
+    console.log(`Progress Provider Load: ${JSON.stringify({ currentChapterId, chapterProgress, chapterProgressJson })}`)
+    setState({ currentChapterId, chapterProgress })
   }, [])
 
   return (

@@ -11,11 +11,13 @@
   --foreground-color: #fbf1c7;
   --foreground-secondary-color: #afa17c;
   --highlight-color: #56626a;
+  --lore-underline-color: #60a4d2;
   --accent-color: #0f525f;
   --error-color: #b7615e;
   --primary-header-color: #011f2d;
   --secondary-header-color: #1d2326;
   --max-content-width: 50rem;
+  --skim-background: rgba(0, 0, 0, 0.7);
 
   --link-color: #83a598;
   --select-foreground-color: #fbf1c7;
@@ -37,10 +39,12 @@
   --text-entry-background-color: #fff9ef;
   --border-highlight-color: #fff;
   --highlight-color: #6492a1;
+  --lore-underline-color: #88b7d5;
   --accent-color: rgb(177, 217, 225);
   --error-color: #883b38;
   --primary-header-color: #aac0ce;
   --secondary-header-color: #d0d7db;
+  --skim-background: rgba(168, 167, 167, 0.7);
 
   --link-color: #114270;
   --select-foreground-color: #322b1e;
@@ -130,5 +134,39 @@ hr {
 }
 
 .loreHighlight {
-  background-color: var(--highlight-color);
+  position: relative;
+  text-decoration: dotted;
+  text-decoration-line: underline;
+  text-decoration-color: var(--lore-underline-color);
+  cursor: pointer;
+}
+
+.loreHover {
+  position: relative;
+  display: block;
+  padding: 0.25em 0.5em !important;
+  background-color: #0f525f !important;
+  margin: 0 !important;
+  cursor: default;
+}
+
+.loreHighlight .loreHover {
+  visibility: hidden;
+  background-color: var(--background-color);
+  color: var(--foreground-color);
+  border-radius: 0.25em;
+  white-space: nowrap;
+  
+  /* Position the tooltip */
+  position: absolute;
+  z-index: 1;
+  top: 100%;
+  left: 0;
+  transition-property: visibility;
+  transition-delay: 0s;
+}
+
+.loreHighlight:hover .loreHover {
+  visibility: visible;
+  transition-delay: 0.3s;
 }

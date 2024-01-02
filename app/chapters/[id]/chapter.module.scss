@@ -1,3 +1,5 @@
+@use '../../../styles/mixins' as *;
+
 .readOptions {
   position: absolute;
   right: 20pt;
@@ -6,6 +8,45 @@
 
 .loreContainer {
   background-color: var(--border-highlight-color);
+}
+
+.lorePopoverContainer {
+  background-color: var(--background-secondary-color);
+  border-radius: 10pt;
+}
+
+.lorePopoverContent {
+  padding-left: 10pt;
+  padding-right: 10pt;
+  padding-bottom: 5pt;
+}
+
+.lorePopoverBackground {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding-left: 40pt;
+  padding-right: 40pt;
+  @include mobile {
+    padding-left: 5pt;
+    padding-right: 5pt;
+  }
+  background-color: var(--skim-background);
+}
+
+.lorePopoverHeader {
+  border-top-right-radius: 10pt;
+  border-top-left-radius: 10pt;
+  flex-direction: row;
+  display: flex;
+  flex: 1;
+  justify-content: space-between;
+}
+
+.tagsRow {
+  padding: 5pt 0pt;
 }
 
 .topNav {

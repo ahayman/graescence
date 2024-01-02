@@ -43,18 +43,20 @@ const Content = ({ children }: Props) => {
           `}
       </Script>
       <Script id="commento-script" src="https://comments.aaronhayman.com/js/commento.js" strategy="afterInteractive" />
-      <div className={styles.main}>
-        <main>
-          <div>{children}</div>
-        </main>
-        <ContentBlock>
-          <span style={{ color: 'transparent' }}>
-            --------------------------------------------------------------------------------------------------------------------------------------------
-          </span>
-        </ContentBlock>
-        <ContentBlock>
-          <div id="commento"></div>
-        </ContentBlock>
+      <div className={styles.contentView}>
+        <div id="main-content-container" className={styles.main}>
+          <main id="main-content">
+            <div>{children}</div>
+          </main>
+          <ContentBlock>
+            <span style={{ color: 'transparent' }}>
+              --------------------------------------------------------------------------------------------------------------------------------------------
+            </span>
+          </ContentBlock>
+          <ContentBlock>
+            <div id="commento"></div>
+          </ContentBlock>
+        </div>
       </div>
       <div
         id={contId}

@@ -46,7 +46,6 @@ export type ChapterData = ChapterMeta & {
   notes?: string
   html: string
   lore: LoreData[]
-  highlightedHtml: string
 }
 
 export type PostMeta = Meta & {
@@ -158,10 +157,9 @@ const extractData = async <T extends ContentType>(
         volumeNo,
         chapterNo,
         tags,
-        html,
+        html: highlightedHtml,
         volumeName,
         notes,
-        highlightedHtml,
         lore: chapterLore,
       }
       return extract as ContentData[T]
@@ -415,7 +413,7 @@ const parseHighlightedLore = (
         add = true
         highlightedHtml =
           highlightedHtml.substring(0, idx) +
-          '<span class="loreHighlight">' +
+          `<span class="loreHighlight">` +
           tag +
           '</span>' +
           highlightedHtml.substring(idx + tag.length)
