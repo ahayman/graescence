@@ -130,8 +130,9 @@ const extractData = async <T extends ContentType>(
       const volumeNo = Number.parseInt(parent.split(' ')[1].split(' - ')[0])
       const chapterNo = Number.parseInt(fileName.split(' ')[0])
       const tagData = data.tags
-      const tags: string[] =
-        typeof tagData === 'string' ? tagData.split(/,\s*/) : tagData instanceof Array ? tagData : []
+      const tags: string[] = (
+        (typeof tagData === 'string' ? tagData.split(/,\s*/) : tagData instanceof Array ? tagData : []) as string[]
+      ).map(t => t.replaceAll('_', ' '))
 
       if (isNaN(volumeNo) || isNaN(chapterNo)) {
         return undefined
@@ -179,8 +180,9 @@ const extractData = async <T extends ContentType>(
     }
     case 'Lore': {
       const tagData = data.tags
-      const tags: string[] =
-        typeof tagData === 'string' ? tagData.split(/,\s*/) : tagData instanceof Array ? tagData : []
+      const tags: string[] = (
+        (typeof tagData === 'string' ? tagData.split(/,\s*/) : tagData instanceof Array ? tagData : []) as string[]
+      ).map(t => t.replaceAll('_', ' '))
       const processedContent = await remark()
         .use(remarkGfm)
         .use(HTML)
