@@ -30,8 +30,8 @@ const Nav = () => {
   const [menuPos, setMenuPos] = useState(0)
   const latestPost = updates[updates.length - 1]
   const clickDiscardIds = useRef(new Set<string>()).current
-  const currentIdx = currentChapterId ? chapters.byID[currentChapterId] : 0
-  const currentChapter = chapters.items[currentIdx]
+  const currentIdx = currentChapterId ? chapters.byID[currentChapterId] ?? 0 : 0
+  const currentChapter = chapters.items[currentIdx] ?? chapters.items[0]
 
   const toggleNav = (event: MouseEvent<HTMLDivElement>) => {
     for (const id of clickDiscardIds) {
@@ -94,7 +94,7 @@ const Nav = () => {
       </Link>,
       currentChapter && (
         <Link key={`${type}-currentChapter`} className={classes(styles.link)} href={`/chapters/${currentChapter.id}`}>
-          <span className={styles.linkTitle}>{currentIdx === 0 ? 'Begin Reading' : 'Continue Reading'}</span>
+          <span className={styles.linkTitle}>{!currentChapterId ? 'Begin Reading' : 'Continue Reading'}</span>
           <span className={styles.linkDesc}>
             {currentChapter.title.length > 20 ? currentChapter.title.slice(0, 17) + '...' : currentChapter.title}
           </span>
