@@ -36,6 +36,7 @@
 .mobileContainer {
   display: none;
   flex-direction: column;
+  z-index: 10;
   @include mobile {
     display: flex;
   }

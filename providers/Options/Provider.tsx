@@ -1,4 +1,3 @@
-import { formatDistanceToNowStrict } from 'date-fns'
 import React, { useCallback, useEffect, useReducer } from 'react'
 import { Font, FontDefinitions, Global, GlobalVariable, Storage, UITheme } from '../../lib/globals'
 import Reducer from './Reducer'

@@ -26,12 +26,6 @@ const Home = ({ content }: Props) => {
 
   return (
     <>
-      <Header type="Primary">
-        <Column horizontal="center">
-          <h3>Graescence</h3>
-          <span className={utilStyles.smallText}>a web novel</span>
-        </Column>
-      </Header>
       <ContentBlock>
         <div className={postStyles.post} dangerouslySetInnerHTML={{ __html: content }} />
       </ContentBlock>
