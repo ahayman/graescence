@@ -21,8 +21,8 @@
 }
 
 .icon {
-  font-size: 1rem;
-  size: 1rem;
+  font-size: 1.3rem;
+  size: 1.3rem;
 }
 
 .desktopContainer {
@@ -36,7 +36,6 @@
 .mobileContainer {
   display: none;
   flex-direction: column;
-  z-index: 10;
   @include mobile {
     display: flex;
   }
@@ -47,6 +46,7 @@
   flex-direction: column;
   align-items: flex-end;
   position: absolute;
+  z-index: 1000;
   right: 0pt;
   top: 0pt;
   left: 0pt;
@@ -74,6 +74,7 @@
   border-color: var(--border-highlight-color);
   border-width: 1pt;
   border-style: groove;
+  z-index: 10;
 }
 
 .headingContainer {
@@ -88,7 +89,7 @@
   line-height: 1.5;
 
   @include mobile {
-    font-size: 0.8rem;
+    font-size: 1rem;
     line-height: 1;
   }
 }
@@ -97,7 +98,7 @@
   font-size: 0.8em;
   color: var(--foreground-secondary-color);
   @include mobile {
-    font-size: 0.4rem;
+    font-size: 0.6rem;
   }
 }
 
@@ -125,8 +126,8 @@
     text-align: center;
     vertical-align: middle;
     margin: 2pt 0pt;
-    height: 20pt;
-    width: 20pt;
+    height: 35pt;
+    width: 35pt;
   }
 }
 
