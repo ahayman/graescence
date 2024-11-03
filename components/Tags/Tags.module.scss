@@ -9,8 +9,11 @@
 
 .tag {
   padding: 2pt 8pt;
+  cursor: pointer;
   border-radius: 10pt;
   margin-right: 5pt;
+  margin-top: 2pt;
+  margin-bottom: 2pt;
   background-color: var(--accent-color);
   color: var(--foreground-color);
   font-size: 0.8rem;
@@ -18,9 +21,12 @@
 
 .selectedTag {
   background-color: var(--select-background-color);
+  cursor: pointer;
   color: var(--select-foreground-color);
   padding: 2pt 8pt;
   border-radius: 10pt;
   margin-right: 5pt;
+  margin-top: 2pt;
+  margin-bottom: 2pt;
   font-size: 0.8rem;
 }

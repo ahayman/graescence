@@ -13,7 +13,7 @@ import { OptionsContext } from '../../providers/Options/Provider'
 import Row from '../Row'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBars } from '@fortawesome/free-solid-svg-icons'
-import { lightFormat } from 'date-fns'
+import { PatreonLogo } from '../Logos/PatreonLogo'
 
 const name = 'Graescence'
 
@@ -108,6 +108,27 @@ const Nav = () => {
           </span>
         </Link>
       ),
+      <Link
+        key={`${type}-patreon`}
+        target="_blank"
+        className={classes(styles.hLink)}
+        href="https://patreon.com/aaronhayman">
+        <PatreonLogo className={styles.supportLogo} />
+        <span className={styles.linkTitle}>Patreon</span>
+      </Link>,
+      <Link
+        key={`${type}-RoyalRoad`}
+        target="_blank"
+        className={classes(styles.hLink)}
+        href="https://www.royalroad.com/profile/280073">
+        <Image
+          src={uiTheme === 'dark' ? '/images/RR-gold.png' : '/images/RR-silver.png'}
+          alt="Royal Road Logo"
+          width={20}
+          height={20}
+        />
+        <span className={styles.linkTitle}>oyal Road</span>
+      </Link>,
     ]
       .filter(isNotEmpty)
       .joined(idx => <hr key={`${type}-nav.hr.${idx}`} className={styles.navHR} />)
@@ -133,13 +154,13 @@ const Nav = () => {
       <div className={styles.desktopContainer}>
         <hr className={styles.navHR} />
         {navItems('desktop')}
-        <div style={{ flex: 1 }} />
+        <hr className={styles.navHR} />
         {themeSelector('desktop')}
       </div>
       <div className={styles.mobileContainer} onClick={event => toggleNav(event)}>
         <FontAwesomeIcon id="menuIcon" icon={faBars} className={styles.icon} />
         <div className={classes(styles.menuContainer, showMenu ? styles.menuShowing : styles.menuHiding)}>
-          <div style={{ marginTop: menuPos }} className={styles.menu}>
+          <div style={{ marginTop: menuPos }} className={classes(styles.menu)}>
             {navItems('mobile')}
             <hr className={styles.navHR} />
             {themeSelector('mobile')}

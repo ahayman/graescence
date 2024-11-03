@@ -4,11 +4,11 @@
     'Roboto Mono', 'Oxygen Mono', 'Ubuntu Monospace', 'Source Code Pro',
     'Fira Mono', 'Droid Sans Mono', 'Courier New', monospace;
 
-  --background-color: #32302f;
+  --background-color: #0f0d0c;
   --background-secondary-color: #151312;
   --text-entry-background-color: #181614;
   --border-highlight-color: #000;
-  --foreground-color: #fbf1c7;
+  --foreground-color: #ebddad;
   --foreground-secondary-color: #afa17c;
   --highlight-color: #56626a;
   --lore-underline-color: #60a4d2;
@@ -18,6 +18,9 @@
   --secondary-header-color: #1d2326;
   --max-content-width: 50rem;
   --skim-background: rgba(0, 0, 0, 0.7);
+  --foreground-patreon-logo: #ffffff;
+  --background-image:  url('/images/GraescenceArtworkDark.png');
+  --menu-image: url('/images/menuDark.png');
 
   --link-color: #83a598;
   --select-foreground-color: #fbf1c7;
@@ -45,6 +48,9 @@
   --primary-header-color: #aac0ce;
   --secondary-header-color: #d0d7db;
   --skim-background: rgba(168, 167, 167, 0.7);
+  --foreground-patreon-logo: #000000;
+  --background-image:  url('/images/GraescenceArtwork.png');
+  --menu-image: url('/images/menuLight.png');
 
   --link-color: #114270;
   --select-foreground-color: #322b1e;

@@ -8,8 +8,10 @@ import Tags from '../../components/Tags/Tags'
 import { useStateDebouncer } from '../../lib/useStateDebouncert'
 import { ContentContext } from '../../providers/Content/Provider'
 import { DisplayContext } from '../../providers/Display/Provider'
+import { faSortAlphaAsc, faCalendarDays } from '@fortawesome/free-solid-svg-icons'
 import styles from './lore.module.scss'
 import LoreItem from './loreItem'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 type LoreViewData = {
   category: string
@@ -28,14 +30,16 @@ const includeLoreItem = (filter: string, item: LoreExcerpt): boolean => {
 
 export interface Props {
   loreData: LoreExcerpt[]
+  showLatest?: boolean
 }
 
-const LoreHub = ({ loreData }: Props) => {
+const LoreHub = ({ loreData, showLatest }: Props) => {
   const { lore } = useContext(ContentContext)
   const {
     state: { loreCategory, loreFilter },
     actions: { setLoreCategory, setLoreFilter },
   } = useContext(DisplayContext)
+  const [showByLatest, setShowByLatest] = useState(showLatest ?? false)
   const [activeFilter, filter, setFilter] = useStateDebouncer(loreFilter, 500)
   const categories = useMemo(() => ['All', ...Object.keys(lore.byCategory)], [lore.byCategory])
   const data: LoreViewData[] = useMemo(() => {
@@ -63,6 +67,11 @@ const LoreHub = ({ loreData }: Props) => {
     //Filter out categories with no items, and return
     return filteredLore.filter(l => l.items.length > 0)
   }, [lore, loreCategory, loreFilter, loreData])
+  const dataByLatest = useMemo(() => {
+    if (!showByLatest) return []
+    const data = loreFilter ? loreData.filter(i => includeLoreItem(loreFilter, i)) : loreData
+    return data.toSorted((l, r) => new Date(r.date).getTime() - new Date(l.date).getTime())
+  }, [loreFilter, loreData, showByLatest])
 
   useEffect(() => {
     if (loreFilter !== activeFilter) {
@@ -70,25 +79,34 @@ const LoreHub = ({ loreData }: Props) => {
     }
   }, [loreFilter, activeFilter, setLoreFilter])
 
+  const renderLoreByCategory = () =>
+    data.map(viewData => (
+      <section key={viewData.category}>
+        <Header title={viewData.category} type="Secondary" />
+        {viewData.items.map(item => (
+          <LoreItem key={item.id} lore={item} />
+        ))}
+      </section>
+    ))
+
+  const renderByLatest = () => dataByLatest.map(item => <LoreItem key={item.id} lore={item} />)
+
   return (
     <>
-      <Header type="Primary">
+      <Header type="Primary" sticky>
         <Row vertical="center" horizontal="space-between" className={styles.tagsContainer}>
-          <span>Lore</span>
+          <span style={{ marginRight: 5 }}>Lore</span>
+          <Tags tags={categories} selected={loreCategory || 'All'} onSelect={setLoreCategory} />
+          <div style={{ flex: 1 }} />
+          <FontAwesomeIcon
+            className={styles.sortIcon}
+            onClick={() => setShowByLatest(c => !c)}
+            icon={showByLatest ? faCalendarDays : faSortAlphaAsc}
+          />
           <SearchField text={filter} onChange={text => setFilter(text)} />
         </Row>
       </Header>
-      <Row vertical="center" horizontal="start" className={styles.tagsContainer}>
-        <Tags tags={categories} selected={loreCategory || 'All'} onSelect={setLoreCategory} />
-      </Row>
-      {data.map(viewData => (
-        <section key={viewData.category}>
-          <Header title={viewData.category} type="Secondary" />
-          {viewData.items.map(item => (
-            <LoreItem key={item.id} lore={item} />
-          ))}
-        </section>
-      ))}
+      {showByLatest ? renderByLatest() : renderLoreByCategory()}
     </>
   )
 }

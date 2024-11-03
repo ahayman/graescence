@@ -48,21 +48,38 @@
 }
 
 .tertiaryHeader {
-  padding: 3pt 4pt;
-  font-size: 1.2rem;
-  text-decoration: underline;
+  padding: 2pt 0pt;
+  font-size: 1rem;
 }
 
 .infoBlock {
   border-radius: 6pt;
   overflow: hidden;
   margin: 10pt 5pt;
+  flex: 1;
+  background-color: var(--background-color);
   @include mobile {
     margin: 5pt 10pt;
   }
 }
 
+.hPadding {
+  padding-left: 5pt;
+  padding-right: 5pt;
+}
+
+.vPadding {
+  padding-top: 5pt;
+  padding-bottom: 5pt;
+}
+
+.standardPadding {
+  padding: 5pt;
+}
+
 .infoContainer {
+  margin-left: 5pt;
+  margin-right: 5pt;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -70,6 +87,10 @@
     flex-direction: column;
     justify-content: start;
   }
+}
+
+.roundedCorners {
+  border-radius: 10pt;
 }
 
 .colorInherit {

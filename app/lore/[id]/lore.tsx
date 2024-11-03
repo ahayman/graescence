@@ -10,6 +10,7 @@ import ReadingOptions from '../../../components/ReadingOptions/ReadingOptions'
 import { LoreData } from '../../../api/contentData'
 import { faSliders } from '@fortawesome/free-solid-svg-icons'
 import Popover from '../../../components/Popover/Popover'
+import { useRouter } from 'next/navigation'
 
 export type Props = {
   id: string
@@ -18,6 +19,7 @@ export type Props = {
 
 const Lore = ({ lore }: Props) => {
   const { title, date, html, tags, category } = lore
+  const nav = useRouter()
   return (
     <>
       <Header type="Primary">
@@ -37,6 +39,9 @@ const Lore = ({ lore }: Props) => {
       <ContentBlock>
         {tags.length > 0 && <Tags tags={tags} />}
         <div className={postStyles.post} dangerouslySetInnerHTML={{ __html: html }} />
+        <span className={utilStyles.coloredLink} onClick={nav.back}>
+          {'← Back'}
+        </span>
       </ContentBlock>
     </>
   )

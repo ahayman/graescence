@@ -10,6 +10,7 @@ import ReadingOptions from '../../../components/ReadingOptions/ReadingOptions'
 import { PostData } from '../../../api/contentData'
 import { faSliders } from '@fortawesome/free-solid-svg-icons'
 import Popover from '../../../components/Popover/Popover'
+import { useRouter } from 'next/navigation'
 
 export type Props = {
   id: string
@@ -17,6 +18,7 @@ export type Props = {
 }
 
 const Post = ({ post }: Props) => {
+  const nav = useRouter()
   return (
     <div>
       <Header type="Primary">
@@ -35,6 +37,9 @@ const Post = ({ post }: Props) => {
       <div className={utilStyles.lightText}></div>
       <ContentBlock>
         <div className={postStyles.post} dangerouslySetInnerHTML={{ __html: post.html }} />
+        <span className={utilStyles.coloredLink} onClick={nav.back}>
+          {'← Back'}
+        </span>
       </ContentBlock>
     </div>
   )
