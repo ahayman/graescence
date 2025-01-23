@@ -41,28 +41,27 @@ const Home = ({ content }: Props) => {
   )
 
   return (
-    <>
-      <Header type="Primary"></Header>
-      <ContentBlock>
-        <div className={utilStyles.infoContainer}>
-          {currentChapter &&
-            renderInfoBlock('Continue', currentChapter.title, `/chapters/${currentChapter.id}`, currentChapter.date)}
-          {latestChapter &&
-            renderInfoBlock('Latest', latestChapter.title, `/chapters/${latestChapter.id}`, latestChapter.date)}
-          {latestPost && renderInfoBlock('Blog', latestPost.title, `/updates/${latestPost.id}`, latestPost.date)}
-        </div>
-        <Row horizontal="center">
-          <Image
-            className={utilStyles.roundedCorners}
-            src="/images/GraescenceBookCover-500.png"
-            alt="Cover Artwork"
-            width={400}
-            height={533.2}
-          />
-        </Row>
-        <div className={postStyles.post} dangerouslySetInnerHTML={{ __html: content }} />
-      </ContentBlock>
-    </>
+    <ContentBlock>
+      <div className={utilStyles.infoContainer}>
+        {currentChapter &&
+          renderInfoBlock('Continue', currentChapter.title, `/chapters/${currentChapter.id}`, currentChapter.date)}
+        {latestChapter &&
+          renderInfoBlock('Latest', latestChapter.title, `/chapters/${latestChapter.id}`, latestChapter.date)}
+        {latestPost && renderInfoBlock('Blog', latestPost.title, `/updates/${latestPost.id}`, latestPost.date)}
+      </div>
+      <Row horizontal="center">
+        <Image
+          className={utilStyles.roundedCorners}
+          src="/images/GraescenceBookCover-500.png"
+          alt="Cover Artwork"
+          layout="responsive"
+          style={{ minWidth: 150, maxWidth: 400 }}
+          width={400}
+          height={533.2}
+        />
+      </Row>
+      <div className={postStyles.post} dangerouslySetInnerHTML={{ __html: content }} />
+    </ContentBlock>
   )
 }
 export default Home

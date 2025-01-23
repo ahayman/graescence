@@ -101,7 +101,7 @@ export type ContentId = {
   id: string
 }
 
-export type PageContent = 'Home'
+export type PageContent = 'Home' | 'Autism'
 
 /**
  * The primary function to extract the content data from the front matter
@@ -233,14 +233,11 @@ const sortFn = <T extends ContentType>(type: T): ContentSortFn<T> => {
 }
 
 export const getContent = async (type: PageContent): Promise<string> => {
-  switch (type) {
-    case 'Home': {
-      const homePath = path.join(contentDir, 'Pages/Home.md')
-      const fileContents = fs.readFileSync(homePath, 'utf8')
-      const processedContent = await remark().use(remarkGfm).use(HTML).process(fileContents)
-      return processedContent.toString()
-    }
-  }
+  const homePath = path.join(contentDir, `Pages/${type}.md`)
+  const fileContents = fs.readFileSync(homePath, 'utf8')
+  await generateAllPaths()
+  const processedContent = await remark().use(remarkGfm).use(HTML).process(fileContents)
+  return processObsidianLinks(processedContent.toString())
 }
 
 /**
@@ -314,6 +311,53 @@ export const generateRSS = async (type: ContentType) => {
   })
   fs.mkdirSync(`./public/feeds/${type}`, { recursive: true })
   fs.writeFileSync(`./public/feeds/${type}/feed.xml`, feed.rss2())
+}
+
+const generateAllPaths = async () => {
+  Paths['Home'] = '/'
+  Paths['Autism'] = '/Autism'
+  Paths['autism'] = '/Autism'
+  await generatePathsIn('Lore')
+  await generatePathsIn('Updates')
+  await generatePathsIn('Chapters')
+}
+
+const generatePathsIn = async <T extends ContentType>(type: T, dir: string = contentTypeDir(type)): Promise<void> => {
+  //Remove the rootDirectory and replace slashes with a dot to create a rootId
+  const rootDir = contentTypeDir(type)
+  const rootId =
+    rootDir === dir
+      ? ''
+      : encodeURIComponent(
+          dir
+            .replace(rootDir + '/', '')
+            .replace(' & ', '-')
+            .replaceAll(' ', '_')
+            .replaceAll('/', '.')
+            .replaceAll('&', '-'),
+        )
+  const contents = fs.readdirSync(dir, { withFileTypes: true })
+  for (const file of contents) {
+    // Remove ".md" from file name to get id
+    const fullPath = path.join(dir, file.name)
+    if (file.isDirectory()) {
+      return await generatePathsIn(type, fullPath)
+    }
+    if (!file.name.endsWith('.md') && !file.name.endsWith('.markdown')) {
+      return undefined
+    }
+
+    const fileId = encodeURIComponent(
+      file.name
+        .replace(/\.md|\.markdown$/, '')
+        .replace(' & ', '-')
+        .replaceAll(' ', '_')
+        .replaceAll('&', '-'),
+    )
+    const id = [rootId, fileId].filter(i => !!i).join('.')
+    const fileName = file.name.replace(/\.md|\.markdown$/, '')
+    Paths[fileName] = `/${type.toLocaleLowerCase()}/${id}`
+  }
 }
 
 /**
@@ -424,14 +468,17 @@ const processObsidianLinks = (content: string): string => {
     const found = match[1]
     const matchLength = match[0].length
     if (!found) continue
-    const path = Paths[found]
+    const parts = found.split('|')
+    // If there are multiple `parts`, `part[0]` is the `path` and `part[1]` is the name.
+    const path = parts.length > 1 ? parts[0] : Paths[found]
+    const name = parts.length > 1 ? parts[1] : found
     if (path) {
       processed =
         processed.substring(0, match.index) +
-        `<a class='inter_link' href="${path}">${found}</a>` +
+        `<a class='inter_link' href="${path}">${name}</a>` +
         processed.substring(match.index + matchLength)
     } else {
-      processed = processed.substring(0, match.index) + found + processed.substring(match.index + matchLength)
+      processed = processed.substring(0, match.index) + name + processed.substring(match.index + matchLength)
     }
   }
   return processed
