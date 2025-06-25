@@ -1,4 +1,4 @@
-import { LoreExcerpt } from '../../../api/contentData'
+import { LoreExcerpt } from '../../../api/types'
 import Header from '../../../components/Header/Header'
 import LoreItem from '../../lore/loreItem'
 import styles from './chapter.module.scss'

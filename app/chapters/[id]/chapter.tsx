@@ -16,8 +16,7 @@ import { ProgressContext } from '../../../providers/Progress/Provider'
 import { faNoteSticky, faListSquares, faSliders, faClose } from '@fortawesome/free-solid-svg-icons'
 import Popover from '../../../components/Popover/Popover'
 import ChapterLore from './chapterLore'
-import { DisplayContext } from '../../../providers/Display/Provider'
-import { ChapterData, LoreData } from '../../../api/contentData'
+import { ChapterData, LoreData } from '../../../api/types'
 import Column from '../../../components/Column'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
@@ -51,13 +50,8 @@ const ChapterLoreItem = ({ lore, dismiss }: { lore: LoreData; dismiss: () => voi
 )
 
 const Chapter = ({ id, chapter }: Props) => {
-  const {
-    state: { popover },
-  } = useContext(DisplayContext)
-  const highlightLore = popover?.name === 'ChapterLore'
   const [lorePopover, setLorePopover] = useState<LorePopoverState>()
   const { chapters } = useContext(ContentContext)
-  const loreEnums = useRef<Element[]>()
   const timeoutRef = useRef<NodeJS.Timeout>()
   const autoScroll = useRef(true)
   const {

@@ -5,7 +5,8 @@ import { ReactNode } from 'react'
 import styles from './layout.module.scss'
 import Nav from '../components/Nav/nav'
 import Providers from './providers'
-import { getSortedContentData, PostMeta, ChapterMeta, LoreMeta, Meta } from '../api/contentData'
+import { ChapterMeta, HistoryMeta, LoreMeta, Meta } from '../api/types'
+import { getSortedContentData } from '../api/contentData'
 import Content from '../components/Content/Content'
 
 export type Props = {
@@ -20,7 +21,7 @@ const Layout = async ({ children }: Props) => {
    * Otherwise, the entire dataset will be loaded into each page (since this is a layout)
    * which will bloat the website. We _only_ want metatdata here.
    */
-  const updates: Meta[] = (await getSortedContentData('Updates')).map(({ id, title, date }) => ({
+  const blog: Meta[] = (await getSortedContentData('Blog')).map(({ id, title, date }) => ({
     id,
     title,
     date,
@@ -45,6 +46,8 @@ const Layout = async ({ children }: Props) => {
     tags,
     category,
   }))
+  const history: HistoryMeta[] = await getSortedContentData('History')
+
   return (
     <html>
       <Head>
@@ -54,7 +57,7 @@ const Layout = async ({ children }: Props) => {
       </Head>
       <body>
         <div className={styles.container}>
-          <Providers content={{ updates, chapters, lore }}>
+          <Providers content={{ blog, chapters, lore, history }}>
             <div className={styles.split}>
               <div className={styles.nav}>{<Nav />}</div>
               <Content>{children}</Content>

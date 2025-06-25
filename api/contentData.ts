@@ -8,9 +8,9 @@ import remarkGfm from 'remark-gfm'
 import { Extension, Feed, Item } from 'feed'
 import { parseISO } from 'date-fns'
 import { isNotEmpty } from '../lib/utils'
+import { ChapterData, ContentId, ContentType, HistoryData, LoreData, PostData } from './types'
 
 //Must match the actual content directory name
-export type ContentType = 'Updates' | 'Chapters' | 'Lore'
 const contentDir = path.join(process.cwd(), 'content')
 const contentTypeDir = (type: ContentType) => path.join(contentDir, type)
 const excerpt_separator = '<-- excerpt -->'
@@ -18,9 +18,10 @@ const notes_separator = '<-- note -->'
 
 const VolumeNames: { [key: number]: string | undefined } = {}
 const Cache: { [key in ContentType]: ContentData[key][] | undefined } = {
-  Updates: undefined,
+  Blog: undefined,
   Chapters: undefined,
   Lore: undefined,
+  History: undefined,
 }
 const Paths: { [k: string]: string } = {}
 
@@ -30,78 +31,15 @@ const Paths: { [k: string]: string } = {}
 export type ContentDefinition<Type extends ContentType, Data extends {}> = { [key in Type]: Data }
 
 /**
- * Meta associated with a chapter (missing content)
- */
-export type ChapterMeta = Meta & {
-  volumeNo: number
-  volumeName?: string
-  chapterNo: number
-  tags: string[]
-}
-
-/**
- * All data associated with a Chapter
- */
-export type ChapterData = ChapterMeta & {
-  type: 'chapter'
-  notes?: string
-  html: string
-  lore: LoreData[]
-}
-
-export type PostMeta = Meta & {
-  type: 'post'
-  excerpt: string
-}
-
-/**
- * The data associated with a Blog Post/Update
- */
-export type PostData = PostMeta & {
-  html: string
-}
-
-/**
- * Lore Metatdata includes everything except lore content.
- */
-export type LoreMeta = Meta & {
-  type: 'lore'
-  category: string
-  tags: string[]
-}
-
-export type LoreExcerpt = LoreMeta & {
-  excerpt: string
-}
-
-/**
- * The data associated with Lore (meta + content)
- */
-export type LoreData = LoreMeta & {
-  excerpt: string
-  html: string
-}
-
-/**
- * Content Data is a union type that represents Updates, Chapters,
+ * Content Data is a union type that represents Blog, Chapters,
  * and Lore.
  */
-type ContentData = ContentDefinition<'Updates', PostData> &
+type ContentData = ContentDefinition<'Blog', PostData> &
   ContentDefinition<'Chapters', ChapterData> &
-  ContentDefinition<'Lore', LoreData>
+  ContentDefinition<'Lore', LoreData> &
+  ContentDefinition<'History', HistoryData>
 
-/// Metadat common to all Content
-export type Meta = ContentId & {
-  title: string
-  date: string
-}
-
-/// Content ID for all content.
-export type ContentId = {
-  id: string
-}
-
-export type PageContent = 'Home' | 'Autism'
+export type PageContent = 'Home'
 
 /**
  * The primary function to extract the content data from the front matter
@@ -166,19 +104,22 @@ const extractData = async <T extends ContentType>(
       }
       return extract as ContentData[T]
     }
-    case 'Updates': {
+    case 'Blog': {
       const excerpt = front.excerpt
         ? (await remark().use(remarkGfm).use(HTML).process(front.excerpt)).toString()
-        : (await remark().use(remarkGfm).use(HTML).process(front.content.replace(excerpt_separator, ''))).toString()
+        : (
+            await remark().use(remarkGfm).use(HTML).process(front.content.replace(excerpt_separator, '').split('\n')[0])
+          ).toString()
 
       const processedContent = await remark()
         .use(remarkGfm)
         .use(HTML)
         .process(front.content.replace(excerpt_separator, ''))
       const html = processedContent.toString()
-      const extract: ContentData['Updates'] = { type: 'post', id, title, date, excerpt, html }
+      const extract: ContentData['Blog'] = { type: 'post', id, title, date, excerpt, html }
       return extract as ContentData[T]
     }
+    case 'History':
     case 'Lore': {
       const tagData = data.tags
       const tags: string[] = (
@@ -192,7 +133,9 @@ const extractData = async <T extends ContentType>(
       const html = processedContent.toString()
       const excerpt = front.excerpt
         ? (await remark().use(remarkGfm).use(HTML).process(front.excerpt)).toString()
-        : (await remark().use(remarkGfm).use(HTML).process(front.content.replace(excerpt_separator, ''))).toString()
+        : (
+            await remark().use(remarkGfm).use(HTML).process(front.content.replace(excerpt_separator, '').split('\n')[0])
+          ).toString()
       const extract: ContentData['Lore'] = { type: 'lore', id, title, date, category: parent, tags, html, excerpt }
       return extract as ContentData[T]
     }
@@ -315,10 +258,8 @@ export const generateRSS = async (type: ContentType) => {
 
 const generateAllPaths = async () => {
   Paths['Home'] = '/'
-  Paths['Autism'] = '/Autism'
-  Paths['autism'] = '/Autism'
   await generatePathsIn('Lore')
-  await generatePathsIn('Updates')
+  await generatePathsIn('Blog')
   await generatePathsIn('Chapters')
 }
 
@@ -439,8 +380,8 @@ export const getSortedContentData = async <T extends ContentType>(
       l.excerpt = processObsidianLinks(l.excerpt)
       l.html = processObsidianLinks(l.html)
     }
-  } else if (type === 'Updates') {
-    for (const l of data as ContentData['Updates'][]) {
+  } else if (type === 'Blog') {
+    for (const l of data as ContentData['Blog'][]) {
       l.excerpt = processObsidianLinks(l.excerpt)
       l.html = processObsidianLinks(l.html)
     }

@@ -1,4 +1,5 @@
-import { getSortedContentData, LoreExcerpt } from '../../api/contentData'
+import { LoreExcerpt } from '../../api/types'
+import { getSortedContentData } from '../../api/contentData'
 import LoreHub from './LoreHub'
 
 export default async function PageData() {

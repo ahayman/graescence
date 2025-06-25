@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { LoreExcerpt } from '../../api/contentData'
+import { LoreExcerpt } from '../../api/types'
 import ContentBlock from '../../components/ContentBlock/ContentBlock'
 import Row from '../../components/Row'
 import Tags from '../../components/Tags/Tags'

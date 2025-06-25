@@ -22,13 +22,13 @@ const Nav = () => {
     state: { uiTheme },
     actions: { setUITheme },
   } = useContext(OptionsContext)
-  const { updates, chapters } = useContext(ContentContext)
+  const { blog, chapters } = useContext(ContentContext)
   const {
     state: { currentChapterId },
   } = useContext(ProgressContext)
   const [showMenu, setShowMenu] = useState(false)
   const [menuPos, setMenuPos] = useState(0)
-  const latestPost = updates[updates.length - 1]
+  const latestPost = blog[blog.length - 1]
   const clickDiscardIds = useRef(new Set<string>()).current
   const currentIdx = currentChapterId ? chapters.byID[currentChapterId] ?? 0 : 0
   const currentChapter = chapters.items[currentIdx] ?? chapters.items[0]
@@ -88,14 +88,14 @@ const Nav = () => {
           Home
         </Link>
       ) : null,
+      <Link key={`${type}-blog`} className={classes(styles.link)} href="/blog">
+        Blog
+      </Link>,
       <Link key={`${type}-toc`} className={classes(styles.link)} href="/toc">
         Table of Contents
       </Link>,
       <Link key={`${type}-lore`} className={classes(styles.link)} href="/lore">
         Lore
-      </Link>,
-      <Link key={`${type}-updates`} className={classes(styles.link)} href="/updates">
-        Updates
       </Link>,
       currentChapter ? (
         <Link key={`${type}-currentChapter`} className={classes(styles.link)} href={`/chapters/${currentChapter.id}`}>
@@ -106,37 +106,34 @@ const Nav = () => {
         </Link>
       ) : null,
       latestPost ? (
-        <Link key={`${type}-latestPost`} className={classes(styles.link)} href={`/updates/${latestPost.id}`}>
+        <Link key={`${type}-latestPost`} className={classes(styles.link)} href={`/blog/${latestPost.id}`}>
           <span className={styles.linkTitle}>Latest Update</span>
           <span className={styles.linkDesc}>
             {latestPost.title.length > 20 ? latestPost.title.slice(0, 17) + '...' : latestPost.title}
           </span>
         </Link>
       ) : null,
-      <Link key={`${type}-toc`} className={classes(styles.link)} href="/Autism">
-        Autism
-      </Link>,
       <Link
         key={`${type}-patreon`}
         target="_blank"
         className={classes(styles.hLink)}
-        href="https://patreon.com/aaronhayman">
+        href="https://patreon.com/apoetsanon">
         <PatreonLogo className={styles.supportLogo} />
         <span className={styles.linkTitle}>Patreon</span>
       </Link>,
-      <Link
-        key={`${type}-RoyalRoad`}
-        target="_blank"
-        className={classes(styles.hLink)}
-        href="https://www.royalroad.com/profile/280073">
-        <Image
-          src={uiTheme === 'dark' ? '/images/RR-gold.png' : '/images/RR-silver.png'}
-          alt="Royal Road Logo"
-          width={20}
-          height={20}
-        />
-        <span className={styles.linkTitle}>oyal Road</span>
-      </Link>,
+      // <Link
+      //   key={`${type}-RoyalRoad`}
+      //   target="_blank"
+      //   className={classes(styles.hLink)}
+      //   href="https://www.royalroad.com/profile/280073">
+      //   <Image
+      //     src={uiTheme === 'dark' ? '/images/RR-gold.png' : '/images/RR-silver.png'}
+      //     alt="Royal Road Logo"
+      //     width={20}
+      //     height={20}
+      //   />
+      //   <span className={styles.linkTitle}>oyal Road</span>
+      // </Link>,
     ]
       .filter(isNotEmpty)
       .joined(idx => <hr key={`${type}-nav.hr.${idx}`} className={styles.navHR} />)

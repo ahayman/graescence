@@ -1,6 +1,6 @@
 'use client'
 import { useContext, useEffect, useMemo, useState } from 'react'
-import { LoreExcerpt, LoreMeta } from '../../api/contentData'
+import { LoreExcerpt, LoreMeta } from '../../api/types'
 import Header from '../../components/Header/Header'
 import Row from '../../components/Row'
 import SearchField from '../../components/Search/SearchField'
@@ -67,6 +67,7 @@ const LoreHub = ({ loreData, showLatest }: Props) => {
     //Filter out categories with no items, and return
     return filteredLore.filter(l => l.items.length > 0)
   }, [lore, loreCategory, loreFilter, loreData])
+
   const dataByLatest = useMemo(() => {
     if (!showByLatest) return []
     const data = loreFilter ? loreData.filter(i => includeLoreItem(loreFilter, i)) : loreData

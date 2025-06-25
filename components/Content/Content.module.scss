@@ -3,6 +3,7 @@
     min-width: 10rem;
     max-height: 100vh;
     overflow: scroll;
+    margin-top: 5pt;
     border-right-width: 1pt;
     border-left-width: 1pt;
     border-bottom-width: 1pt;
@@ -10,6 +11,7 @@
     border-left-style: groove;
     border-right-style: groove;
     border-bottom-style: groove;
+    border-radius: 10pt;
     background-color: var(--background-color);
  } 
 

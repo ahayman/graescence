@@ -18,12 +18,12 @@ export interface Props {
 }
 
 const Home = ({ content }: Props) => {
-  const { chapters, updates } = useContext(ContentContext)
+  const { chapters, blog } = useContext(ContentContext)
   const {
     state: { currentChapterId },
   } = useContext(ProgressContext)
   const latestChapter = chapters.items[chapters.items.length - 1]
-  const latestPost = updates[updates.length - 1]
+  const latestPost = blog[blog.length - 1]
   const currentChapter = currentChapterId ? chapters.items[chapters.byID[currentChapterId]] : undefined
 
   const renderInfoBlock = (header: string, title: string, link: string, dateString?: string) => (
@@ -47,7 +47,7 @@ const Home = ({ content }: Props) => {
           renderInfoBlock('Continue', currentChapter.title, `/chapters/${currentChapter.id}`, currentChapter.date)}
         {latestChapter &&
           renderInfoBlock('Latest', latestChapter.title, `/chapters/${latestChapter.id}`, latestChapter.date)}
-        {latestPost && renderInfoBlock('Blog', latestPost.title, `/updates/${latestPost.id}`, latestPost.date)}
+        {latestPost && renderInfoBlock('Blog', latestPost.title, `/blog/${latestPost.id}`, latestPost.date)}
       </div>
       <Row horizontal="center">
         <Image

@@ -7,7 +7,7 @@ import ContentBlock from '../../../components/ContentBlock/ContentBlock'
 import Tags from '../../../components/Tags/Tags'
 import Header from '../../../components/Header/Header'
 import ReadingOptions from '../../../components/ReadingOptions/ReadingOptions'
-import { LoreData } from '../../../api/contentData'
+import { LoreData } from '../../../api/types'
 import { faSliders } from '@fortawesome/free-solid-svg-icons'
 import Popover from '../../../components/Popover/Popover'
 import { useRouter } from 'next/navigation'
@@ -22,7 +22,7 @@ const Lore = ({ lore }: Props) => {
   const nav = useRouter()
   return (
     <>
-      <Header type="Primary">
+      <Header type="Primary" sticky>
         <Row horizontal="space-between" vertical="center">
           {title}
           <Popover icon={faSliders} name="ReadingOptions">
