@@ -5,7 +5,7 @@ import postStyles from '../../../styles/post.module.scss'
 import styles from './chapter.module.scss'
 import ReadingOptions from '../../../components/ReadingOptions/ReadingOptions'
 import Row from '../../../components/Row'
-import { PointerEvent, useCallback, useContext, useEffect, useRef, useState } from 'react'
+import { PointerEvent, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'
 import { ContentContext } from '../../../providers/Content/Provider'
 import ContentBlock from '../../../components/ContentBlock/ContentBlock'
 import Header from '../../../components/Header/Header'
@@ -58,9 +58,9 @@ const Chapter = ({ id, chapter }: Props) => {
     state: { chapterProgress },
     actions: { updateCurrentChapter },
   } = useContext(ProgressContext)
-  const chapterIdx = chapters.byID[id]
-  const nextChapter = chapters.items[chapterIdx + 1]
-  const prevChapter = chapters.items[chapterIdx - 1]
+  const chapterIdx = useMemo(() => chapters.findIndex(c => c.id === id), [chapters, id])
+  const nextChapter = chapters[chapterIdx + 1]
+  const prevChapter = chapters[chapterIdx - 1]
 
   const scrollTo = useCallback((progress: number) => {
     const scrollable = document.getElementById('main-content-container')
@@ -102,7 +102,6 @@ const Chapter = ({ id, chapter }: Props) => {
       const position = { x: pointerEvent.screenX, y: pointerEvent.screenY }
       const targetElement: Element = event.target as unknown as Element
       const tag = targetElement?.firstChild?.nodeValue
-      console.log('Lore Clicked! : ', tag)
       if (!tag) return
       let lore: LoreData | undefined
       for (const l of chapter.lore) {

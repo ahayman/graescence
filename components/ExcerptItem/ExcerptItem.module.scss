@@ -1,0 +1,32 @@
+@use '../styles/mixins' as *;
+
+.headerRow {
+  padding-left: 5pt;
+  padding-right: 5pt;
+  border-bottom-color: var(--highlight-color);
+  border-bottom-width: 1pt;
+  border-bottom-style: solid;
+  font-weight: 500;
+}
+
+.date {
+  color: var(--foreground-secondary-color);
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  margin: 10pt;
+  border-radius: 5pt;
+  background-color: var(--background-tertiary-color);
+  margin-bottom: 5pt;
+
+  @include mobile {
+    margin: 5pt 1pt;
+  }
+}
+
+.excerpt {
+  padding: 5pt;
+}

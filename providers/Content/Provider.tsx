@@ -1,6 +1,6 @@
-import { createContext, ReactNode, useMemo } from 'react'
+import { createContext, ReactNode } from 'react'
 import { ChapterMeta, HistoryMeta, LoreMeta, Meta } from '../../api/types'
-import { Chapters, Lore, State } from './Types'
+import { State } from './Types'
 
 export const ContentContext = createContext<State>({} as any)
 
@@ -13,74 +13,6 @@ export type Props = {
 }
 
 const ContentProvider = ({ children, blog, chapters, lore, history }: Props) => {
-  const loreData = useMemo(() => extractLoreFromData(lore), [lore])
-  const chapterData = useMemo(() => extractChaptersFromData(chapters), [chapters])
-  return (
-    <ContentContext.Provider
-      value={{
-        lore: loreData,
-        chapters: chapterData,
-        blog,
-        history,
-      }}>
-      {children}
-    </ContentContext.Provider>
-  )
+  return <ContentContext.Provider value={{ chapters, lore, history, blog }}>{children}</ContentContext.Provider>
 }
 export default ContentProvider
-
-const extractChaptersFromData = (items: ChapterMeta[]): Chapters => {
-  const byID: { [key: string]: number } = {}
-  const byVolume: { [key: string]: number[] } = {}
-  const byTag: { [key: string]: number[] } = {}
-  const volumeName: { [key: number]: string | undefined } = {}
-  items.forEach((chapter, index) => {
-    // Set Chapter id data
-    byID[chapter.id] = index
-
-    if (!volumeName[chapter.volumeNo] && chapter.volumeName) {
-      volumeName[chapter.volumeNo] = chapter.volumeName
-    }
-
-    // Set Chapter Volumes
-    if (!byVolume[chapter.volumeNo]) {
-      byVolume[chapter.volumeNo] = []
-    }
-    byVolume[chapter.volumeNo]?.push(index)
-
-    //Set Chapter Tags
-    for (const tag of chapter.tags) {
-      if (!byTag[tag]) {
-        byTag[tag] = []
-      }
-      byTag[tag]?.push(index)
-    }
-  })
-  return { byID, byVolume, byTag, items, volumeName }
-}
-
-const extractLoreFromData = (items: LoreMeta[]): Lore => {
-  const byID: { [key: string]: number } = {}
-  const byCategory: { [key: string]: number[] } = {}
-  const byTag: { [key: string]: number[] } = {}
-  items.forEach((lore, index) => {
-    //Set Lore id
-    byID[lore.id] = index
-
-    //Set Category
-    if (!byCategory[lore.category]) {
-      byCategory[lore.category] = []
-    }
-    byCategory[lore.category]?.push(index)
-
-    //Set Chapter Tags
-    for (const tag in lore.tags) {
-      if (!byTag[tag]) {
-        byTag[tag] = []
-      }
-      byTag[tag]?.push(index)
-    }
-  })
-
-  return { byID, byCategory, byTag, items }
-}

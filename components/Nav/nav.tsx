@@ -1,6 +1,6 @@
 'use client'
 import Link from 'next/link'
-import { MouseEvent, useRef } from 'react'
+import { MouseEvent, useMemo, useRef } from 'react'
 import {} from '../../lib/array'
 import { classes, isNotEmpty } from '../../lib/utils'
 import styles from './nav.module.scss'
@@ -28,10 +28,12 @@ const Nav = () => {
   } = useContext(ProgressContext)
   const [showMenu, setShowMenu] = useState(false)
   const [menuPos, setMenuPos] = useState(0)
+  const currentChapter = useMemo(
+    () => chapters.find(c => c.id === currentChapterId) ?? chapters[0],
+    [chapters, currentChapterId],
+  )
   const latestPost = blog[blog.length - 1]
   const clickDiscardIds = useRef(new Set<string>()).current
-  const currentIdx = currentChapterId ? chapters.byID[currentChapterId] ?? 0 : 0
-  const currentChapter = chapters.items[currentIdx] ?? chapters.items[0]
 
   const toggleNav = (event: MouseEvent<HTMLDivElement>) => {
     for (const id of clickDiscardIds) {
@@ -96,6 +98,9 @@ const Nav = () => {
       </Link>,
       <Link key={`${type}-lore`} className={classes(styles.link)} href="/lore">
         Lore
+      </Link>,
+      <Link key={`${type}-history`} className={classes(styles.link)} href="/history">
+        World History
       </Link>,
       currentChapter ? (
         <Link key={`${type}-currentChapter`} className={classes(styles.link)} href={`/chapters/${currentChapter.id}`}>

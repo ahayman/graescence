@@ -13,13 +13,13 @@ import Row from '../../components/Row'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons'
 import Tags from '../../components/Tags/Tags'
-import { IncludeFn } from '../../hooks/useFilter'
 import { ChapterMeta } from '../../api/types'
 import SearchField from '../../components/Search/SearchField'
 import { DisplayContext } from '../../providers/Display/Provider'
 import { useStateDebouncer } from '../../lib/useStateDebouncert'
+import { useStructuredChapterData } from './useStructuredChapterData'
 
-const Include: IncludeFn<ChapterMeta> = (chapter, filter) => {
+const includeChapter = (chapter: ChapterMeta, filter: string) => {
   if (chapter.title.includes(filter)) {
     return true
   }
@@ -37,22 +37,23 @@ type ChapaterViewData = {
 
 const TOC = () => {
   const { chapters } = useContext(ContentContext)
+  const chapterData = useStructuredChapterData(chapters)
   const {
     state: { chapterFilter, chapterTag },
     actions: { setChapterFilter, setChapterTag },
   } = useContext(DisplayContext)
   const [collapsed, setCollapsed] = useState<{ [k: number]: boolean }>({})
-  const tags = useMemo(() => ['All', ...Object.keys(chapters.byTag).sort()], [chapters.byTag])
+  const tags = useMemo(() => ['All', ...Object.keys(chapterData.byTag).sort()], [chapterData.byTag])
   const [activeFilter, filter, setFilter] = useStateDebouncer(chapterFilter, 500)
 
   const data: ChapaterViewData[] = useMemo(() => {
-    const tagged = chapterTag && chapterTag !== 'All' ? chapters.byTag[chapterTag] : undefined
+    const tagged = chapterTag && chapterTag !== 'All' ? chapterData.byTag[chapterTag] : undefined
     //Filter Lore according to search
-    const filtered = chapters.items.filter((chapter, idx) => {
+    const filtered = chapterData.items.filter((chapter, idx) => {
       if (tagged && !tagged.includes(idx)) {
         return false
       }
-      if (chapterFilter && !Include(chapter, chapterFilter)) {
+      if (chapterFilter && !includeChapter(chapter, chapterFilter)) {
         return false
       }
       return true
@@ -66,10 +67,10 @@ const TOC = () => {
       .sort()
       .map(no => ({
         volNo: no,
-        volume: `Volume ${no}${chapters.volumeName[no] ? ': ' + chapters.volumeName[no] : ''}`,
+        volume: `Volume ${no}${chapterData.volumeName[no] ? ': ' + chapterData.volumeName[no] : ''}`,
         chapters: byVolume[no],
       }))
-  }, [chapters, chapterTag, chapterFilter])
+  }, [chapterData, chapterTag, chapterFilter])
 
   useEffect(() => {
     if (chapterFilter !== activeFilter) {

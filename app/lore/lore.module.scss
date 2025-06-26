@@ -3,12 +3,6 @@
   padding: 3pt 5pt;
 }
 
-.headerRow {
-  background-color: var(--background-color);
-  padding-left: 5pt;
-  padding-right: 5pt;
-}
-
 .tagsRow {
   padding: 5pt 0pt;
 }
@@ -23,10 +17,32 @@
   color: var(--foreground-secondary-color);
 }
 
+.sortIconContainer {
+  cursor: pointer;
+  padding: 5pt 6pt 5pt 10pt;
+  background-color: var(--background-secondary-color);
+  color: var(--foreground-color);
+  border-radius: 1000pt;
+}
+
 .sortIcon {
   width: 1.5rem;
   height: 1.5rem;
   margin-right: 5pt;
-  color: var(--foreground-color);
+  font-size: 10pt;
+  size: 10pt;
+  color: var(--foreground-secondary-color);
   transition: all 300ms ease-in-out;
+}
+
+.vr {
+  background-color: var(--highlight-color);
+  width: 1pt;
+  margin-right: 2pt;
+  height: 20pt;
+  align-self: stretch;
+}
+
+.selected {
+  color: var(--accent-color);
 }

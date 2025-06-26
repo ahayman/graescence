@@ -6,6 +6,9 @@ type Action =
   | ReducerAction<'setChapterFilter', { filter?: string }>
   | ReducerAction<'setLoreCategory', { category?: string | 'All' }>
   | ReducerAction<'setLoreFilter', { filter?: string }>
+  | ReducerAction<'setHistoryCategory', { category?: string | 'All' }>
+  | ReducerAction<'setHistoryFilter', { filter?: string }>
+  | ReducerAction<'setHistorySort', { sortDirection: 'ascending' | 'descending' }>
   | ReducerAction<'setPopover', { content?: PopoverContent }>
 
 const Reducer = (state: State, action: Action): State => {
@@ -20,6 +23,12 @@ const Reducer = (state: State, action: Action): State => {
       return { ...state, loreFilter: action.filter }
     case 'setPopover':
       return { ...state, popover: action.content }
+    case 'setHistoryCategory':
+      return { ...state, historyCategory: action.category }
+    case 'setHistoryFilter':
+      return { ...state, historyFilter: action.filter }
+    case 'setHistorySort':
+      return { ...state, historySortDirection: action.sortDirection }
   }
 }
 export default Reducer

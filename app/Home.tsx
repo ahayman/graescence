@@ -4,7 +4,7 @@ import postStyles from '../styles/post.module.scss'
 import Date from '../components/date'
 import Link from 'next/link'
 import { classes } from '../lib/utils'
-import { useContext } from 'react'
+import { useContext, useMemo } from 'react'
 import { ContentContext } from '../providers/Content/Provider'
 import ContentBlock from '../components/ContentBlock/ContentBlock'
 import Header from '../components/Header/Header'
@@ -22,9 +22,12 @@ const Home = ({ content }: Props) => {
   const {
     state: { currentChapterId },
   } = useContext(ProgressContext)
-  const latestChapter = chapters.items[chapters.items.length - 1]
+  const currentChapter = useMemo(
+    () => chapters.find(c => c.id === currentChapterId) ?? chapters[0],
+    [chapters, currentChapterId],
+  )
+  const latestChapter = chapters[chapters.length - 1]
   const latestPost = blog[blog.length - 1]
-  const currentChapter = currentChapterId ? chapters.items[chapters.byID[currentChapterId]] : undefined
 
   const renderInfoBlock = (header: string, title: string, link: string, dateString?: string) => (
     <Column className={utilStyles.infoBlock}>

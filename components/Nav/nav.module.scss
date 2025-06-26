@@ -8,9 +8,10 @@
   max-width: 20rem;
   height: 100vh;
   overflow: scroll;
-  background-image: var(--menu-image);
+  background: var(--menu-image), var(--menu-color-overlay);
   background-size: cover;
   background-repeat: no-repeat;
+  background-blend-mode: overlay;
 
   @include mobile {
     flex-direction: row;
@@ -72,14 +73,14 @@
 }
 
 .menu {
-  background-color: var(--background-secondary-color);
+  background: var(--menu-image), var(--menu-color-overlay);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-blend-mode: overlay;
   border-radius: 5pt;
   border-color: var(--border-highlight-color);
   border-width: 1pt;
   border-style: groove;
-  background-image: var(--menu-image);
-  background-size: cover;
-  background-repeat: no-repeat;
   z-index: 10;
 }
 

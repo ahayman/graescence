@@ -24,6 +24,34 @@ const Cache: { [key in ContentType]: ContentData[key][] | undefined } = {
   History: undefined,
 }
 const Paths: { [k: string]: string } = {}
+const PathIds: { [k: string]: string } = {}
+const SanitizedPaths: { [k: string]: string } = {}
+
+const addPath = (id: string, path: string) => {
+  if (!path.startsWith('/')) {
+    path = '/' + path
+  }
+  Paths[id.toLocaleLowerCase()] = path
+  PathIds[path.toLocaleLowerCase()] = id
+  SanitizedPaths[path.replace('.', '/').toLocaleLowerCase()] = path
+}
+
+const getPath = (idOrPath: string): string | undefined => {
+  let key = idOrPath.toLocaleLowerCase()
+  let path = Paths[key]
+  if (path) return path
+  // key is a path, so we need to sanitize it
+  if (!idOrPath.startsWith('/')) {
+    key = `/${key}`.replaceAll(' ', '_')
+  }
+
+  path = SanitizedPaths[key]
+
+  if (!path || !PathIds[path.toLocaleLowerCase()]) {
+    return undefined
+  }
+  return path
+}
 
 /**
  * The definition of content includes the type of content along with the data.
@@ -105,12 +133,7 @@ const extractData = async <T extends ContentType>(
       return extract as ContentData[T]
     }
     case 'Blog': {
-      const excerpt = front.excerpt
-        ? (await remark().use(remarkGfm).use(HTML).process(front.excerpt)).toString()
-        : (
-            await remark().use(remarkGfm).use(HTML).process(front.content.replace(excerpt_separator, '').split('\n')[0])
-          ).toString()
-
+      const excerpt = await getExcerpt(front)
       const processedContent = await remark()
         .use(remarkGfm)
         .use(HTML)
@@ -119,7 +142,34 @@ const extractData = async <T extends ContentType>(
       const extract: ContentData['Blog'] = { type: 'post', id, title, date, excerpt, html }
       return extract as ContentData[T]
     }
-    case 'History':
+    case 'History': {
+      const tagData = data.tags
+      const startDate = data.startDate instanceof Date ? data.startDate.toISOString() : data.startDate?.toString()
+      const endDate = data.endDate instanceof Date ? data.endDate.toISOString() : data.endDate?.toString()
+      const tags: string[] = (
+        (typeof tagData === 'string' ? tagData.split(/,\s*/) : tagData instanceof Array ? tagData : []) as string[]
+      ).map(t => t.replaceAll('_', ' '))
+      const processedContent = await remark()
+        .use(remarkGfm)
+        .use(HTML)
+        .process(front.content.replace(excerpt_separator, ''))
+
+      const html = processedContent.toString()
+      const excerpt = await getExcerpt(front)
+      const extract: ContentData['History'] = {
+        type: 'history',
+        id,
+        title,
+        date,
+        startDate,
+        endDate,
+        category: parent,
+        tags,
+        html,
+        excerpt,
+      }
+      return extract as ContentData[T]
+    }
     case 'Lore': {
       const tagData = data.tags
       const tags: string[] = (
@@ -131,15 +181,20 @@ const extractData = async <T extends ContentType>(
         .process(front.content.replace(excerpt_separator, ''))
 
       const html = processedContent.toString()
-      const excerpt = front.excerpt
-        ? (await remark().use(remarkGfm).use(HTML).process(front.excerpt)).toString()
-        : (
-            await remark().use(remarkGfm).use(HTML).process(front.content.replace(excerpt_separator, '').split('\n')[0])
-          ).toString()
+      const excerpt = await getExcerpt(front)
       const extract: ContentData['Lore'] = { type: 'lore', id, title, date, category: parent, tags, html, excerpt }
       return extract as ContentData[T]
     }
   }
+}
+
+const getExcerpt = async (front: matter.GrayMatterFile<string>): Promise<string> => {
+  if (front.excerpt) return (await remark().use(remarkGfm).use(HTML).process(front.excerpt)).toString()
+
+  // If no excerpt is provided, use the first paragraph of the content as the excerpt
+  const paragraphs = front.content.replace(excerpt_separator, '').split('\n')
+  const excerpt = paragraphs.find(p => p.trim().length > 0) || front.content
+  return (await remark().use(remarkGfm).use(HTML).process(excerpt)).toString()
 }
 
 type ContentSortFn<T extends ContentType> = (l: ContentData[T], r: ContentData[T]) => number
@@ -257,7 +312,7 @@ export const generateRSS = async (type: ContentType) => {
 }
 
 const generateAllPaths = async () => {
-  Paths['Home'] = '/'
+  addPath('Home', '/')
   await generatePathsIn('Lore')
   await generatePathsIn('Blog')
   await generatePathsIn('Chapters')
@@ -297,7 +352,7 @@ const generatePathsIn = async <T extends ContentType>(type: T, dir: string = con
     )
     const id = [rootId, fileId].filter(i => !!i).join('.')
     const fileName = file.name.replace(/\.md|\.markdown$/, '')
-    Paths[fileName] = `/${type.toLocaleLowerCase()}/${id}`
+    addPath(fileName, `/${type.toLocaleLowerCase()}/${id}`)
   }
 }
 
@@ -364,7 +419,7 @@ export const getSortedContentData = async <T extends ContentType>(
         if (extracted) {
           const fileName = file.name.replace(/\.md|\.markdown$/, '')
           const path = `/${type.toLocaleLowerCase()}/${extracted.id}`
-          Paths[fileName] = path
+          addPath(fileName, path)
         }
         return extracted
       }),
@@ -374,14 +429,9 @@ export const getSortedContentData = async <T extends ContentType>(
     .flatMap(i => i)
     .sort(sort)
 
-  //Processess obsidian links
-  if (type === 'Lore') {
-    for (const l of data as ContentData['Lore'][]) {
-      l.excerpt = processObsidianLinks(l.excerpt)
-      l.html = processObsidianLinks(l.html)
-    }
-  } else if (type === 'Blog') {
-    for (const l of data as ContentData['Blog'][]) {
+  //Process obsidian links
+  if (['Lore', 'History', 'Blog'].includes(type)) {
+    for (const l of data as ContentData['Lore' | 'History' | 'Blog'][]) {
       l.excerpt = processObsidianLinks(l.excerpt)
       l.html = processObsidianLinks(l.html)
     }
@@ -411,14 +461,21 @@ const processObsidianLinks = (content: string): string => {
     if (!found) continue
     const parts = found.split('|')
     // If there are multiple `parts`, `part[0]` is the `path` and `part[1]` is the name.
-    const path = parts.length > 1 ? parts[0] : Paths[found]
-    const name = parts.length > 1 ? parts[1] : found
+    const path = getPath(parts.length > 1 ? parts[0] : found)
+    let name = parts.length > 1 ? parts[1] : found
     if (path) {
       processed =
         processed.substring(0, match.index) +
         `<a class='inter_link' href="${path}">${name}</a>` +
         processed.substring(match.index + matchLength)
     } else {
+      if (parts.length === 1 && name.includes('/')) {
+        // if the name contains a slash, we assume it's a path want to grab the last part of the path
+        const lastSlashIndex = name.lastIndexOf('/')
+        if (lastSlashIndex !== -1) {
+          name = name.substring(lastSlashIndex + 1)
+        }
+      }
       processed = processed.substring(0, match.index) + name + processed.substring(match.index + matchLength)
     }
   }

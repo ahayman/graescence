@@ -5,14 +5,16 @@
     'Fira Mono', 'Droid Sans Mono', 'Courier New', monospace;
 
   --background-color: #0f0d0c;
+  --background-color-overlay: rgba(0, 0, 0, 0.5);
   --background-secondary-color: #151312;
+  --background-tertiary-color: #221e1e;
   --text-entry-background-color: #000;
   --border-highlight-color: #000;
   --foreground-color: #e5e0cf;
   --foreground-secondary-color: #afa17c;
   --highlight-color: #56626a;
   --lore-underline-color: #3e7395;
-  --accent-color: #0f525f;
+  --accent-color: #147183;
   --error-color: #b7615e;
   --primary-header-color: #011f2d;
   --secondary-header-color: #1d2326;
@@ -21,6 +23,7 @@
   --foreground-patreon-logo: #ffffff;
   --background-image:  url('/images/GraescenceArtworkDark.png');
   --menu-image: url('/images/menuDark.png');
+  --menu-color-overlay: rgba(0, 0, 0, 0.0);
 
   --link-color: #83a598;
   --select-foreground-color: #fbf1c7;
@@ -38,7 +41,9 @@
   --foreground-color: #322b1e;
   --foreground-secondary-color: #504735;
   --background-color: #f1eee9;
+  --background-color-overlay: rgba(255, 255, 255, 0.8);
   --background-secondary-color: #fffcf8;
+  --background-tertiary-color: #e8e5e0;
   --text-entry-background-color: #fff9ef;
   --border-highlight-color: #fff;
   --highlight-color: #6492a1;
@@ -51,6 +56,7 @@
   --foreground-patreon-logo: #000000;
   --background-image:  url('/images/GraescenceArtwork.png');
   --menu-image: url('/images/menuLight.png');
+  --menu-color-overlay: linear-gradient(rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.0));
 
   --link-color: #114270;
   --select-foreground-color: #322b1e;

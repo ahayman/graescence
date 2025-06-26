@@ -72,14 +72,18 @@ export type LoreData = LoreExcerpt & {
 
 /** === HISTORY === */
 
-export type HistoryMeta = LoreMeta & {
+export type HistoryMeta = Meta & {
   type: 'history'
+  category: string
+  startDate: string
+  endDate: string
+  tags: string[]
 }
 
 export type HistoryExcerpt = HistoryMeta & {
   excerpt: string
 }
 
-export type HistoryData = HistoryMeta & {
+export type HistoryData = HistoryExcerpt & {
   html: string
 }

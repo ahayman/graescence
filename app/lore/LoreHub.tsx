@@ -1,24 +1,18 @@
 'use client'
-import { useContext, useEffect, useMemo, useState } from 'react'
-import { LoreExcerpt, LoreMeta } from '../../api/types'
+import { useState } from 'react'
+import { LoreExcerpt } from '../../api/types'
 import Header from '../../components/Header/Header'
 import Row from '../../components/Row'
 import SearchField from '../../components/Search/SearchField'
 import Tags from '../../components/Tags/Tags'
-import { useStateDebouncer } from '../../lib/useStateDebouncert'
-import { ContentContext } from '../../providers/Content/Provider'
-import { DisplayContext } from '../../providers/Display/Provider'
 import { faSortAlphaAsc, faCalendarDays } from '@fortawesome/free-solid-svg-icons'
 import styles from './lore.module.scss'
-import LoreItem from './loreItem'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { useCategoricalFilter } from '../../hooks/useCategoricalFilter'
+import { ExcerptItem } from '../../components/ExcerptItem/ExcerptItem'
+import { classes } from '../../lib/utils'
 
-type LoreViewData = {
-  category: string
-  items: LoreExcerpt[]
-}
-
-const includeLoreItem = (filter: string, item: LoreExcerpt): boolean => {
+const includeLoreItem = (item: LoreExcerpt, filter: string): boolean => {
   if (item.title.includes(filter)) {
     return true
   }
@@ -34,76 +28,49 @@ export interface Props {
 }
 
 const LoreHub = ({ loreData, showLatest }: Props) => {
-  const { lore } = useContext(ContentContext)
-  const {
-    state: { loreCategory, loreFilter },
-    actions: { setLoreCategory, setLoreFilter },
-  } = useContext(DisplayContext)
   const [showByLatest, setShowByLatest] = useState(showLatest ?? false)
-  const [activeFilter, filter, setFilter] = useStateDebouncer(loreFilter, 500)
-  const categories = useMemo(() => ['All', ...Object.keys(lore.byCategory)], [lore.byCategory])
-  const data: LoreViewData[] = useMemo(() => {
-    const categoryLore = loreCategory && loreCategory !== 'All' ? lore.byCategory[loreCategory] : undefined
-    const data =
-      loreCategory && categoryLore
-        ? [
-            {
-              category: loreCategory,
-              items: categoryLore.map(idx => loreData[idx]),
-            },
-          ]
-        : Object.keys(lore.byCategory).map(category => ({
-            category,
-            items: lore.byCategory[category].map(idx => loreData[idx]),
-          }))
-    if (!loreFilter) {
-      return data
-    }
-    //Filter Lore according to search
-    const filteredLore = data.map(({ category, items }) => ({
-      category,
-      items: items.filter(i => includeLoreItem(loreFilter, i)),
-    }))
-    //Filter out categories with no items, and return
-    return filteredLore.filter(l => l.items.length > 0)
-  }, [lore, loreCategory, loreFilter, loreData])
-
-  const dataByLatest = useMemo(() => {
-    if (!showByLatest) return []
-    const data = loreFilter ? loreData.filter(i => includeLoreItem(loreFilter, i)) : loreData
-    return data.toSorted((l, r) => new Date(r.date).getTime() - new Date(l.date).getTime())
-  }, [loreFilter, loreData, showByLatest])
-
-  useEffect(() => {
-    if (loreFilter !== activeFilter) {
-      setLoreFilter(activeFilter)
-    }
-  }, [loreFilter, activeFilter, setLoreFilter])
+  const { data, setFilter, setCategory, categories, currentCategory, filter } = useCategoricalFilter(
+    loreData,
+    includeLoreItem,
+  )
 
   const renderLoreByCategory = () =>
     data.map(viewData => (
       <section key={viewData.category}>
         <Header title={viewData.category} type="Secondary" />
-        {viewData.items.map(item => (
-          <LoreItem key={item.id} lore={item} />
+        {viewData.data.map(item => (
+          <ExcerptItem key={item.id} {...item} />
         ))}
       </section>
     ))
 
-  const renderByLatest = () => dataByLatest.map(item => <LoreItem key={item.id} lore={item} />)
+  const renderByLatest = () => {
+    const allData = data
+      .flatMap(d => d.data)
+      .toSorted((l, r) => new Date(r.date).getTime() - new Date(l.date).getTime())
+    return allData.map(item => <ExcerptItem key={item.id} {...item} />)
+  }
 
   return (
     <>
       <Header type="Primary" sticky>
         <Row vertical="center" horizontal="space-between" className={styles.tagsContainer}>
           <span style={{ marginRight: 5 }}>Lore</span>
-          <Tags tags={categories} selected={loreCategory || 'All'} onSelect={setLoreCategory} />
+          <Tags tags={categories} selected={currentCategory} onSelect={setCategory} />
           <div style={{ flex: 1 }} />
-          <FontAwesomeIcon
-            className={styles.sortIcon}
-            onClick={() => setShowByLatest(c => !c)}
-            icon={showByLatest ? faCalendarDays : faSortAlphaAsc}
-          />
+          <Row className={styles.sortIconContainer}>
+            <FontAwesomeIcon
+              className={classes(styles.sortIcon, showByLatest ? styles.selected : undefined)}
+              onClick={() => setShowByLatest(c => !c)}
+              icon={faCalendarDays}
+            />
+            <div className={styles.vr} />
+            <FontAwesomeIcon
+              className={classes(styles.sortIcon, showByLatest ? undefined : styles.selected)}
+              onClick={() => setShowByLatest(c => !c)}
+              icon={faSortAlphaAsc}
+            />
+          </Row>
           <SearchField text={filter} onChange={text => setFilter(text)} />
         </Row>
       </Header>

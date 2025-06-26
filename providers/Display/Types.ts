@@ -12,6 +12,9 @@ export type State = {
   chapterFilter?: string
   loreCategory?: string | 'All'
   loreFilter?: string
+  historyCategory?: string | 'All'
+  historyFilter?: string
+  historySortDirection: 'ascending' | 'descending'
   popover?: PopoverContent
 }
 
@@ -20,6 +23,9 @@ export type Actions = {
   setChapterFilter: (filter?: string) => void
   setLoreCategory: (category?: string | 'All') => void
   setLoreFilter: (filter?: string) => void
+  setHistoryCategory: (category?: string | 'All') => void
+  setHistoryFilter: (filter?: string) => void
+  setHistorySortDirection: (sortDirection: 'ascending' | 'descending') => void
   openPopover: (content: PopoverContent) => void
   closePopover: () => void
 }

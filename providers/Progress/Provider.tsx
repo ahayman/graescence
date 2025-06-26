@@ -23,7 +23,6 @@ const ProgressProvider = ({ children }: Props) => {
         state.chapterProgress[currentChapterId] = progress
         Storage.set('--chapter-progress', JSON.stringify(state.chapterProgress))
       }
-      console.log(`updateCurrentChapterState: `, state)
       return state
     })
   }, [])
@@ -32,7 +31,6 @@ const ProgressProvider = ({ children }: Props) => {
     const currentChapterId = Storage.get('--current-chapter-id')
     const chapterProgressJson = Storage.get('--chapter-progress')
     const chapterProgress = chapterProgressJson ? JSON.parse(chapterProgressJson) : {}
-    console.log(`Progress Provider Load: ${JSON.stringify({ currentChapterId, chapterProgress, chapterProgressJson })}`)
     setState({ currentChapterId, chapterProgress })
   }, [])
 
