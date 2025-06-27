@@ -18,6 +18,13 @@ type Props = {
 export default async function PageData({ params: { id } }: Props) {
   const history = await getSortedContentData('History')
   const item = history.find(l => l.id === id)
-  if (!item) return <span>Not Found</span>
+  if (!item) return null
+  // return (
+  //   <span>{`Could not find History ID: ${id} within ids: \n ${JSON.stringify(
+  //     history.map(h => h.id),
+  //     null,
+  //     4,
+  //   )}`}</span>
+  // )
   return <History id={id} item={item} />
 }
