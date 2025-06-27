@@ -27,7 +27,7 @@ export const ExcerptItem = ({ type, id, title, date, excerpt }: Props) => (
       <div className={postStyles.post} dangerouslySetInnerHTML={{ __html: excerpt }} />
       <Row horizontal="end">
         <Link className={utilStyles.coloredLink} href={`/${type}/${id}`}>
-          More →
+          <span>More →</span>
         </Link>
       </Row>
     </div>

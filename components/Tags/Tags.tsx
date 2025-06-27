@@ -1,3 +1,4 @@
+import { classes } from '../../lib/utils'
 import Row from '../Row'
 import styles from './Tags.module.scss'
 
@@ -11,7 +12,13 @@ const Tags = <T extends string>({ tags, onSelect, selected }: Props<T>) => {
   return (
     <Row className={styles.container}>
       {tags.map(tag => (
-        <span key={tag} className={selected === tag ? styles.selectedTag : styles.tag} onClick={() => onSelect?.(tag)}>
+        <span
+          key={tag}
+          className={classes(
+            selected === tag ? styles.selectedTag : styles.tag,
+            onSelect ? styles.selectable : undefined,
+          )}
+          onClick={() => onSelect?.(tag)}>
           {tag}
         </span>
       ))}

@@ -80,7 +80,7 @@
   padding-block: 2pt;
   display: flex;
   flex-direction: column;
-  justify-content: start;
+  justify-content: flex-start;
   @include mobile {
     flex-direction: row;
     justify-content: space-between;
@@ -93,7 +93,7 @@
   justify-content: space-between;
   @include mobile {
     flex-direction: column;
-    justify-content: start;
+    justify-content: flex-start;
   }
 }
 

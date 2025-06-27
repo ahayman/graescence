@@ -48,6 +48,12 @@
   height: 1rem;
   color: var(--foreground-color);
   transition: all 300ms ease-in-out;
+  transition: transform 300ms ease-in-out;
+
+  &:hover {
+    transition: transform 300ms ease-in-out;
+    transform: scale(1.3);
+  }
 }
 
 .unFocused {

@@ -5,12 +5,13 @@ import Header from '../../components/Header/Header'
 import Row from '../../components/Row'
 import SearchField from '../../components/Search/SearchField'
 import Tags from '../../components/Tags/Tags'
-import { faSortAlphaAsc, faCalendarDays } from '@fortawesome/free-solid-svg-icons'
+import { faSortAlphaAsc, faCalendarDays, faSortAsc, faTimeline } from '@fortawesome/free-solid-svg-icons'
 import styles from './lore.module.scss'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useCategoricalFilter } from '../../hooks/useCategoricalFilter'
 import { ExcerptItem } from '../../components/ExcerptItem/ExcerptItem'
 import { classes } from '../../lib/utils'
+import { faCalendarTimes } from '@fortawesome/free-regular-svg-icons'
 
 const includeLoreItem = (item: LoreExcerpt, filter: string): boolean => {
   if (item.title.includes(filter)) {
@@ -58,17 +59,17 @@ const LoreHub = ({ loreData, showLatest }: Props) => {
           <span style={{ marginRight: 5 }}>Lore</span>
           <Tags tags={categories} selected={currentCategory} onSelect={setCategory} />
           <div style={{ flex: 1 }} />
-          <Row className={styles.sortIconContainer}>
-            <FontAwesomeIcon
-              className={classes(styles.sortIcon, showByLatest ? styles.selected : undefined)}
-              onClick={() => setShowByLatest(c => !c)}
-              icon={faCalendarDays}
-            />
-            <div className={styles.vr} />
+          <Row vertical="center" className={styles.sortIconContainer}>
             <FontAwesomeIcon
               className={classes(styles.sortIcon, showByLatest ? undefined : styles.selected)}
               onClick={() => setShowByLatest(c => !c)}
               icon={faSortAlphaAsc}
+            />
+            <div className={styles.vr} />
+            <FontAwesomeIcon
+              className={classes(styles.sortIcon, showByLatest ? styles.selected : undefined)}
+              onClick={() => setShowByLatest(c => !c)}
+              icon={faCalendarDays}
             />
           </Row>
           <SearchField text={filter} onChange={text => setFilter(text)} />

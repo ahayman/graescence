@@ -1,5 +1,5 @@
 'use client'
-import { TypedKeys } from '../../lib/utils'
+import { classes, TypedKeys } from '../../lib/utils'
 import utilStyles from '../../styles/utils.module.scss'
 import styles from './toc.module.scss'
 import Date from '../../components/date'
@@ -116,7 +116,7 @@ const TOC = () => {
                     <Tags tags={tags} />
                     <div style={{ flex: 1 }} />
                     {date && (
-                      <div className={[utilStyles.lightText, utilStyles.smallText].join(' ')}>
+                      <div className={classes(utilStyles.lightText, utilStyles.smallText, styles.chapterDate)}>
                         <Date dateString={date} />
                       </div>
                     )}

@@ -19,28 +19,32 @@
 
 .sortIconContainer {
   cursor: pointer;
-  padding: 5pt 6pt 5pt 10pt;
+  padding: 5pt;
   background-color: var(--background-secondary-color);
   color: var(--foreground-color);
   border-radius: 1000pt;
 }
 
 .sortIcon {
-  width: 1.5rem;
-  height: 1.5rem;
-  margin-right: 5pt;
-  font-size: 10pt;
-  size: 10pt;
+  margin-inline: 5pt;
+  font-size: 1.1rem;
   color: var(--foreground-secondary-color);
   transition: all 300ms ease-in-out;
+  text-align: center;
+  transition: transform 300ms ease-in-out;
+
+  &:hover {
+    transition: transform 300ms ease-in-out;
+    transform: scale(1.3);
+  
+  }
 }
 
 .vr {
   background-color: var(--highlight-color);
   width: 1pt;
   margin-right: 2pt;
-  height: 20pt;
-  align-self: stretch;
+  height: 1.0rem;
 }
 
 .selected {

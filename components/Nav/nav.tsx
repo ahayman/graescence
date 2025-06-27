@@ -86,21 +86,21 @@ const Nav = () => {
   const navItems = (type: 'desktop' | 'mobile'): ReactNode[] =>
     [
       type === 'mobile' ? (
-        <Link key={`${type}-toc`} className={classes(styles.link)} href="/">
-          Home
+        <Link key={`${type}-home`} className={classes(styles.link)} href="/">
+          <span>Home</span>
         </Link>
       ) : null,
       <Link key={`${type}-blog`} className={classes(styles.link)} href="/blog">
-        Blog
+        <span>Blog</span>
       </Link>,
       <Link key={`${type}-toc`} className={classes(styles.link)} href="/toc">
-        Table of Contents
+        <span>Chapters</span>
       </Link>,
       <Link key={`${type}-lore`} className={classes(styles.link)} href="/lore">
-        Lore
+        <span>Lore</span>
       </Link>,
       <Link key={`${type}-history`} className={classes(styles.link)} href="/history">
-        World History
+        <span>World History</span>
       </Link>,
       currentChapter ? (
         <Link key={`${type}-currentChapter`} className={classes(styles.link)} href={`/chapters/${currentChapter.id}`}>
@@ -156,10 +156,10 @@ const Nav = () => {
         />
       </Link>
       <div className={styles.headingContainer}>
-        <Link href="/" className={utilStyles.colorInherit}>
+        <Link href="/" className={styles.link}>
           <h2 className={styles.heading}>{name}</h2>
+          <span className={styles.subHeading}>a web novel</span>
         </Link>
-        <span className={styles.subHeading}>a web novel</span>
       </div>
       <div className={styles.desktopContainer}>
         <hr className={styles.navHR} />

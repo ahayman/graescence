@@ -87,6 +87,9 @@ body {
 a {
   color: var(--foreground-color);
   text-decoration: none;
+  :hover {
+    color: var(--link-color);
+  }
 }
 
 hr {
