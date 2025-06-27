@@ -16,7 +16,7 @@ type Props = {
 }
 
 export default async function PageData({ params: { id } }: Props) {
-  const lore = (await getSortedContentData('Lore')).find(l => l.id === id)
+  const lore = (await getSortedContentData('Lore')).find(l => l.id === decodeURIComponent(id))
   if (!lore) return <span>Invalid Lore ID</span>
   return <Lore id={id} lore={lore} />
 }

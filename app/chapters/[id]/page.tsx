@@ -14,6 +14,7 @@ type Props = {
 }
 
 export default async function PageData({ params: { id } }: Props) {
-  let chapter = (await getSortedContentData('Chapters')).find(c => c.id === id)!
+  let chapter = (await getSortedContentData('Chapters')).find(c => c.id === decodeURIComponent(id))
+  if (!chapter) return null
   return <Chapter id={id} chapter={chapter} />
 }

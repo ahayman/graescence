@@ -324,14 +324,12 @@ const generatePathsIn = async <T extends ContentType>(type: T, dir: string = con
   const rootId =
     rootDir === dir
       ? ''
-      : encodeURIComponent(
-          dir
-            .replace(rootDir + '/', '')
-            .replace(' & ', '-')
-            .replaceAll(' ', '_')
-            .replaceAll('/', '.')
-            .replaceAll('&', '-'),
-        )
+      : dir
+          .replace(rootDir + '/', '')
+          .replace(' & ', '-')
+          .replaceAll(' ', '_')
+          .replaceAll('/', '.')
+          .replaceAll('&', '-')
   const contents = fs.readdirSync(dir, { withFileTypes: true })
   for (const file of contents) {
     // Remove ".md" from file name to get id
@@ -343,13 +341,11 @@ const generatePathsIn = async <T extends ContentType>(type: T, dir: string = con
       return undefined
     }
 
-    const fileId = encodeURIComponent(
-      file.name
-        .replace(/\.md|\.markdown$/, '')
-        .replace(' & ', '-')
-        .replaceAll(' ', '_')
-        .replaceAll('&', '-'),
-    )
+    const fileId = file.name
+      .replace(/\.md|\.markdown$/, '')
+      .replace(' & ', '-')
+      .replaceAll(' ', '_')
+      .replaceAll('&', '-')
     const id = [rootId, fileId].filter(i => !!i).join('.')
     const fileName = file.name.replace(/\.md|\.markdown$/, '')
     addPath(fileName, `/${type.toLocaleLowerCase()}/${id}`)
@@ -381,14 +377,12 @@ export const getSortedContentData = async <T extends ContentType>(
   const rootId =
     rootDir === dir
       ? ''
-      : encodeURIComponent(
-          dir
-            .replace(rootDir + '/', '')
-            .replace(' & ', '-')
-            .replaceAll(' ', '_')
-            .replaceAll('/', '.')
-            .replaceAll('&', '-'),
-        )
+      : dir
+          .replace(rootDir + '/', '')
+          .replace(' & ', '-')
+          .replaceAll(' ', '_')
+          .replaceAll('/', '.')
+          .replaceAll('&', '-')
   const contents = fs.readdirSync(dir, { withFileTypes: true })
   const sort = sortFn(type)
   let data = (
@@ -403,13 +397,12 @@ export const getSortedContentData = async <T extends ContentType>(
           return undefined
         }
 
-        const fileId = encodeURIComponent(
-          file.name
-            .replace(/\.md|\.markdown$/, '')
-            .replace(' & ', '-')
-            .replaceAll(' ', '_')
-            .replaceAll('&', '-'),
-        )
+        const fileId = file.name
+          .replace(/\.md|\.markdown$/, '')
+          .replace(' & ', '-')
+          .replaceAll(' ', '_')
+          .replaceAll('&', '-')
+
         const id = [rootId, fileId].filter(i => !!i).join('.')
         const fileContents = fs.readFileSync(fullPath, 'utf8')
 
