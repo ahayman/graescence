@@ -11,6 +11,12 @@
 
 .date {
   color: var(--foreground-secondary-color);
+  transition: transform 300ms ease-in-out;
+
+  &:hover {
+    transition: transform 300ms ease-in-out;
+    transform: scale(1.1);
+  }
 }
 
 .container {
@@ -18,7 +24,8 @@
   flex-direction: column;
   align-items: stretch;
   margin: 10pt;
-  border-radius: 5pt;
+  border-radius: 10pt;
+  padding: 5pt;
   background-color: var(--background-tertiary-color);
   margin-bottom: 5pt;
 

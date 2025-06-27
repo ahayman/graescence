@@ -8,6 +8,14 @@
   padding: 10pt 3pt 5pt;
 }
 
+.volumeContainer {
+  margin: 0pt 5pt 10pt 5pt;
+  border-radius: 10pt;
+  background-color: var(--background-tertiary-color);
+  margin-bottom: 5pt;
+  overflow: hidden;
+}
+
 .icon {
   font-size: 1.2rem;
   size: 1.2rem;

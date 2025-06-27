@@ -4,10 +4,10 @@
     'Roboto Mono', 'Oxygen Mono', 'Ubuntu Monospace', 'Source Code Pro',
     'Fira Mono', 'Droid Sans Mono', 'Courier New', monospace;
 
-  --background-color: #0f0d0c;
+  --background-color: #221e1e;
   --background-color-overlay: rgba(0, 0, 0, 0.5);
   --background-secondary-color: #151312;
-  --background-tertiary-color: #221e1e;
+  --background-tertiary-color: #0f0d0c;
   --text-entry-background-color: #000;
   --border-highlight-color: #000;
   --foreground-color: #e5e0cf;
@@ -43,7 +43,7 @@
   --background-color: #f1eee9;
   --background-color-overlay: rgba(255, 255, 255, 0.8);
   --background-secondary-color: #fffcf8;
-  --background-tertiary-color: #e8e5e0;
+  --background-tertiary-color: #ffffff;
   --text-entry-background-color: #fff9ef;
   --border-highlight-color: #fff;
   --highlight-color: #6492a1;
@@ -188,4 +188,10 @@ hr {
 
 .inter_link {
   color: var(--link-color);
+  transition: transform 300ms ease-in-out;
+
+  &:hover {
+    transition: transform 300ms ease-in-out;
+    transform: scale(1.1);
+  }
 }

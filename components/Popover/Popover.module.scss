@@ -41,4 +41,10 @@
   size: 1.2rem;
   color: var(--foreground-color);
   vertical-align: middle;
+  transition: transform 300ms ease-in-out;
+
+  &:hover {
+    transition: transform 300ms ease-in-out;
+    transform: scale(1.3);
+  }
 }

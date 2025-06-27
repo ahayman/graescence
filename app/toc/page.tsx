@@ -93,7 +93,7 @@ const TOC = () => {
         <SearchField text={filter} onChange={setFilter} />
       </Row>
       {data.map(vol => (
-        <Column key={vol.volume}>
+        <Column className={styles.volumeContainer} key={vol.volume}>
           <Header type="Secondary">
             <Row horizontal="space-between" vertical="center" onClick={() => toggleVolume(vol.volNo)}>
               <Row horizontal="start" vertical="center">
@@ -113,7 +113,7 @@ const TOC = () => {
                     <div className={styles.chapterTitle}>
                       {chapterNo} | {title}
                     </div>
-                    <Tags tags={tags} />
+                    <Tags tags={tags} onSelect={() => undefined} />
                     <div style={{ flex: 1 }} />
                     {date && (
                       <div className={classes(utilStyles.lightText, utilStyles.smallText, styles.chapterDate)}>

@@ -8,6 +8,15 @@
   margin: 1rem 0;
 }
 
+.scaleHover {
+  transition: transform 300ms ease-in-out;
+
+  &:hover {
+    transition: transform 300ms ease-in-out;
+    transform: scale(1.1);
+  }
+}
+
 .headingXl {
   font-size: 2rem;
   line-height: 1.3;
@@ -109,6 +118,12 @@
   color: var(--link-color);
   a {
     color: var(--link-color);
+  }
+  transition: transform 300ms ease-in-out;
+
+  &:hover {
+    transition: transform 300ms ease-in-out;
+    transform: scale(1.1);
   }
 }
 

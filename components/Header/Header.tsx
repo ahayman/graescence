@@ -19,10 +19,17 @@ export interface Props extends React.DetailedHTMLProps<React.HTMLAttributes<HTML
   title?: string
   className?: string
   sticky?: boolean
+  scaleHover?: boolean
 }
 
-const Header = ({ title, type, children, className, sticky }: Props) => (
-  <div className={classes(className, styleFor(type), sticky ? styles.sticky : undefined)}>
+const Header = ({ title, type, children, className, sticky, scaleHover }: Props) => (
+  <div
+    className={classes(
+      className,
+      styleFor(type),
+      sticky ? styles.sticky : undefined,
+      scaleHover ? styles.scaleHover : undefined,
+    )}>
     {title && <span>{title}</span>}
     {children}
   </div>

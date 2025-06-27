@@ -65,6 +65,7 @@ const Nav = () => {
           id={lightId}
           className={classes(
             utilStyles.leftRounded,
+            styles.themeHover,
             uiTheme === 'light' ? styles.themeButtonSelect : styles.themeButton,
           )}
           onClick={() => setUITheme('light')}>
@@ -74,6 +75,7 @@ const Nav = () => {
           id={darkId}
           className={classes(
             utilStyles.rightRounded,
+            styles.themeHover,
             uiTheme === 'dark' ? styles.themeButtonSelect : styles.themeButton,
           )}
           onClick={() => setUITheme('dark')}>

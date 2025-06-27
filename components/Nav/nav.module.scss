@@ -219,6 +219,15 @@
 }
 
 
+.themeHover {
+  transition: transform 300ms ease-in-out;
+
+  &:hover {
+    transition: transform 300ms ease-in-out;
+    transform: scale(1.1);
+  }
+}
+
 .themeButton {
   cursor: pointer;
   padding: 2pt 3pt;

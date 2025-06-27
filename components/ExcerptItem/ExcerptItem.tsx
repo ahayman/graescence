@@ -17,7 +17,7 @@ export const ExcerptItem = ({ type, id, title, date, excerpt }: Props) => (
   <div className={styles.container}>
     <Link href={`/${type}/${id}`}>
       <Row className={styles.headerRow} horizontal="space-between" vertical="center">
-        <Header type="Tertiary" title={title} />
+        <Header scaleHover type="Tertiary" title={title} />
         <span className={styles.date}>
           <Date dateString={date} />
         </span>
