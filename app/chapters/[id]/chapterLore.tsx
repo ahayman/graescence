@@ -1,4 +1,5 @@
 import { LoreExcerpt } from '../../../api/types'
+import Column from '../../../components/Column'
 import { ExcerptItem } from '../../../components/ExcerptItem/ExcerptItem'
 import Header from '../../../components/Header/Header'
 import styles from './chapter.module.scss'
@@ -9,11 +10,11 @@ export type Props = {
 const ChapterLore = ({ data }: Props) => (
   <>
     <Header type="Primary" title="Lore" />
-    <div className={styles.loreContainer}>
+    <Column className={styles.loreContainer}>
       {data.map(item => (
         <ExcerptItem key={item.id} {...item} />
       ))}
-    </div>
+    </Column>
   </>
 )
 export default ChapterLore

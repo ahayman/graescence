@@ -6,6 +6,7 @@ interface Props extends React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElem
   children?: ReactNode
   horizontal?: Alignment
   vertical?: Alignment
+  scrollable?: boolean
 }
 
 const getAlignment = (direction: 'alignItems' | 'justifyContent', alignment?: Alignment) => {
@@ -33,7 +34,7 @@ const getAlignment = (direction: 'alignItems' | 'justifyContent', alignment?: Al
   return { [direction]: flexAlign }
 }
 
-const Row = ({ horizontal, vertical, children, ...props }: Props) => (
+const Row = ({ scrollable, horizontal, vertical, children, ...props }: Props) => (
   <div
     {...props}
     style={{
@@ -42,6 +43,7 @@ const Row = ({ horizontal, vertical, children, ...props }: Props) => (
       ...getAlignment('justifyContent', horizontal),
       ...getAlignment('alignItems', vertical),
       ...(props.style || {}),
+      ...(scrollable ? { overflow: 'scroll' } : {}),
     }}>
     {children}
   </div>

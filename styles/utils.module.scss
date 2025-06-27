@@ -34,7 +34,7 @@
 .primaryHeader {
   width: 100%;
   background-color: var(--primary-header-color);
-  padding: 4pt 6pt;
+  padding: 2pt 5pt;
   font-size: 1.3rem;
     @include mobile {
       padding: 1pt 5pt;
@@ -43,7 +43,7 @@
 
 .secondaryHeader {
   background-color: var(--secondary-header-color);
-  padding: 3pt 8pt;
+  padding: 2pt 5pt;
   font-size: 1.2rem;
 }
 
@@ -55,12 +55,10 @@
 .infoBlock {
   border-radius: 6pt;
   overflow: hidden;
-  margin: 10pt 5pt;
+  margin-block: 5pt;
+  margin-inline: 5pt;
   flex: 1;
   background-color: var(--background-color);
-  @include mobile {
-    margin: 5pt 10pt;
-  }
 }
 
 .hPadding {
@@ -77,9 +75,19 @@
   padding: 5pt;
 }
 
+.infoData {
+  padding-inline: 5pt;
+  padding-block: 2pt;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  @include mobile {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+}
+
 .infoContainer {
-  margin-left: 5pt;
-  margin-right: 5pt;
   display: flex;
   flex-direction: row;
   justify-content: space-between;

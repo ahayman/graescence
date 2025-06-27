@@ -7,14 +7,14 @@ import ContentBlock from '../../../components/ContentBlock/ContentBlock'
 import Row from '../../../components/Row'
 import { classes } from '../../../lib/utils'
 import ReadingOptions from '../../../components/ReadingOptions/ReadingOptions'
-import { PostData } from '../../../api/types'
+import { BlogData } from '../../../api/types'
 import { faSliders } from '@fortawesome/free-solid-svg-icons'
 import Popover from '../../../components/Popover/Popover'
 import { useRouter } from 'next/navigation'
 
 export type Props = {
   id: string
-  post: PostData
+  post: BlogData
 }
 
 const Post = ({ post }: Props) => {

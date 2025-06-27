@@ -1,42 +1,19 @@
 'use client'
 import utilStyles from '../../styles/utils.module.scss'
-import Date from '../../components/date'
-import Link from 'next/link'
-import postStyles from '../../styles/post.module.scss'
 import Column from '../../components/Column'
 import Header from '../../components/Header/Header'
-import ContentBlock from '../../components/ContentBlock/ContentBlock'
-import Row from '../../components/Row'
-import { classes } from '../../lib/utils'
-import { PostMeta } from '../../api/types'
+import { BlogMeta } from '../../api/types'
+import { ExcerptItem } from '../../components/ExcerptItem/ExcerptItem'
 
 export interface Props {
-  blog: PostMeta[]
+  blog: BlogMeta[]
 }
 
 const Blog = ({ blog }: Props) => (
   <Column className={`${utilStyles.headingMd} ${utilStyles.padding1px}`}>
     <Header type="Primary" title="Updates" />
-    {blog.map(({ id, date, title, excerpt }) => (
-      <Link href={`/updates/${id}`} key={id}>
-        <Header type="Secondary">
-          <Row horizontal="space-between" vertical="center">
-            <span>{title}</span>
-            <span className={classes(utilStyles.lightText, utilStyles.smallText)}>
-              <Date dateString={date} />
-            </span>
-          </Row>
-        </Header>
-        <ContentBlock key={id}>
-          <div className={[utilStyles.lightText, utilStyles.smallText].join(' ')}></div>
-          {excerpt && <div className={postStyles.post} dangerouslySetInnerHTML={{ __html: excerpt }} />}
-          <Row horizontal="end">
-            <Link className={utilStyles.coloredLink} href={`/blog/${id}`}>
-              {'More →'}
-            </Link>
-          </Row>
-        </ContentBlock>
-      </Link>
+    {blog.map(item => (
+      <ExcerptItem key={item.id} {...item} />
     ))}
   </Column>
 )

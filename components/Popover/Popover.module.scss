@@ -5,7 +5,7 @@
   border-color: var(--border-highlight-color);
   border-width: 1pt;
   border-style: groove;
-  overflow: hidden;
+  overflow: scroll;
   max-width: max(calc(var(--max-content-width, 50rem) / 2), 30rem);
   z-index: 9999;
 }

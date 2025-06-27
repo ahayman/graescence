@@ -36,15 +36,15 @@ export type ChapterData = ChapterMeta & {
 
 /** === POST === */
 
-export type PostMeta = Meta & {
-  type: 'post'
+export type BlogMeta = Meta & {
+  type: 'blog'
   excerpt: string
 }
 
 /**
  * The data associated with a Blog Post/Update
  */
-export type PostData = PostMeta & {
+export type BlogData = BlogMeta & {
   html: string
 }
 

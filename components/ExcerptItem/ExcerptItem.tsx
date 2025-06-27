@@ -7,14 +7,15 @@ import Header from '../../components/Header/Header'
 import Date from '../../components/date'
 
 export type Props = {
+  type: 'lore' | 'history' | 'blog'
   id: string
   title: string
   date: string
   excerpt: string
 }
-export const ExcerptItem = ({ id, title, date, excerpt }: Props) => (
+export const ExcerptItem = ({ type, id, title, date, excerpt }: Props) => (
   <div className={styles.container}>
-    <Link href={`/lore/${id}`}>
+    <Link href={`/${type}/${id}`}>
       <Row className={styles.headerRow} horizontal="space-between" vertical="center">
         <Header type="Tertiary" title={title} />
         <span className={styles.date}>
@@ -25,7 +26,7 @@ export const ExcerptItem = ({ id, title, date, excerpt }: Props) => (
     <div className={styles.excerpt}>
       <div className={postStyles.post} dangerouslySetInnerHTML={{ __html: excerpt }} />
       <Row horizontal="end">
-        <Link className={utilStyles.coloredLink} href={`/lore/${id}`}>
+        <Link className={utilStyles.coloredLink} href={`/${type}/${id}`}>
           More →
         </Link>
       </Row>

@@ -8,7 +8,7 @@ import remarkGfm from 'remark-gfm'
 import { Extension, Feed, Item } from 'feed'
 import { parseISO } from 'date-fns'
 import { isNotEmpty } from '../lib/utils'
-import { ChapterData, ContentId, ContentType, HistoryData, LoreData, PostData } from './types'
+import { ChapterData, ContentId, ContentType, HistoryData, LoreData, BlogData } from './types'
 
 //Must match the actual content directory name
 const contentDir = path.join(process.cwd(), 'content')
@@ -62,7 +62,7 @@ export type ContentDefinition<Type extends ContentType, Data extends {}> = { [ke
  * Content Data is a union type that represents Blog, Chapters,
  * and Lore.
  */
-type ContentData = ContentDefinition<'Blog', PostData> &
+type ContentData = ContentDefinition<'Blog', BlogData> &
   ContentDefinition<'Chapters', ChapterData> &
   ContentDefinition<'Lore', LoreData> &
   ContentDefinition<'History', HistoryData>
@@ -139,7 +139,7 @@ const extractData = async <T extends ContentType>(
         .use(HTML)
         .process(front.content.replace(excerpt_separator, ''))
       const html = processedContent.toString()
-      const extract: ContentData['Blog'] = { type: 'post', id, title, date, excerpt, html }
+      const extract: ContentData['Blog'] = { type: 'blog', id, title, date, excerpt, html }
       return extract as ContentData[T]
     }
     case 'History': {

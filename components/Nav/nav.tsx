@@ -104,7 +104,7 @@ const Nav = () => {
       </Link>,
       currentChapter ? (
         <Link key={`${type}-currentChapter`} className={classes(styles.link)} href={`/chapters/${currentChapter.id}`}>
-          <span className={styles.linkTitle}>{!currentChapterId ? 'Begin Reading' : 'Continue Reading'}</span>
+          <span className={styles.linkTitle}>{!currentChapterId ? 'Begin Story' : 'Continue Story'}</span>
           <span className={styles.linkDesc}>
             {currentChapter.title.length > 20 ? currentChapter.title.slice(0, 17) + '...' : currentChapter.title}
           </span>
@@ -112,7 +112,7 @@ const Nav = () => {
       ) : null,
       latestPost ? (
         <Link key={`${type}-latestPost`} className={classes(styles.link)} href={`/blog/${latestPost.id}`}>
-          <span className={styles.linkTitle}>Latest Update</span>
+          <span className={styles.linkTitle}>Latest Post</span>
           <span className={styles.linkDesc}>
             {latestPost.title.length > 20 ? latestPost.title.slice(0, 17) + '...' : latestPost.title}
           </span>

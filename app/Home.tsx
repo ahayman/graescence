@@ -32,7 +32,7 @@ const Home = ({ content }: Props) => {
   const renderInfoBlock = (header: string, title: string, link: string, dateString?: string) => (
     <Column className={utilStyles.infoBlock}>
       <Header type="Secondary" title={header} />
-      <Link className={postStyles.infoContainer} href={link}>
+      <Link className={utilStyles.infoData} href={link}>
         <Header type="Tertiary" title={title} />
         {dateString && (
           <div className={classes(utilStyles.lightText, utilStyles.smallText)}>
@@ -45,13 +45,6 @@ const Home = ({ content }: Props) => {
 
   return (
     <ContentBlock>
-      <div className={utilStyles.infoContainer}>
-        {currentChapter &&
-          renderInfoBlock('Continue', currentChapter.title, `/chapters/${currentChapter.id}`, currentChapter.date)}
-        {latestChapter &&
-          renderInfoBlock('Latest', latestChapter.title, `/chapters/${latestChapter.id}`, latestChapter.date)}
-        {latestPost && renderInfoBlock('Blog', latestPost.title, `/blog/${latestPost.id}`, latestPost.date)}
-      </div>
       <Row horizontal="center">
         <Image
           className={utilStyles.roundedCorners}
@@ -64,6 +57,18 @@ const Home = ({ content }: Props) => {
         />
       </Row>
       <div className={postStyles.post} dangerouslySetInnerHTML={{ __html: content }} />
+      <div className={utilStyles.infoContainer}>
+        {currentChapter &&
+          renderInfoBlock(
+            'Continue Story',
+            currentChapter.title,
+            `/chapters/${currentChapter.id}`,
+            currentChapter.date,
+          )}
+        {latestChapter &&
+          renderInfoBlock('Latest Chapter', latestChapter.title, `/chapters/${latestChapter.id}`, latestChapter.date)}
+        {latestPost && renderInfoBlock('Latest Post', latestPost.title, `/blog/${latestPost.id}`, latestPost.date)}
+      </div>
     </ContentBlock>
   )
 }
