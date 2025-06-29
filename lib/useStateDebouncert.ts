@@ -27,11 +27,14 @@ function isFunction<T>(f: T | ((prior: T) => T)): f is (prior: T) => T {
  * delay specified after the last update. In other words, sequential updates reset the timer.
  * @param initialState - Defines the initial state used.
  * @param debounceMs - Defines the delay between the _last_ update and when resolvedState will be set.
- * @returns [
+ * @returns
+ * ```
+ * [
  *   ResolvedState, //The latest Debounced state update
  *   LatestState,  //The latest state (works same as SetState)
  *   SetState, //Function to update state
  * ]
+ * ```
  */
 export const useStateDebouncer = <State>(
   initialState: State,

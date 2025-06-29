@@ -1,9 +1,56 @@
 @use '../../../styles/mixins' as *;
 
+.main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background-color: gray;
+}
+
 .readOptions {
   position: absolute;
   right: 20pt;
   top: 2pt;
+}
+
+.chapterContainer {
+  position: relative;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--background-tertiary-color);
+}
+
+.chapterMeasure {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  z-index: -1;
+}
+
+.pagedContent {
+  display: flex;
+  flex: 1;
+  flex-direction: row;
+  max-width: 100%;
+  overflow-x: scroll;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  scrollbar-color: transparent transparent;
+}
+
+.scrolledContent {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  overflow-y: scroll;
+}
+
+.chapterPage {
+  scroll-snap-align: start;
 }
 
 .loreContainer {
@@ -80,6 +127,14 @@
   border-top-width: 1pt;
   border-top-color: var(--background-secondary-color);
   border-top-style: groove;
-  padding-top: 20pt;
-  padding-bottom: 20pt;
+  padding-top: 8pt;
+  padding-bottom: 8pt;
+}
+
+.bottomNavItem {
+  flex: 1;
+}
+
+.bottomNavIndicator {
+  margin-inline: 5pt;
 }

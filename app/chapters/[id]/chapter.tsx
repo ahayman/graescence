@@ -19,6 +19,8 @@ import ChapterLore from './chapterLore'
 import { ChapterData, LoreData } from '../../../api/types'
 import Column from '../../../components/Column'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { useStateDebouncer } from '../../../lib/useStateDebouncert'
+import { ScrollIndicator } from '../../../components/ScrollIndicator/ScrollIndicator'
 
 export type Props = {
   id: string
@@ -29,6 +31,8 @@ type LorePopoverState = {
   lore: LoreData
   position: { x: number; y: number }
 }
+
+type BoundingSize = { width: number; height: number }
 
 const ChapterLoreItem = ({ lore, dismiss }: { lore: LoreData; dismiss: () => void }) => (
   <Column key={lore.id} className={styles.lorePopoverContainer}>
@@ -50,8 +54,13 @@ const ChapterLoreItem = ({ lore, dismiss }: { lore: LoreData; dismiss: () => voi
 )
 
 const Chapter = ({ id, chapter }: Props) => {
+  const [contentSize, _, setContentSize] = useStateDebouncer<BoundingSize>({ width: 0, height: 0 }, 500)
+  const [currentProgress, latestCurrentProgress, setCurrentProgress] = useStateDebouncer(0, 500)
   const [lorePopover, setLorePopover] = useState<LorePopoverState>()
+  const [pageCount, setPageCount] = useState(0)
   const { chapters } = useContext(ContentContext)
+  const pagedMeasureRef = useRef<HTMLDivElement>(null)
+  const pagedContentRef = useRef<HTMLDivElement>(null)
   const timeoutRef = useRef<NodeJS.Timeout>()
   const autoScroll = useRef(true)
   const {
@@ -77,24 +86,49 @@ const Chapter = ({ id, chapter }: Props) => {
     const offset = scrollable.scrollTop
     if (height <= 0) return
     const progress = offset / height
-    updateCurrentChapter(chapter.id, progress)
-  }, [updateCurrentChapter, chapter.id])
+    setCurrentProgress(progress)
+  }, [setCurrentProgress])
+
+  const setPagedScrollProgress = useCallback(() => {
+    const scrollable = pagedContentRef.current
+    if (scrollable === null) return
+    const height = scrollable.scrollWidth
+    const offset = scrollable.scrollLeft
+    if (height <= 0) return
+    const progress = offset / height
+    setCurrentProgress(progress)
+  }, [setCurrentProgress])
 
   const onScroll = useCallback(() => {
-    if (timeoutRef.current) {
-      clearTimeout(timeoutRef.current)
+    setPagedScrollProgress()
+  }, [setPagedScrollProgress])
+
+  useEffect(() => {
+    updateCurrentChapter(chapter.id, currentProgress)
+  }, [chapter.id, currentProgress, updateCurrentChapter])
+
+  useEffect(() => {
+    const chapterMeasure = pagedMeasureRef.current
+    if (chapterMeasure) {
+      const rect = chapterMeasure.getBoundingClientRect()
+      setContentSize({ height: rect.height, width: rect.width })
     }
-    timeoutRef.current = setTimeout(() => {
-      timeoutRef.current = undefined
-      setScrollProgress()
-    }, 1000)
-  }, [setScrollProgress])
+  }, [setContentSize])
 
   const onResize = useCallback(() => {
+    const pagedContent = pagedContentRef.current
+    if (pagedContent) pagedContentRef.current.textContent = ''
+
+    const chapterMeasure = pagedMeasureRef.current
+    if (chapterMeasure) {
+      const rect = chapterMeasure.getBoundingClientRect()
+      setContentSize({ height: rect.height, width: rect.width })
+    }
     const progress = chapterProgress[chapter.id]
-    if (progress === undefined) return
-    scrollTo(progress)
-  }, [chapter.id, scrollTo, chapterProgress])
+    if (progress !== undefined) {
+      scrollTo(progress)
+    }
+  }, [chapterProgress, chapter.id, setContentSize, scrollTo])
 
   const onLoreClick = useCallback(
     (event: Event) => {
@@ -115,9 +149,19 @@ const Chapter = ({ id, chapter }: Props) => {
     [chapter.lore],
   )
 
+  const onIndicatorClick = (idx: number) => {
+    console.log(`Scroll to index: ${idx}`)
+    const scrollable = pagedContentRef.current
+    if (!scrollable) return
+    const pageWidth = scrollable.children[0].getBoundingClientRect().width
+    const left = pageWidth * idx
+    scrollable.scrollTo({ left, behavior: 'smooth' })
+  }
+
   useEffect(() => {
     updateCurrentChapter(chapter.id)
-    const scrollable = document.getElementById('main-content-container')
+    // const scrollable = document.getElementById('main-content-container')
+    const scrollable = pagedContentRef.current
     scrollable?.addEventListener('scroll', onScroll, { passive: true })
     window.addEventListener('resize', onResize, { passive: true })
     return () => {
@@ -125,6 +169,69 @@ const Chapter = ({ id, chapter }: Props) => {
       window.removeEventListener('resize', onResize)
     }
   }, [chapter, onScroll, onResize, updateCurrentChapter])
+
+  useEffect(() => {
+    const pages: HTMLDivElement[] = []
+    const text = chapter.html
+    const chapterMeasure = pagedMeasureRef.current
+    const pagedContent = pagedContentRef.current
+    if (!text || !chapterMeasure || !pagedContent || contentSize.height <= 0 || contentSize.width <= 0) return
+
+    const createPage = (size: BoundingSize, idx: number) => {
+      const page = document.createElement('div') // creates new html element
+      page.setAttribute('class', styles.chapterPage) // appends the class "page" to the element
+      page.setAttribute('id', `chapter-page-${idx}`)
+      page.setAttribute(
+        'style',
+        `min-height: ${size.height}, max-height: ${size.height}px; min-width: ${size.width}px; max-width: ${size.width}px; padding: 5pt`,
+      )
+      pages.push(page)
+      return page
+    }
+
+    const appendToPage = (page: HTMLDivElement, word: string, height: number) => {
+      const pageText = page.innerHTML // gets the text from the last page
+      const pageElems = page.children
+
+      if (word.startsWith('<p>') || pageElems.length === 0) {
+        page.innerHTML += word + ' ' // saves the text of the last page
+      } else {
+        if (word.endsWith('</p>')) word = word.slice(0, -4)
+        const lastElem = pageElems[pageElems.length - 1]
+        lastElem.innerHTML += word + ' '
+      }
+      if (page.offsetHeight >= height) {
+        // checks if the page overflows (more words than space)
+        page.innerHTML = pageText //resets the page-text
+        return false // returns false because page is full
+      } else {
+        return true // returns true because word was successfully filled in the page
+      }
+    }
+
+    pagedContent.textContent = ''
+    const textArray = text.split(/(?<=>[^<>]*?)\s(?=[^<>]*?<)/) // Split the text into words without
+
+    let idx = 0
+    let page = createPage(contentSize, idx++) // creates the first page
+    chapterMeasure.appendChild(page) // appends the element to the container for all the pages
+
+    for (var i = 0; i < textArray.length; i++) {
+      // loops through all the words
+      const success = appendToPage(page, textArray[i], contentSize.height) // tries to fill the word in the last page
+      if (!success) {
+        // checks if word could not be filled in last page
+        chapterMeasure.removeChild(page)
+        page = createPage(contentSize, idx++) // create new empty page
+        chapterMeasure.appendChild(page) // appends the element to the container for all the pages
+        appendToPage(page, textArray[i], contentSize.height) // fill the word in the new last element
+      }
+    }
+    chapterMeasure.removeChild(page)
+
+    setPageCount(pages.length)
+    pages.forEach(page => pagedContent.appendChild(page))
+  }, [chapter.html, contentSize])
 
   useEffect(() => {
     const progress = chapterProgress[chapter.id]
@@ -149,25 +256,30 @@ const Chapter = ({ id, chapter }: Props) => {
   const { chapterNo, title, date, volumeNo, html, tags, notes } = chapter
 
   const chapterNav = () => {
-    if (!nextChapter && !prevChapter) {
-      return null
-    }
     return (
       <ContentBlock>
-        <Row className={styles.bottomNav} horizontal="space-between">
+        <Row className={styles.bottomNav} horizontal="space-between" vertical="center">
           {prevChapter ? (
             <Link
-              className={utilStyles.coloredLink}
+              style={{ textAlign: 'left' }}
+              className={classes(utilStyles.coloredLink, styles.bottomNavItem)}
               href={`/chapters/${prevChapter.id}`}>{`← ${prevChapter.title}`}</Link>
           ) : (
-            <div />
+            <div className={styles.bottomNavItem} />
           )}
+          <ScrollIndicator
+            className={styles.bottomNavIndicator}
+            pageCount={pageCount}
+            progress={latestCurrentProgress}
+            onClick={onIndicatorClick}
+          />
           {nextChapter ? (
             <Link
-              className={utilStyles.coloredLink}
+              style={{ textAlign: 'right' }}
+              className={classes(utilStyles.coloredLink, styles.bottomNavItem)}
               href={`/chapters/${nextChapter.id}`}>{`${nextChapter.title} →`}</Link>
           ) : (
-            <div />
+            <div className={styles.bottomNavItem} />
           )}
         </Row>
       </ContentBlock>
@@ -181,7 +293,7 @@ const Chapter = ({ id, chapter }: Props) => {
   )
 
   return (
-    <>
+    <div className={styles.main}>
       <Header type="Primary" sticky>
         <Row horizontal="space-between" vertical="center">
           <Row>
@@ -218,9 +330,16 @@ const Chapter = ({ id, chapter }: Props) => {
           )}
         </Row>
       </Header>
-      <ContentBlock>
-        <div className={postStyles.post} dangerouslySetInnerHTML={{ __html: html }} />
-      </ContentBlock>
+      <div className={styles.chapterContainer}>
+        <div ref={pagedMeasureRef} id="ChapterMeasure" className={classes(postStyles.post, styles.chapterMeasure)} />
+        <div
+          style={{ ...contentSize }}
+          ref={pagedContentRef}
+          id="PagedContent"
+          className={classes(postStyles.post, styles.pagedContent)}
+          // dangerouslySetInnerHTML={{ __html: html }}
+        ></div>
+      </div>
       {!!notes && (
         <>
           <Header type="Secondary" title="Author Notes" />
@@ -236,7 +355,7 @@ const Chapter = ({ id, chapter }: Props) => {
       )}
       {chapterNav()}
       {lorePopover && LorePopover(lorePopover.lore)}
-    </>
+    </div>
   )
 }
 export default Chapter

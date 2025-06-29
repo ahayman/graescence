@@ -23,17 +23,19 @@ type Props = {
   onAdjust: (option: ReadingOption, adjust: Adjustment) => void
 }
 const ReadingAdjustment = ({ onAdjust, option, value, uom }: Props) => (
-  <Column horizontal="center" className={styles.optionGroup}>
+  <>
     <span className={styles.optionText}>{OptionText[option]}</span>
-    <Row horizontal="space-between" vertical="center" className={styles.row}>
-      <div className={styles.button} onClick={() => onAdjust(option, 'decrease')}>
-        <FontAwesomeIcon icon={faMinus} className={styles.icon} />
-      </div>
-      <div className={styles.valueDisplay}>{`${value} ${uom}`}</div>
-      <div className={styles.button} onClick={() => onAdjust(option, 'increase')}>
-        <FontAwesomeIcon icon={faPlus} className={styles.icon} />
-      </div>
-    </Row>
-  </Column>
+    <Column horizontal="center" className={styles.optionGroup}>
+      <Row horizontal="space-between" vertical="center" className={styles.row}>
+        <div className={styles.button} onClick={() => onAdjust(option, 'decrease')}>
+          <FontAwesomeIcon icon={faMinus} className={styles.icon} />
+        </div>
+        <div className={styles.valueDisplay}>{`${value} ${uom}`}</div>
+        <div className={styles.button} onClick={() => onAdjust(option, 'increase')}>
+          <FontAwesomeIcon icon={faPlus} className={styles.icon} />
+        </div>
+      </Row>
+    </Column>
+  </>
 )
 export default ReadingAdjustment

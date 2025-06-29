@@ -1,22 +1,34 @@
  .main {
-    max-width: var(--max-content-width, 50rem);
-    min-width: 10rem;
-    max-height: 100vh;
-    overflow: scroll;
-    margin-top: 5pt;
-    border-right-width: 1pt;
-    border-left-width: 1pt;
-    border-bottom-width: 1pt;
-    border-color: var(--background-secondary-color);
-    border-left-style: groove;
-    border-right-style: groove;
-    border-bottom-style: groove;
-    border-radius: 10pt;
-    background-color: var(--background-color);
- } 
+   display: flex;
+   flex-direction: column;
+   flex: 1;
+   max-width: var(--max-content-width, 50rem);
+   min-width: 10rem;
+   max-height: 100vh;
+   overflow: scroll;
+   margin-top: 3pt;
+   border-right-width: 1pt;
+   border-left-width: 1pt;
+   border-bottom-width: 1pt;
+   border-color: var(--background-secondary-color);
+   border-left-style: groove;
+   border-right-style: groove;
+   border-bottom-style: groove;
+   border-radius: 10pt;
+   background-color: var(--background-color);
+ }
+
+.main-content {
+   display: flex;
+   flex-direction: column;
+   flex: 1;
+}
 
  .contentView {
+   display: flex;
+   justify-content: center;
    position: relative;
+   flex: 1;
  }
 
  .options {
@@ -28,10 +40,9 @@
 
 .mainContainer {
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin: 0pt 1pt;
     flex: 1;
+    flex-direction: column;
+    align-items: stretch;
 }
 
 .hidden {

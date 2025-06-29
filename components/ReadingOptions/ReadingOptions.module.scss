@@ -7,6 +7,8 @@
   size: 1.2rem;
   color: var(--foreground-color);
   vertical-align: middle;
+  margin-bottom: 0.5pt;
+  margin-left: 0.5pt;
 }
 
 .iconContainer {
@@ -68,13 +70,15 @@
 }
 
 .optionText {
-  font-size: 0.8rem;
+  margin-top: 5pt;
+  font-size: 1.1rem;
   text-align: center;
+  text-decoration: underline;
 }
 
 .row {
-  margin-top: 5pt;
-  padding: 0pt 5pt;
+  // margin-top: 5pt;
+  // padding: 0pt 5pt;
   width: 100%;
 }
 
@@ -100,6 +104,7 @@
   color: var(--foreground-color);
   font-family: var(--reading-font-family, Helvetica, sans-serif);
   text-align: center;
+  margin-top: 2pt;
   vertical-align: middle;
   align-self: stretch;
 }

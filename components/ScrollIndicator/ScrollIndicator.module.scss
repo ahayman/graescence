@@ -1,0 +1,90 @@
+.container {
+  display: flex;
+  flex-direction: row;
+  flex: 2;
+  align-items: center;
+  height: 10pt;
+}
+
+.chevron {
+  color: var(--foreground-secondary-color);
+  font-size: 10pt;
+  margin-inline: 3pt;
+  transition: transform 300ms ease-in-out;
+
+  &:hover {
+    transition: transform 300ms ease-in-out;
+    transform: scale(1.3);
+  }
+}
+
+.scrollContainer {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  flex: 1;
+  align-items: center;
+  height: 10pt;
+}
+
+.scrollLine {
+  flex: 1;
+  border-radius: 1000pt;
+  background-color: var(--foreground-secondary-color);
+  height: 3pt;
+}
+
+.indicator {
+  position: absolute;
+  border-radius: 1000pt;
+  background-color: var(--foreground-secondary-color);
+  height: 6pt;
+  width: 6pt;
+  pointer-events: none;
+}
+
+.selected {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  border-radius: 1000pt;
+  background-color: var(--accent-color);
+  pointer-events: none;
+}
+
+.hoverIndicator {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  border-radius: 1000pt;
+  border-color: var(-background-color);
+  border-width: 1pt;
+  background-color: var(--foreground-secondary-color);
+  height: 6pt;
+  width: 6pt;
+  pointer-events: none;
+  transform: scale(0);
+  transition: transform 300ms ease-in;
+}
+
+.hoverAnimateIn {
+  transform: scale(2);
+  transition: transform 300ms ease-in;
+}
+
+.selectedText {
+  font-size: 4pt;
+  margin-right: 0.5pt;
+  color: var(--foreground-color);
+  pointer-events: none;
+}
+
+.hoverText {
+  font-size: 4pt;
+  margin-right: 0.5pt;
+  color: var(--background-color);
+  pointer-events: none;
+}
