@@ -3,7 +3,7 @@
 .container {
     display: flex;
     flex-direction: column;
-    height: 100vh;
+    height: 100dvh;
     flex: 1;
     margin: 0 auto 0;
     background: var(--background-image), var(--background-color-overlay);
@@ -32,7 +32,7 @@
 }
 
 .nav {
-    height: 100vh;
+    height: 100dvh;
     background-color: var(--background-secondary-color);
     border-right-color: var(--background-secondary-color);
     border-right-width: 1pt;
@@ -54,6 +54,6 @@
 .main {
     max-width: 50rem;
     min-width: 20rem;
-    max-height: 100vh;
+    max-height: 100dvh;
     overflow: scroll;
 }
