@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useReducer } from 'react'
 import { Font, FontDefinitions, Global, GlobalVariable, Storage, UITheme } from '../../lib/globals'
 import Reducer from './Reducer'
-import { Adjustment, Context, ReadingOption, State, TextAlign } from './Types'
+import { Adjustment, Context, PageLayout, ReadingOption, State, TextAlign } from './Types'
 
 const InitialState: State = {
   readingOptions: {
@@ -15,6 +15,7 @@ const InitialState: State = {
     wordSpacing: 1,
     textAlign: 'left',
     readingWidth: 50,
+    pageLayout: 'paged',
   },
   uiTheme: 'dark',
 }
@@ -64,6 +65,7 @@ const InitState = (): State => {
       wordSpacing: getSetInitialValue('--reading-word-spacing', 0, fontSize),
       textAlign: (getSetInitial('--reading-text-align') as TextAlign) || 'left',
       readingWidth: getSetInitialValue('--max-content-width', 50, 1),
+      pageLayout: (Storage.get('--page-layout') as PageLayout) || 'paged',
     },
     uiTheme: (getSetInitial('data-theme') as UITheme) || 'dark',
   }
@@ -127,6 +129,13 @@ const Provider = ({ children }: Props) => {
     [dispatch],
   )
 
+  const setPageLayout = useCallback(
+    (layout: PageLayout) => {
+      dispatch({ type: 'setPageLayout', layout })
+    },
+    [dispatch],
+  )
+
   return (
     <OptionsContext.Provider
       value={{
@@ -140,6 +149,7 @@ const Provider = ({ children }: Props) => {
           resetReadingOptions,
           setUITheme,
           setShowReadingOptions,
+          setPageLayout,
         },
       }}>
       {children}

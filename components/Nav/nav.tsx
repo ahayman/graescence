@@ -12,8 +12,9 @@ import { ProgressContext } from '../../providers/Progress/Provider'
 import { OptionsContext } from '../../providers/Options/Provider'
 import Row from '../Row'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faBars } from '@fortawesome/free-solid-svg-icons'
+import { faBars, faSun, faMoon } from '@fortawesome/free-solid-svg-icons'
 import { PatreonLogo } from '../Logos/PatreonLogo'
+import Column from '../Column'
 
 const name = 'Graescence'
 
@@ -61,7 +62,9 @@ const Nav = () => {
     clickDiscardIds.add(lightId)
     return (
       <Row id={id} vertical="center" horizontal="center">
-        <div
+        <Column
+          vertical="center"
+          horizontal="center"
           id={lightId}
           className={classes(
             utilStyles.leftRounded,
@@ -69,9 +72,11 @@ const Nav = () => {
             uiTheme === 'light' ? styles.themeButtonSelect : styles.themeButton,
           )}
           onClick={() => setUITheme('light')}>
-          Light
-        </div>
-        <div
+          <FontAwesomeIcon icon={faSun} />
+        </Column>
+        <Column
+          vertical="center"
+          horizontal="center"
           id={darkId}
           className={classes(
             utilStyles.rightRounded,
@@ -79,8 +84,8 @@ const Nav = () => {
             uiTheme === 'dark' ? styles.themeButtonSelect : styles.themeButton,
           )}
           onClick={() => setUITheme('dark')}>
-          Dark
-        </div>
+          <FontAwesomeIcon icon={faMoon} />
+        </Column>
       </Row>
     )
   }

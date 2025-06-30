@@ -1,8 +1,9 @@
 import { Font, FontDefinitions, Fonts } from '../../lib/globals'
-import { groupArray } from '../../lib/utils'
+import { classes, groupArray } from '../../lib/utils'
 import Column from '../Column'
 import Row from '../Row'
 import styles from './ReadingOptions.module.scss'
+import utilStyles from '../../styles/utils.module.scss'
 
 type Props = {
   selected: Font
@@ -25,7 +26,7 @@ const FontSelect = ({ selected, onSelect }: Props) => (
               style={{ flex: 1 }}
               horizontal="center"
               onClick={() => onSelect(font)}
-              className={font === selected ? styles.fontSelect : styles.fontUnselect}
+              className={classes(font === selected ? styles.fontSelect : styles.fontUnselect, utilStyles.buttonHover)}
               key={def.name}>
               <span className={styles.fontSelectAa} style={{ fontFamily: def.name }}>
                 Aa

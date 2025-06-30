@@ -1,0 +1,28 @@
+.button {
+  cursor: pointer;
+  padding: 2pt 3pt;
+  letter-spacing: 0.1rem;
+  min-width: 25pt;
+  min-height: 25pt;
+  font-size: 15pt;
+  margin: 5pt 0pt;
+  border-width: 1pt;
+  border-color: var(--foreground-color);
+  border-style: solid;
+  color: var(--unSelect-foreground-color);
+  background-color: var(--unSelect-background-color);
+}
+
+.buttonSelect {
+  padding: 2pt 3pt;
+  letter-spacing: 0.1rem;
+  font-size: 15pt;
+  min-width: 25pt;
+  min-height: 25pt;
+  margin: 5pt 0pt;
+  border-width: 1pt;
+  border-color: var(--foreground-color);
+  border-style: solid;
+  color: var(--select-foreground-color);
+  background-color: var(--select-background-color);
+}

@@ -56,6 +56,7 @@ export type Action =
   | ReducerAction<'setShowReadingOptions', { show: boolean }>
   | ReducerAction<'selectReadingFont', { font: Font }>
   | ReducerAction<'setUITheme', { theme: UITheme }>
+  | ReducerAction<'setPageLayout', { layout: 'paged' | 'verticalScroll' }>
 
 const Reducer = (state: State, action: Action): State => {
   switch (action.type) {
@@ -73,6 +74,7 @@ const Reducer = (state: State, action: Action): State => {
         wordSpacing: 0,
         textAlign: 'left',
         readingWidth: 50,
+        pageLayout: 'paged',
       }
       Global.set('--reading-font-family', readingOptions.font)
       Global.set('--reading-text-align', readingOptions.textAlign)
@@ -93,6 +95,7 @@ const Reducer = (state: State, action: Action): State => {
       Storage.setValue('--reading-letter-spacing', readingOptions.letterSpacing)
       Storage.setValue('--reading-word-spacing', readingOptions.wordSpacing)
       Storage.setValue('--max-content-width', readingOptions.readingWidth)
+      Storage.set('--page-layout', readingOptions.pageLayout)
 
       return { ...state, readingOptions }
     }
@@ -131,7 +134,16 @@ const Reducer = (state: State, action: Action): State => {
           showOptions: action.show,
         },
       }
-
+    case 'setPageLayout': {
+      Storage.set('--page-layout', action.layout)
+      return {
+        ...state,
+        readingOptions: {
+          ...state.readingOptions,
+          pageLayout: action.layout,
+        },
+      }
+    }
     case 'setReadingOption':
     case 'adjustReadingOption': {
       const value =

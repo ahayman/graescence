@@ -67,12 +67,12 @@
   width: 6pt;
   pointer-events: none;
   transform: scale(0);
-  transition: transform 300ms ease-in;
+  transition: transform 200ms ease-in;
 }
 
 .hoverAnimateIn {
   transform: scale(2);
-  transition: transform 300ms ease-in;
+  transition: transform 200ms ease-in;
 }
 
 .selectedText {

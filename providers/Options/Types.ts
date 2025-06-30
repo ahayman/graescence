@@ -11,6 +11,7 @@ export type ReadingOptions = {
   wordSpacing: number
   textAlign: TextAlign
   readingWidth: number
+  pageLayout: PageLayout
 }
 
 export type State = {
@@ -19,6 +20,7 @@ export type State = {
 }
 
 export type TextAlign = 'left' | 'right' | 'justify' | 'center'
+export type PageLayout = 'paged' | 'verticalScroll'
 
 export type ReadingOption =
   | 'fontSize'
@@ -39,6 +41,7 @@ export type Actions = {
   setReadingTextAlign: (textAlign: TextAlign) => void
   resetReadingOptions: () => void
   selectReadingFont: (font: Font) => void
+  setPageLayout: (layout: PageLayout) => void
   setUITheme: (theme: UITheme) => void
 }
 
