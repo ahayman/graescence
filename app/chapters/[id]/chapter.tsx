@@ -213,6 +213,7 @@ const Chapter = ({ id, chapter }: Props) => {
     const pages: HTMLDivElement[] = []
     let carryOverTags: Tag[] = []
     const text = chapter.html
+    console.log({ chapterHtml: text })
     const chapterMeasure = pagedMeasureRef.current
     const pagedContent = pagedContentRef.current
     console.log({ chapterMeasure, pagedContent, contentSize })
@@ -235,13 +236,13 @@ const Chapter = ({ id, chapter }: Props) => {
 
     const appendToPage = (page: HTMLDivElement, word: string, height: number) => {
       const pageText = page.innerHTML // gets the text from the last page
-      const pageElems = page.children
+      const pageElems = [...page.children]
 
       if (word.startsWith('<p>') || pageElems.length === 0) {
         page.innerHTML += word + ' ' // saves the text of the last page
       } else {
         if (word.endsWith('</p>')) word = word.slice(0, -4)
-        const lastElem = pageElems[pageElems.length - 1]
+        const lastElem = pageElems.findLast(e => e.nodeName === 'P') ?? pageElems[pageElems.length - 1]
         lastElem.innerHTML += word + ' '
       }
       if (page.offsetHeight >= height) {
