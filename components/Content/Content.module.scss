@@ -7,14 +7,6 @@
    max-height: 100dvh;
    overflow: scroll;
    margin-top: 3pt;
-   border-right-width: 1pt;
-   border-left-width: 1pt;
-   border-bottom-width: 1pt;
-   border-color: var(--background-secondary-color);
-   border-left-style: groove;
-   border-right-style: groove;
-   border-bottom-style: groove;
-   border-radius: 10pt;
    background-color: var(--background-color);
  }
 
@@ -34,8 +26,6 @@
  .options {
     border-left-width: 1pt;
     border-left-style: groove;
-    border-left-color: var(--background-secondary-color);
-
  }
 
 .mainContainer {

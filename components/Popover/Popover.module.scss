@@ -7,7 +7,7 @@
   border-style: groove;
   overflow: scroll;
   max-width: max(calc(var(--max-content-width, 50rem) / 2), 30rem);
-  z-index: 9999;
+  z-index: 100000000;
 }
 
 .popoverContainer {
@@ -20,20 +20,21 @@
   left: 0pt;
   bottom: 0pt;
   background-color: rgba(0, 0, 0, 0.4);
+  z-index: 100000000;
 }
 
 .popoverShowing {
   overflow: scroll;
   visibility: visible;
   opacity: 1;
-  transition: visibility 0s linear 0s, opacity 300ms;
+  transition: opacity 0s linear 0s, opacity 300ms;
 }
 
 .popoverHiding {
   overflow: scroll;
   visibility: hidden;
   opacity: 0;
-  transition: visibility 0s linear 300ms, opacity 300ms;
+  transition: opacity 0s linear 300ms, opacity 300ms;
 }
 
 .icon {

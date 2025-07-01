@@ -16,6 +16,7 @@ import { faBars, faSun, faMoon } from '@fortawesome/free-solid-svg-icons'
 import { PatreonLogo } from '../Logos/PatreonLogo'
 import Column from '../Column'
 import { DisplayContext } from '../../providers/Display/Provider'
+import Popover from '../Popover/Popover'
 
 const name = 'Graescence'
 
@@ -28,31 +29,15 @@ const Nav = () => {
   const {
     state: { currentChapterId },
   } = useContext(ProgressContext)
-  const [showMenu, setShowMenu] = useState(false)
-  const [menuPos, setMenuPos] = useState(0)
+  const {
+    actions: { toggleFullScreen },
+  } = useContext(DisplayContext)
   const currentChapter = useMemo(
     () => chapters.find(c => c.id === currentChapterId) ?? chapters[0],
     [chapters, currentChapterId],
   )
   const latestPost = blog[blog.length - 1]
   const clickDiscardIds = useRef(new Set<string>()).current
-
-  const toggleNav = (event: MouseEvent<HTMLDivElement>) => {
-    for (const id of clickDiscardIds) {
-      if (event.target === document.getElementById(id)) {
-        return
-      }
-    }
-    if (showMenu) {
-      setShowMenu(false)
-      return
-    }
-    const rect = document.getElementById('menuIcon')?.getBoundingClientRect()
-    if (rect) {
-      setMenuPos(rect.bottom + 5)
-    }
-    setShowMenu(true)
-  }
 
   const themeSelector = (type: string) => {
     const id = `${type}-themeSelector`
@@ -93,11 +78,9 @@ const Nav = () => {
 
   const navItems = (type: 'desktop' | 'mobile'): ReactNode[] =>
     [
-      type === 'mobile' ? (
-        <Link key={`${type}-home`} className={classes(styles.link)} href="/">
-          <span>Home</span>
-        </Link>
-      ) : null,
+      <Link key={`${type}-home`} className={classes(styles.link)} href="/">
+        <span>Home</span>
+      </Link>,
       <Link key={`${type}-blog`} className={classes(styles.link)} href="/blog">
         <span>Blog</span>
       </Link>,
@@ -163,11 +146,9 @@ const Nav = () => {
           alt="Profile Image"
         />
       </Link>
-      <div className={styles.headingContainer}>
-        <Link href="/" className={styles.link}>
-          <h2 className={styles.heading}>{name}</h2>
-          <span className={styles.subHeading}>a web novel</span>
-        </Link>
+      <div onClick={toggleFullScreen} className={styles.headingContainer}>
+        <h2 className={styles.heading}>{name}</h2>
+        <span className={styles.subHeading}>a web novel</span>
       </div>
       <div className={styles.desktopContainer}>
         <hr className={styles.navHR} />
@@ -175,15 +156,14 @@ const Nav = () => {
         <hr className={styles.navHR} />
         {themeSelector('desktop')}
       </div>
-      <div className={styles.mobileContainer} onClick={event => toggleNav(event)}>
-        <FontAwesomeIcon id="menuIcon" icon={faBars} className={styles.icon} />
-        <div className={classes(styles.menuContainer, showMenu ? styles.menuShowing : styles.menuHiding)}>
-          <div style={{ marginTop: menuPos }} className={classes(styles.menu)}>
+      <div className={styles.mobileContainer}>
+        <Popover name="main menu" icon={faBars}>
+          <div className={classes(styles.menu)}>
             {navItems('mobile')}
             <hr className={styles.navHR} />
             {themeSelector('mobile')}
           </div>
-        </div>
+        </Popover>
       </div>
     </div>
   )

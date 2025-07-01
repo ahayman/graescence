@@ -1,11 +1,12 @@
 'use client'
 import Script from 'next/script'
-import { ReactNode, useContext, useId, MouseEvent } from 'react'
+import { ReactNode, useContext, useId, MouseEvent, useEffect } from 'react'
 import { DisplayContext } from '../../providers/Display/Provider'
 import ContentBlock from '../ContentBlock/ContentBlock'
 import { classes } from '../../lib/utils'
 import styles from './Content.module.scss'
 import popoverStyles from '../Popover/Popover.module.scss'
+import { usePathname, useRouter } from 'next/navigation'
 
 type Props = {
   children: ReactNode
@@ -17,6 +18,7 @@ const Content = ({ children }: Props) => {
     actions: { closePopover },
   } = useContext(DisplayContext)
   const contId = useId()
+  const path = usePathname()
 
   const toggle = (event: MouseEvent<HTMLDivElement>) => {
     const container = document.getElementById(contId)
@@ -24,6 +26,8 @@ const Content = ({ children }: Props) => {
       closePopover()
     }
   }
+
+  useEffect(() => closePopover(), [closePopover, path])
 
   return (
     <div className={styles.mainContainer}>

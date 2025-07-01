@@ -64,6 +64,6 @@
   transition: transform 300ms ease-in-out;
 
   @include mobile {
-    transform: rotate(180deg);
+    transform: rotate(180deg) translateX(-5pt);
   }
 }

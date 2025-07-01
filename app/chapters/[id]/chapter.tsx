@@ -23,7 +23,6 @@ import { useStateDebouncer } from '../../../lib/useStateDebouncer'
 import { ScrollIndicator } from '../../../components/ScrollIndicator/ScrollIndicator'
 import { OptionsContext } from '../../../providers/Options/Provider'
 import { DisplayContext } from '../../../providers/Display/Provider'
-import { tag } from '../../../components/Tags/Tags.module.scss'
 
 export type Props = {
   id: string
@@ -209,12 +208,14 @@ const Chapter = ({ id, chapter }: Props) => {
 
   useEffect(() => {
     if (pageLayout !== 'paged') return
-    const pages: HTMLDivElement[] = []
-    let carryOverTags: Tag[] = []
     const text = chapter.html
     const chapterMeasure = pagedMeasureRef.current
     const pagedContent = pagedContentRef.current
     if (!text || !chapterMeasure || !pagedContent || contentSize.height <= 0 || contentSize.width <= 0) return
+
+    const pages: HTMLDivElement[] = []
+    let carryOverTags: Tag[] = []
+    let currentPageText = ''
 
     const createPage = (size: BoundingSize, idx: number) => {
       const page = document.createElement('div') // creates new html element
@@ -224,31 +225,34 @@ const Chapter = ({ id, chapter }: Props) => {
         'style',
         `min-height: ${size.height}, max-height: ${size.height}px; min-width: ${size.width}px; max-width: ${size.width}px; padding: 5pt`,
       )
-      // Prepend carry over tags and reset them
-      page.textContent = carryOverTags.map(t => t.fullTag).join()
+      // Prepend carry over tags and reset them.
+      // Carried over <p> tags must not have an indent since they're intended to separate pages and not paragraphs.
+      currentPageText = carryOverTags
+        .map(t => (t.tagName === 'p' ? "<p style='text-indent: 0pt !important;'>" : t.fullTag))
+        .join()
+      page.textContent = currentPageText
       carryOverTags = []
       pages.push(page)
       return page
     }
 
     const appendToPage = (page: HTMLDivElement, word: string, height: number) => {
-      const pageText = page.innerHTML // gets the text from the last page
-      const pageElems = [...page.children]
+      const pageText = currentPageText
 
-      if (word.startsWith('<p>')) {
-        page.innerHTML += word + ' ' // saves the text of the last page
-      } else if (pageElems.length === 0) {
-        page.innerHTML += '<p>' + word + ' '
-      } else {
-        if (word.endsWith('</p>')) word = word.slice(0, -4)
-        const lastElem = pageElems.findLast(e => e.nodeName === 'P') ?? pageElems[pageElems.length - 1]
-        lastElem.innerHTML += word + ' '
-      }
+      currentPageText = pageText + word + ' '
+      page.innerHTML = currentPageText
+
       if (page.offsetHeight >= height) {
         // checks if the page overflows (more words than space)
         carryOverTags = carryOverTagsIn(pageText)
-        //resets the page-text and appends closing carryover tags
-        page.innerHTML = pageText + carryOverTags.map(t => `</${t.tagName}>`).join()
+        //resets the page-text and appends closing carryover tags. Don't close <p> tags as they auto close
+        page.innerHTML =
+          pageText +
+          carryOverTags
+            .filter(t => t.tagName !== 'p')
+            .map(t => `</${t.tagName}>`)
+            .join()
+        currentPageText = pageText
         return false // returns false because page is full
       } else {
         return true // returns true because word was successfully filled in the page
@@ -463,5 +467,6 @@ const carryOverTagsIn = (html: string): Tag[] => {
       }
     }
   }
+  console.log({ tags })
   return tags
 }
