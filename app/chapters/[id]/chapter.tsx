@@ -238,7 +238,7 @@ const Chapter = ({ id, chapter }: Props) => {
       if (word.startsWith('<p>')) {
         page.innerHTML += word + ' ' // saves the text of the last page
       } else if (pageElems.length === 0) {
-        page.innerHTML += '<p>' + word
+        page.innerHTML += '<p>' + word + ' '
       } else {
         if (word.endsWith('</p>')) word = word.slice(0, -4)
         const lastElem = pageElems.findLast(e => e.nodeName === 'P') ?? pageElems[pageElems.length - 1]
