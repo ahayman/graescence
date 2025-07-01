@@ -135,7 +135,6 @@ const Chapter = ({ id, chapter }: Props) => {
   }, [setContentSize, pageLayout])
 
   const onResize = useCallback(() => {
-    console.log('reSize')
     if (pageLayout === 'paged') {
       const chapterMeasure = pagedMeasureRef.current
       if (chapterMeasure) {
@@ -213,10 +212,8 @@ const Chapter = ({ id, chapter }: Props) => {
     const pages: HTMLDivElement[] = []
     let carryOverTags: Tag[] = []
     const text = chapter.html
-    console.log({ chapterHtml: text })
     const chapterMeasure = pagedMeasureRef.current
     const pagedContent = pagedContentRef.current
-    console.log({ chapterMeasure, pagedContent, contentSize })
     if (!text || !chapterMeasure || !pagedContent || contentSize.height <= 0 || contentSize.width <= 0) return
 
     const createPage = (size: BoundingSize, idx: number) => {
@@ -280,7 +277,6 @@ const Chapter = ({ id, chapter }: Props) => {
     pages.forEach(page => pagedContent.appendChild(page))
     // Set the scroll to the correct progress offset
     const pageIdx = Math.floor(pages.length * progressRef.current)
-    console.log({ pages: pages.length, pageIdx, contentSize })
     pagedContent.scrollTo({ left: pageIdx * contentSize.width })
   }, [chapter.html, contentSize, pageLayout])
 
@@ -465,6 +461,5 @@ const carryOverTagsIn = (html: string): Tag[] => {
       }
     }
   }
-  console.log({ tags })
   return tags
 }
