@@ -1,4 +1,4 @@
-import { useCallback, useRef, useState } from 'react'
+import { RefObject, useCallback, useRef, useState } from 'react'
 
 /**
  * Set State action can either be the State, or
@@ -43,6 +43,7 @@ export const useStateDebouncer = <State>(
   State, //Resolved
   State, //Latest
   SetState<State>,
+  RefObject<State>, //Latest Ref
 ] => {
   const [resolvedState, setResolvedState] = useState(initialState)
   const [latestState, setLatestState] = useState(initialState)
@@ -67,5 +68,5 @@ export const useStateDebouncer = <State>(
     [debounceMs],
   )
 
-  return [resolvedState, latestState, debounceSetState]
+  return [resolvedState, latestState, debounceSetState, latestRef]
 }

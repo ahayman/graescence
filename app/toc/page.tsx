@@ -16,7 +16,7 @@ import Tags from '../../components/Tags/Tags'
 import { ChapterMeta } from '../../api/types'
 import SearchField from '../../components/Search/SearchField'
 import { DisplayContext } from '../../providers/Display/Provider'
-import { useStateDebouncer } from '../../lib/useStateDebouncert'
+import { useStateDebouncer } from '../../lib/useStateDebouncer'
 import { useStructuredChapterData } from './useStructuredChapterData'
 
 const includeChapter = (chapter: ChapterMeta, filter: string) => {

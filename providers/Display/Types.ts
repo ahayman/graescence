@@ -16,6 +16,7 @@ export type State = {
   historyFilter?: string
   historySortDirection: 'ascending' | 'descending'
   popover?: PopoverContent
+  fullScreen: boolean
 }
 
 export type Actions = {
@@ -28,6 +29,7 @@ export type Actions = {
   setHistorySortDirection: (sortDirection: 'ascending' | 'descending') => void
   openPopover: (content: PopoverContent) => void
   closePopover: () => void
+  toggleFullScreen: () => void
 }
 
 export type Context = {

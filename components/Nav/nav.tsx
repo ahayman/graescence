@@ -15,6 +15,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBars, faSun, faMoon } from '@fortawesome/free-solid-svg-icons'
 import { PatreonLogo } from '../Logos/PatreonLogo'
 import Column from '../Column'
+import { DisplayContext } from '../../providers/Display/Provider'
 
 const name = 'Graescence'
 

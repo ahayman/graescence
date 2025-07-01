@@ -10,6 +10,7 @@ type Action =
   | ReducerAction<'setHistoryFilter', { filter?: string }>
   | ReducerAction<'setHistorySort', { sortDirection: 'ascending' | 'descending' }>
   | ReducerAction<'setPopover', { content?: PopoverContent }>
+  | ReducerAction<'toggleFullScreen', {}>
 
 const Reducer = (state: State, action: Action): State => {
   switch (action.type) {
@@ -29,6 +30,8 @@ const Reducer = (state: State, action: Action): State => {
       return { ...state, historyFilter: action.filter }
     case 'setHistorySort':
       return { ...state, historySortDirection: action.sortDirection }
+    case 'toggleFullScreen':
+      return { ...state, fullScreen: !state.fullScreen }
   }
 }
 export default Reducer

@@ -1,0 +1,69 @@
+@use '../styles/mixins' as *;
+
+.split {
+    display: flex;
+    flex-direction: row;
+    flex: 1;
+    width: '100%';
+    @include mobile {
+        flex-direction: column;
+    }
+}
+
+.nav {
+  position: relative;
+  height: 100dvh;
+  width: 100pt;
+  margin-left: 0pt;
+  background-color: var(--background-secondary-color);
+  border-right-color: var(--background-secondary-color);
+  border-right-width: 1pt;
+  border-right-style:groove;
+  transition: margin-left 300ms ease-in-out;
+
+  @include mobile {
+    transition: margin-top 300ms ease-in-out;
+    border-right-color: transparent;
+    margin-top: 0pt;
+    height: auto;
+    width: 100%;
+  }
+}
+
+.hide {
+  margin-left: -100pt;
+
+  @include mobile {
+    margin-left: 0pt;
+    margin-top: -30pt;
+  }
+}
+
+
+.fullScreenIcon {
+  position: absolute;
+  right: -8pt;
+  bottom: 50%;
+  transform: translateY(-50%);
+  color: var(--translucent-icon);
+  transition: transform 300ms ease-in-out;
+  transform: rotate(270deg);
+  margin-inline: auto;
+  z-index: 10000;
+
+  @include mobile {
+    transform: rotate(0deg);
+    transform: translateX(50%);
+    right: 50%;
+    bottom: -8pt;
+  }
+}
+
+.open {
+  transform: rotate(90deg);
+  transition: transform 300ms ease-in-out;
+
+  @include mobile {
+    transform: rotate(180deg);
+  }
+}

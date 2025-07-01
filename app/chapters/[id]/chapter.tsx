@@ -19,9 +19,10 @@ import ChapterLore from './chapterLore'
 import { ChapterData, LoreData } from '../../../api/types'
 import Column from '../../../components/Column'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { useStateDebouncer } from '../../../lib/useStateDebouncert'
+import { useStateDebouncer } from '../../../lib/useStateDebouncer'
 import { ScrollIndicator } from '../../../components/ScrollIndicator/ScrollIndicator'
 import { OptionsContext } from '../../../providers/Options/Provider'
+import { DisplayContext } from '../../../providers/Display/Provider'
 
 export type Props = {
   id: string
@@ -60,12 +61,19 @@ const Chapter = ({ id, chapter }: Props) => {
       readingOptions: { pageLayout },
     },
   } = useContext(OptionsContext)
-  const [contentSize, _, setContentSize] = useStateDebouncer<BoundingSize>({ width: 0, height: 0 }, 500)
+  const [contentSize, _, setContentSize, latestContentSize] = useStateDebouncer<BoundingSize>(
+    { width: 0, height: 0 },
+    500,
+  )
+  const {
+    state: { fullScreen },
+  } = useContext(DisplayContext)
   const [lorePopover, setLorePopover] = useState<LorePopoverState>()
   const [pageCount, setPageCount] = useState(0)
   const { chapters } = useContext(ContentContext)
   const pagedMeasureRef = useRef<HTMLDivElement>(null)
   const pagedContentRef = useRef<HTMLDivElement>(null)
+  const scrolledContentRef = useRef<HTMLDivElement>(null)
   const {
     state: { chapterProgress },
     actions: { updateCurrentChapter },
@@ -126,21 +134,27 @@ const Chapter = ({ id, chapter }: Props) => {
   }, [setContentSize, pageLayout])
 
   const onResize = useCallback(() => {
+    console.log('reSize')
     if (pageLayout === 'paged') {
-      const pagedContent = pagedContentRef.current
-      if (pagedContent) pagedContentRef.current.textContent = ''
-
       const chapterMeasure = pagedMeasureRef.current
       if (chapterMeasure) {
         const rect = chapterMeasure.getBoundingClientRect()
-        setContentSize({ height: rect.height, width: rect.width })
+        if (rect.width !== latestContentSize.current?.width || rect.height !== latestContentSize.current.height) {
+          setContentSize({ height: rect.height, width: rect.width })
+        }
       }
     } else {
-      if (progressRef.current !== undefined) {
-        scrollTo(progressRef.current)
+      const progress = progressRef.current
+      const scrolledContent = scrolledContentRef.current
+      if (progress !== undefined && scrolledContent) {
+        const rect = scrolledContent.getBoundingClientRect()
+        if (rect.width !== latestContentSize.current?.width || rect.height !== latestContentSize.current.height) {
+          setContentSize({ height: rect.height, width: rect.width })
+          scrollTo(progressRef.current)
+        }
       }
     }
-  }, [pageLayout, scrollTo, setContentSize])
+  }, [latestContentSize, pageLayout, scrollTo, setContentSize])
 
   const onLoreClick = useCallback(
     (event: Event) => {
@@ -170,14 +184,25 @@ const Chapter = ({ id, chapter }: Props) => {
   }
 
   useEffect(() => {
+    const pagedContent = pagedContentRef.current
+    if (pagedContent) pagedContentRef.current.textContent = ''
+    setPageCount(0)
+  }, [fullScreen])
+
+  useEffect(() => {
     updateCurrentChapter(chapter.id)
-    // const scrollable = document.getElementById('main-content-container')
     const scrollable =
       pageLayout === 'paged' ? pagedContentRef.current : document.getElementById('main-content-container')
     scrollable?.addEventListener('scroll', onScroll, { passive: true })
+
+    const main = document.getElementById('chapter-main')
+    const observer = main ? new ResizeObserver(onResize) : undefined
+    if (main) observer?.observe(main)
     window.addEventListener('resize', onResize, { passive: true })
     return () => {
       scrollable?.removeEventListener('scroll', onScroll)
+      if (main) observer?.unobserve(main)
+      observer?.disconnect()
       window.removeEventListener('resize', onResize)
     }
   }, [chapter, onScroll, onResize, updateCurrentChapter, pageLayout])
@@ -188,6 +213,7 @@ const Chapter = ({ id, chapter }: Props) => {
     const text = chapter.html
     const chapterMeasure = pagedMeasureRef.current
     const pagedContent = pagedContentRef.current
+    console.log({ chapterMeasure, pagedContent, contentSize })
     if (!text || !chapterMeasure || !pagedContent || contentSize.height <= 0 || contentSize.width <= 0) return
 
     const createPage = (size: BoundingSize, idx: number) => {
@@ -246,6 +272,7 @@ const Chapter = ({ id, chapter }: Props) => {
     pages.forEach(page => pagedContent.appendChild(page))
     // Set the scroll to the correct progress offset
     const pageIdx = Math.floor(pages.length * progressRef.current)
+    console.log({ pages: pages.length, pageIdx, contentSize })
     pagedContent.scrollTo({ left: pageIdx * contentSize.width })
   }, [chapter.html, contentSize, pageLayout])
 
@@ -317,7 +344,7 @@ const Chapter = ({ id, chapter }: Props) => {
   )
 
   return (
-    <div className={styles.main}>
+    <div id="chapter-main" onResize={onResize} className={styles.main}>
       <Header type="Primary" sticky>
         <Row horizontal="space-between" vertical="center">
           <Row>
@@ -355,20 +382,20 @@ const Chapter = ({ id, chapter }: Props) => {
         </Row>
       </Header>
       {pageLayout === 'paged' && (
-        <div className={styles.chapterContainer}>
-          <div ref={pagedMeasureRef} id="ChapterMeasure" className={classes(postStyles.post, styles.chapterMeasure)} />
+        <div onResize={onResize} className={styles.chapterContainer}>
           <div
-            style={{ ...contentSize }}
-            ref={pagedContentRef}
-            id="PagedContent"
-            className={classes(postStyles.post, styles.pagedContent)}
-            // dangerouslySetInnerHTML={{ __html: html }}
+            ref={pagedMeasureRef}
+            onResize={onResize}
+            id="ChapterMeasure"
+            className={classes(postStyles.post, styles.chapterMeasure)}
           />
+          <div ref={pagedContentRef} id="PagedContent" className={classes(postStyles.post, styles.pagedContent)} />
         </div>
       )}
       {pageLayout === 'verticalScroll' && (
-        <div className={styles.chapterContainer}>
+        <div onResize={onResize} className={styles.chapterContainer}>
           <div
+            ref={scrolledContentRef}
             id="ScrolledContent"
             className={classes(postStyles.post, styles.scrolledContent)}
             dangerouslySetInnerHTML={{ __html: html }}

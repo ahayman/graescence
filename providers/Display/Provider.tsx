@@ -9,7 +9,7 @@ export type Props = {
 export const DisplayContext = createContext<Context>({} as any)
 
 const DisplayProvider = ({ children }: Props) => {
-  const [state, dispatch] = useReducer(Reducer, { historySortDirection: 'descending' })
+  const [state, dispatch] = useReducer(Reducer, { historySortDirection: 'descending', fullScreen: false })
 
   const setChapterTag = useCallback(
     (tag?: string | 'All') => {
@@ -71,6 +71,10 @@ const DisplayProvider = ({ children }: Props) => {
     dispatch({ type: 'setPopover' })
   }, [dispatch])
 
+  const toggleFullScreen = useCallback(() => {
+    dispatch({ type: 'toggleFullScreen' })
+  }, [dispatch])
+
   return (
     <DisplayContext.Provider
       value={{
@@ -85,6 +89,7 @@ const DisplayProvider = ({ children }: Props) => {
           setHistoryFilter,
           setHistoryCategory,
           setHistorySortDirection,
+          toggleFullScreen,
         },
       }}>
       {children}

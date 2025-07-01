@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react'
-import { useStateDebouncer } from '../lib/useStateDebouncert'
+import { useStateDebouncer } from '../lib/useStateDebouncer'
 
 type CategoricalData = {
   category: string

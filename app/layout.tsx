@@ -3,11 +3,10 @@ import {} from '../lib/array'
 import Head from 'next/head'
 import { ReactNode } from 'react'
 import styles from './layout.module.scss'
-import Nav from '../components/Nav/nav'
 import Providers from './providers'
 import { ChapterMeta, HistoryMeta, LoreMeta, Meta } from '../api/types'
 import { getSortedContentData } from '../api/contentData'
-import Content from '../components/Content/Content'
+import { MainLayout } from '../components/MainLayout/MainLayout'
 
 export type Props = {
   children?: ReactNode
@@ -58,10 +57,7 @@ const Layout = async ({ children }: Props) => {
       <body>
         <div className={styles.container}>
           <Providers content={{ blog, chapters, lore, history }}>
-            <div className={styles.split}>
-              <div className={styles.nav}>{<Nav />}</div>
-              <Content>{children}</Content>
-            </div>
+            <MainLayout>{children}</MainLayout>
           </Providers>
         </div>
       </body>
