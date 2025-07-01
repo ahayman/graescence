@@ -23,6 +23,7 @@ import { useStateDebouncer } from '../../../lib/useStateDebouncer'
 import { ScrollIndicator } from '../../../components/ScrollIndicator/ScrollIndicator'
 import { OptionsContext } from '../../../providers/Options/Provider'
 import { DisplayContext } from '../../../providers/Display/Provider'
+import { tag } from '../../../components/Tags/Tags.module.scss'
 
 export type Props = {
   id: string
@@ -210,6 +211,7 @@ const Chapter = ({ id, chapter }: Props) => {
   useEffect(() => {
     if (pageLayout !== 'paged') return
     const pages: HTMLDivElement[] = []
+    let carryOverTags: Tag[] = []
     const text = chapter.html
     const chapterMeasure = pagedMeasureRef.current
     const pagedContent = pagedContentRef.current
@@ -224,6 +226,9 @@ const Chapter = ({ id, chapter }: Props) => {
         'style',
         `min-height: ${size.height}, max-height: ${size.height}px; min-width: ${size.width}px; max-width: ${size.width}px; padding: 5pt`,
       )
+      // Prepend carry over tags and reset them
+      page.textContent = carryOverTags.map(t => t.fullTag).join()
+      carryOverTags = []
       pages.push(page)
       return page
     }
@@ -241,7 +246,9 @@ const Chapter = ({ id, chapter }: Props) => {
       }
       if (page.offsetHeight >= height) {
         // checks if the page overflows (more words than space)
-        page.innerHTML = pageText //resets the page-text
+        carryOverTags = carryOverTagsIn(pageText)
+        //resets the page-text and appends closing carryover tags
+        page.innerHTML = pageText + carryOverTags.map(t => `</${t.tagName}>`).join()
         return false // returns false because page is full
       } else {
         return true // returns true because word was successfully filled in the page
@@ -421,3 +428,42 @@ const Chapter = ({ id, chapter }: Props) => {
   )
 }
 export default Chapter
+
+type Tag = {
+  tagName: string
+  fullTag: string
+}
+const selfClosingTags = [
+  'area',
+  'base',
+  'br',
+  'col',
+  'embed',
+  'hr',
+  'img',
+  'input',
+  'link',
+  'meta',
+  'source',
+  'track',
+  'wbr',
+]
+const carryOverTagsIn = (html: string): Tag[] => {
+  const tags: Tag[] = []
+  const matches = html.matchAll(/<(?:\/)?([a-z]+).*?>/g)
+  for (const match of matches) {
+    if (match[0].startsWith('</')) {
+      const tagName = match[1]
+      const lastIndex = tags.findLastIndex(t => t.tagName === tagName)
+      if (lastIndex >= 0) tags.splice(lastIndex, 1)
+    } else {
+      const fullTag = match[0]
+      const tagName = match[1]
+      if (!selfClosingTags.includes(tagName) && !fullTag.endsWith('/>')) {
+        tags.push({ fullTag, tagName })
+      }
+    }
+  }
+  console.log({ tags })
+  return tags
+}
