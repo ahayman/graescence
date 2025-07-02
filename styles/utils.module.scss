@@ -72,15 +72,6 @@
   font-size: 1rem;
 }
 
-.infoBlock {
-  border-radius: 6pt;
-  overflow: hidden;
-  margin-block: 5pt;
-  margin-inline: 5pt;
-  flex: 1;
-  background-color: var(--background-color);
-}
-
 .hPadding {
   padding-left: 5pt;
   padding-right: 5pt;
@@ -93,28 +84,6 @@
 
 .standardPadding {
   padding: 5pt;
-}
-
-.infoData {
-  padding-inline: 5pt;
-  padding-block: 2pt;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  @include mobile {
-    flex-direction: row;
-    justify-content: space-between;
-  }
-}
-
-.infoContainer {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  @include mobile {
-    flex-direction: column;
-    justify-content: flex-start;
-  }
 }
 
 .roundedCorners {

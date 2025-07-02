@@ -311,7 +311,7 @@ const Chapter = ({ id, chapter }: Props) => {
     }
   })
 
-  const { chapterNo, title, date, volumeNo, html, tags, notes } = chapter
+  const { chapterNo, title, html, tags, notes } = chapter
 
   const chapterNav = () => {
     return (

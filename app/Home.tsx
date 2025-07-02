@@ -1,7 +1,7 @@
 'use client'
 import utilStyles from '../styles/utils.module.scss'
 import postStyles from '../styles/post.module.scss'
-import Date from '../components/date'
+import s from './Home.module.scss'
 import Link from 'next/link'
 import { classes } from '../lib/utils'
 import { useContext, useMemo } from 'react'
@@ -26,25 +26,28 @@ const Home = ({ content }: Props) => {
     () => chapters.find(c => c.id === currentChapterId) ?? chapters[0],
     [chapters, currentChapterId],
   )
+  const firstChapter = chapters[0]
   const latestChapter = chapters[chapters.length - 1]
   const latestPost = blog[blog.length - 1]
 
-  const renderInfoBlock = (header: string, title: string, link: string, dateString?: string) => (
-    <Column className={utilStyles.infoBlock}>
-      <Header type="Secondary" title={header} />
-      <Link className={utilStyles.infoData} href={link}>
-        <Header type="Tertiary" title={title} />
-        {dateString && (
-          <div className={classes(utilStyles.lightText, utilStyles.smallText)}>
-            <Date dateString={dateString} />
-          </div>
-        )}
-      </Link>
-    </Column>
+  const renderInfoBlock = (header: string, title: string, link: string) => (
+    <Link href={link} className={classes(s.infoBlock, utilStyles.scaleHover)}>
+      <div className={s.infoHeader}>{header}</div>
+      <div className={s.infoData}>{title}</div>
+    </Link>
   )
 
   return (
-    <ContentBlock>
+    <Column>
+      <div className={s.infoContainer}>
+        {currentChapter
+          ? renderInfoBlock('Continue', currentChapter.title, `/chapters/${currentChapter.id}`)
+          : renderInfoBlock('Begin', firstChapter.title, `/chapters/${firstChapter.id}`)}
+        {latestChapter &&
+          latestChapter !== currentChapter &&
+          renderInfoBlock('Latest', latestChapter.title, `/chapters/${latestChapter.id}`)}
+        {latestPost && renderInfoBlock('Blog', latestPost.title, `/blog/${latestPost.id}`)}
+      </div>
       <Row horizontal="center">
         <Image
           className={utilStyles.roundedCorners}
@@ -57,19 +60,7 @@ const Home = ({ content }: Props) => {
         />
       </Row>
       <div className={postStyles.post} dangerouslySetInnerHTML={{ __html: content }} />
-      <div className={utilStyles.infoContainer}>
-        {currentChapter &&
-          renderInfoBlock(
-            'Continue Story',
-            currentChapter.title,
-            `/chapters/${currentChapter.id}`,
-            currentChapter.date,
-          )}
-        {latestChapter &&
-          renderInfoBlock('Latest Chapter', latestChapter.title, `/chapters/${latestChapter.id}`, latestChapter.date)}
-        {latestPost && renderInfoBlock('Latest Post', latestPost.title, `/blog/${latestPost.id}`, latestPost.date)}
-      </div>
-    </ContentBlock>
+    </Column>
   )
 }
 export default Home

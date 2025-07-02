@@ -1,0 +1,39 @@
+@use '../styles/mixins' as *;
+
+.infoContainer {
+  display: flex;
+  flex-direction: row;
+  margin-block: 5pt;
+  margin-inline: 5pt;
+  border-radius: 8pt;
+  overflow: hidden;
+}
+
+.infoBlock {
+  flex: 1;
+  overflow: hidden;
+  width: min-content;
+  background-color: var(--background-color);
+}
+
+.infoBlock + .infoBlock {
+  border-left: 2pt solid var(--border-highlight-color);
+}
+
+.infoHeader {
+  font-size: 0.9rem;
+  font-weight: 500;
+  text-align: center;
+  background-color: var(--primary-header-color);
+}
+
+.infoData {
+  padding-inline: 5pt;
+  padding-block: 1pt;
+  font-size: 0.8rem;
+  text-align: center;
+  vertical-align: middle;
+}
+
+
+
