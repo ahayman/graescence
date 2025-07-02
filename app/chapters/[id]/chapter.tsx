@@ -56,9 +56,7 @@ const ChapterLoreItem = ({ lore, dismiss }: { lore: LoreData; dismiss: () => voi
 
 const Chapter = ({ id, chapter }: Props) => {
   const {
-    state: {
-      readingOptions: { pageLayout },
-    },
+    state: { readingOptions },
   } = useContext(OptionsContext)
   const [contentSize, _, setContentSize, latestContentSize] = useStateDebouncer<BoundingSize>(
     { width: 0, height: 0 },
@@ -116,9 +114,9 @@ const Chapter = ({ id, chapter }: Props) => {
   }, [setCurrentProgress])
 
   const onScroll = useCallback(() => {
-    if (pageLayout === 'paged') setPagedScrollProgress()
-    else if (pageLayout === 'verticalScroll') setScrollProgress()
-  }, [pageLayout, setPagedScrollProgress, setScrollProgress])
+    if (readingOptions.pageLayout === 'paged') setPagedScrollProgress()
+    else if (readingOptions.pageLayout === 'verticalScroll') setScrollProgress()
+  }, [readingOptions.pageLayout, setPagedScrollProgress, setScrollProgress])
 
   useEffect(() => {
     updateCurrentChapter(chapter.id, currentProgress)
@@ -126,14 +124,14 @@ const Chapter = ({ id, chapter }: Props) => {
 
   useEffect(() => {
     const chapterMeasure = pagedMeasureRef.current
-    if (chapterMeasure && pageLayout === 'paged') {
+    if (chapterMeasure && readingOptions.pageLayout === 'paged') {
       const rect = chapterMeasure.getBoundingClientRect()
       setContentSize({ height: rect.height, width: rect.width })
     }
-  }, [setContentSize, pageLayout])
+  }, [setContentSize, readingOptions])
 
   const onResize = useCallback(() => {
-    if (pageLayout === 'paged') {
+    if (readingOptions.pageLayout === 'paged') {
       const chapterMeasure = pagedMeasureRef.current
       if (chapterMeasure) {
         const rect = chapterMeasure.getBoundingClientRect()
@@ -152,7 +150,7 @@ const Chapter = ({ id, chapter }: Props) => {
         }
       }
     }
-  }, [latestContentSize, pageLayout, scrollTo, setContentSize])
+  }, [latestContentSize, readingOptions.pageLayout, scrollTo, setContentSize])
 
   const onLoreClick = useCallback(
     (event: Event) => {
@@ -190,7 +188,9 @@ const Chapter = ({ id, chapter }: Props) => {
   useEffect(() => {
     updateCurrentChapter(chapter.id)
     const scrollable =
-      pageLayout === 'paged' ? pagedContentRef.current : document.getElementById('main-content-container')
+      readingOptions.pageLayout === 'paged'
+        ? pagedContentRef.current
+        : document.getElementById('main-content-container')
     scrollable?.addEventListener('scroll', onScroll, { passive: true })
 
     const main = document.getElementById('chapter-main')
@@ -203,10 +203,10 @@ const Chapter = ({ id, chapter }: Props) => {
       observer?.disconnect()
       window.removeEventListener('resize', onResize)
     }
-  }, [chapter, onScroll, onResize, updateCurrentChapter, pageLayout])
+  }, [chapter, onScroll, onResize, updateCurrentChapter, readingOptions.pageLayout])
 
   useEffect(() => {
-    if (pageLayout !== 'paged') return
+    if (readingOptions.pageLayout !== 'paged') return
     const text = chapter.html
     const chapterMeasure = pagedMeasureRef.current
     const pagedContent = pagedContentRef.current
@@ -283,21 +283,21 @@ const Chapter = ({ id, chapter }: Props) => {
     // Set the scroll to the correct progress offset
     const pageIdx = Math.floor(pages.length * progressRef.current)
     pagedContent.scrollTo({ left: pageIdx * contentSize.width })
-  }, [chapter.html, contentSize, pageLayout])
+  }, [chapter.html, contentSize, readingOptions])
 
   useEffect(
     function updateScrollIndex() {
-      if (pageCount === 0 || pageLayout !== 'paged') return
+      if (pageCount === 0 || readingOptions.pageLayout !== 'paged') return
       const pageIdx = Math.floor(pageCount * progressRef.current)
       scrollToIndex(pageIdx, 'instant')
     },
-    [pageCount, pageLayout],
+    [pageCount, readingOptions.pageLayout],
   )
 
   useEffect(() => {
-    if (pageLayout !== 'verticalScroll') return
+    if (readingOptions.pageLayout !== 'verticalScroll') return
     scrollTo(progressRef.current)
-  }, [chapter.id, pageLayout, scrollTo])
+  }, [chapter.id, readingOptions.pageLayout, scrollTo])
 
   useEffect(() => {
     const loreElems = Array.from(document.getElementsByClassName('loreHighlight'))
@@ -324,7 +324,7 @@ const Chapter = ({ id, chapter }: Props) => {
         ) : (
           <div className={styles.bottomNavItem} />
         )}
-        {pageLayout === 'paged' && (
+        {readingOptions.pageLayout === 'paged' && (
           <ScrollIndicator
             className={styles.bottomNavIndicator}
             pageCount={pageCount}
@@ -376,7 +376,7 @@ const Chapter = ({ id, chapter }: Props) => {
           </Row>
         </Row>
       </Header>
-      {pageLayout === 'paged' && (
+      {readingOptions.pageLayout === 'paged' && (
         <div onResize={onResize} className={styles.chapterContainer}>
           <div
             ref={pagedMeasureRef}
@@ -387,7 +387,7 @@ const Chapter = ({ id, chapter }: Props) => {
           <div ref={pagedContentRef} id="PagedContent" className={classes(postStyles.post, styles.pagedContent)} />
         </div>
       )}
-      {pageLayout === 'verticalScroll' && (
+      {readingOptions.pageLayout === 'verticalScroll' && (
         <div onResize={onResize} className={styles.chapterContainer}>
           <div
             ref={scrolledContentRef}
