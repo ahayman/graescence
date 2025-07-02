@@ -5,13 +5,12 @@ import Header from '../../components/Header/Header'
 import Row from '../../components/Row'
 import SearchField from '../../components/Search/SearchField'
 import Tags from '../../components/Tags/Tags'
-import { faSortAlphaAsc, faCalendarDays, faSortAsc, faTimeline } from '@fortawesome/free-solid-svg-icons'
+import { faSortAlphaAsc, faCalendarDays } from '@fortawesome/free-solid-svg-icons'
 import styles from './lore.module.scss'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useCategoricalFilter } from '../../hooks/useCategoricalFilter'
 import { ExcerptItem } from '../../components/ExcerptItem/ExcerptItem'
 import { classes } from '../../lib/utils'
-import { faCalendarTimes } from '@fortawesome/free-regular-svg-icons'
 
 const includeLoreItem = (item: LoreExcerpt, filter: string): boolean => {
   if (item.title.includes(filter)) {

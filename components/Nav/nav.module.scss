@@ -3,11 +3,12 @@
 .container {
   display: flex;
   flex: 1;
+  align-self: stretch;
   flex-direction: column;
   justify-content: flex-start;
+  height: 100%;
   align-items: center;
   max-width: 20rem;
-  height: 100dvh;
   overflow: scroll;
   background: var(--menu-image), var(--menu-color-overlay);
   background-size: cover;

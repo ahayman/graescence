@@ -5,14 +5,17 @@
     flex-direction: row;
     flex: 1;
     width: '100%';
+    overflow: hidden;
     @include mobile {
-        flex-direction: column;
+      flex-direction: column;
     }
+   padding-left: env(safe-area-inset-left);
+   padding-right: env(safe-area-inset-right);
+   padding-bottom: env(safe-area-inset-bottom);
 }
 
 .nav {
   position: relative;
-  height: 100dvh;
   width: 100pt;
   margin-left: 0pt;
   background-color: var(--background-secondary-color);
@@ -25,9 +28,25 @@
     transition: margin-top 300ms ease-in-out;
     border-right-color: transparent;
     margin-top: 0pt;
-    height: auto;
+    height: 30pt;
     width: 100%;
   }
+}
+
+.content {
+  flex: 1;
+  display: flex;
+  transition: max-height 300ms ease-in-out;
+  @include mobile {
+    max-height: calc(100% - 30pt); // Adjust for mobile header height
+  }
+}
+
+.fullScreenContent {
+  flex: 1;
+  display: flex;
+  max-height: 100%;
+  transition: max-height 300ms ease-in-out;
 }
 
 .hide {

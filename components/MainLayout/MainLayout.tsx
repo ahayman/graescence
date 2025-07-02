@@ -26,7 +26,9 @@ export const MainLayout: FunctionComponent<Props> = ({ children }) => {
           onClick={toggleFullScreen}
         />
       </div>
-      <Content>{children}</Content>
+      <div className={classes(fullScreen ? s.fullScreenContent : s.content)}>
+        <Content>{children}</Content>
+      </div>
     </div>
   )
 }

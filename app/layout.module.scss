@@ -1,17 +1,15 @@
 @use '../styles/mixins' as *;
 
 .container {
-    display: flex;
-    flex-direction: column;
-    height: 100dvh;
-    flex: 1;
-    margin: 0 auto 0;
-    background: var(--background-image), var(--background-color-overlay);
-    // background-image: var(--background-image);
-    // background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center;
-    background-blend-mode: overlay;
+   display: flex;
+   flex-direction: column;
+   height: 100dvh;
+   flex: 1;
+   margin: 0 auto 0;
+   background: var(--background-image), var(--background-color-overlay);
+   background-size: cover;
+   background-position: center;
+   background-blend-mode: overlay;
 }
 
 .header {

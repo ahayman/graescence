@@ -2,11 +2,10 @@
 import Script from 'next/script'
 import { ReactNode, useContext, useId, MouseEvent, useEffect } from 'react'
 import { DisplayContext } from '../../providers/Display/Provider'
-import ContentBlock from '../ContentBlock/ContentBlock'
 import { classes } from '../../lib/utils'
 import styles from './Content.module.scss'
 import popoverStyles from '../Popover/Popover.module.scss'
-import { usePathname, useRouter } from 'next/navigation'
+import { usePathname } from 'next/navigation'
 
 type Props = {
   children: ReactNode
@@ -47,20 +46,8 @@ const Content = ({ children }: Props) => {
           `}
       </Script>
       {/* <Script id="commento-script" src="https://comments.aaronhayman.com/js/commento.js" strategy="afterInteractive" /> */}
-      <div className={styles.contentView}>
-        <div id="main-content-container" className={styles.main}>
-          <main className={styles['main-content']} id="main-content">
-            {children}
-          </main>
-          {/* <ContentBlock>
-            <span style={{ color: 'transparent' }}>
-              --------------------------------------------------------------------------------------------------------------------------------------------
-            </span>
-          </ContentBlock> */}
-          {/* <ContentBlock>
-            <div id="commento"></div>
-          </ContentBlock> */}
-        </div>
+      <div id="main-content-container" className={styles.main}>
+        {children}
       </div>
       <div
         id={contId}
