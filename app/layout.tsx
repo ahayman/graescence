@@ -17,6 +17,68 @@ const siteTitle = 'Graescence, a web novel'
 
 export const metadata: Metadata = {
   title: siteTitle,
+  icons: [
+    {
+      url: '/images/icon-1024.png',
+      type: 'image/png',
+      sizes: '1024x1024',
+    },
+    {
+      url: '/images/icon-512.png',
+      type: 'image/png',
+      sizes: '512x512',
+    },
+    {
+      url: '/images/icon-384.png',
+      type: 'image/png',
+      sizes: '384x384',
+    },
+    {
+      url: '/images/icon-256.png',
+      type: 'image/png',
+      sizes: '256x256',
+    },
+    {
+      url: '/images/icon-192.png',
+      type: 'image/png',
+      sizes: '192x192',
+    },
+    {
+      url: '/images/icon-180.png',
+      type: 'image/png',
+      sizes: '180x180',
+    },
+    {
+      url: '/images/icon-152.png',
+      type: 'image/png',
+      sizes: '152x152',
+    },
+    {
+      url: '/images/icon-144.png',
+      type: 'image/png',
+      sizes: '144x144',
+    },
+    {
+      url: '/images/icon-128.png',
+      type: 'image/png',
+      sizes: '128x128',
+    },
+    {
+      url: '/images/icon-120.png',
+      type: 'image/png',
+      sizes: '120x120',
+    },
+    {
+      url: '/images/icon-96.png',
+      type: 'image/png',
+      sizes: '96x96',
+    },
+    {
+      url: '/images/icon-72.png',
+      type: 'image/png',
+      sizes: '72x72',
+    },
+  ],
 }
 
 const Layout = async ({ children }: Props) => {
