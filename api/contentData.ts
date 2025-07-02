@@ -330,6 +330,7 @@ const generatePathsIn = async <T extends ContentType>(type: T, dir: string = con
           .replaceAll(' ', '_')
           .replaceAll('/', '.')
           .replaceAll('&', '-')
+          .replaceAll('|', '-')
   const contents = fs.readdirSync(dir, { withFileTypes: true })
   for (const file of contents) {
     // Remove ".md" from file name to get id
@@ -346,6 +347,7 @@ const generatePathsIn = async <T extends ContentType>(type: T, dir: string = con
       .replace(' & ', '-')
       .replaceAll(' ', '_')
       .replaceAll('&', '-')
+      .replaceAll('|', '-')
     const id = [rootId, fileId].filter(i => !!i).join('.')
     const fileName = file.name.replace(/\.md|\.markdown$/, '')
     addPath(fileName, `/${type.toLocaleLowerCase()}/${id}`)
@@ -383,6 +385,7 @@ export const getSortedContentData = async <T extends ContentType>(
           .replaceAll(' ', '_')
           .replaceAll('/', '.')
           .replaceAll('&', '-')
+          .replaceAll('|', '-')
   const contents = fs.readdirSync(dir, { withFileTypes: true })
   const sort = sortFn(type)
   let data = (
@@ -402,6 +405,7 @@ export const getSortedContentData = async <T extends ContentType>(
           .replace(' & ', '-')
           .replaceAll(' ', '_')
           .replaceAll('&', '-')
+          .replaceAll('|', '-')
 
         const id = [rootId, fileId].filter(i => !!i).join('.')
         const fileContents = fs.readFileSync(fullPath, 'utf8')
