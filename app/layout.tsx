@@ -17,6 +17,11 @@ const siteTitle = 'Graescence, a web novel'
 
 export const metadata: Metadata = {
   title: siteTitle,
+  viewport: {
+    viewportFit: 'cover',
+    width: 'device-width',
+    initialScale: 1,
+  },
   icons: [
     {
       url: '/images/icon-1024.png',
