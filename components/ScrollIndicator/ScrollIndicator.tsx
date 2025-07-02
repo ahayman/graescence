@@ -1,4 +1,12 @@
-import { CSSProperties, FunctionComponent, MouseEventHandler, useEffect, useRef, useState } from 'react'
+import {
+  CSSProperties,
+  FunctionComponent,
+  MouseEventHandler,
+  TouchEventHandler,
+  useEffect,
+  useRef,
+  useState,
+} from 'react'
 import styles from './ScrollIndicator.module.scss'
 import { classes } from '../../lib/utils'
 import Row from '../Row'
@@ -93,12 +101,24 @@ export const ScrollIndicator: FunctionComponent<Props> = ({
     onClick?.(currentIndex - 1)
   }
 
-  const handleDrag: MouseEventHandler<HTMLDivElement> = event => {
+  const handleHover: MouseEventHandler<HTMLDivElement> = event => {
     if (event.buttons > 0) return
     const container = event.currentTarget
     const rect = container.getBoundingClientRect()
     const width = rect.width
     const clientX = event.clientX - rect.left
+    const increments = width / pageCount
+    const idx = Math.max(0, Math.floor(clientX / increments))
+    const state = [...Array(pageCount).keys()].map(() => false)
+    state[idx] = true
+    setHoverState(state)
+  }
+
+  const handleDrag: TouchEventHandler<HTMLDivElement> = event => {
+    const container = event.currentTarget
+    const rect = container.getBoundingClientRect()
+    const width = rect.width
+    const clientX = event.touches[0].clientX - rect.left
     const increments = width / pageCount
     const idx = Math.max(0, Math.floor(clientX / increments))
     const state = [...Array(pageCount).keys()].map(() => false)
@@ -116,7 +136,8 @@ export const ScrollIndicator: FunctionComponent<Props> = ({
       <div
         onMouseLeave={handleMoveOut}
         onMouseUp={handleUp}
-        onMouseMoveCapture={handleDrag}
+        onMouseMoveCapture={handleHover}
+        onTouchMove={handleDrag}
         ref={containerRef}
         className={classes(styles.scrollContainer, className)}>
         <div className={styles.scrollLine} />
