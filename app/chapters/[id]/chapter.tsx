@@ -467,6 +467,5 @@ const carryOverTagsIn = (html: string): Tag[] => {
       }
     }
   }
-  console.log({ tags })
   return tags
 }

@@ -1,3 +1,4 @@
+import { Storage } from '../../lib/globals'
 import { ReducerAction } from '../../lib/types'
 import { PopoverContent, State } from './Types'
 
@@ -30,8 +31,11 @@ const Reducer = (state: State, action: Action): State => {
       return { ...state, historyFilter: action.filter }
     case 'setHistorySort':
       return { ...state, historySortDirection: action.sortDirection }
-    case 'toggleFullScreen':
-      return { ...state, fullScreen: !state.fullScreen }
+    case 'toggleFullScreen': {
+      const fullScreen = !state.fullScreen
+      Storage.set('--full-screen', fullScreen ? 'true' : 'false')
+      return { ...state, fullScreen }
+    }
   }
 }
 export default Reducer

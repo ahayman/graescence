@@ -1,6 +1,7 @@
 import { createContext, ReactNode, useCallback, useReducer } from 'react'
 import Reducer from './Reducer'
 import { Context, PopoverContent } from './Types'
+import { Storage } from '../../lib/globals'
 
 export type Props = {
   children: ReactNode
@@ -9,7 +10,16 @@ export type Props = {
 export const DisplayContext = createContext<Context>({} as any)
 
 const DisplayProvider = ({ children }: Props) => {
-  const [state, dispatch] = useReducer(Reducer, { historySortDirection: 'descending', fullScreen: false })
+  const [state, dispatch] = useReducer(
+    Reducer,
+    typeof window === 'undefined'
+      ? { historySortDirection: 'descending', fullScreen: false }
+      : {
+          historySortDirection: 'descending',
+          fullScreen: Storage.get('--full-screen') === 'true',
+        },
+  )
+  console.log({ state })
 
   const setChapterTag = useCallback(
     (tag?: string | 'All') => {

@@ -10,7 +10,12 @@ export type GlobalVariable =
   | '--max-content-width'
   | 'data-theme'
 
-export type StorageVariable = GlobalVariable | '--current-chapter-id' | '--chapter-progress' | '--page-layout'
+export type StorageVariable =
+  | GlobalVariable
+  | '--current-chapter-id'
+  | '--chapter-progress'
+  | '--page-layout'
+  | '--full-screen'
 
 export type UITheme = 'dark' | 'light'
 
