@@ -53,6 +53,9 @@ const Layout = async ({ children }: Props) => {
         <title>{siteTitle}</title>
         <link rel="icon" href="/favicon.ico" />
         <meta name="og:title" content={siteTitle} />
+        <meta name="mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <link rel="manifest" href="/manifest.json" />
       </Head>
       <body>
         <div className={styles.container}>
