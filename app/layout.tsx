@@ -7,12 +7,17 @@ import Providers from './providers'
 import { ChapterMeta, HistoryMeta, LoreMeta, Meta } from '../api/types'
 import { getSortedContentData } from '../api/contentData'
 import { MainLayout } from '../components/MainLayout/MainLayout'
+import { Metadata } from 'next'
 
 export type Props = {
   children?: ReactNode
 }
 
 const siteTitle = 'Graescence, a web novel'
+
+export const metadata: Metadata = {
+  title: siteTitle,
+}
 
 const Layout = async ({ children }: Props) => {
   /**

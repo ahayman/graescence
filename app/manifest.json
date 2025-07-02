@@ -5,6 +5,32 @@
   "display": "standalone",
   "background_color": "#221e1e",
   "theme_color": "#e5e0cf",
+  "shortcuts": [
+    {
+      "name": "Home",
+      "short_name": "Home",
+      "description": "Got to the home page",
+      "url": "/"
+    },
+    {
+      "name": "Chapters",
+      "short_name": "Chapters",
+      "description": "Got to the chapters page",
+      "url": "/chapters"
+    },
+    {
+      "name": "Lore",
+      "short_name": "Lore",
+      "description": "Got to the lore page",
+      "url": "/lore"
+    },
+    {
+      "name": "World History",
+      "short_name": "World History",
+      "description": "Got to the world history page",
+      "url": "/history"
+    }
+  ],
   "icons": [
     {
       "src": "/images/icon-1024.png",
