@@ -76,7 +76,14 @@ export const ScrollIndicator: FunctionComponent<Props> = ({
     const increments = width / (pageCount - 1)
     const left = idx * increments - 3
 
-    return <HoverIndicator style={{ top: 3, left, zIndex: 5 }} page={Number(idx) + 1} visible={visible} />
+    return (
+      <HoverIndicator
+        style={{ top: 3, left, zIndex: 5 }}
+        page={Number(idx) + 1}
+        visible={visible}
+        onSelect={() => onClick?.(idx)}
+      />
+    )
   }
 
   const handleUp: MouseEventHandler<HTMLDivElement> = event => {
@@ -152,15 +159,17 @@ export const ScrollIndicator: FunctionComponent<Props> = ({
 type HoverIndicatorProps = {
   page: number
   visible: boolean
+  onSelect: () => void
   style?: CSSProperties
 }
-const HoverIndicator: FunctionComponent<HoverIndicatorProps> = ({ page, visible, style }) => {
+const HoverIndicator: FunctionComponent<HoverIndicatorProps> = ({ page, visible, style, onSelect }) => {
   const [added, setAdded] = useState(false)
 
   useEffect(() => setAdded(true), [])
 
   return (
     <div
+      onClick={onSelect}
       key={`page-hover-${page}`}
       style={style}
       className={classes(styles.hoverIndicator, visible && added ? styles.hoverAnimateIn : undefined)}>
