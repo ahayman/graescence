@@ -1,5 +1,4 @@
 'use client'
-import Date from '../../../components/date'
 import utilStyles from '../../../styles/utils.module.scss'
 import postStyles from '../../../styles/post.module.scss'
 import styles from './chapter.module.scss'
@@ -377,18 +376,6 @@ const Chapter = ({ id, chapter }: Props) => {
               </Popover>
             )}
           </Row>
-        </Row>
-      </Header>
-      <Header type="Secondary">
-        <Row horizontal="space-between" vertical="center">
-          <div className={classes(utilStyles.lightText, utilStyles.smallText)}>
-            {`Volume ${volumeNo}, Chapter ${chapterNo}`}
-          </div>
-          {date && (
-            <div className={classes(utilStyles.lightText, utilStyles.smallText)}>
-              <Date dateString={date} />
-            </div>
-          )}
         </Row>
       </Header>
       {pageLayout === 'paged' && (
