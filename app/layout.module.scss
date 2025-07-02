@@ -10,27 +10,5 @@
    background-size: cover;
    background-position: center;
    background-blend-mode: overlay;
-}
-
-.header {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-
-.mainContainer {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-left: 5pt;
-    flex: 1;
-    background-image: url('/images/GraescenceArtwork.png');
-}
-
-.main {
-    max-width: 50rem;
-    min-width: 20rem;
-    max-height: 100dvh;
-    overflow: scroll;
+   overflow: hidden;
 }

@@ -7,7 +7,7 @@ import Providers from './providers'
 import { ChapterMeta, HistoryMeta, LoreMeta, Meta } from '../api/types'
 import { getSortedContentData } from '../api/contentData'
 import { MainLayout } from '../components/MainLayout/MainLayout'
-import { Metadata } from 'next'
+import { Metadata, Viewport } from 'next'
 
 export type Props = {
   children?: ReactNode
@@ -15,13 +15,14 @@ export type Props = {
 
 const siteTitle = 'Graescence, a web novel'
 
+export const viewport: Viewport = {
+  viewportFit: 'cover',
+  width: 'device-width',
+  initialScale: 1,
+}
+
 export const metadata: Metadata = {
   title: siteTitle,
-  viewport: {
-    viewportFit: 'cover',
-    width: 'device-width',
-    initialScale: 1,
-  },
   icons: [
     {
       url: '/images/icon-1024.png',

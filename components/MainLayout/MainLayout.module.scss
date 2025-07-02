@@ -18,7 +18,6 @@
   position: relative;
   width: 100pt;
   margin-left: 0pt;
-  background-color: var(--background-secondary-color);
   border-right-color: var(--background-secondary-color);
   border-right-width: 1pt;
   border-right-style:groove;
@@ -36,6 +35,7 @@
 .content {
   flex: 1;
   display: flex;
+  overflow: hidden;
   transition: max-height 300ms ease-in-out;
   @include mobile {
     max-height: calc(100% - 30pt); // Adjust for mobile header height
@@ -46,6 +46,7 @@
   flex: 1;
   display: flex;
   max-height: 100%;
+  overflow: hidden;
   transition: max-height 300ms ease-in-out;
 }
 

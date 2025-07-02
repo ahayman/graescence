@@ -7,7 +7,6 @@
    width: 100%;
    overflow: scroll;
    margin-top: 3pt;
-   background-color: var(--background-color);
  }
 
  .options {
@@ -22,6 +21,7 @@
    align-items: center;
    flex: 1;
    max-height: 100%;
+   overflow: hidden;
 }
 
 .hidden {

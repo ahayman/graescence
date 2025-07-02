@@ -222,7 +222,7 @@ const Chapter = ({ id, chapter }: Props) => {
       page.setAttribute('id', `chapter-page-${idx}`)
       page.setAttribute(
         'style',
-        `min-height: ${size.height}, max-height: ${size.height}px; min-width: ${size.width}px; max-width: ${size.width}px; padding: 5pt`,
+        `min-height: ${size.height}, max-height: ${size.height}px; min-width: ${size.width}px; max-width: ${size.width}px; padding: 5pt 5pt 0pt 5pt`,
       )
       // Prepend carry over tags and reset them.
       // Carried over <p> tags must not have an indent since they're intended to separate pages and not paragraphs.
@@ -315,34 +315,32 @@ const Chapter = ({ id, chapter }: Props) => {
 
   const chapterNav = () => {
     return (
-      <ContentBlock>
-        <Row className={styles.bottomNav} horizontal="space-between" vertical="center">
-          {prevChapter ? (
-            <Link
-              style={{ textAlign: 'left' }}
-              className={classes(utilStyles.coloredLink, styles.bottomNavItem)}
-              href={`/chapters/${prevChapter.id}`}>{`← ${prevChapter.title}`}</Link>
-          ) : (
-            <div className={styles.bottomNavItem} />
-          )}
-          {pageLayout === 'paged' && (
-            <ScrollIndicator
-              className={styles.bottomNavIndicator}
-              pageCount={pageCount}
-              progress={latestCurrentProgress}
-              onClick={scrollToIndex}
-            />
-          )}
-          {nextChapter ? (
-            <Link
-              style={{ textAlign: 'right' }}
-              className={classes(utilStyles.coloredLink, styles.bottomNavItem)}
-              href={`/chapters/${nextChapter.id}`}>{`${nextChapter.title} →`}</Link>
-          ) : (
-            <div className={styles.bottomNavItem} />
-          )}
-        </Row>
-      </ContentBlock>
+      <Row className={styles.bottomNav} horizontal="space-between" vertical="center">
+        {prevChapter ? (
+          <Link
+            style={{ textAlign: 'left' }}
+            className={classes(utilStyles.coloredLink, styles.bottomNavItem)}
+            href={`/chapters/${prevChapter.id}`}>{`← ${prevChapter.title}`}</Link>
+        ) : (
+          <div className={styles.bottomNavItem} />
+        )}
+        {pageLayout === 'paged' && (
+          <ScrollIndicator
+            className={styles.bottomNavIndicator}
+            pageCount={pageCount}
+            progress={latestCurrentProgress}
+            onClick={scrollToIndex}
+          />
+        )}
+        {nextChapter ? (
+          <Link
+            style={{ textAlign: 'right' }}
+            className={classes(utilStyles.coloredLink, styles.bottomNavItem)}
+            href={`/chapters/${nextChapter.id}`}>{`${nextChapter.title} →`}</Link>
+        ) : (
+          <div className={styles.bottomNavItem} />
+        )}
+      </Row>
     )
   }
 
@@ -398,19 +396,6 @@ const Chapter = ({ id, chapter }: Props) => {
             dangerouslySetInnerHTML={{ __html: html }}
           />
         </div>
-      )}
-      {!!notes && (
-        <>
-          <Header type="Secondary" title="Author Notes" />
-          <ContentBlock>
-            <div
-              id="chapter_content"
-              style={{ padding: 5 }}
-              className={postStyles.post}
-              dangerouslySetInnerHTML={{ __html: notes }}
-            />
-          </ContentBlock>
-        </>
       )}
       {chapterNav()}
       {lorePopover && LorePopover(lorePopover.lore)}
