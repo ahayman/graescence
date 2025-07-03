@@ -1,7 +1,7 @@
 'use client'
 import utilStyles from '../../../styles/utils.module.scss'
 import postStyles from '../../../styles/post.module.scss'
-import styles from './chapter.module.scss'
+import styles, { readOptions } from './chapter.module.scss'
 import ReadingOptions from '../../../components/ReadingOptions/ReadingOptions'
 import Row from '../../../components/Row'
 import { PointerEvent, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'
@@ -234,7 +234,7 @@ const Chapter = ({ id, chapter }: Props) => {
       page.setAttribute('id', `chapter-page-${idx}`)
       page.setAttribute(
         'style',
-        `min-height: ${size.height}, max-height: ${size.height}px; min-width: ${size.width}px; max-width: ${size.width}px; padding: 5pt 5pt 0pt 5pt`,
+        `min-height: ${size.height}, max-height: ${size.height}px; min-width: ${size.width}px; max-width: ${size.width}px; padding: 5pt 5pt 0pt 5pt; font-family: ${readingOptions.font}, font-size: ${readingOptions.fontSize}rem; text-indent: ${readingOptions.paragraphIndent}rem;`,
       )
       // Prepend carry over tags and reset them.
       // Carried over <p> tags must not have an indent since they're intended to separate pages and not paragraphs.
