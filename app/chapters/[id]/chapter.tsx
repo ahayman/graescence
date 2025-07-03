@@ -1,7 +1,7 @@
 'use client'
 import utilStyles from '../../../styles/utils.module.scss'
 import postStyles from '../../../styles/post.module.scss'
-import styles, { readOptions } from './chapter.module.scss'
+import styles from './chapter.module.scss'
 import ReadingOptions from '../../../components/ReadingOptions/ReadingOptions'
 import Row from '../../../components/Row'
 import { PointerEvent, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'
