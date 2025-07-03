@@ -359,27 +359,25 @@ const Chapter = ({ id, chapter }: Props) => {
           </Row>
         </Row>
       </Header>
-      {readingOptions.pageLayout === 'paged' && (
-        <div onResize={onResize} className={styles.chapterContainer}>
-          <div
-            ref={pagedMeasureRef}
-            onResize={onResize}
-            id="ChapterMeasure"
-            className={classes(postStyles.post, styles.chapterMeasure)}
-          />
+      <div onResize={onResize} className={classes(postStyles.post, styles.chapterContainer)}>
+        <div
+          ref={pagedMeasureRef}
+          onResize={onResize}
+          id="ChapterMeasure"
+          className={classes(postStyles.post, styles.chapterMeasure)}
+        />
+        {readingOptions.pageLayout === 'paged' && (
           <div ref={pagedContentRef} id="PagedContent" className={classes(postStyles.post, styles.pagedContent)} />
-        </div>
-      )}
-      {readingOptions.pageLayout === 'verticalScroll' && (
-        <div onResize={onResize} className={styles.chapterContainer}>
+        )}
+        {readingOptions.pageLayout === 'verticalScroll' && (
           <div
             ref={scrolledContentRef}
             id="ScrolledContent"
             className={classes(postStyles.post, styles.scrolledContent)}
             dangerouslySetInnerHTML={{ __html: html }}
           />
-        </div>
-      )}
+        )}
+      </div>
       {chapterNav()}
       {lorePopover && LorePopover(lorePopover.lore)}
     </div>
