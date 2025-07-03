@@ -21,10 +21,10 @@
   border-right-color: var(--background-secondary-color);
   border-right-width: 1pt;
   border-right-style:groove;
-  transition: margin-left 300ms ease-in-out;
+  transition: margin-left 200ms ease-in-out;
 
   @include mobile {
-    transition: margin-top 300ms ease-in-out;
+    transition: margin-top 200ms ease-in-out;
     border-right-color: transparent;
     margin-top: 0pt;
     height: 30pt;
@@ -36,7 +36,7 @@
   flex: 1;
   display: flex;
   overflow: hidden;
-  transition: max-height 300ms ease-in-out;
+  transition: max-height 200ms ease-in-out;
   @include mobile {
     max-height: calc(100% - 30pt); // Adjust for mobile header height
   }
@@ -47,7 +47,7 @@
   display: flex;
   max-height: 100%;
   overflow: hidden;
-  transition: max-height 300ms ease-in-out;
+  transition: max-height 200ms ease-in-out;
 }
 
 .hide {
@@ -66,7 +66,7 @@
   bottom: 50%;
   transform: translateY(-50%);
   color: var(--translucent-icon);
-  transition: transform 300ms ease-in-out;
+  transition: transform 200ms ease-in-out;
   transform: rotate(270deg);
   margin-inline: auto;
   z-index: 10000;
@@ -81,7 +81,7 @@
 
 .open {
   transform: rotate(90deg);
-  transition: transform 300ms ease-in-out;
+  transition: transform 200ms ease-in-out;
 
   @include mobile {
     transform: rotate(180deg) translateX(-5pt);

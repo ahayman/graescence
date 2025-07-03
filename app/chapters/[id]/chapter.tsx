@@ -62,6 +62,7 @@ type LayoutMetrics = {
 }
 
 const Chapter = ({ id, chapter }: Props) => {
+  const { chapterNo, title, html, tags, notes } = chapter
   const {
     state: { readingOptions },
   } = useContext(OptionsContext)
@@ -70,7 +71,7 @@ const Chapter = ({ id, chapter }: Props) => {
   } = useContext(DisplayContext)
   const [layoutMetrics, latestLayoutMetrics, setLayoutMetrics] = useStateDebouncer<LayoutMetrics>(
     { contentSize: { width: 0, height: 0 }, fullScreen, readingOptions },
-    100,
+    500,
   )
   const [lorePopover, setLorePopover] = useState<LorePopoverState>()
   const [pageCount, setPageCount] = useState(0)
@@ -84,7 +85,7 @@ const Chapter = ({ id, chapter }: Props) => {
   } = useContext(ProgressContext)
   const [currentProgress, latestCurrentProgress, setCurrentProgress] = useStateDebouncer(
     chapterProgress[chapter.id] ?? 0,
-    500,
+    300,
   )
   const progressRef = useRef(latestCurrentProgress)
   progressRef.current = latestCurrentProgress
@@ -185,12 +186,12 @@ const Chapter = ({ id, chapter }: Props) => {
   }, [chapter.id, readingOptions.pageLayout, scrollTo])
 
   useEffect(() => {
-    const loreElems = Array.from(document.getElementsByClassName('loreHighlight'))
-    for (const elem of loreElems) {
+    const lore = Array.from(document.getElementsByClassName('loreHighlight'))
+    for (const elem of lore) {
       elem.addEventListener('click', onLoreClick)
     }
     return () => {
-      for (const elem of loreElems) {
+      for (const elem of lore) {
         elem.removeEventListener('click', onLoreClick)
       }
     }
@@ -219,10 +220,9 @@ const Chapter = ({ id, chapter }: Props) => {
   useEffect(() => {
     const { readingOptions, contentSize } = layoutMetrics
     if (readingOptions.pageLayout !== 'paged') return
-    const text = chapter.html
     const chapterMeasure = pagedMeasureRef.current
     const pagedContent = pagedContentRef.current
-    if (!text || !chapterMeasure || !pagedContent || contentSize.height <= 0 || contentSize.width <= 0) return
+    if (!html || !chapterMeasure || !pagedContent || contentSize.height <= 0 || contentSize.width <= 0) return
 
     const pages: HTMLDivElement[] = []
     let carryOverTags: Tag[] = []
@@ -270,7 +270,7 @@ const Chapter = ({ id, chapter }: Props) => {
       }
     }
 
-    const textArray = text.split(/(?<=>[^<>]*?)\s(?=[^<>]*?<)/) // Split the text into words without
+    const textArray = html.split(/(?<=>[^<>]*?)\s(?=[^<>]*?<)/) // Split the text into words without
 
     let idx = 0
     let page = createPage(contentSize, idx++) // creates the first page
@@ -294,9 +294,7 @@ const Chapter = ({ id, chapter }: Props) => {
     // Set the scroll to the correct progress offset
     const pageIdx = Math.floor(pages.length * progressRef.current)
     pagedContent.scrollTo({ left: pageIdx * contentSize.width })
-  }, [chapter.html, layoutMetrics])
-
-  const { chapterNo, title, html, tags, notes } = chapter
+  }, [html, layoutMetrics])
 
   const chapterNav = () => {
     return (
