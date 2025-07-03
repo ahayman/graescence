@@ -14,7 +14,7 @@ import { ProgressContext } from '../../../providers/Progress/Provider'
 import { faNoteSticky, faListSquares, faSliders, faClose } from '@fortawesome/free-solid-svg-icons'
 import Popover from '../../../components/Popover/Popover'
 import ChapterLore from './chapterLore'
-import { ChapterData, LoreData } from '../../../api/types'
+import { ChapterData, ChapterMeta, LoreData } from '../../../api/types'
 import Column from '../../../components/Column'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useStateDebouncer } from '../../../lib/useStateDebouncer'
@@ -22,7 +22,6 @@ import { ScrollIndicator } from '../../../components/ScrollIndicator/ScrollIndic
 import { OptionsContext } from '../../../providers/Options/Provider'
 import { DisplayContext } from '../../../providers/Display/Provider'
 import { ReadingOptions as ProviderReadingOptions } from '../../../providers/Options/Types'
-import { PopoverContent } from '../../../providers/Display/Types'
 
 export type Props = {
   id: string
@@ -90,11 +89,11 @@ const Chapter = ({ id, chapter }: Props) => {
   const progressRef = useRef(latestCurrentProgress)
   progressRef.current = latestCurrentProgress
   const chapterIdx = useMemo(() => chapters.findIndex(c => c.id === id), [chapters, id])
-  const nextChapter = chapters[chapterIdx + 1]
-  const prevChapter = chapters[chapterIdx - 1]
+  const nextChapter: ChapterMeta | undefined = chapters[chapterIdx + 1]
+  const prevChapter: ChapterMeta | undefined = chapters[chapterIdx - 1]
 
   const scrollTo = useCallback((progress: number) => {
-    const scrollable = document.getElementById('main-content-container')
+    const scrollable = scrolledContentRef.current
     if (scrollable === null) return
     const height = scrollable.scrollHeight
     const top = height * progress
@@ -102,7 +101,7 @@ const Chapter = ({ id, chapter }: Props) => {
   }, [])
 
   const setScrollProgress = useCallback(() => {
-    const scrollable = document.getElementById('main-content-container')
+    const scrollable = scrolledContentRef.current
     if (!scrollable || !scrollable.textContent) return
     const height = scrollable.scrollHeight
     const offset = scrollable.scrollTop
@@ -176,8 +175,6 @@ const Chapter = ({ id, chapter }: Props) => {
 
   useEffect(() => {
     if (latestLayoutMetrics.readingOptions.pageLayout === 'verticalScroll') scrollTo(progressRef.current)
-    const pagedContent = pagedContentRef.current
-    if (pagedContent) pagedContentRef.current.textContent = ''
   }, [latestLayoutMetrics, scrollTo])
 
   useEffect(() => {
@@ -199,10 +196,7 @@ const Chapter = ({ id, chapter }: Props) => {
 
   useEffect(() => {
     updateCurrentChapter(chapter.id)
-    const scrollable =
-      readingOptions.pageLayout === 'paged'
-        ? pagedContentRef.current
-        : document.getElementById('main-content-container')
+    const scrollable = readingOptions.pageLayout === 'paged' ? pagedContentRef.current : scrolledContentRef.current
     scrollable?.addEventListener('scroll', onScroll, { passive: true })
 
     const main = document.getElementById('chapter-main')
@@ -218,111 +212,115 @@ const Chapter = ({ id, chapter }: Props) => {
   }, [chapter, onScroll, onResize, updateCurrentChapter, readingOptions.pageLayout])
 
   useEffect(() => {
-    const { readingOptions, contentSize } = layoutMetrics
-    if (readingOptions.pageLayout !== 'paged') return
-    const chapterMeasure = pagedMeasureRef.current
-    const pagedContent = pagedContentRef.current
-    if (!html || !chapterMeasure || !pagedContent || contentSize.height <= 0 || contentSize.width <= 0) return
+    const calculatePages = async () => {
+      const { readingOptions, contentSize } = layoutMetrics
+      if (readingOptions.pageLayout !== 'paged') return
+      const chapterMeasure = pagedMeasureRef.current
+      const pagedContent = pagedContentRef.current
+      if (!html || !chapterMeasure || !pagedContent || contentSize.height <= 0 || contentSize.width <= 0) return
 
-    const pages: HTMLDivElement[] = []
-    let carryOverTags: Tag[] = []
-    let currentPageText = ''
+      const pages: HTMLDivElement[] = []
+      let carryOverTags: Tag[] = []
+      let currentPageText = ''
+      pagedContentRef.current.textContent = ''
 
-    const createPage = (size: BoundingSize, idx: number) => {
-      const page = document.createElement('div') // creates new html element
-      page.setAttribute('class', classes(styles.chapterPage, postStyles.post)) // appends the class "page" to the element
-      page.setAttribute('id', `chapter-page-${idx}`)
-      page.setAttribute(
-        'style',
-        `min-height: ${size.height}, max-height: ${size.height}px; min-width: ${size.width}px; max-width: ${size.width}px; padding: 5pt 5pt 0pt 5pt; font-family: ${readingOptions.font}, font-size: ${readingOptions.fontSize}rem; text-indent: ${readingOptions.paragraphIndent}rem;`,
-      )
-      // Prepend carry over tags and reset them.
-      // Carried over <p> tags must not have an indent since they're intended to separate pages and not paragraphs.
-      currentPageText = carryOverTags
-        .map(t => (t.tagName === 'p' ? "<p style='text-indent: 0pt !important;'>" : t.fullTag))
-        .join()
-      page.textContent = currentPageText
-      carryOverTags = []
-      pages.push(page)
-      return page
-    }
-
-    const appendToPage = (page: HTMLDivElement, word: string, height: number) => {
-      const pageText = currentPageText
-
-      currentPageText = pageText + word + ' '
-      page.innerHTML = currentPageText
-
-      if (page.offsetHeight >= height) {
-        // checks if the page overflows (more words than space)
-        carryOverTags = carryOverTagsIn(pageText)
-        //resets the page-text and appends closing carryover tags. Don't close <p> tags as they auto close
-        page.innerHTML =
-          pageText +
-          carryOverTags
-            .filter(t => t.tagName !== 'p')
-            .map(t => `</${t.tagName}>`)
-            .join()
-        currentPageText = pageText
-        return false // returns false because page is full
-      } else {
-        return true // returns true because word was successfully filled in the page
+      const createPage = (size: BoundingSize, idx: number) => {
+        const page = document.createElement('div') // creates new html element
+        page.setAttribute('class', classes(styles.chapterPage, postStyles.post)) // appends the class "page" to the element
+        page.setAttribute('id', `chapter-page-${idx}`)
+        page.setAttribute(
+          'style',
+          `min-height: ${size.height}, max-height: ${size.height}px; min-width: ${size.width}px; max-width: ${size.width}px; padding: 5pt 5pt 0pt 5pt;`,
+        )
+        // Prepend carry over tags and reset them.
+        // Carried over <p> tags must not have an indent since they're intended to separate pages and not paragraphs.
+        currentPageText = carryOverTags
+          .map(t => (t.tagName === 'p' ? "<p style='text-indent: 0pt !important;'>" : t.fullTag))
+          .join()
+        page.textContent = currentPageText
+        carryOverTags = []
+        pages.push(page)
+        return page
       }
-    }
 
-    const textArray = html.split(/(?<=>[^<>]*?)\s(?=[^<>]*?<)/) // Split the text into words without
+      const appendToPage = (page: HTMLDivElement, word: string, height: number) => {
+        const pageText = currentPageText
 
-    let idx = 0
-    let page = createPage(contentSize, idx++) // creates the first page
-    chapterMeasure.appendChild(page) // appends the element to the container for all the pages
+        currentPageText = pageText + word + ' '
+        page.innerHTML = currentPageText
 
-    for (var i = 0; i < textArray.length; i++) {
-      // loops through all the words
-      const success = appendToPage(page, textArray[i], contentSize.height) // tries to fill the word in the last page
-      if (!success) {
-        // checks if word could not be filled in last page
-        chapterMeasure.removeChild(page)
-        page = createPage(contentSize, idx++) // create new empty page
-        chapterMeasure.appendChild(page) // appends the element to the container for all the pages
-        appendToPage(page, textArray[i], contentSize.height) // fill the word in the new last element
+        if (page.offsetHeight >= height) {
+          // checks if the page overflows (more words than space)
+          carryOverTags = carryOverTagsIn(pageText)
+          //resets the page-text and appends closing carryover tags. Don't close <p> tags as they auto close
+          page.innerHTML =
+            pageText +
+            carryOverTags
+              .filter(t => t.tagName !== 'p')
+              .map(t => `</${t.tagName}>`)
+              .join()
+          currentPageText = pageText
+          return false // returns false because page is full
+        } else {
+          return true // returns true because word was successfully filled in the page
+        }
       }
-    }
-    chapterMeasure.removeChild(page)
 
-    setPageCount(pages.length)
-    pages.forEach(page => pagedContent.appendChild(page))
-    // Set the scroll to the correct progress offset
-    const pageIdx = Math.floor(pages.length * progressRef.current)
-    pagedContent.scrollTo({ left: pageIdx * contentSize.width })
+      const textArray = html.split(/(?<=>[^<>]*?)\s(?=[^<>]*?<)/) // Split the text into words without
+
+      let idx = 0
+      let page = createPage(contentSize, idx++) // creates the first page
+      chapterMeasure.appendChild(page) // appends the element to the container for all the pages
+
+      for (var i = 0; i < textArray.length; i++) {
+        // loops through all the words
+        const success = appendToPage(page, textArray[i], contentSize.height) // tries to fill the word in the last page
+        if (!success) {
+          // checks if word could not be filled in last page
+          chapterMeasure.removeChild(page)
+          page = createPage(contentSize, idx++) // create new empty page
+          chapterMeasure.appendChild(page) // appends the element to the container for all the pages
+          appendToPage(page, textArray[i], contentSize.height) // fill the word in the new last element
+        }
+      }
+      chapterMeasure.removeChild(page)
+
+      setPageCount(pages.length)
+      pages.forEach(page => pagedContent.appendChild(page))
+      // Set the scroll to the correct progress offset
+      const pageIdx = Math.floor(pages.length * progressRef.current)
+      pagedContent.scrollTo({ left: pageIdx * contentSize.width })
+    }
+    calculatePages()
   }, [html, layoutMetrics])
 
   const chapterNav = () => {
     return (
       <Row className={styles.bottomNav} horizontal="space-between" vertical="center">
-        {prevChapter ? (
-          <Link
-            style={{ textAlign: 'left' }}
-            className={classes(utilStyles.coloredLink, styles.bottomNavItem)}
-            href={`/chapters/${prevChapter.id}`}>{`← ${prevChapter.title}`}</Link>
-        ) : (
-          <div className={styles.bottomNavItem} />
-        )}
+        <Link
+          style={{ textAlign: 'left' }}
+          className={classes(
+            utilStyles.coloredLink,
+            styles.bottomNavItem,
+            prevChapter ? styles.contentVisible : styles.contentHidden,
+          )}
+          href={`/chapters/${prevChapter?.id}`}>{`← ${prevChapter?.title}`}</Link>
         {readingOptions.pageLayout === 'paged' && (
           <ScrollIndicator
-            className={styles.bottomNavIndicator}
+            className={classes(styles.bottomNavIndicator)}
             pageCount={pageCount}
             progress={latestCurrentProgress}
             onClick={scrollToIndex}
           />
         )}
-        {nextChapter ? (
-          <Link
-            style={{ textAlign: 'right' }}
-            className={classes(utilStyles.coloredLink, styles.bottomNavItem)}
-            href={`/chapters/${nextChapter.id}`}>{`${nextChapter.title} →`}</Link>
-        ) : (
-          <div className={styles.bottomNavItem} />
-        )}
+        <Link
+          style={{ textAlign: 'right' }}
+          className={classes(
+            utilStyles.coloredLink,
+            styles.bottomNavItem,
+            nextChapter ? styles.contentVisible : styles.contentHidden,
+          )}
+          href={`/chapters/${nextChapter?.id}`}>{`${nextChapter?.title} →`}</Link>
       </Row>
     )
   }
@@ -335,7 +333,7 @@ const Chapter = ({ id, chapter }: Props) => {
 
   return (
     <div id="chapter-main" onResize={onResize} className={styles.main}>
-      <Header type="Primary" sticky>
+      <Header type="Primary">
         <Row horizontal="space-between" vertical="center">
           <Row>
             <div style={{ marginRight: 5 }}>{`${chapterNo} | ${title}`}</div>
@@ -359,24 +357,32 @@ const Chapter = ({ id, chapter }: Props) => {
           </Row>
         </Row>
       </Header>
-      <div onResize={onResize} className={classes(postStyles.post, styles.chapterContainer)}>
+      <div onResize={onResize} className={classes(styles.chapterContainer)}>
         <div
           ref={pagedMeasureRef}
           onResize={onResize}
           id="ChapterMeasure"
           className={classes(postStyles.post, styles.chapterMeasure)}
         />
-        {readingOptions.pageLayout === 'paged' && (
-          <div ref={pagedContentRef} id="PagedContent" className={classes(postStyles.post, styles.pagedContent)} />
-        )}
-        {readingOptions.pageLayout === 'verticalScroll' && (
-          <div
-            ref={scrolledContentRef}
-            id="ScrolledContent"
-            className={classes(postStyles.post, styles.scrolledContent)}
-            dangerouslySetInnerHTML={{ __html: html }}
-          />
-        )}
+        <div
+          ref={pagedContentRef}
+          id="PagedContent"
+          className={classes(
+            postStyles.post,
+            styles.pagedContent,
+            readingOptions.pageLayout === 'paged' ? styles.contentVisible : styles.contentHidden,
+          )}
+        />
+        <div
+          ref={scrolledContentRef}
+          id="ScrolledContent"
+          className={classes(
+            postStyles.post,
+            styles.scrolledContent,
+            readingOptions.pageLayout === 'verticalScroll' ? styles.contentVisible : styles.contentHidden,
+          )}
+          dangerouslySetInnerHTML={{ __html: html }}
+        />
       </div>
       {chapterNav()}
       {lorePopover && LorePopover(lorePopover.lore)}

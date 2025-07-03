@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useReducer } from 'react'
 import { Font, FontDefinitions, Global, GlobalVariable, Storage, UITheme } from '../../lib/globals'
-import Reducer from './Reducer'
+import Reducer, { ReadingGlobals } from './Reducer'
 import { Adjustment, Context, PageLayout, ReadingOption, State, TextAlign } from './Types'
 
 const InitialState: State = {
@@ -135,6 +135,22 @@ const Provider = ({ children }: Props) => {
     },
     [dispatch],
   )
+
+  useEffect(() => {
+    const { readingOptions } = state
+    Global.set('--reading-font-family', readingOptions.font)
+    Global.set('--reading-text-align', readingOptions.textAlign)
+    Global.setValue('--reading-font-size', readingOptions.fontSize)
+    Global.setValue('--reading-letter-spacing', readingOptions.letterSpacing)
+    Global.setValue('--reading-word-spacing', readingOptions.wordSpacing)
+    Global.setValue('--max-content-width', readingOptions.readingWidth)
+
+    // Following are dependent on the font size
+    const base = readingOptions.fontSize
+    Global.setValue('--reading-paragraph-indent', readingOptions.paragraphIndent * base)
+    Global.setValue('--reading-paragraph-spacing', readingOptions.paragraphSpacing * base)
+    Global.setValue('--reading-line-spacing', readingOptions.lineSpacing * base)
+  }, [state])
 
   return (
     <OptionsContext.Provider

@@ -1,13 +1,19 @@
 @use '../../../styles/mixins' as *;
 
 .main {
+  position: absolute;
+  top: 0;
+  left: 0;
   flex: 1;
+  flex-direction: column;
   display: flex;
   width: 100%;
   min-width: 100%;
-  align-self: stretch;
-  flex-direction: column;
+  height: 100%;
+  max-height: 100%;
+  overflow: hidden;
 }
+
 
 .readOptions {
   position: absolute;
@@ -18,9 +24,11 @@
 .chapterContainer {
   position: relative;
   flex: 1;
-  display: flex;
-  flex-direction: column;
+  width: 100%;
+  min-width: 100%;
+  max-height: 100%;
   background-color: var(--background-tertiary-color);
+  overflow: hidden;
 }
 
 .chapterMeasure {
@@ -49,11 +57,24 @@
 }
 
 .scrolledContent {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
   display: flex;
-  flex-direction: column;
   flex: 1;
+  flex-direction: column;
   overflow-y: scroll;
-  padding: 6pt;
+}
+
+.contentVisible {
+  opacity: 1;
+  pointer-events: auto;
+}
+.contentHidden {
+  opacity: 0;
+  pointer-events: none;
 }
 
 .chapterPage {
@@ -131,6 +152,7 @@
 }
 
 .bottomNav {
+  height: 20pt;
   border-top-width: 1pt;
   border-top-color: var(--background-secondary-color);
   border-top-style: groove;

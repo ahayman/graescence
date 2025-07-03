@@ -1,4 +1,4 @@
-import { Font, FontDefinitions, GlobalVariable, Global, Storage, UITheme } from '../../lib/globals'
+import { Font, FontDefinitions, GlobalVariable, Storage, UITheme } from '../../lib/globals'
 import { ReducerAction } from '../../lib/types'
 import { Adjustment, ReadingOption, ReadingOptions, State, TextAlign } from './Types'
 
@@ -18,9 +18,7 @@ export const ReadingParams: { [key in ReadingOption]: ReadingParam } = {
   readingWidth: { step: 5, max: 160, min: 10 },
 }
 
-export const BaseDependent: ReadingOption[] = ['paragraphIndent', 'paragraphSpacing', 'lineSpacing']
-
-const ReadingGlobals: { [key in ReadingOption]: GlobalVariable } = {
+export const ReadingGlobals: { [key in ReadingOption]: GlobalVariable } = {
   fontSize: '--reading-font-size',
   paragraphIndent: '--reading-paragraph-indent',
   paragraphSpacing: '--reading-paragraph-spacing',
@@ -76,15 +74,6 @@ const Reducer = (state: State, action: Action): State => {
         readingWidth: 50,
         pageLayout: 'paged',
       }
-      Global.set('--reading-font-family', readingOptions.font)
-      Global.set('--reading-text-align', readingOptions.textAlign)
-      Global.setValue('--reading-font-size', readingOptions.fontSize)
-      Global.setValue('--reading-paragraph-indent', readingOptions.paragraphIndent)
-      Global.setValue('--reading-paragraph-spacing', readingOptions.paragraphSpacing)
-      Global.setValue('--reading-line-spacing', readingOptions.lineSpacing)
-      Global.setValue('--reading-letter-spacing', readingOptions.letterSpacing)
-      Global.setValue('--reading-word-spacing', readingOptions.wordSpacing)
-      Global.setValue('--max-content-width', readingOptions.readingWidth)
 
       Storage.set('--reading-font-family', readingOptions.font)
       Storage.set('--reading-text-align', readingOptions.textAlign)
@@ -100,7 +89,6 @@ const Reducer = (state: State, action: Action): State => {
       return { ...state, readingOptions }
     }
     case 'setUITheme':
-      Global.set('data-theme', action.theme)
       Storage.set('data-theme', action.theme)
       document.documentElement.setAttribute('data-theme', action.theme)
       document.body.dataset.theme = action.theme
@@ -109,7 +97,6 @@ const Reducer = (state: State, action: Action): State => {
         uiTheme: action.theme,
       }
     case 'setReadingAlign':
-      Global.set('--reading-text-align', action.textAlign)
       Storage.set('--reading-text-align', action.textAlign)
       return {
         ...state,
@@ -150,18 +137,6 @@ const Reducer = (state: State, action: Action): State => {
         action.type === 'adjustReadingOption'
           ? adjust(state.readingOptions[action.option], ReadingParams[action.option], action.adjustment)
           : clamp(action.value, ReadingParams[action.option].min, ReadingParams[action.option].max)
-      const base = action.option === 'fontSize' ? value : state.readingOptions.fontSize
-      if (action.option === 'fontSize') {
-        Global.setValue(ReadingGlobals[action.option], value)
-        //All dependent options need to be updated since the base (fontSize) has changed
-        for (const opt of BaseDependent) {
-          const baseAdjusted = state.readingOptions[opt] * base
-          Global.setValue(ReadingGlobals[opt], baseAdjusted)
-        }
-      } else {
-        const baseAdjusted = value * base
-        Global.setValue(ReadingGlobals[action.option], baseAdjusted)
-      }
       Storage.setValue(ReadingGlobals[action.option], value)
       const readingOptions = {
         ...state.readingOptions,
@@ -171,7 +146,6 @@ const Reducer = (state: State, action: Action): State => {
     }
     case 'selectReadingFont': {
       const family = FontDefinitions[action.font].family
-      Global.set('--reading-font-family', family)
       Storage.set('--reading-font-family', family)
       const readingOptions = {
         ...state.readingOptions,
