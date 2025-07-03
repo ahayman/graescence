@@ -156,13 +156,13 @@
   border-top-width: 1pt;
   border-top-color: var(--background-secondary-color);
   border-top-style: groove;
-  padding-inline: 2pt;
-  padding-top: 3pt;
-  padding-bottom: 3pt;
+  padding-inline: 3pt;
+  padding-block: 3pt;
 }
 
 .bottomNavItem {
   flex: 1;
+  white-space: nowrap;
 }
 
 .bottomNavIndicator {

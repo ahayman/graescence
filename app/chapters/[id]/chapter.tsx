@@ -304,7 +304,7 @@ const Chapter = ({ id, chapter }: Props) => {
             styles.bottomNavItem,
             prevChapter ? styles.contentVisible : styles.contentHidden,
           )}
-          href={`/chapters/${prevChapter?.id}`}>{`← ${prevChapter?.title}`}</Link>
+          href={`/chapters/${prevChapter?.id}`}>{` ← Prev`}</Link>
         {readingOptions.pageLayout === 'paged' && (
           <ScrollIndicator
             className={classes(styles.bottomNavIndicator)}
@@ -320,7 +320,7 @@ const Chapter = ({ id, chapter }: Props) => {
             styles.bottomNavItem,
             nextChapter ? styles.contentVisible : styles.contentHidden,
           )}
-          href={`/chapters/${nextChapter?.id}`}>{`${nextChapter?.title} →`}</Link>
+          href={`/chapters/${nextChapter?.id}`}>{`Next → `}</Link>
       </Row>
     )
   }

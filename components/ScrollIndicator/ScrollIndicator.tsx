@@ -127,7 +127,7 @@ export const ScrollIndicator: FunctionComponent<Props> = ({
     const width = rect.width
     const clientX = event.touches[0].clientX - rect.left
     const increments = width / pageCount
-    const idx = Math.max(0, Math.floor(clientX / increments))
+    const idx = Math.max(0, Math.min(Math.floor(clientX / increments), pageCount - 1))
     const state = [...Array(pageCount).keys()].map(() => false)
     state[idx] = true
     setHoverState(state)
