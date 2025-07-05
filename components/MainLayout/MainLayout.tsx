@@ -1,5 +1,5 @@
 'use client'
-import { FunctionComponent, PropsWithChildren, useContext, useMemo } from 'react'
+import { FunctionComponent, PropsWithChildren, useContext, useEffect, useState } from 'react'
 import s from './MainLayout.module.scss'
 import Content from '../Content/Content'
 import Nav from '../Nav/nav'
@@ -15,20 +15,27 @@ export const MainLayout: FunctionComponent<Props> = ({ children }) => {
     state: { fullScreen },
     actions: { toggleFullScreen },
   } = useContext(DisplayContext)
+  const [loaded, setLoaded] = useState(false)
+
+  useEffect(() => setLoaded(true), [])
 
   return (
     <div className={s.split}>
-      <div className={classes(s.nav, fullScreen ? s.hide : undefined)}>
-        <Nav />
-        <FontAwesomeIcon
-          className={classes(s.fullScreenIcon, fullScreen ? s.open : undefined)}
-          icon={faChevronUp}
-          onClick={toggleFullScreen}
-        />
-      </div>
-      <div className={classes(fullScreen ? s.fullScreenContent : s.content)}>
-        <Content>{children}</Content>
-      </div>
+      {loaded && (
+        <>
+          <div className={classes(s.nav, fullScreen ? s.hide : undefined)}>
+            <Nav />
+            <FontAwesomeIcon
+              className={classes(s.fullScreenIcon, fullScreen ? s.open : undefined)}
+              icon={faChevronUp}
+              onClick={toggleFullScreen}
+            />
+          </div>
+          <div className={classes(fullScreen ? s.fullScreenContent : s.content)}>
+            <Content>{children}</Content>
+          </div>
+        </>
+      )}
     </div>
   )
 }

@@ -10,7 +10,7 @@ import {
 import styles from './ScrollIndicator.module.scss'
 import { classes } from '../../lib/utils'
 import Row from '../Row'
-import { faArrowLeft, faArrowRight, faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons'
+import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 type Props = {
