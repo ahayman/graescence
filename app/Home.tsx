@@ -28,7 +28,7 @@ const Home = ({ content }: Props) => {
   )
   const firstChapter = chapters[0]
   const latestChapter = chapters[chapters.length - 1]
-  const latestPost = blog[blog.length - 1]
+  const latestPost = blog[0]
 
   const renderInfoBlock = (header: string, title: string, link: string) => (
     <Link href={link} className={classes(s.infoBlock, utilStyles.scaleHover)}>

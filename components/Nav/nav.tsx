@@ -36,7 +36,7 @@ const Nav = () => {
     () => chapters.find(c => c.id === currentChapterId) ?? chapters[0],
     [chapters, currentChapterId],
   )
-  const latestPost = blog[blog.length - 1]
+  const latestPost = blog[0]
   const clickDiscardIds = useRef(new Set<string>()).current
 
   const themeSelector = (type: string) => {
