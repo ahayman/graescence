@@ -51,7 +51,7 @@ const Home = ({ content }: Props) => {
       <Row horizontal="center">
         <Image
           className={utilStyles.roundedCorners}
-          src="/images/GraescenceBookCover-500.png"
+          src="/images/GraescenceCover.png"
           alt="Cover Artwork"
           layout="responsive"
           style={{ minWidth: 150, maxWidth: 400 }}
