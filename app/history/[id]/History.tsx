@@ -62,7 +62,7 @@ const History = ({ item }: Props) => {
       <ContentBlock>
         <div className={postStyles.post} dangerouslySetInnerHTML={{ __html: html }} />
       </ContentBlock>
-      <Row horizontal="space-between" vertical="center">
+      <Row horizontal="space-between" vertical="center" className={utilStyles.hPadding}>
         {prev ? (
           <Link className={utilStyles.coloredLink} href={`/history/${prev.id}`}>
             {`← ${prev.title}`}

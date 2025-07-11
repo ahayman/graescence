@@ -38,7 +38,7 @@ const Post = ({ post }: Props) => {
       <ContentBlock>
         <div className={postStyles.post} dangerouslySetInnerHTML={{ __html: post.html }} />
       </ContentBlock>
-      <Row>
+      <Row className={utilStyles.hPadding}>
         <span className={utilStyles.coloredLink} onClick={nav.back}>
           {'← Back'}
         </span>

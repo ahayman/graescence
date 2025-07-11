@@ -40,7 +40,7 @@ const Lore = ({ lore }: Props) => {
         {tags.length > 0 && <Tags tags={tags} />}
         <div className={postStyles.post} dangerouslySetInnerHTML={{ __html: html }} />
       </ContentBlock>
-      <Row>
+      <Row className={utilStyles.hPadding}>
         <span className={utilStyles.coloredLink} onClick={nav.back}>
           {'← Back'}
         </span>
