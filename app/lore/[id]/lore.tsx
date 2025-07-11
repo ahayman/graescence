@@ -21,8 +21,8 @@ const Lore = ({ lore }: Props) => {
   const { title, date, html, tags, category } = lore
   const nav = useRouter()
   return (
-    <>
-      <Header type="Primary" sticky>
+    <div className={utilStyles.pageMain}>
+      <Header type="Primary">
         <Row horizontal="space-between" vertical="center">
           {title}
           <Popover icon={faSliders} name="ReadingOptions">
@@ -39,11 +39,13 @@ const Lore = ({ lore }: Props) => {
       <ContentBlock>
         {tags.length > 0 && <Tags tags={tags} />}
         <div className={postStyles.post} dangerouslySetInnerHTML={{ __html: html }} />
+      </ContentBlock>
+      <Row>
         <span className={utilStyles.coloredLink} onClick={nav.back}>
           {'← Back'}
         </span>
-      </ContentBlock>
-    </>
+      </Row>
+    </div>
   )
 }
 export default Lore

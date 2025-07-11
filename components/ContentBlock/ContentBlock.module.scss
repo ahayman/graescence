@@ -1,8 +1,10 @@
 
 .content {
-  background-color: var(--background-secondary-color);
   padding: 5pt 10pt;
   border-color: var(--border-highlight-color);
   border-width: 1pt;
   margin-bottom: 1pt;
+  max-height: 100%;
+  background-color: var(--background-tertiary-color);
+  overflow: scroll;
 }

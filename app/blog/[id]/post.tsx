@@ -20,7 +20,7 @@ export type Props = {
 const Post = ({ post }: Props) => {
   const nav = useRouter()
   return (
-    <div>
+    <div className={utilStyles.pageMain}>
       <Header type="Primary">
         <Row horizontal="space-between" vertical="center">
           {post.title}
@@ -37,10 +37,12 @@ const Post = ({ post }: Props) => {
       <div className={utilStyles.lightText}></div>
       <ContentBlock>
         <div className={postStyles.post} dangerouslySetInnerHTML={{ __html: post.html }} />
+      </ContentBlock>
+      <Row>
         <span className={utilStyles.coloredLink} onClick={nav.back}>
           {'← Back'}
         </span>
-      </ContentBlock>
+      </Row>
     </div>
   )
 }

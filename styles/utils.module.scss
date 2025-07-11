@@ -1,5 +1,19 @@
 @use '../styles/mixins' as *;
 
+.pageMain {
+  position: absolute;
+  top: 0;
+  left: 0;
+  flex: 1;
+  flex-direction: column;
+  display: flex;
+  width: 100%;
+  min-width: 100%;
+  height: 100%;
+  max-height: 100%;
+  overflow: hidden;
+}
+
 .heading2Xl {
   font-size: 2.5rem;
   line-height: 1.2;

@@ -44,8 +44,8 @@ const History = ({ item }: Props) => {
   }, [data, item.id, sort])
 
   return (
-    <>
-      <Header type="Primary" sticky>
+    <div className={utilStyles.pageMain}>
+      <Header type="Primary">
         <Row horizontal="space-between" vertical="center">
           {title}
           <Popover icon={faSliders} name="ReadingOptions">
@@ -61,24 +61,24 @@ const History = ({ item }: Props) => {
       </Header>
       <ContentBlock>
         <div className={postStyles.post} dangerouslySetInnerHTML={{ __html: html }} />
-        <Row horizontal="space-between" vertical="center">
-          {prev ? (
-            <Link className={utilStyles.coloredLink} href={`/history/${prev.id}`}>
-              {`← ${prev.title}`}
-            </Link>
-          ) : (
-            <span className={utilStyles.coloredLink} onClick={nav.back}>
-              {'← Back to History'}
-            </span>
-          )}
-          {next && (
-            <Link className={utilStyles.coloredLink} href={`/history/${next.id}`}>
-              {`${next.title} →`}
-            </Link>
-          )}
-        </Row>
       </ContentBlock>
-    </>
+      <Row horizontal="space-between" vertical="center">
+        {prev ? (
+          <Link className={utilStyles.coloredLink} href={`/history/${prev.id}`}>
+            {`← ${prev.title}`}
+          </Link>
+        ) : (
+          <span className={utilStyles.coloredLink} onClick={nav.back}>
+            {'← Back to History'}
+          </span>
+        )}
+        {next && (
+          <Link className={utilStyles.coloredLink} href={`/history/${next.id}`}>
+            {`${next.title} →`}
+          </Link>
+        )}
+      </Row>
+    </div>
   )
 }
 export default History
