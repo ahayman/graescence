@@ -1,5 +1,5 @@
 'use client'
-import { useContext, useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo } from 'react'
 import { HistoryExcerpt } from '../../api/types'
 import Header from '../../components/Header/Header'
 import Row from '../../components/Row'
@@ -9,40 +9,51 @@ import { faSortAmountAsc, faSortAmountDesc } from '@fortawesome/free-solid-svg-i
 import styles from './history.module.scss'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useCategoricalFilter } from '../../hooks/useCategoricalFilter'
-import { DisplayContext } from '../../providers/Display/Provider'
-import { getSortedHistoryData } from './utils/sortedHistoryData'
+import { getSortedHistoryData, SortDirection } from './utils/sortedHistoryData'
 import { includeHistoryItem } from './utils/includeHistoryItem'
 import { ExcerptItem } from '../../components/ExcerptItem/ExcerptItem'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
+import { createURL } from './utils/createURL'
 
 export interface Props {
   historyData: HistoryExcerpt[]
 }
 
-const LoreHub = ({ historyData }: Props) => {
-  const {
-    state: { historyCategory, historyFilter, historySortDirection },
-    actions: { setHistoryCategory, setHistoryFilter, setHistorySortDirection },
-  } = useContext(DisplayContext)
-  const [sortDirection, setSortDirection] = useState<'ascending' | 'descending'>(historySortDirection)
+const HistoryHub = ({ historyData }: Props) => {
+  const router = useRouter()
+  const path = usePathname() ?? ''
+  const params = useSearchParams() ?? undefined
+  const tag = params?.get('tag') ?? undefined
+  const paramFilter = params?.get('filter') ?? undefined
+  const sort: SortDirection = params?.get('sort') === 'ascending' ? 'ascending' : 'descending'
+
   const { data, setFilter, setCategory, categories, currentCategory, filter } = useCategoricalFilter(
     historyData,
     includeHistoryItem,
-    historyFilter,
-    historyCategory,
+    paramFilter,
+    tag,
   )
-  const sortedData = useMemo(() => getSortedHistoryData(data, sortDirection), [data, sortDirection])
+  const sortedData = useMemo(() => getSortedHistoryData(data, sort), [data, sort])
 
-  /** Update Contexts */
-  useEffect(() => setHistoryCategory(currentCategory), [currentCategory, setHistoryCategory])
-  useEffect(() => setHistoryFilter(historyFilter), [historyFilter, setHistoryFilter])
-  useEffect(() => setHistorySortDirection(sortDirection), [setHistorySortDirection, sortDirection])
+  const setParam = useCallback(
+    (param: 'sort' | 'filter' | 'tag', value?: string) => {
+      const newParams = new URLSearchParams(params)
+      if (value) newParams.set(param, value)
+      else newParams.delete(param)
+      router.replace(createURL(path, newParams).toString())
+    },
+    [params, path, router],
+  )
+
+  useEffect(() => setParam('filter', filter), [filter, setParam])
+  useEffect(() => setParam('tag', currentCategory), [setParam, currentCategory])
 
   const renderByCategory = () =>
     sortedData.map(viewData => (
       <section key={viewData.category}>
         <Header title={viewData.category} type="Secondary" />
         {viewData.data.map(item => (
-          <ExcerptItem key={item.id} {...item} />
+          <ExcerptItem key={item.id} {...item} passThroughQuery={params} />
         ))}
       </section>
     ))
@@ -56,8 +67,8 @@ const LoreHub = ({ historyData }: Props) => {
           <div style={{ flex: 1 }} />
           <FontAwesomeIcon
             className={styles.sortIcon}
-            onClick={() => setSortDirection(c => (c === 'ascending' ? 'descending' : 'ascending'))}
-            icon={sortDirection === 'ascending' ? faSortAmountAsc : faSortAmountDesc}
+            onClick={() => setParam('sort', sort === 'ascending' ? 'descending' : 'ascending')}
+            icon={sort === 'ascending' ? faSortAmountAsc : faSortAmountDesc}
           />
           <SearchField text={filter} onChange={text => setFilter(text)} />
         </Row>
@@ -67,4 +78,4 @@ const LoreHub = ({ historyData }: Props) => {
   )
 }
 
-export default LoreHub
+export default HistoryHub

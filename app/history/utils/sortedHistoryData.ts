@@ -1,9 +1,11 @@
 import { HistoryMeta } from '../../../api/types'
 import { CategorizedData } from '../../../hooks/useCategoricalFilter'
 
+export type SortDirection = 'ascending' | 'descending'
+
 export const getSortedHistoryData = <T extends HistoryMeta>(
   data: CategorizedData<T>[],
-  sortDirection: 'ascending' | 'descending',
+  sortDirection: SortDirection = 'descending',
 ) => {
   return data.map(d => ({
     category: d.category,

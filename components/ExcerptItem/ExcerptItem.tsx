@@ -5,6 +5,7 @@ import postStyles from '../../styles/post.module.scss'
 import utilStyles from '../../styles/utils.module.scss'
 import Header from '../../components/Header/Header'
 import Date from '../../components/date'
+import { createURL } from '../../app/history/utils/createURL'
 
 export type Props = {
   type: 'lore' | 'history' | 'blog'
@@ -12,10 +13,11 @@ export type Props = {
   title: string
   date: string
   excerpt: string
+  passThroughQuery?: URLSearchParams
 }
-export const ExcerptItem = ({ type, id, title, date, excerpt }: Props) => (
+export const ExcerptItem = ({ type, id, title, date, excerpt, passThroughQuery }: Props) => (
   <div className={styles.container}>
-    <Link href={`/${type}/${id}`}>
+    <Link href={createURL(`/${type}/${id}`, passThroughQuery)}>
       <Row className={styles.headerRow} horizontal="space-between" vertical="center">
         <Header scaleHover type="Tertiary" title={title} />
         <span className={styles.date}>
@@ -26,7 +28,7 @@ export const ExcerptItem = ({ type, id, title, date, excerpt }: Props) => (
     <div className={styles.excerpt}>
       <div className={postStyles.post} dangerouslySetInnerHTML={{ __html: excerpt }} />
       <Row horizontal="end">
-        <Link className={utilStyles.coloredLink} href={`/${type}/${id}`}>
+        <Link className={utilStyles.coloredLink} href={createURL(`/${type}/${id}`, passThroughQuery)}>
           <span>More →</span>
         </Link>
       </Row>

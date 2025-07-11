@@ -9,14 +9,13 @@ import ReadingOptions from '../../../components/ReadingOptions/ReadingOptions'
 import { HistoryData, HistoryMeta } from '../../../api/types'
 import { faSliders } from '@fortawesome/free-solid-svg-icons'
 import Popover from '../../../components/Popover/Popover'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import { useContext, useMemo } from 'react'
 import { useCategoricalFilter } from '../../../hooks/useCategoricalFilter'
-import { DisplayContext } from '../../../providers/Display/Provider'
 import { ContentContext } from '../../../providers/Content/Provider'
 import { includeHistoryItem } from '../utils/includeHistoryItem'
-import { getSortedHistoryData } from '../utils/sortedHistoryData'
+import { getSortedHistoryData, SortDirection } from '../utils/sortedHistoryData'
 
 export type Props = {
   id: string
@@ -26,19 +25,20 @@ export type Props = {
 const Lore = ({ item }: Props) => {
   const { title, date, html, category } = item
   const nav = useRouter()
-  const {
-    state: { historyCategory, historyFilter, historySortDirection },
-  } = useContext(DisplayContext)
+  const params = useSearchParams() ?? undefined
+  const tag = params?.get('tag') ?? undefined
+  const paramFilter = params?.get('filter') ?? undefined
+  const sort: SortDirection = params?.get('sort') === 'ascending' ? 'ascending' : 'descending'
   const { history } = useContext(ContentContext)
-  const { data } = useCategoricalFilter(history, includeHistoryItem, historyFilter, historyCategory)
+  const { data } = useCategoricalFilter(history, includeHistoryItem, paramFilter, tag)
 
   const [prev, next] = useMemo((): [HistoryMeta | undefined, HistoryMeta | undefined] => {
-    const sorted = getSortedHistoryData(data, historySortDirection).flatMap(d => d.data)
+    const sorted = getSortedHistoryData(data, sort).flatMap(d => d.data)
     const idx = sorted.findIndex(d => d.id === item.id)
     const next = sorted[idx + 1]
     const prev = idx > 0 ? sorted[idx - 1] : undefined
     return [prev, next]
-  }, [data, historySortDirection, item])
+  }, [data, item.id, sort])
 
   return (
     <>
