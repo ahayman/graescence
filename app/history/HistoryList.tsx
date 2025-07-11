@@ -14,18 +14,19 @@ import { includeHistoryItem } from './utils/includeHistoryItem'
 import { ExcerptItem } from '../../components/ExcerptItem/ExcerptItem'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { createURL } from './utils/createURL'
+import { useQueryParams } from '../../hooks/useQueryParams'
 
 export interface Props {
   historyData: HistoryExcerpt[]
 }
 
+type QueryParam = 'sort' | 'filter' | 'tag'
+
 const HistoryHub = ({ historyData }: Props) => {
-  const router = useRouter()
-  const path = usePathname() ?? ''
-  const params = useSearchParams() ?? undefined
-  const tag = params?.get('tag') ?? undefined
-  const paramFilter = params?.get('filter') ?? undefined
-  const sort: SortDirection = params?.get('sort') === 'ascending' ? 'ascending' : 'descending'
+  const [params, setParam] = useQueryParams<QueryParam>()
+  const tag = params['tag']
+  const paramFilter = params['filter']
+  const sort: SortDirection = params['sort'] === 'ascending' ? 'ascending' : 'descending'
 
   const { data, setFilter, setCategory, categories, currentCategory, filter } = useCategoricalFilter(
     historyData,
@@ -35,18 +36,7 @@ const HistoryHub = ({ historyData }: Props) => {
   )
   const sortedData = useMemo(() => getSortedHistoryData(data, sort), [data, sort])
 
-  const setParam = useCallback(
-    (param: 'sort' | 'filter' | 'tag', value?: string) => {
-      const newParams = new URLSearchParams(params)
-      if (value) newParams.set(param, value)
-      else newParams.delete(param)
-      router.replace(createURL(path, newParams).toString())
-    },
-    [params, path, router],
-  )
-
-  useEffect(() => setParam('filter', filter), [filter, setParam])
-  useEffect(() => setParam('tag', currentCategory), [setParam, currentCategory])
+  useEffect(() => setParam('filter', { filter, tag: currentCategory }), [currentCategory, filter, setParam])
 
   const renderByCategory = () =>
     sortedData.map(viewData => (

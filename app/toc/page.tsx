@@ -4,7 +4,7 @@ import utilStyles from '../../styles/utils.module.scss'
 import styles from './toc.module.scss'
 import Date from '../../components/date'
 import Link from 'next/link'
-import { useContext, useEffect, useMemo, useState } from 'react'
+import { useCallback, useContext, useEffect, useMemo, useState } from 'react'
 import { ContentContext } from '../../providers/Content/Provider'
 import Column from '../../components/Column'
 import Header from '../../components/Header/Header'
@@ -15,9 +15,9 @@ import { faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons'
 import Tags from '../../components/Tags/Tags'
 import { ChapterMeta } from '../../api/types'
 import SearchField from '../../components/Search/SearchField'
-import { DisplayContext } from '../../providers/Display/Provider'
 import { useStateDebouncer } from '../../lib/useStateDebouncer'
 import { useStructuredChapterData } from './useStructuredChapterData'
+import { useQueryParams } from '../../hooks/useQueryParams'
 
 const includeChapter = (chapter: ChapterMeta, filter: string) => {
   if (chapter.title.includes(filter)) {
@@ -35,25 +35,25 @@ type ChapaterViewData = {
   chapters: ChapterMeta[]
 }
 
+type QueryParam = 'tag' | 'filter'
+
 const TOC = () => {
   const { chapters } = useContext(ContentContext)
   const chapterData = useStructuredChapterData(chapters)
-  const {
-    state: { chapterFilter, chapterTag },
-    actions: { setChapterFilter, setChapterTag },
-  } = useContext(DisplayContext)
+  const [params, setParam] = useQueryParams<QueryParam>()
+  const tag = params['tag'] ?? 'All'
+  const paramFilter = params['filter']
   const [collapsed, setCollapsed] = useState<{ [k: number]: boolean }>({})
   const tags = useMemo(() => ['All', ...Object.keys(chapterData.byTag).sort()], [chapterData.byTag])
-  const [activeFilter, filter, setFilter] = useStateDebouncer(chapterFilter, 500)
+  const [activeFilter, filter, setFilter] = useStateDebouncer(paramFilter, 500)
 
   const data: ChapaterViewData[] = useMemo(() => {
-    const tagged = chapterTag && chapterTag !== 'All' ? chapterData.byTag[chapterTag] : undefined
+    const tagged = tag !== 'All' ? chapterData.byTag[tag] : undefined
     //Filter Lore according to search
     const filtered = chapterData.items.filter((chapter, idx) => {
       if (tagged && !tagged.includes(idx)) {
         return false
-      }
-      if (chapterFilter && !includeChapter(chapter, chapterFilter)) {
+      } else if (activeFilter && !includeChapter(chapter, activeFilter)) {
         return false
       }
       return true
@@ -70,13 +70,9 @@ const TOC = () => {
         volume: `Volume ${no}${chapterData.volumeName[no] ? ': ' + chapterData.volumeName[no] : ''}`,
         chapters: byVolume[no],
       }))
-  }, [chapterData, chapterTag, chapterFilter])
+  }, [tag, chapterData.byTag, chapterData.items, chapterData.volumeName, activeFilter])
 
-  useEffect(() => {
-    if (chapterFilter !== activeFilter) {
-      setChapterFilter(activeFilter)
-    }
-  }, [chapterFilter, activeFilter, setChapterFilter])
+  useEffect(() => setParam('filter', activeFilter), [activeFilter, setParam])
 
   const toggleVolume = (vol: number) => {
     const col = { ...collapsed }
@@ -89,7 +85,7 @@ const TOC = () => {
     <Column className={styles.container}>
       <Header type="Primary" title="Table of Contents" />
       <Row vertical="center" horizontal="space-between" className={styles.tagsContainer}>
-        <Tags tags={tags} selected={chapterTag || 'All'} onSelect={setChapterTag} />
+        <Tags tags={tags} selected={tag} onSelect={tag => setParam('tag', tag)} />
         <SearchField text={filter} onChange={setFilter} />
       </Row>
       {data.map(vol => (

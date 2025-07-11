@@ -13,7 +13,7 @@ export type Props = {
   title: string
   date: string
   excerpt: string
-  passThroughQuery?: URLSearchParams
+  passThroughQuery?: URLSearchParams | Record<string, string | undefined>
 }
 export const ExcerptItem = ({ type, id, title, date, excerpt, passThroughQuery }: Props) => (
   <div className={styles.container}>

@@ -1,5 +1,5 @@
 'use client'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { LoreExcerpt } from '../../api/types'
 import Header from '../../components/Header/Header'
 import Row from '../../components/Row'
@@ -11,6 +11,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useCategoricalFilter } from '../../hooks/useCategoricalFilter'
 import { ExcerptItem } from '../../components/ExcerptItem/ExcerptItem'
 import { classes } from '../../lib/utils'
+import { useQueryParams } from '../../hooks/useQueryParams'
 
 const includeLoreItem = (item: LoreExcerpt, filter: string): boolean => {
   if (item.title.includes(filter)) {
@@ -24,14 +25,21 @@ const includeLoreItem = (item: LoreExcerpt, filter: string): boolean => {
 
 export interface Props {
   loreData: LoreExcerpt[]
-  showLatest?: boolean
 }
 
-const LoreHub = ({ loreData, showLatest }: Props) => {
-  const [showByLatest, setShowByLatest] = useState(showLatest ?? false)
+type QueryParam = 'tag' | 'filter' | 'sort'
+
+const LoreHub = ({ loreData }: Props) => {
+  const [params, setParam] = useQueryParams<QueryParam>()
+  const paramTag = params['tag']
+  const paramFilter = params['filter']
+  const sortByLatest = params['sort'] === 'byLatest'
+
   const { data, setFilter, setCategory, categories, currentCategory, filter } = useCategoricalFilter(
     loreData,
     includeLoreItem,
+    paramFilter,
+    paramTag,
   )
 
   const renderLoreByCategory = () =>
@@ -51,6 +59,8 @@ const LoreHub = ({ loreData, showLatest }: Props) => {
     return allData.map(item => <ExcerptItem key={item.id} {...item} />)
   }
 
+  useEffect(() => setParam('filter', { filter, tag: currentCategory }), [currentCategory, filter, setParam])
+
   return (
     <>
       <Header type="Primary" sticky>
@@ -60,21 +70,21 @@ const LoreHub = ({ loreData, showLatest }: Props) => {
           <div style={{ flex: 1 }} />
           <Row vertical="center" className={styles.sortIconContainer}>
             <FontAwesomeIcon
-              className={classes(styles.sortIcon, showByLatest ? undefined : styles.selected)}
-              onClick={() => setShowByLatest(c => !c)}
+              className={classes(styles.sortIcon, sortByLatest ? undefined : styles.selected)}
+              onClick={() => setParam('sort', 'byLatest')}
               icon={faSortAlphaAsc}
             />
             <div className={styles.vr} />
             <FontAwesomeIcon
-              className={classes(styles.sortIcon, showByLatest ? styles.selected : undefined)}
-              onClick={() => setShowByLatest(c => !c)}
+              className={classes(styles.sortIcon, sortByLatest ? styles.selected : undefined)}
+              onClick={() => setParam('sort', undefined)}
               icon={faCalendarDays}
             />
           </Row>
           <SearchField text={filter} onChange={text => setFilter(text)} />
         </Row>
       </Header>
-      {showByLatest ? renderByLatest() : renderLoreByCategory()}
+      {sortByLatest ? renderByLatest() : renderLoreByCategory()}
     </>
   )
 }

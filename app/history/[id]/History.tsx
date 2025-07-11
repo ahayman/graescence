@@ -16,19 +16,22 @@ import { useCategoricalFilter } from '../../../hooks/useCategoricalFilter'
 import { ContentContext } from '../../../providers/Content/Provider'
 import { includeHistoryItem } from '../utils/includeHistoryItem'
 import { getSortedHistoryData, SortDirection } from '../utils/sortedHistoryData'
+import { useQueryParams } from '../../../hooks/useQueryParams'
 
 export type Props = {
   id: string
   item: HistoryData
 }
 
-const Lore = ({ item }: Props) => {
+type QueryParam = 'sort' | 'filter' | 'tag'
+
+const History = ({ item }: Props) => {
   const { title, date, html, category } = item
+  const [params] = useQueryParams<QueryParam>()
   const nav = useRouter()
-  const params = useSearchParams() ?? undefined
-  const tag = params?.get('tag') ?? undefined
-  const paramFilter = params?.get('filter') ?? undefined
-  const sort: SortDirection = params?.get('sort') === 'ascending' ? 'ascending' : 'descending'
+  const tag = params['tag']
+  const paramFilter = params['filter']
+  const sort: SortDirection = params['sort'] === 'ascending' ? 'ascending' : 'descending'
   const { history } = useContext(ContentContext)
   const { data } = useCategoricalFilter(history, includeHistoryItem, paramFilter, tag)
 
@@ -78,4 +81,4 @@ const Lore = ({ item }: Props) => {
     </>
   )
 }
-export default Lore
+export default History
