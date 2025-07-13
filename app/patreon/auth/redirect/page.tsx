@@ -19,6 +19,7 @@ const PatreonRedirectHandler: FunctionComponent = () => {
   } = useContext(PatreonContext)
 
   useEffect(() => {
+    console.log({ authCode })
     if (authCode) handleRedirectCode(authCode)
   }, [authCode, handleRedirectCode])
 
