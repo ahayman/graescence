@@ -1,14 +1,13 @@
 .container {
   display: flex;
   flex-direction: row;
-  flex: 2;
   align-items: center;
   height: 10pt;
 }
 
 .chevron {
   color: var(--foreground-secondary-color);
-  font-size: 10pt;
+  font-size: 14pt;
   margin-inline: 3pt;
   transition: transform 300ms ease-in-out;
 
@@ -24,6 +23,7 @@
   flex-direction: row;
   flex: 1;
   align-items: center;
+  margin-inline: 5pt;
   height: 10pt;
 }
 
@@ -42,6 +42,10 @@
   width: 6pt;
   pointer-events: none;
   z-index: 10;
+}
+
+.lastIndicator {
+  pointer-events: auto !important;
 }
 
 .selected {
@@ -74,11 +78,13 @@
 .ghostIndicator {
   opacity: 0.85;
   background-color: var(--accent-color);
+  pointer-events: auto;;
 }
 
 .secondaryGhostIndicator {
   opacity: 0.7;
   background-color: var(--accent-color);
+  pointer-events: auto;
 }
 
 .hoverAnimateIn {

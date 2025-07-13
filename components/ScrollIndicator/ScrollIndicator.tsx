@@ -93,7 +93,8 @@ export const ScrollIndicator: FunctionComponent<Props> = ({
     const width = container.getBoundingClientRect().width
     const increments = width / (pageCount - 1)
     const left = idx * increments - 3
-    const visible = hoverState[idx] || ghost !== undefined || idx === pageCount - 1
+    const lastIndex = idx === pageCount - 1
+    const visible = hoverState[idx] || ghost !== undefined || lastIndex
 
     const onSelect = () => {
       if (ghost) updateGhostsWith(idx)
@@ -102,10 +103,11 @@ export const ScrollIndicator: FunctionComponent<Props> = ({
     return (
       <HoverIndicator
         style={{ top: 3, left }}
-        page={Number(idx) + 1}
+        page={idx + 1}
         visible={visible}
         onSelect={onSelect}
         ghost={ghost}
+        lastIndicator={lastIndex}
       />
     )
   }
@@ -161,20 +163,21 @@ export const ScrollIndicator: FunctionComponent<Props> = ({
     setHoverState(s => s.map(() => false))
   }
 
+  const pageIndexes = [...Array(pageCount).keys()]
+
   return (
-    <Row className={styles.container}>
+    <Row className={classes(styles.container, className)}>
       <FontAwesomeIcon className={styles.chevron} icon={faChevronLeft} onClick={decrementIndex} />
       <div
+        ref={containerRef}
         onMouseLeave={handleMoveOut}
         onMouseUp={handleUp}
         onMouseMoveCapture={handleHover}
         onTouchEnd={handleTouchUp}
-        ref={containerRef}
-        className={classes(styles.scrollContainer, className)}>
+        className={classes(styles.scrollContainer)}>
         <div className={styles.scrollLine} />
-
-        {Object.keys(hoverState).map(idx => calculateHover(Number(idx)))}
-        {[...Array(pageCount).keys()].map(calculateIndicator)}
+        {pageIndexes.map(calculateHover)}
+        {pageIndexes.map(calculateIndicator)}
       </div>
       <FontAwesomeIcon className={styles.chevron} icon={faChevronRight} onClick={incrementIndex} />
     </Row>
@@ -187,8 +190,16 @@ type HoverIndicatorProps = {
   onSelect: () => void
   ghost?: 'primary' | 'secondary'
   style?: CSSProperties
+  lastIndicator?: boolean // Last indicator is always clickable
 }
-const HoverIndicator: FunctionComponent<HoverIndicatorProps> = ({ page, visible, ghost, style, onSelect }) => {
+const HoverIndicator: FunctionComponent<HoverIndicatorProps> = ({
+  page,
+  visible,
+  ghost,
+  style,
+  onSelect,
+  lastIndicator,
+}) => {
   const [added, setAdded] = useState(false)
 
   useEffect(() => setAdded(true), [])
@@ -196,13 +207,14 @@ const HoverIndicator: FunctionComponent<HoverIndicatorProps> = ({ page, visible,
   const animationStyle = visible && added ? styles.hoverAnimateIn : undefined
   const ghostStyle =
     ghost === 'primary' ? styles.ghostIndicator : ghost === 'secondary' ? styles.secondaryGhostIndicator : undefined
+  const lastStyle = lastIndicator ? styles.lastIndicator : undefined
 
   return (
     <div
       onClick={onSelect}
       key={`page-hover-${page}`}
       style={style}
-      className={classes(styles.hoverIndicator, animationStyle, ghostStyle)}>
+      className={classes(styles.hoverIndicator, animationStyle, ghostStyle, lastStyle)}>
       <div className={styles.hoverText}>{page}</div>
     </div>
   )
