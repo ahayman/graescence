@@ -19,7 +19,6 @@ const DisplayProvider = ({ children }: Props) => {
           fullScreen: Storage.get('--full-screen') === 'true',
         },
   )
-  console.log({ state })
 
   const openPopover = useCallback(
     (content: PopoverContent) => {
