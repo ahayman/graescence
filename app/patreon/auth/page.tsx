@@ -30,13 +30,9 @@ const PatreonHome: FunctionComponent = () => {
           </Column>
         ) : (
           <Row>
-            <Link
-              key={`$patreon`}
-              target="_blank"
-              className={classes(styles.hLink, styles.loginButton)}
-              href={loginUrl}>
+            <a target="_blank" className={classes(styles.hLink, styles.loginButton)} href={loginUrl}>
               <span className={styles.linkTitle}>Link Patreon Account</span>
-            </Link>
+            </a>
           </Row>
         )}
       </ContentBlock>

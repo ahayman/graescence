@@ -1,6 +1,7 @@
 export type State = {
   user?: {
     loginState: 'loggingIn' | 'needsLogin' | boolean
+    loginMessage?: string
     patreonTier?: 'free' | 'story' | 'world'
   }
   error?: { message: string }

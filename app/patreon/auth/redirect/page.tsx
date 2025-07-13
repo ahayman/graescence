@@ -30,7 +30,7 @@ const PatreonRedirectHandler: FunctionComponent = () => {
         <span className={styles.linkTitle}>Patreon</span>
       </Link>
       <ContentBlock>
-        <span>{authCode ? 'Loading...' : 'Something went wrong. Missing auth code.'}</span>
+        <span>{authCode ? `Loading... ${authCode}` : 'Something went wrong. Missing auth code.'}</span>
         {user && (
           <>
             {JSON.stringify(user, null, 4)

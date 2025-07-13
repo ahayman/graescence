@@ -67,6 +67,7 @@ export const PatreonProvider: FunctionComponent<Props> = ({ children }) => {
   const logout = useCallback(() => {}, [])
 
   const handleRedirectCode = useCallback(async (code: string) => {
+    setState({ user: { loginState: 'loggingIn', loginMessage: 'Retrieving auth credentials...' } })
     try {
       const result = await fetch(constructAuthUrl(code), {
         method: 'POST',
@@ -77,6 +78,7 @@ export const PatreonProvider: FunctionComponent<Props> = ({ children }) => {
       const authData = await result.json()
       if (!isResultAuthData(authData)) throw new Error(`Improper auth data object: ${authData}`)
       setAuth(authData)
+      setState({ user: { loginState: 'loggingIn', loginMessage: 'Retrieving user identity...' } })
       const user = await getUserIdentity(authData)
       setState({ user })
       console.log({ user })
