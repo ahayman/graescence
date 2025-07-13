@@ -77,6 +77,7 @@ export type HistoryMeta = Meta & {
   category: string
   startDate: string
   endDate: string
+  turning?: string
   tags: string[]
 }
 

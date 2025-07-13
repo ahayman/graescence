@@ -146,6 +146,7 @@ const extractData = async <T extends ContentType>(
       const tagData = data.tags
       const startDate = data.startDate instanceof Date ? data.startDate.toISOString() : data.startDate?.toString()
       const endDate = data.endDate instanceof Date ? data.endDate.toISOString() : data.endDate?.toString()
+      const turning = data.turning
       const tags: string[] = (
         (typeof tagData === 'string' ? tagData.split(/,\s*/) : tagData instanceof Array ? tagData : []) as string[]
       ).map(t => t.replaceAll('_', ' '))
@@ -163,6 +164,7 @@ const extractData = async <T extends ContentType>(
         date,
         startDate,
         endDate,
+        turning,
         category: parent,
         tags,
         html,

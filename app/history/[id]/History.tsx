@@ -17,6 +17,8 @@ import { ContentContext } from '../../../providers/Content/Provider'
 import { includeHistoryItem } from '../utils/includeHistoryItem'
 import { getSortedHistoryData, SortDirection } from '../utils/sortedHistoryData'
 import { useQueryParams } from '../../../hooks/useQueryParams'
+import Tags from '../../../components/Tags/Tags'
+import { classes } from '../../../lib/utils'
 
 export type Props = {
   id: string
@@ -26,7 +28,7 @@ export type Props = {
 type QueryParam = 'sort' | 'filter' | 'tag'
 
 const History = ({ item }: Props) => {
-  const { title, date, html, category } = item
+  const { title, date, html, category, startDate, endDate, turning } = item
   const [params] = useQueryParams<QueryParam>()
   const nav = useRouter()
   const tag = params['tag']
@@ -47,7 +49,9 @@ const History = ({ item }: Props) => {
     <div className={utilStyles.pageMain}>
       <Header type="Primary">
         <Row horizontal="space-between" vertical="center">
-          {title}
+          <Row style={{ gap: 10 }}>
+            {title} {turning && <Tags tags={[turning]} />}
+          </Row>
           <Popover icon={faSliders} name="ReadingOptions">
             <ReadingOptions />
           </Popover>
@@ -55,8 +59,13 @@ const History = ({ item }: Props) => {
       </Header>
       <Header type="Secondary">
         <Row horizontal="space-between" vertical="center">
-          <span>{category}</span>
-          <span className={utilStyles.smallText}>{date && <Date dateString={date} />}</span>
+          <Row vertical="center" style={{ gap: 5 }}>
+            <span>{category}</span>
+            <span className={classes(utilStyles.smallText, utilStyles.lightText)}>{`(${startDate} → ${endDate})`}</span>
+          </Row>
+          <span className={classes(utilStyles.smallText, utilStyles.lightText)}>
+            {date && <Date dateString={date} />}
+          </span>
         </Row>
       </Header>
       <ContentBlock>
@@ -69,7 +78,7 @@ const History = ({ item }: Props) => {
           </Link>
         ) : (
           <span className={utilStyles.coloredLink} onClick={nav.back}>
-            {'← Back to History'}
+            {'← To History'}
           </span>
         )}
         {next && (

@@ -12,8 +12,6 @@ import { useCategoricalFilter } from '../../hooks/useCategoricalFilter'
 import { getSortedHistoryData, SortDirection } from './utils/sortedHistoryData'
 import { includeHistoryItem } from './utils/includeHistoryItem'
 import { ExcerptItem } from '../../components/ExcerptItem/ExcerptItem'
-import { usePathname, useRouter, useSearchParams } from 'next/navigation'
-import { createURL } from './utils/createURL'
 import { useQueryParams } from '../../hooks/useQueryParams'
 
 export interface Props {
@@ -43,7 +41,14 @@ const HistoryHub = ({ historyData }: Props) => {
       <section key={viewData.category}>
         <Header title={viewData.category} type="Secondary" />
         {viewData.data.map(item => (
-          <ExcerptItem key={item.id} {...item} passThroughQuery={params} />
+          <ExcerptItem
+            key={item.id}
+            {...item}
+            tags={item.turning ? [item.turning] : undefined}
+            subTitle={`${item.startDate} → ${item.endDate}`}
+            passThroughQuery={params}
+            date={undefined}
+          />
         ))}
       </section>
     ))
