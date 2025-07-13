@@ -21,6 +21,8 @@ type Props = {
   sizeFactor?: number
 }
 
+type GhostIndexes = [number | null, number | null]
+
 const calculateScale = (page: number, count: number, progress: number): number => {
   if (count < 1) return 0
   const pageDist = 1 / count
@@ -39,6 +41,7 @@ export const ScrollIndicator: FunctionComponent<Props> = ({
 }) => {
   const containerRef = useRef<HTMLDivElement | null>(null)
   const [hoverState, setHoverState] = useState<boolean[]>([])
+  const [ghosts, setGhosts] = useState<GhostIndexes>([null, null])
   const currentIndex = Math.floor(pageCount * progress)
 
   const calculateIndicator = (idx: number) => {
@@ -67,35 +70,56 @@ export const ScrollIndicator: FunctionComponent<Props> = ({
     )
   }
 
+  const updateGhostsWith = (idx: number) => {
+    if (idx === currentIndex) return
+    if (ghosts[0] === null && ghosts[1] === null) {
+      setGhosts([currentIndex, null])
+    } else if (ghosts[0] === idx) {
+      if (ghosts[1] !== null) {
+        setGhosts([ghosts[1], currentIndex])
+      } else {
+        setGhosts([currentIndex, null])
+      }
+    } else {
+      setGhosts([ghosts[0], currentIndex])
+    }
+  }
+
   const calculateHover = (idx: number) => {
-    const visible = hoverState[idx]
     const container = containerRef.current
+    const ghost = ghosts[0] === idx ? 'primary' : ghosts[1] === idx ? 'secondary' : undefined
     if (!container) return null
 
     const width = container.getBoundingClientRect().width
     const increments = width / (pageCount - 1)
     const left = idx * increments - 3
+    const visible = hoverState[idx] || ghost !== undefined || idx === pageCount - 1
 
+    const onSelect = () => {
+      if (ghost) updateGhostsWith(idx)
+      onClick?.(idx)
+    }
     return (
       <HoverIndicator
-        style={{ top: 3, left, zIndex: 5 }}
+        style={{ top: 3, left }}
         page={Number(idx) + 1}
         visible={visible}
-        onSelect={() => onClick?.(idx)}
+        onSelect={onSelect}
+        ghost={ghost}
       />
     )
   }
 
   const handleUp: MouseEventHandler<HTMLDivElement> = event => {
-    if (!onClick) return
     const container = event.currentTarget
     const rect = container.getBoundingClientRect()
     const width = rect.width
     const increments = width / pageCount
     const clientX = event.clientX - rect.left
     const idx = Math.floor(clientX / increments)
+    updateGhostsWith(idx)
     setHoverState(s => s.map(() => false))
-    onClick(idx)
+    onClick?.(idx)
   }
 
   const incrementIndex = () => {
@@ -121,16 +145,16 @@ export const ScrollIndicator: FunctionComponent<Props> = ({
     setHoverState(state)
   }
 
-  const handleDrag: TouchEventHandler<HTMLDivElement> = event => {
+  const handleTouchUp: TouchEventHandler<HTMLDivElement> = event => {
     const container = event.currentTarget
     const rect = container.getBoundingClientRect()
     const width = rect.width
     const clientX = event.touches[0].clientX - rect.left
     const increments = width / pageCount
     const idx = Math.max(0, Math.min(Math.floor(clientX / increments), pageCount - 1))
-    const state = [...Array(pageCount).keys()].map(() => false)
-    state[idx] = true
-    setHoverState(state)
+    updateGhostsWith(idx)
+    setHoverState(s => s.map(() => false))
+    onClick?.(idx)
   }
 
   const handleMoveOut = () => {
@@ -144,12 +168,13 @@ export const ScrollIndicator: FunctionComponent<Props> = ({
         onMouseLeave={handleMoveOut}
         onMouseUp={handleUp}
         onMouseMoveCapture={handleHover}
-        onTouchMove={handleDrag}
+        onTouchEnd={handleTouchUp}
         ref={containerRef}
         className={classes(styles.scrollContainer, className)}>
         <div className={styles.scrollLine} />
+
         {Object.keys(hoverState).map(idx => calculateHover(Number(idx)))}
-        {[...Array(pageCount).keys()].map(idx => calculateIndicator(idx))}
+        {[...Array(pageCount).keys()].map(calculateIndicator)}
       </div>
       <FontAwesomeIcon className={styles.chevron} icon={faChevronRight} onClick={incrementIndex} />
     </Row>
@@ -160,19 +185,24 @@ type HoverIndicatorProps = {
   page: number
   visible: boolean
   onSelect: () => void
+  ghost?: 'primary' | 'secondary'
   style?: CSSProperties
 }
-const HoverIndicator: FunctionComponent<HoverIndicatorProps> = ({ page, visible, style, onSelect }) => {
+const HoverIndicator: FunctionComponent<HoverIndicatorProps> = ({ page, visible, ghost, style, onSelect }) => {
   const [added, setAdded] = useState(false)
 
   useEffect(() => setAdded(true), [])
+
+  const animationStyle = visible && added ? styles.hoverAnimateIn : undefined
+  const ghostStyle =
+    ghost === 'primary' ? styles.ghostIndicator : ghost === 'secondary' ? styles.secondaryGhostIndicator : undefined
 
   return (
     <div
       onClick={onSelect}
       key={`page-hover-${page}`}
       style={style}
-      className={classes(styles.hoverIndicator, visible && added ? styles.hoverAnimateIn : undefined)}>
+      className={classes(styles.hoverIndicator, animationStyle, ghostStyle)}>
       <div className={styles.hoverText}>{page}</div>
     </div>
   )
