@@ -71,13 +71,13 @@ const LoreHub = ({ loreData }: Props) => {
           <Row vertical="center" className={styles.sortIconContainer}>
             <FontAwesomeIcon
               className={classes(styles.sortIcon, sortByLatest ? undefined : styles.selected)}
-              onClick={() => setParam('sort', 'byLatest')}
+              onClick={() => setParam('sort', undefined)}
               icon={faSortAlphaAsc}
             />
             <div className={styles.vr} />
             <FontAwesomeIcon
               className={classes(styles.sortIcon, sortByLatest ? styles.selected : undefined)}
-              onClick={() => setParam('sort', undefined)}
+              onClick={() => setParam('sort', 'byLatest')}
               icon={faCalendarDays}
             />
           </Row>
