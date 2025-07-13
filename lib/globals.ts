@@ -16,6 +16,7 @@ export type StorageVariable =
   | '--chapter-progress'
   | '--page-layout'
   | '--full-screen'
+  | '--patreon-auth-data'
 
 export type UITheme = 'dark' | 'light'
 
