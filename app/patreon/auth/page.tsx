@@ -1,3 +1,4 @@
+'use client'
 import Link from 'next/link'
 import { FunctionComponent, useContext } from 'react'
 import { classes } from '../../../lib/utils'

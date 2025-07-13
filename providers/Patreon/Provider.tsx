@@ -1,3 +1,4 @@
+'use client'
 import { createContext, FunctionComponent, PropsWithChildren, useCallback, useEffect, useState } from 'react'
 import { Context, State } from './Types'
 import { AuthData, clientID, clientSecret, redirectUrl } from './Api'
