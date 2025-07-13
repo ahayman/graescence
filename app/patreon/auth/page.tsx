@@ -10,7 +10,7 @@ import Column from '../../../components/Column'
 import Row from '../../../components/Row'
 import { clientID, redirectUrl } from '../../../providers/Patreon/Api'
 
-const loginUrl = `www.patreon.com/oauth2/authorize?response_type=code&client_id=${clientID}&redirect_uri=${redirectUrl}`
+const loginUrl = `https://www.patreon.com/oauth2/authorize?response_type=code&client_id=${clientID}&redirect_uri=${redirectUrl}`
 
 const PatreonHome: FunctionComponent = () => {
   const {
@@ -30,9 +30,9 @@ const PatreonHome: FunctionComponent = () => {
           </Column>
         ) : (
           <Row>
-            <a target="_blank" className={classes(styles.hLink, styles.loginButton)} href={loginUrl}>
+            <Link target="_blank" className={classes(styles.hLink, styles.loginButton)} href={loginUrl}>
               <span className={styles.linkTitle}>Link Patreon Account</span>
-            </a>
+            </Link>
           </Row>
         )}
       </ContentBlock>
