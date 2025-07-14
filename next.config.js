@@ -8,6 +8,9 @@ const nextConfig = {
   sassOptions: {
     includePaths: [path.join(__dirname, 'styles')],
   },
+  outputFileTracingExcludes: {
+    '/app/**/*': ['/content/**/*'],
+  },
 }
 
 module.exports = nextConfig
