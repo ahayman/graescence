@@ -1,15 +1,21 @@
 import './globals.scss'
 import {} from '../lib/array'
 import Head from 'next/head'
-import { PropsWithChildren, ReactNode } from 'react'
+import { ReactNode } from 'react'
 import styles from './layout.module.scss'
 import Providers from '../components/Pages/Providers'
 import { ChapterMeta, HistoryMeta, LoreMeta, Meta } from '../staticGenerator/types'
-import { generateRSS, getSortedContentData } from '../staticGenerator/contentData'
+import { getSortedContentData } from '../staticGenerator/contentData'
 import { MainLayout } from '../components/MainLayout/MainLayout'
 import { Metadata, Viewport } from 'next'
 
+export type Props = {
+  children?: ReactNode
+}
+
 const siteTitle = 'Graescence, a web novel'
+
+export const dynamic = 'force-static'
 
 export const viewport: Viewport = {
   viewportFit: 'cover',
@@ -83,9 +89,7 @@ export const metadata: Metadata = {
   ],
 }
 
-export type Params = { blog: Meta[]; chapters: ChapterMeta[]; lore: LoreMeta[]; history: HistoryMeta[] }
-
-export async function generateStaticParams(): Promise<Params[]> {
+const Layout = async ({ children }: Props) => {
   /**
    * Note: It's very important to map the data here.
    * Otherwise, the entire dataset will be loaded into each page (since this is a layout)
@@ -117,15 +121,7 @@ export async function generateStaticParams(): Promise<Params[]> {
     category,
   }))
   const history: HistoryMeta[] = await getSortedContentData('History')
-  return [{ blog, chapters, lore, history }]
-}
 
-export type Props = PropsWithChildren & {
-  params: Promise<Params>
-}
-
-const Layout = async ({ children, params }: Props) => {
-  const { blog, chapters, lore, history } = await params
   return (
     <html>
       <Head>
