@@ -15,8 +15,6 @@ export type Props = {
 
 const siteTitle = 'Graescence, a web novel'
 
-export const dynamic = 'force-static'
-
 export const viewport: Viewport = {
   viewportFit: 'cover',
   width: 'device-width',

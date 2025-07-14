@@ -3,7 +3,7 @@ import { NextConfig } from 'next'
 const path = require('path')
 const nextConfig: NextConfig = {
   reactStrictMode: true,
-  trailingSlash: false,
+  trailingSlash: true,
   // output: 'export',
   images: { unoptimized: false },
   sassOptions: {
