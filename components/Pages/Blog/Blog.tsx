@@ -1,5 +1,5 @@
 'use client'
-import utilStyles from '../../styles/utils.module.scss'
+import utilStyles from '../../../styles/utils.module.scss'
 import Column from '../../Column'
 import Header from '../../Header/Header'
 import { BlogMeta } from '../../../staticGenerator/types'

@@ -1,6 +1,6 @@
 'use client'
 import { classes, TypedKeys } from '../../../lib/utils'
-import utilStyles from '../../styles/utils.module.scss'
+import utilStyles from '../../../styles/utils.module.scss'
 import styles from './toc.module.scss'
 import Date from '../../date'
 import Link from 'next/link'

@@ -1,6 +1,6 @@
 'use client'
-import utilStyles from '../styles/utils.module.scss'
-import postStyles from '../styles/post.module.scss'
+import utilStyles from '../../../styles/utils.module.scss'
+import postStyles from '../../../styles/post.module.scss'
 import s from './Home.module.scss'
 import Link from 'next/link'
 import { classes } from '../../../lib/utils'

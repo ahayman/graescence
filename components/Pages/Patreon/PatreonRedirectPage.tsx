@@ -5,7 +5,7 @@ import ContentBlock from '../../ContentBlock/ContentBlock'
 import { PatreonLogo } from '../../Logos/PatreonLogo'
 import { classes } from '../../../lib/utils'
 import { AuthData, UserData } from '../../../providers/Patreon/Api'
-import styles from '../page.module.scss'
+import styles from './page.module.scss'
 
 type Props = {
   authData: AuthData
