@@ -8,9 +8,9 @@ const nextConfig = {
   sassOptions: {
     includePaths: [path.join(__dirname, 'styles')],
   },
-  outputFileTracingExcludes: {
-    '/**': ['markdown-content/Other'],
-  },
+  // outputFileTracingExcludes: {
+  //   '/**': ['markdown-content/Other'],
+  // },
   outputFileTracingIncludes: {
     '/**': [
       'markdown-content/Blog',
