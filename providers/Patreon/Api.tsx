@@ -4,6 +4,75 @@ export const redirectUrl = 'https://graescence.vercel.app/patreon/auth/redirect'
 const creatorAccessToken = '8OHit6xWIQQ6wFB-88S4Oehl3VM9bd6Hhzh9E9LVS6Q'
 const creatorRefreshToken = '312Ttm1tXFw49eqkDwAyFAaFBewO3Mn5C1xUohnuUHI'
 
+const graescenceCampaignId = '2708199'
+const worldTier = '3580309'
+const storyTier = '10126695'
+
+type PatreonResource<Type extends string, Data, Relationships = {}> = {
+  id: string
+  type: Type
+  attributes: Data
+  relationships: Relationships
+}
+
+type Tier = PatreonResource<
+  'tier',
+  {
+    amount_cents: number
+    description: string
+    url: string
+    title: string
+    published: boolean
+  }
+>
+
+type Campaign = PatreonResource<
+  'campaign',
+  {
+    summary: string | null
+    is_monthly: boolean
+    creation_name: string
+    url: string
+  }
+>
+
+type Member = PatreonResource<
+  'member',
+  {
+    patron_status: 'active_patron' | 'former_patron'
+    pledge_relationship_start: string
+    last_charge_date: string
+    last_charge_status: 'Paid' | 'UnPaid'
+    pledge_cadence: number
+  },
+  {
+    campaign: {
+      data: {
+        id: string
+      }
+    }
+    currently_entitled_tiers: {
+      data: [{ id: string }]
+    }
+  }
+>
+
+type User = PatreonResource<
+  'user',
+  {
+    email?: string
+    full_name: string
+    about: string | null
+    image_url: string | null
+    thumb_url: string | null
+  }
+>
+
+type PatreonIdentity = {
+  data: User
+  included: (Member | Campaign | Tier)[]
+}
+
 export type AuthData = {
   access_token: string
   refresh_token: string
@@ -14,6 +83,8 @@ export type AuthData = {
 
 export type UserData = {
   id: string
+  email?: string
+  fullName: string
   patreonTier: 'free' | 'story' | 'world'
 }
 
@@ -22,15 +93,13 @@ export const fetchAuthAndIdentity = async (code: string): Promise<{ authData: Au
   console.log({ code, authUrl })
   const result = await fetch(constructAuthUrl(code), {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded',
-    },
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
   })
   const authData = await result.json()
   console.log({ authData })
   if (!isResultAuthData(authData)) throw authData
   const userData = await getUserIdentity(authData)
-  console.log({ authData, userData })
+
   return { authData, userData }
 }
 
@@ -53,7 +122,7 @@ const identityURL = () => {
   url.searchParams.set('fields[user]', 'full_name,email,image_url,thumb_url,about')
   url.searchParams.set(
     'fields[member]',
-    'currently_entitled_amount_cents,lifetime_support_cents,campaign_lifetime_support_cents,last_charge_status,patron_status,last_charge_date,pledge_relationship_start,pledge_cadence',
+    'last_charge_status,patron_status,last_charge_date,pledge_relationship_start,pledge_cadence',
   )
   url.searchParams.set('fields[tier]', 'description,published,title,url,amount_cents')
   return url.toString()
@@ -71,7 +140,15 @@ const isResultAuthData = (data: unknown): data is AuthData => {
   )
 }
 
-const getUserIdentity = async (auth: AuthData) => {
+const isResultIdentity = (data: unknown): data is PatreonIdentity => {
+  if (typeof data !== 'object' || data === null) return false
+  if (!('data' in data && 'included' in data)) return false
+  if (!('type' in data && data.type === 'user')) return false
+  if (!('included' in data && data.included instanceof Array)) return false
+  return true
+}
+
+const getUserIdentity = async (auth: AuthData): Promise<UserData> => {
   const userResult = await fetch(identityURL(), {
     method: 'GET',
     headers: {
@@ -79,5 +156,31 @@ const getUserIdentity = async (auth: AuthData) => {
       'Content-Type': 'application/x-www-form-urlencoded',
     },
   })
-  return await userResult.json()
+  const data = await userResult.json()
+  if (!isResultIdentity(data)) throw data
+
+  return {
+    id: data.data.id,
+    email: data.data.attributes.email,
+    fullName: data.data.attributes.full_name,
+    patreonTier: getSubscriptionsTier(data.included),
+  }
+}
+
+type StructuredData = {
+  membershipByCampaign: {
+    [campaignId: string]: Member
+  }
+}
+const getSubscriptionsTier = (data: PatreonIdentity['included']): UserData['patreonTier'] => {
+  const membership = data.find(
+    d => d.type === 'member' && d.relationships.campaign.data.id === graescenceCampaignId,
+  ) as Member | undefined
+  if (!membership) return 'free'
+
+  const tiers = membership.relationships.currently_entitled_tiers.data.map(d => d.id)
+  if (tiers.includes(worldTier)) return 'world'
+  if (tiers.includes(storyTier)) return 'story'
+
+  return 'free'
 }
