@@ -11,6 +11,15 @@ const nextConfig = {
   outputFileTracingExcludes: {
     '/**': ['markdown-content/Other'],
   },
+  outputFileTracingIncludes: {
+    '/**': [
+      'markdown-content/Blog',
+      'markdown-content/Chapters',
+      'markdown-content/History',
+      'markdown-content/Lore',
+      'markdown-content/Pages',
+    ],
+  },
 }
 
 module.exports = nextConfig
