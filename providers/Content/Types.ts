@@ -1,4 +1,4 @@
-import { ChapterMeta, Meta, HistoryMeta, LoreMeta } from '../../api/types'
+import { ChapterMeta, Meta, HistoryMeta, LoreMeta } from '../../staticGenerator/types'
 
 export type State = {
   blog: Meta[]

@@ -1,6 +1,6 @@
 'use client'
 import { useEffect, useState } from 'react'
-import { LoreExcerpt } from '../../api/types'
+import { LoreExcerpt } from '../../staticGenerator/types'
 import Header from '../../components/Header/Header'
 import Row from '../../components/Row'
 import SearchField from '../../components/Search/SearchField'

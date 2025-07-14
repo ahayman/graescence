@@ -1,5 +1,5 @@
 'use client'
-import { Meta, ChapterMeta, LoreMeta, HistoryMeta } from '../api/types'
+import { Meta, ChapterMeta, LoreMeta, HistoryMeta } from '../staticGenerator/types'
 import { ReactNode } from 'react'
 import ContentProvider from '../providers/Content/Provider'
 import OptionsProvider from '../providers/Options/Provider'

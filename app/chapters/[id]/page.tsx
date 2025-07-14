@@ -1,4 +1,4 @@
-import { generateRSS, getSortedContentData } from '../../../api/contentData'
+import { generateRSS, getSortedContentData } from '../../../staticGenerator/contentData'
 import Chapter from './chapter'
 
 export type Params = { id: string }

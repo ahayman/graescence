@@ -1,4 +1,4 @@
-import { getSortedContentData } from '../../api/contentData'
+import { getSortedContentData } from '../../staticGenerator/contentData'
 import HistoryList from './HistoryList'
 
 export default async function PageData() {

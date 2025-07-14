@@ -1,4 +1,4 @@
-import { LoreExcerpt } from '../../../api/types'
+import { LoreExcerpt } from '../../../staticGenerator/types'
 import Column from '../../../components/Column'
 import { ExcerptItem } from '../../../components/ExcerptItem/ExcerptItem'
 import Header from '../../../components/Header/Header'

@@ -2,7 +2,7 @@
 import utilStyles from '../../styles/utils.module.scss'
 import Column from '../../components/Column'
 import Header from '../../components/Header/Header'
-import { BlogMeta } from '../../api/types'
+import { BlogMeta } from '../../staticGenerator/types'
 import { ExcerptItem } from '../../components/ExcerptItem/ExcerptItem'
 
 export interface Props {

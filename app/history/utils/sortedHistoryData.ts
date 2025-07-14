@@ -1,4 +1,4 @@
-import { HistoryMeta } from '../../../api/types'
+import { HistoryMeta } from '../../../staticGenerator/types'
 import { CategorizedData } from '../../../hooks/useCategoricalFilter'
 
 export type SortDirection = 'ascending' | 'descending'

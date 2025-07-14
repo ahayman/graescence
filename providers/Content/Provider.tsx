@@ -1,5 +1,5 @@
 import { createContext, ReactNode } from 'react'
-import { ChapterMeta, HistoryMeta, LoreMeta, Meta } from '../../api/types'
+import { ChapterMeta, HistoryMeta, LoreMeta, Meta } from '../../staticGenerator/types'
 import { State } from './Types'
 
 export const ContentContext = createContext<State>({} as any)

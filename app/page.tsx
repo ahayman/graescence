@@ -1,4 +1,4 @@
-import { getContent } from '../api/contentData'
+import { getContent } from '../staticGenerator/contentData'
 import Home from './Home'
 
 export default async function PageData() {
