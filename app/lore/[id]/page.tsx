@@ -12,10 +12,11 @@ export async function generateStaticParams(): Promise<Params[]> {
 }
 
 type Props = {
-  params: Params
+  params: Promise<Params>
 }
 
-export default async function PageData({ params: { id } }: Props) {
+export default async function PageData({ params }: Props) {
+  const id = (await params).id
   const lore = (await getSortedContentData('Lore')).find(l => l.id === decodeURIComponent(id))
   if (!lore) return <span>Invalid Lore ID</span>
   return <Lore id={id} lore={lore} />

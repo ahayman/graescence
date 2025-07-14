@@ -48,7 +48,7 @@ export const useStateDebouncer = <State>(
   const [resolvedState, setResolvedState] = useState(initialState)
   const [latestState, setLatestState] = useState(initialState)
   const latestRef = useRef(initialState)
-  const timerRef = useRef<NodeJS.Timeout>()
+  const timerRef = useRef<NodeJS.Timeout>(undefined)
 
   const debounceSetState: SetState<State> = useCallback(
     (action: SetStateAction<State>) => {

@@ -10,10 +10,11 @@ export async function generateStaticParams(): Promise<Params[]> {
 }
 
 type Props = {
-  params: Params
+  params: Promise<Params>
 }
 
-export default async function PageData({ params: { id } }: Props) {
+export default async function PageData({ params }: Props) {
+  const id = (await params).id
   let chapter = (await getSortedContentData('Chapters')).find(c => c.id === decodeURIComponent(id))
   if (!chapter) return null
   return <Chapter id={id} chapter={chapter} />

@@ -222,7 +222,7 @@ const Chapter = ({ id, chapter }: Props) => {
       const pages: HTMLDivElement[] = []
       let carryOverTags: Tag[] = []
       let currentPageText = ''
-      pagedContentRef.current.textContent = ''
+      pagedContent.textContent = ''
 
       const createPage = (size: BoundingSize, idx: number) => {
         const page = document.createElement('div') // creates new html element

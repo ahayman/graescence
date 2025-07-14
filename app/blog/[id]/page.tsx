@@ -9,9 +9,10 @@ export async function generateStaticParams(): Promise<Params[]> {
   return data.map(d => ({ id: encodeURIComponent(d.id) }))
 }
 
-type Props = { params: Params }
+type Props = { params: Promise<Params> }
 
-export default async function ChapterID({ params: { id } }: Props) {
+export default async function Blog({ params }: Props) {
+  const id = (await params).id
   let post = (await getSortedContentData('Blog')).find(d => d.id === decodeURIComponent(id))
   if (!post) return null
   return <Post id={id} post={post} />
