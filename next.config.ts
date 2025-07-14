@@ -14,7 +14,7 @@ const nextConfig: NextConfig = {
     '/**': ['./markdown-content/Other'],
   },
   outputFileTracingIncludes: {
-    '/**': [
+    '/app/**': [
       './markdown-content/Blog',
       './markdown-content/Chapters',
       './markdown-content/History',
