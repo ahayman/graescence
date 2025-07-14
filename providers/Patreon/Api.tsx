@@ -167,11 +167,6 @@ const getUserIdentity = async (auth: AuthData): Promise<UserData> => {
   }
 }
 
-type StructuredData = {
-  membershipByCampaign: {
-    [campaignId: string]: Member
-  }
-}
 const getSubscriptionsTier = (data: PatreonIdentity['included']): UserData['patreonTier'] => {
   const membership = data.find(
     d => d.type === 'member' && d.relationships.campaign.data.id === graescenceCampaignId,
