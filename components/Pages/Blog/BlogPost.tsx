@@ -2,43 +2,41 @@
 import Date from '../../../components/date'
 import utilStyles from '../../../styles/utils.module.scss'
 import postStyles from '../../../styles/post.module.scss'
-import Row from '../../../components/Row'
-import ContentBlock from '../../../components/ContentBlock/ContentBlock'
-import Tags from '../../../components/Tags/Tags'
 import Header from '../../../components/Header/Header'
+import ContentBlock from '../../../components/ContentBlock/ContentBlock'
+import Row from '../../../components/Row'
+import { classes } from '../../../lib/utils'
 import ReadingOptions from '../../../components/ReadingOptions/ReadingOptions'
-import { LoreData } from '../../../staticGenerator/types'
+import { BlogData } from '../../../staticGenerator/types'
 import { faSliders } from '@fortawesome/free-solid-svg-icons'
 import Popover from '../../../components/Popover/Popover'
 import { useRouter } from 'next/navigation'
 
 export type Props = {
   id: string
-  lore: LoreData
+  post: BlogData
 }
 
-const Lore = ({ lore }: Props) => {
-  const { title, date, html, tags, category } = lore
+export const BlogPost = ({ post }: Props) => {
   const nav = useRouter()
   return (
     <div className={utilStyles.pageMain}>
       <Header type="Primary">
         <Row horizontal="space-between" vertical="center">
-          {title}
+          {post.title}
           <Popover icon={faSliders} name="ReadingOptions">
             <ReadingOptions />
           </Popover>
         </Row>
       </Header>
       <Header type="Secondary">
-        <Row horizontal="space-between" vertical="center">
-          <span>{category}</span>
-          <span className={utilStyles.smallText}>{date && <Date dateString={date} />}</span>
-        </Row>
+        <span className={classes(utilStyles.lightText, utilStyles.smallText)}>
+          <Date dateString={post.date} />
+        </span>
       </Header>
+      <div className={utilStyles.lightText}></div>
       <ContentBlock>
-        {tags.length > 0 && <Tags tags={tags} />}
-        <div className={postStyles.post} dangerouslySetInnerHTML={{ __html: html }} />
+        <div className={postStyles.post} dangerouslySetInnerHTML={{ __html: post.html }} />
       </ContentBlock>
       <Row className={utilStyles.hPadding}>
         <span className={utilStyles.coloredLink} onClick={nav.back}>
@@ -48,4 +46,3 @@ const Lore = ({ lore }: Props) => {
     </div>
   )
 }
-export default Lore

@@ -1,5 +1,5 @@
+import { PatreonRedirectPage } from '../../../../components/Pages/Patreon/PatreonRedirectPage'
 import { fetchAuthAndIdentity } from '../../../../providers/Patreon/Api'
-import { PatreonRedirectPage } from './PatreonRedirectPage'
 
 type Params = {
   code?: string

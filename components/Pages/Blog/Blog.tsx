@@ -1,9 +1,9 @@
 'use client'
 import utilStyles from '../../styles/utils.module.scss'
-import Column from '../../components/Column'
-import Header from '../../components/Header/Header'
-import { BlogMeta } from '../../staticGenerator/types'
-import { ExcerptItem } from '../../components/ExcerptItem/ExcerptItem'
+import Column from '../../Column'
+import Header from '../../Header/Header'
+import { BlogMeta } from '../../../staticGenerator/types'
+import { ExcerptItem } from '../../ExcerptItem/ExcerptItem'
 
 export interface Props {
   blog: BlogMeta[]

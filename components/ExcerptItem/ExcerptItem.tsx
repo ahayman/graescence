@@ -5,8 +5,8 @@ import postStyles from '../../styles/post.module.scss'
 import utilStyles from '../../styles/utils.module.scss'
 import Header from '../../components/Header/Header'
 import Date from '../../components/date'
-import { createURL } from '../../app/history/utils/createURL'
 import Tags from '../Tags/Tags'
+import { createURL } from '../Pages/History/utils/createURL'
 
 export type Props = {
   type: 'lore' | 'history' | 'blog'

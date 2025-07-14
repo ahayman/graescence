@@ -1,5 +1,5 @@
+import Chapter from '../../../components/Pages/Chapters/ Chapter'
 import { generateRSS, getSortedContentData } from '../../../staticGenerator/contentData'
-import Chapter from './chapter'
 
 export type Params = { id: string }
 

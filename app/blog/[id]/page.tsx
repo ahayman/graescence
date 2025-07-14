@@ -1,5 +1,5 @@
+import { BlogPost } from '../../../components/Pages/Blog/BlogPost'
 import { generateRSS, getSortedContentData } from '../../../staticGenerator/contentData'
-import Post from './post'
 
 export type Params = { id: string }
 
@@ -15,5 +15,5 @@ export default async function Blog({ params }: Props) {
   const id = (await params).id
   let post = (await getSortedContentData('Blog')).find(d => d.id === decodeURIComponent(id))
   if (!post) return null
-  return <Post id={id} post={post} />
+  return <BlogPost id={id} post={post} />
 }

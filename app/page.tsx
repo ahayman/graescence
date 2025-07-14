@@ -1,5 +1,5 @@
+import { Home } from '../components/Pages/Home/Home'
 import { getContent } from '../staticGenerator/contentData'
-import Home from './Home'
 
 export default async function PageData() {
   let content = await getContent('Home')

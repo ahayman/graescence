@@ -1,5 +1,5 @@
 import { generateRSS, getSortedContentData } from '../../../staticGenerator/contentData'
-import Lore from './lore'
+import Lore from '../../../components/Pages/Lore/Lore'
 
 export type Params = {
   id: string

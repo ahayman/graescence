@@ -1,10 +1,10 @@
 'use client'
 import Link from 'next/link'
 import { FunctionComponent } from 'react'
-import ContentBlock from '../../../../components/ContentBlock/ContentBlock'
-import { PatreonLogo } from '../../../../components/Logos/PatreonLogo'
-import { classes } from '../../../../lib/utils'
-import { AuthData, UserData } from '../../../../providers/Patreon/Api'
+import ContentBlock from '../../ContentBlock/ContentBlock'
+import { PatreonLogo } from '../../Logos/PatreonLogo'
+import { classes } from '../../../lib/utils'
+import { AuthData, UserData } from '../../../providers/Patreon/Api'
 import styles from '../page.module.scss'
 
 type Props = {

@@ -1,42 +1,44 @@
 'use client'
-import Date from '../../../components/date'
+import Date from '../../date'
 import utilStyles from '../../../styles/utils.module.scss'
 import postStyles from '../../../styles/post.module.scss'
-import Header from '../../../components/Header/Header'
-import ContentBlock from '../../../components/ContentBlock/ContentBlock'
-import Row from '../../../components/Row'
-import { classes } from '../../../lib/utils'
-import ReadingOptions from '../../../components/ReadingOptions/ReadingOptions'
-import { BlogData } from '../../../staticGenerator/types'
+import Row from '../../Row'
+import ContentBlock from '../../ContentBlock/ContentBlock'
+import Tags from '../../Tags/Tags'
+import Header from '../../Header/Header'
+import ReadingOptions from '../../ReadingOptions/ReadingOptions'
+import { LoreData } from '../../../staticGenerator/types'
 import { faSliders } from '@fortawesome/free-solid-svg-icons'
-import Popover from '../../../components/Popover/Popover'
+import Popover from '../../Popover/Popover'
 import { useRouter } from 'next/navigation'
 
 export type Props = {
   id: string
-  post: BlogData
+  lore: LoreData
 }
 
-const Post = ({ post }: Props) => {
+const Lore = ({ lore }: Props) => {
+  const { title, date, html, tags, category } = lore
   const nav = useRouter()
   return (
     <div className={utilStyles.pageMain}>
       <Header type="Primary">
         <Row horizontal="space-between" vertical="center">
-          {post.title}
+          {title}
           <Popover icon={faSliders} name="ReadingOptions">
             <ReadingOptions />
           </Popover>
         </Row>
       </Header>
       <Header type="Secondary">
-        <span className={classes(utilStyles.lightText, utilStyles.smallText)}>
-          <Date dateString={post.date} />
-        </span>
+        <Row horizontal="space-between" vertical="center">
+          <span>{category}</span>
+          <span className={utilStyles.smallText}>{date && <Date dateString={date} />}</span>
+        </Row>
       </Header>
-      <div className={utilStyles.lightText}></div>
       <ContentBlock>
-        <div className={postStyles.post} dangerouslySetInnerHTML={{ __html: post.html }} />
+        {tags.length > 0 && <Tags tags={tags} />}
+        <div className={postStyles.post} dangerouslySetInnerHTML={{ __html: html }} />
       </ContentBlock>
       <Row className={utilStyles.hPadding}>
         <span className={utilStyles.coloredLink} onClick={nav.back}>
@@ -46,4 +48,4 @@ const Post = ({ post }: Props) => {
     </div>
   )
 }
-export default Post
+export default Lore

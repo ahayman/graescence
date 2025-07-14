@@ -1,6 +1,6 @@
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { useCallback } from 'react'
-import { createURL } from '../app/history/utils/createURL'
+import { createURL } from '../components/Pages/History/utils/createURL'
 
 type SetParam<Param extends string> = (param: Param, value?: string | Partial<{ [key in Param]: string }>) => void
 type Params<Param extends string> = { [key in Param]: string | undefined }

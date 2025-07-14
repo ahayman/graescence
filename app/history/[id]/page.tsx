@@ -1,5 +1,5 @@
 import { generateRSS, getSortedContentData } from '../../../staticGenerator/contentData'
-import History from './History'
+import History from '../../../components/Pages/History/History'
 
 export type Params = {
   id: string

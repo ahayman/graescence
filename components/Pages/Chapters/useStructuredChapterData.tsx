@@ -1,5 +1,5 @@
 import { useMemo } from 'react'
-import { ChapterMeta } from '../../staticGenerator/types'
+import { ChapterMeta } from '../../../staticGenerator/types'
 
 export type ChapterData = {
   byID: { [key: string]: number }

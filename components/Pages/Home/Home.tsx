@@ -3,19 +3,19 @@ import utilStyles from '../styles/utils.module.scss'
 import postStyles from '../styles/post.module.scss'
 import s from './Home.module.scss'
 import Link from 'next/link'
-import { classes } from '../lib/utils'
+import { classes } from '../../../lib/utils'
 import { useContext, useMemo } from 'react'
-import { ContentContext } from '../providers/Content/Provider'
-import Column from '../components/Column'
-import { ProgressContext } from '../providers/Progress/Provider'
+import { ContentContext } from '../../../providers/Content/Provider'
+import Column from '../../Column'
+import { ProgressContext } from '../../../providers/Progress/Provider'
 import Image from 'next/image'
-import Row from '../components/Row'
+import Row from '../../Row'
 
 export interface Props {
   content: string
 }
 
-const Home = ({ content }: Props) => {
+export const Home = ({ content }: Props) => {
   const { chapters, blog } = useContext(ContentContext)
   const {
     state: { currentChapterId },
@@ -61,4 +61,3 @@ const Home = ({ content }: Props) => {
     </Column>
   )
 }
-export default Home
