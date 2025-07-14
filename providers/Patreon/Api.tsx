@@ -141,9 +141,9 @@ const isResultAuthData = (data: unknown): data is AuthData => {
 }
 
 const isResultIdentity = (data: unknown): data is PatreonIdentity => {
-  if (typeof data !== 'object' || data === null) return false
-  if (!('data' in data && 'included' in data)) return false
-  if (!('type' in data && data.type === 'user')) return false
+  if (!(typeof data === 'object' && data !== null)) return false
+  if (!('data' in data && typeof data.data === 'object' && data.data !== null && 'included' in data)) return false
+  if (!('type' in data.data && data.data.type === 'user')) return false
   if (!('included' in data && data.included instanceof Array)) return false
   return true
 }

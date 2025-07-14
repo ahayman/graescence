@@ -1,12 +1,12 @@
 'use client'
 import Link from 'next/link'
-import { MouseEvent, useMemo, useRef } from 'react'
+import { useMemo, useRef } from 'react'
 import {} from '../../lib/array'
 import { classes, isNotEmpty } from '../../lib/utils'
 import styles from './nav.module.scss'
 import Image from 'next/image'
 import utilStyles from '../../styles/utils.module.scss'
-import { ReactNode, useContext, useState } from 'react'
+import { ReactNode, useContext } from 'react'
 import { ContentContext } from '../../providers/Content/Provider'
 import { ProgressContext } from '../../providers/Progress/Provider'
 import { OptionsContext } from '../../providers/Options/Provider'
@@ -109,11 +109,7 @@ const Nav = () => {
           </span>
         </Link>
       ) : null,
-      <Link
-        key={`${type}-patreon`}
-        target="_blank"
-        className={classes(styles.hLink)}
-        href="https://patreon.com/apoetsanon">
+      <Link key={`${type}-patreon`} target="_blank" className={classes(styles.hLink)} href="patreon">
         <PatreonLogo className={styles.supportLogo} />
         <span className={styles.linkTitle}>Patreon</span>
       </Link>,
