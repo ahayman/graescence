@@ -1,0 +1,7 @@
+{
+  "functions": {
+    "/**": {
+      "excludeFiles": "{content,*.cache,node_modules,public,app}/**"
+    }
+  }
+}
