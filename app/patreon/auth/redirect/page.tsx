@@ -1,4 +1,4 @@
-// import { PatreonRedirectPage } from '../../../../components/Pages/Patreon/PatreonRedirectPage'
+import { PatreonRedirectPage } from '../../../../components/Pages/Patreon/PatreonRedirectPage'
 import { fetchAuthAndIdentity } from '../../../../providers/Patreon/Api'
 
 type Params = {
@@ -14,16 +14,7 @@ export default async function PatreonRedirectHandler({ searchParams }: Props) {
     const code = (await searchParams).code
     if (!code) throw new Error('Missing authorization code. Did you deny access?')
     const result = await fetchAuthAndIdentity(code)
-    // return <PatreonRedirectPage {...result} />
-    return (
-      <div>
-        {JSON.stringify(result, null, 4)
-          .split('\n')
-          .map((line, idx) => (
-            <p key={idx}>{line}</p>
-          ))}
-      </div>
-    )
+    return <PatreonRedirectPage {...result} />
   } catch (error) {
     return (
       <div>
