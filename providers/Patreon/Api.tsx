@@ -11,3 +11,65 @@ export type AuthData = {
   scope: string
   token_type: 'Bearer'
 }
+
+export type UserData = {
+  id: string
+  patreonTier: 'free' | 'story' | 'world'
+}
+
+export const fetchAuthAndIdentity = async (code: string): Promise<{ authData: AuthData; userData: UserData }> => {
+  const authUrl = constructAuthUrl(code)
+  console.log({ code, authUrl })
+  const result = await fetch(constructAuthUrl(code), {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+    },
+  })
+  const authData = await result.json()
+  console.log({ authData })
+  if (!isResultAuthData(authData)) throw authData
+  const userData = await getUserIdentity(authData)
+  console.log({ authData, userData })
+  return { authData, userData }
+}
+
+/** === Support Functions === */
+
+const constructAuthUrl = (code: string) => {
+  const url = new URL('https://www.patreon.com/api/oauth2/token')
+  url.searchParams.set('code', code)
+  url.searchParams.set('grant_type', 'authorization_code')
+  url.searchParams.set('client_id', clientID)
+  url.searchParams.set('client_secret', clientSecret)
+  url.searchParams.set('redirect_uri', redirectUrl)
+  return url.toString()
+}
+
+const identityURL = () => {
+  const url = new URL('https://www.patreon.com/api/oauth2/v2/identity')
+  return url.toString()
+}
+
+const isResultAuthData = (data: unknown): data is AuthData => {
+  return (
+    typeof data === 'object' &&
+    data !== null &&
+    'access_token' in data &&
+    'refresh_token' in data &&
+    'expires_in' in data &&
+    'token_type' in data &&
+    'scope' in data
+  )
+}
+
+const getUserIdentity = async (auth: AuthData) => {
+  const userResult = await fetch(identityURL(), {
+    method: 'GET',
+    headers: {
+      Authorization: `Bearer ${auth.access_token}`,
+      'Content-Type': 'application/x-www-form-urlencoded',
+    },
+  })
+  return await userResult.json()
+}

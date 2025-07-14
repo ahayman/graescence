@@ -12,44 +12,6 @@ export const PatreonContext = createContext<Context>({
 
 type Props = PropsWithChildren
 
-const constructAuthUrl = (code: string) => {
-  const url = new URL('https://www.patreon.com/api/oauth2/token')
-  url.searchParams.set('code', code)
-  url.searchParams.set('grant_type', 'authorization_code')
-  url.searchParams.set('client_id', clientID)
-  url.searchParams.set('client_secret', clientSecret)
-  url.searchParams.set('redirect_uri', redirectUrl)
-  return url.toString()
-}
-
-const identityURL = () => {
-  const url = new URL('https://www.patreon.com/api/oauth2/v2/identity')
-  return url.toString()
-}
-
-const isResultAuthData = (data: unknown): data is AuthData => {
-  return (
-    typeof data === 'object' &&
-    data !== null &&
-    'access_token' in data &&
-    'refresh_token' in data &&
-    'expires_in' in data &&
-    'token_type' in data &&
-    'scope' in data
-  )
-}
-
-const getUserIdentity = async (auth: AuthData) => {
-  const userResult = await fetch(identityURL(), {
-    method: 'GET',
-    headers: {
-      Authorization: `Bearer ${auth.access_token}`,
-      'Content-Type': 'application/x-www-form-urlencoded',
-    },
-  })
-  return await userResult.json()
-}
-
 export const PatreonProvider: FunctionComponent<Props> = ({ children }) => {
   const [auth, setAuth] = useState<AuthData>()
   const [state, setState] = useState<State>({})
@@ -66,27 +28,7 @@ export const PatreonProvider: FunctionComponent<Props> = ({ children }) => {
 
   const logout = useCallback(() => {}, [])
 
-  const handleRedirectCode = useCallback(async (code: string) => {
-    setState({ user: { loginState: 'loggingIn', loginMessage: 'Retrieving auth credentials...' } })
-    try {
-      const result = await fetch(constructAuthUrl(code), {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-        },
-      })
-      const authData = await result.json()
-      if (!isResultAuthData(authData)) throw new Error(`Improper auth data object: ${authData}`)
-      setAuth(authData)
-      setState({ user: { loginState: 'loggingIn', loginMessage: 'Retrieving user identity...' } })
-      const user = await getUserIdentity(authData)
-      setState({ user })
-      console.log({ user })
-    } catch (error: any) {
-      console.log({ error })
-      setState({ error })
-    }
-  }, [])
+  const handleRedirectCode = useCallback(async (code: string) => {}, [])
 
   return (
     <PatreonContext.Provider value={{ state, actions: { login, logout, handleRedirectCode } }}>

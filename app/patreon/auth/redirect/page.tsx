@@ -1,58 +1,31 @@
-'use client'
-import Link from 'next/link'
-import { FunctionComponent, useContext, useEffect } from 'react'
-import { classes } from '../../../../lib/utils'
-import { PatreonLogo } from '../../../../components/Logos/PatreonLogo'
-import styles from '../page.module.scss'
-import ContentBlock from '../../../../components/ContentBlock/ContentBlock'
-import { PatreonContext } from '../../../../providers/Patreon/Provider'
-import { useQueryParams } from '../../../../hooks/useQueryParams'
+import { fetchAuthAndIdentity } from '../../../../providers/Patreon/Api'
+import { PatreonRedirectPage } from './PatreonRedirectPage'
 
-type QueryParam = 'code' | 'state'
-
-const PatreonRedirectHandler: FunctionComponent = () => {
-  const [params] = useQueryParams<QueryParam>()
-  const authCode = params['code']
-  const {
-    state: { user, error },
-    actions: { handleRedirectCode },
-  } = useContext(PatreonContext)
-
-  useEffect(() => {
-    console.log({ authCode })
-    if (authCode) handleRedirectCode(authCode)
-  }, [authCode, handleRedirectCode])
-
-  console.log({ user })
-  return (
-    <div className={styles.container}>
-      <Link key={`$patreon`} target="_blank" className={classes(styles.hLink)} href="https://patreon.com/apoetsanon">
-        <PatreonLogo className={styles.supportLogo} />
-        <span className={styles.linkTitle}>Patreon</span>
-      </Link>
-      <ContentBlock>
-        <span>{authCode ? `Loading... ${authCode}` : 'Something went wrong. Missing auth code.'}</span>
-        {user && (
-          <>
-            {JSON.stringify(user, null, 4)
-              .split('\n')
-              .map((line, idx) => (
-                <p key={idx}>{line}</p>
-              ))}
-          </>
-        )}
-        {error && (
-          <>
-            {JSON.stringify(error, null, 4)
-              .split('\n')
-              .map((line, idx) => (
-                <p key={idx}>{line}</p>
-              ))}
-          </>
-        )}
-      </ContentBlock>
-    </div>
-  )
+type Params = {
+  code?: string
+  state?: string
+}
+type Props = {
+  searchParams: Promise<Params>
 }
 
-export default PatreonRedirectHandler
+export default async function PatreonRedirectHandler({ searchParams }: Props) {
+  try {
+    const code = (await searchParams).code
+    if (!code) throw new Error('Missing authorization code. Did you deny access?')
+    const result = await fetchAuthAndIdentity(code)
+    return <PatreonRedirectPage {...result} />
+  } catch (error) {
+    return (
+      <div>
+        {JSON.stringify(error, null, 4)
+          .split('\n')
+          .map((line, idx) => (
+            <p key={idx}>{line}</p>
+          ))}
+      </div>
+    )
+  }
+}
+
+export const dynamic = 'force-dynamic'
