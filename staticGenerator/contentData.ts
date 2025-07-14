@@ -11,7 +11,7 @@ import { isNotEmpty } from '../lib/utils'
 import { ChapterData, ContentId, ContentType, HistoryData, LoreData, BlogData } from './types'
 
 //Must match the actual content directory name
-const contentDir = path.join(process.cwd(), 'content')
+const contentDir = path.join(process.cwd(), 'markdown-content')
 const contentTypeDir = (type: ContentType) => path.join(contentDir, type)
 const excerpt_separator = '<-- excerpt -->'
 const notes_separator = '<-- note -->'
