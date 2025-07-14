@@ -33,9 +33,9 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "app/Blog/[id]"
   ],
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "content",
   ]
 }
