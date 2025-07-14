@@ -12,10 +12,13 @@ type Props = {
 export default async function PatreonRedirectHandler({ searchParams }: Props) {
   try {
     const code = (await searchParams).code
+    console.log(`Logging in using code: ${code}`)
     if (!code) throw new Error('Missing authorization code. Did you deny access?')
     const result = await fetchAuthAndIdentity(code)
+    console.log({ result })
     return <PatreonRedirectPage {...result} />
   } catch (error) {
+    console.log({ error })
     return (
       <div>
         {JSON.stringify(error, null, 4)
