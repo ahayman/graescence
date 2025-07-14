@@ -14,13 +14,7 @@ const nextConfig: NextConfig = {
     '/**': ['./markdown-content/Other'],
   },
   outputFileTracingIncludes: {
-    '/': [
-      './markdown-content/Blog',
-      './markdown-content/Chapters',
-      './markdown-content/History',
-      './markdown-content/Lore',
-      './markdown-content/Pages',
-    ],
+    '/': ['./markdown-content/**/*.md'],
   },
   webpack: (config, { isServer }) => {
     if (isServer) {
