@@ -15,7 +15,6 @@
     "@fortawesome/free-regular-svg-icons": "^6.6.0",
     "@fortawesome/free-solid-svg-icons": "^6.6.0",
     "@fortawesome/react-fontawesome": "^0.2.2",
-    "copy-webpack-plugin": "^13.0.0",
     "date-fns": "^4.1.0",
     "eslint": "9.31.0",
     "eslint-config-next": "15.3.5",

@@ -6,7 +6,7 @@ const nextConfig: NextConfig = {
   reactStrictMode: true,
   trailingSlash: false,
   // output: 'export',
-  images: { unoptimized: true },
+  images: { unoptimized: false },
   sassOptions: {
     includePaths: [path.join(__dirname, 'styles')],
   },
