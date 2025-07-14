@@ -1,6 +1,6 @@
-/** @type {import('next').NextConfig} */
+import { NextConfig } from 'next'
 const path = require('path')
-const nextConfig = {
+const nextConfig: NextConfig = {
   reactStrictMode: true,
   trailingSlash: true,
   // output: 'export',
@@ -13,11 +13,11 @@ const nextConfig = {
   },
   outputFileTracingIncludes: {
     '/**': [
-      'markdown-content/Blog',
-      'markdown-content/Chapters',
-      'markdown-content/History',
-      'markdown-content/Lore',
-      'markdown-content/Pages',
+      './markdown-content/Blog',
+      './markdown-content/Chapters',
+      './markdown-content/History',
+      './markdown-content/Lore',
+      './markdown-content/Pages',
     ],
   },
 }
