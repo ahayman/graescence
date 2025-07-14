@@ -9,7 +9,7 @@ const nextConfig: NextConfig = {
     includePaths: [path.join(__dirname, 'styles')],
   },
   outputFileTracingExcludes: {
-    '/**': ['markdown-content/Other'],
+    '/**': ['./markdown-content/Other'],
   },
   outputFileTracingIncludes: {
     '/**': [
