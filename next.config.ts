@@ -1,4 +1,3 @@
-import CopyWebpackPlugin from 'copy-webpack-plugin'
 import { NextConfig } from 'next'
 
 const path = require('path')
