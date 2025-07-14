@@ -7,12 +7,10 @@ type Params = {
 }
 type Props = {
   searchParams: Promise<Params>
-  params: Promise<Params>
 }
 
 export default async function PatreonRedirectHandler(props: Props) {
   try {
-    const p = await props.params
     const params = await props.searchParams
     const code = params['code']
     console.log(`Logging in using code: ${code}`)

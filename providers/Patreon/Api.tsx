@@ -48,6 +48,13 @@ const constructAuthUrl = (code: string) => {
 
 const identityURL = () => {
   const url = new URL('https://www.patreon.com/api/oauth2/v2/identity')
+  url.searchParams.set('include', 'memberships.currently_entitled_tiers,memberships.campaign')
+  url.searchParams.set('fields[campaign]', 'summary,is_monthly,creation_name,url')
+  url.searchParams.set('fields[user]', 'full_name,email')
+  url.searchParams.set(
+    'fields[member]',
+    'currently_entitled_amount_cents,lifetime_support_cents,campaign_lifetime_support_cents,last_charge_status,patron_status,last_charge_date,pledge_relationship_start,pledge_cadence',
+  )
   return url.toString()
 }
 
