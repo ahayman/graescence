@@ -109,7 +109,7 @@ const Nav = () => {
           </span>
         </Link>
       ) : null,
-      <Link key={`${type}-patreon`} target="_blank" className={classes(styles.hLink)} href="patreon">
+      <Link key={`${type}-patreon`} className={classes(styles.hLink)} href="/patreon">
         <PatreonLogo className={styles.supportLogo} />
         <span className={styles.linkTitle}>Patreon</span>
       </Link>,
