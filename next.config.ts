@@ -16,37 +16,6 @@ const nextConfig: NextConfig = {
   outputFileTracingIncludes: {
     '/': ['./markdown-content/**/*.md'],
   },
-  webpack: (config, { isServer }) => {
-    if (isServer) {
-      config.plugins.push(
-        new CopyWebpackPlugin({
-          patterns: [
-            {
-              from: 'markdown-content/Blog/', // Source folder for your content files
-              to: 'markdown-content/Blog/', // Destination folder within .next/server
-            },
-            {
-              from: 'markdown-content/Chapters/', // Source folder for your content files
-              to: 'markdown-content/Chapters/', // Destination folder within .next/server
-            },
-            {
-              from: 'markdown-content/History/', // Source folder for your content files
-              to: 'markdown-content/History/', // Destination folder within .next/server
-            },
-            {
-              from: 'markdown-content/Lore/', // Source folder for your content files
-              to: 'markdown-content/Lore/', // Destination folder within .next/server
-            },
-            {
-              from: 'markdown-content/Pages/', // Source folder for your content files
-              to: 'markdown-content/Pages/', // Destination folder within .next/server
-            },
-          ],
-        }),
-      )
-    }
-    return config
-  },
 }
 
 module.exports = nextConfig
