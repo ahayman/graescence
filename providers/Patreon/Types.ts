@@ -1,4 +1,4 @@
-import { UserData } from './Api'
+import { AuthData, UserData } from './Api'
 
 export type State = {
   user?: UserData
@@ -6,9 +6,8 @@ export type State = {
 }
 
 export type Actions = {
-  login: () => void
   logout: () => void
-  handleRedirectCode: (code: string) => Promise<void>
+  handleAuth: (auth: AuthData, user: UserData) => void
 }
 
 export type Context = {

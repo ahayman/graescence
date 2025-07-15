@@ -15,6 +15,7 @@ const loginUrl = `https://www.patreon.com/oauth2/authorize?response_type=code&cl
 export const PatreonHome: FunctionComponent = () => {
   const {
     state: { user },
+    actions: { logout },
   } = useContext(PatreonContext)
   return (
     <div className={styles.container}>
@@ -26,7 +27,12 @@ export const PatreonHome: FunctionComponent = () => {
         {user ? (
           <Column>
             <span>User Logged In</span>
-            <span>{`Current Membership Tier: ${user.patreonTier ?? 'None'}`}</span>
+            <span>{`Current Membership Tier: ${user.patreonTier}`}</span>
+            <Row>
+              <div className={classes(styles.hLink, styles.loginButton)} onClick={logout}>
+                <span className={styles.linkTitle}>Unlink Patreon Account</span>
+              </div>
+            </Row>
           </Column>
         ) : (
           <Row>
