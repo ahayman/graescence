@@ -11,6 +11,10 @@ import { LoreData } from '../../../staticGenerator/types'
 import { faSliders } from '@fortawesome/free-solid-svg-icons'
 import Popover from '../../Popover/Popover'
 import { useRouter } from 'next/navigation'
+import { useContext } from 'react'
+import { PatreonContext } from '../../../providers/Patreon/Provider'
+import { userCanAccessTier } from '../../../lib/utils'
+import { AccessNeeded } from '../../Patreon/AccessNeeded'
 
 export type Props = {
   id: string
@@ -20,6 +24,10 @@ export type Props = {
 const Lore = ({ lore }: Props) => {
   const { title, date, html, tags, category } = lore
   const nav = useRouter()
+  const {
+    state: { user },
+  } = useContext(PatreonContext)
+  const hasAccess = lore.isPublic || userCanAccessTier(user, 'world')
   return (
     <div className={utilStyles.pageMain}>
       <Header type="Primary">
@@ -38,7 +46,11 @@ const Lore = ({ lore }: Props) => {
       </Header>
       <ContentBlock>
         {tags.length > 0 && <Tags tags={tags} />}
-        <div className={postStyles.post} dangerouslySetInnerHTML={{ __html: html }} />
+        {hasAccess ? (
+          <div className={postStyles.post} dangerouslySetInnerHTML={{ __html: html }} />
+        ) : (
+          <AccessNeeded tier="world" content={html} isAlreadyLinked={user !== undefined} />
+        )}
       </ContentBlock>
       <Row className={utilStyles.hPadding}>
         <span className={utilStyles.coloredLink} onClick={nav.back}>

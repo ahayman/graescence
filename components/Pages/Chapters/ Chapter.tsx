@@ -8,7 +8,7 @@ import { PointerEvent, useCallback, useContext, useEffect, useMemo, useRef, useS
 import { ContentContext } from '../../../providers/Content/Provider'
 import Header from '../../../components/Header/Header'
 import Tags from '../../../components/Tags/Tags'
-import { classes } from '../../../lib/utils'
+import { classes, userCanAccessTier } from '../../../lib/utils'
 import Link from 'next/link'
 import { ProgressContext } from '../../../providers/Progress/Provider'
 import { faNoteSticky, faListSquares, faSliders, faClose } from '@fortawesome/free-solid-svg-icons'
@@ -17,11 +17,14 @@ import ChapterLore from './ChapterLore'
 import { ChapterData, ChapterMeta, LoreData } from '../../../staticGenerator/types'
 import Column from '../../../components/Column'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { useStateDebouncer } from '../../../lib/useStateDebouncer'
+import { useStateDebouncer } from '../../../hooks/useStateDebouncer'
 import { ScrollIndicator } from '../../../components/ScrollIndicator/ScrollIndicator'
 import { OptionsContext } from '../../../providers/Options/Provider'
 import { DisplayContext } from '../../../providers/Display/Provider'
 import { ReadingOptions as ProviderReadingOptions } from '../../../providers/Options/Types'
+import { PatreonContext } from '../../../providers/Patreon/Provider'
+import { AccessNeeded } from '../../Patreon/AccessNeeded'
+import { ExcerptItem } from '../../ExcerptItem/ExcerptItem'
 
 export type Props = {
   id: string
@@ -36,21 +39,11 @@ type LorePopoverState = {
 type BoundingSize = { width: number; height: number }
 
 const ChapterLoreItem = ({ lore, dismiss }: { lore: LoreData; dismiss: () => void }) => (
-  <Column key={lore.id} className={styles.lorePopoverContainer}>
-    <Header type="Secondary" title={lore.title} className={styles.lorePopoverHeader}>
+  <Column>
+    <Row className={styles.lorePopoverHeader} horizontal="end">
       <FontAwesomeIcon icon={faClose} onClick={dismiss} />
-    </Header>
-    <div className={styles.lorePopoverContent}>
-      <div className={styles.tagsRow}>
-        <Tags tags={lore.tags} />
-      </div>
-      <div className={postStyles.post} dangerouslySetInnerHTML={{ __html: lore.excerpt }} />
-      <Row horizontal="end">
-        <Link className={utilStyles.coloredLink} href={`/lore/${lore.id}`}>
-          {'More →'}
-        </Link>
-      </Row>
-    </div>
+    </Row>
+    <ExcerptItem tier="world" {...lore} />
   </Column>
 )
 
@@ -72,6 +65,9 @@ const Chapter = ({ id, chapter }: Props) => {
     { contentSize: { width: 0, height: 0 }, fullScreen, readingOptions },
     500,
   )
+  const {
+    state: { user },
+  } = useContext(PatreonContext)
   const [lorePopover, setLorePopover] = useState<LorePopoverState>()
   const [pageCount, setPageCount] = useState(0)
   const { chapters } = useContext(ContentContext)
@@ -91,6 +87,7 @@ const Chapter = ({ id, chapter }: Props) => {
   const chapterIdx = useMemo(() => chapters.findIndex(c => c.id === id), [chapters, id])
   const nextChapter: ChapterMeta | undefined = chapters[chapterIdx + 1]
   const prevChapter: ChapterMeta | undefined = chapters[chapterIdx - 1]
+  const hasAccess = chapter.isPublic || userCanAccessTier(user, 'story')
 
   const scrollTo = useCallback((progress: number) => {
     const scrollable = scrolledContentRef.current
@@ -217,7 +214,8 @@ const Chapter = ({ id, chapter }: Props) => {
       if (readingOptions.pageLayout !== 'paged') return
       const chapterMeasure = pagedMeasureRef.current
       const pagedContent = pagedContentRef.current
-      if (!html || !chapterMeasure || !pagedContent || contentSize.height <= 0 || contentSize.width <= 0) return
+      if (!html || !chapterMeasure || !pagedContent || contentSize.height <= 0 || contentSize.width <= 0 || !hasAccess)
+        return
 
       const pages: HTMLDivElement[] = []
       let carryOverTags: Tag[] = []
@@ -331,6 +329,36 @@ const Chapter = ({ id, chapter }: Props) => {
     </Column>
   )
 
+  const chapterContent = () => (
+    <>
+      <div
+        ref={pagedMeasureRef}
+        onResize={onResize}
+        id="ChapterMeasure"
+        className={classes(postStyles.post, styles.chapterMeasure)}
+      />
+      <div
+        ref={pagedContentRef}
+        id="PagedContent"
+        className={classes(
+          postStyles.post,
+          styles.pagedContent,
+          readingOptions.pageLayout === 'paged' ? styles.contentVisible : styles.contentHidden,
+        )}
+      />
+      <div
+        ref={scrolledContentRef}
+        id="ScrolledContent"
+        className={classes(
+          postStyles.post,
+          styles.scrolledContent,
+          readingOptions.pageLayout === 'verticalScroll' ? styles.contentVisible : styles.contentHidden,
+        )}
+        dangerouslySetInnerHTML={{ __html: html }}
+      />
+    </>
+  )
+
   return (
     <div id="chapter-main" onResize={onResize} className={styles.main}>
       <Header type="Primary">
@@ -358,31 +386,11 @@ const Chapter = ({ id, chapter }: Props) => {
         </Row>
       </Header>
       <div onResize={onResize} className={classes(styles.chapterContainer)}>
-        <div
-          ref={pagedMeasureRef}
-          onResize={onResize}
-          id="ChapterMeasure"
-          className={classes(postStyles.post, styles.chapterMeasure)}
-        />
-        <div
-          ref={pagedContentRef}
-          id="PagedContent"
-          className={classes(
-            postStyles.post,
-            styles.pagedContent,
-            readingOptions.pageLayout === 'paged' ? styles.contentVisible : styles.contentHidden,
-          )}
-        />
-        <div
-          ref={scrolledContentRef}
-          id="ScrolledContent"
-          className={classes(
-            postStyles.post,
-            styles.scrolledContent,
-            readingOptions.pageLayout === 'verticalScroll' ? styles.contentVisible : styles.contentHidden,
-          )}
-          dangerouslySetInnerHTML={{ __html: html }}
-        />
+        {hasAccess ? (
+          chapterContent()
+        ) : (
+          <AccessNeeded content={html} tier="story" isAlreadyLinked={user !== undefined} />
+        )}
       </div>
       {chapterNav()}
       {lorePopover && LorePopover(lorePopover.lore)}

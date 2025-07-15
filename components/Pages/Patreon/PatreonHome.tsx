@@ -1,47 +1,102 @@
 'use client'
 import Link from 'next/link'
-import { FunctionComponent, useContext } from 'react'
-import { classes } from '../../../lib/utils'
+import { FunctionComponent, useContext, useState } from 'react'
+import { classes, TierData } from '../../../lib/utils'
 import { PatreonLogo } from '../../../components/Logos/PatreonLogo'
-import styles from './page.module.scss'
 import ContentBlock from '../../../components/ContentBlock/ContentBlock'
 import { PatreonContext } from '../../../providers/Patreon/Provider'
 import Column from '../../../components/Column'
 import Row from '../../../components/Row'
-import { clientID, redirectUrl } from '../../../providers/Patreon/Api'
+import { getLoginUrl, UserData } from '../../../providers/Patreon/Api'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons'
 
-const loginUrl = `https://www.patreon.com/oauth2/authorize?response_type=code&client_id=${clientID}&redirect_uri=${redirectUrl}`
+import utilStyles from '../../../styles/utils.module.scss'
+import postStyles from '../../../styles/post.module.scss'
+import styles from './page.module.scss'
+
+import { content } from './content'
+import { usePathname } from 'next/navigation'
 
 export const PatreonHome: FunctionComponent = () => {
   const {
     state: { user },
     actions: { logout },
   } = useContext(PatreonContext)
+  const path = usePathname() ?? ''
+  const [privacyExpanded, setPrivacyExpanded] = useState(false)
   return (
-    <div className={styles.container}>
-      <Link key={`$patreon`} target="_blank" className={classes(styles.hLink)} href="https://patreon.com/apoetsanon">
+    <Column horizontal="center" className={classes(utilStyles.pageMain)}>
+      <Link key={`$patreon`} className={classes(styles.hLink)} href="https://patreon.com/apoetsanon">
         <PatreonLogo className={styles.supportLogo} />
-        <span className={styles.linkTitle}>Patreon</span>
+        <span className={styles.patreonTitle}>{content.home.title}</span>
       </Link>
-      <ContentBlock>
-        {user ? (
-          <Column>
-            <span>User Logged In</span>
-            <span>{`Current Membership Tier: ${user.patreonTier}`}</span>
-            <Row>
-              <div className={classes(styles.hLink, styles.loginButton)} onClick={logout}>
-                <span className={styles.linkTitle}>Unlink Patreon Account</span>
-              </div>
-            </Row>
-          </Column>
-        ) : (
-          <Row>
-            <Link className={classes(styles.hLink, styles.loginButton)} href={loginUrl}>
-              <span className={styles.linkTitle}>Link Patreon Account</span>
-            </Link>
-          </Row>
+      <ContentBlock className={styles.contentBlock}>
+        <div className={postStyles.post}>
+          {content.home.content.map((c, idx) => (
+            <p key={`${content.home.title}-content-${idx}`} dangerouslySetInnerHTML={{ __html: c }} />
+          ))}
+        </div>
+      </ContentBlock>
+      <ContentBlock className={styles.contentBlock}>
+        {user && (
+          <>
+            <h3>{`Welcome ${user.fullName}!`}</h3>
+            <TierBlock tier={user.patreonTier} />
+          </>
         )}
       </ContentBlock>
-    </div>
+      {user ? (
+        <Row>
+          <div className={classes(styles.hLink, styles.logoutButton)} onClick={logout}>
+            <span className={styles.linkTitle}>Unlink Patreon Account</span>
+          </div>
+        </Row>
+      ) : (
+        <Row>
+          <Link className={classes(styles.hLink, styles.loginButton)} href={getLoginUrl(path)}>
+            <span className={styles.linkTitle}>Link Patreon Account</span>
+          </Link>
+        </Row>
+      )}
+      <ContentBlock className={styles.contentBlock}>
+        <PrivacyPolicy expanded={privacyExpanded} toggleState={() => setPrivacyExpanded(c => !c)} />
+      </ContentBlock>
+    </Column>
   )
 }
+
+const TierBlock: FunctionComponent<{ tier: UserData['patreonTier'] }> = ({ tier }) => (
+  <Column className={styles.tierBlock}>
+    <h2>
+      <Row className={styles.tierHeaderRow} vertical="center">
+        <FontAwesomeIcon className={styles.tierIcon} icon={TierData[tier].icon} />
+        <span>{content[tier].title}</span>
+      </Row>
+    </h2>
+    <div className={postStyles.post}>
+      {content[tier].content.map((c, idx) => (
+        <p key={`${tier}-content-${idx}`}>{c}</p>
+      ))}
+    </div>
+  </Column>
+)
+
+const PrivacyPolicy: FunctionComponent<{ expanded: boolean; toggleState: () => void }> = ({
+  expanded,
+  toggleState,
+}) => (
+  <Column>
+    <div onClick={toggleState}>
+      <Row className={styles.privacyHeaderRow} vertical="center">
+        <FontAwesomeIcon className={styles.tierIcon} icon={expanded ? faChevronDown : faChevronUp} />
+        <span>{content['privacy'].title}</span>
+      </Row>
+    </div>
+    <div className={classes(postStyles.post, expanded ? styles.expanded : styles.collapsed, styles.privacyContent)}>
+      {content['privacy'].content.map((c, idx) => (
+        <p key={`privacy-content-${idx}`}>{c}</p>
+      ))}
+    </div>
+  </Column>
+)

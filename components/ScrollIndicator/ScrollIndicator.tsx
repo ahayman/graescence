@@ -102,6 +102,7 @@ export const ScrollIndicator: FunctionComponent<Props> = ({
     }
     return (
       <HoverIndicator
+        key={`hover-indicator-${idx}`}
         style={{ top: 3, left }}
         page={idx + 1}
         visible={visible}

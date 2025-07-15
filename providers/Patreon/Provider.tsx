@@ -1,10 +1,8 @@
 'use client'
 import { createContext, FunctionComponent, PropsWithChildren, useCallback, useEffect, useState } from 'react'
 import { Context, State } from './Types'
-import { AuthData, clientID, clientSecret, redirectUrl, UserData } from './Api'
-import { Global, Storage } from '../../lib/globals'
-import { json } from 'stream/consumers'
-import { setupFsCheck } from 'next/dist/server/lib/router-utils/filesystem'
+import { AuthData, UserData } from './Api'
+import { Storage } from '../../lib/globals'
 
 const emptyFn = async () => undefined
 export const PatreonContext = createContext<Context>({

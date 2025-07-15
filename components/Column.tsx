@@ -8,6 +8,7 @@ interface Props extends React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElem
   horizontal?: Alignment
   vertical?: Alignment
   scrollable?: boolean
+  gap?: number
 }
 
 const getAlignment = (direction: 'alignItems' | 'justifyContent', alignment?: Alignment) => {
@@ -35,7 +36,7 @@ const getAlignment = (direction: 'alignItems' | 'justifyContent', alignment?: Al
   return { [direction]: flexAlign }
 }
 
-const Column = ({ scrollable, horizontal, vertical, children, ...props }: Props) => (
+const Column = ({ scrollable, horizontal, vertical, children, gap, ...props }: Props) => (
   <div
     {...props}
     style={{
@@ -45,6 +46,7 @@ const Column = ({ scrollable, horizontal, vertical, children, ...props }: Props)
       ...getAlignment('justifyContent', vertical),
       ...(props.style || {}),
       ...(scrollable ? { overflow: 'scroll' } : {}),
+      ...(gap !== undefined ? { gap } : {}),
     }}>
     {children}
   </div>

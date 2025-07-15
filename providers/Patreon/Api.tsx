@@ -1,12 +1,17 @@
-export const clientID = 'o1E-8WNlsQW2HCPxXlsNtQl_IkHwoX3BpXc5gvq_e0L-0ihs0SQdhWSTlt0zge0e'
-export const clientSecret = 'qxjMD75ooFVMwW6TOPPuffPYbO3m_udYzL4hmPgZtEL3tUUkVhcRjgqP0xxGvgiN'
-export const redirectUrl = 'https://graescence.com/patreon/auth/redirect'
+const clientID = 'o1E-8WNlsQW2HCPxXlsNtQl_IkHwoX3BpXc5gvq_e0L-0ihs0SQdhWSTlt0zge0e'
+const clientSecret = 'qxjMD75ooFVMwW6TOPPuffPYbO3m_udYzL4hmPgZtEL3tUUkVhcRjgqP0xxGvgiN'
+const redirectUrl = 'https://graescence.com/patreon/auth/redirect'
 const creatorAccessToken = '8OHit6xWIQQ6wFB-88S4Oehl3VM9bd6Hhzh9E9LVS6Q'
 const creatorRefreshToken = '312Ttm1tXFw49eqkDwAyFAaFBewO3Mn5C1xUohnuUHI'
 
 const graescenceCampaignId = '2708199'
 const worldTier = '3580309'
 const storyTier = '10126695'
+
+export const getLoginUrl = (currentPath: string): string =>
+  `https://www.patreon.com/oauth2/authorize?response_type=code&client_id=${clientID}&redirect_uri=${encodeURIComponent(
+    redirectUrl,
+  )}&state=${encodeURIComponent(currentPath)}`
 
 type PatreonResource<Type extends string, Data, Relationships = {}> = {
   id: string
@@ -81,11 +86,13 @@ export type AuthData = {
   token_type: 'Bearer'
 }
 
+export type AccessTier = 'free' | 'story' | 'world'
+
 export type UserData = {
   id: string
   email?: string
   fullName: string
-  patreonTier: 'free' | 'story' | 'world'
+  patreonTier: AccessTier
 }
 
 export const fetchAuthAndIdentity = async (code: string): Promise<{ authData: AuthData; userData: UserData }> => {

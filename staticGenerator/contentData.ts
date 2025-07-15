@@ -96,6 +96,7 @@ const extractData = async <T extends ContentType>(
     case 'Chapters': {
       const volumeNo = Number.parseInt(parent.split(' ')[1].split(' - ')[0])
       const chapterNo = Number.parseInt(fileName.split(' ')[0])
+      const isPublic = Boolean(data.isPublic ?? false)
       const tagData = data.tags
       const tags: string[] = (
         (typeof tagData === 'string' ? tagData.split(/,\s*/) : tagData instanceof Array ? tagData : []) as string[]
@@ -128,6 +129,7 @@ const extractData = async <T extends ContentType>(
         html: highlightedHtml,
         volumeName,
         notes,
+        isPublic,
         lore: chapterLore,
       }
       return extract as ContentData[T]
@@ -139,7 +141,8 @@ const extractData = async <T extends ContentType>(
         .use(HTML)
         .process(front.content.replace(excerpt_separator, ''))
       const html = processedContent.toString()
-      const extract: ContentData['Blog'] = { type: 'blog', id, title, date, excerpt, html }
+      const isPublic = true
+      const extract: ContentData['Blog'] = { type: 'blog', id, title, date, excerpt, html, isPublic }
       return extract as ContentData[T]
     }
     case 'History': {
@@ -147,6 +150,7 @@ const extractData = async <T extends ContentType>(
       const startDate = data.startDate instanceof Date ? data.startDate.toISOString() : data.startDate?.toString()
       const endDate = data.endDate instanceof Date ? data.endDate.toISOString() : data.endDate?.toString()
       const turning = data.turning
+      const isPublic = Boolean(data.isPublic ?? false)
       const tags: string[] = (
         (typeof tagData === 'string' ? tagData.split(/,\s*/) : tagData instanceof Array ? tagData : []) as string[]
       ).map(t => t.replaceAll('_', ' '))
@@ -169,11 +173,13 @@ const extractData = async <T extends ContentType>(
         tags,
         html,
         excerpt,
+        isPublic,
       }
       return extract as ContentData[T]
     }
     case 'Lore': {
       const tagData = data.tags
+      const isPublic = Boolean(data.isPublic ?? false)
       const tags: string[] = (
         (typeof tagData === 'string' ? tagData.split(/,\s*/) : tagData instanceof Array ? tagData : []) as string[]
       ).map(t => t.replaceAll('_', ' '))
@@ -184,7 +190,17 @@ const extractData = async <T extends ContentType>(
 
       const html = processedContent.toString()
       const excerpt = await getExcerpt(front)
-      const extract: ContentData['Lore'] = { type: 'lore', id, title, date, category: parent, tags, html, excerpt }
+      const extract: ContentData['Lore'] = {
+        type: 'lore',
+        id,
+        title,
+        date,
+        category: parent,
+        tags,
+        html,
+        excerpt,
+        isPublic,
+      }
       return extract as ContentData[T]
     }
   }

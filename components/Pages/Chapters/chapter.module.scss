@@ -14,7 +14,6 @@
   overflow: hidden;
 }
 
-
 .readOptions {
   position: absolute;
   right: 20pt;
@@ -105,20 +104,16 @@
   bottom: 0;
   padding-left: 40pt;
   padding-right: 40pt;
+  background-color: var(--skim-background);
   @include mobile {
     padding-left: 5pt;
     padding-right: 5pt;
   }
-  background-color: var(--skim-background);
 }
 
 .lorePopoverHeader {
-  border-top-right-radius: 10pt;
-  border-top-left-radius: 10pt;
-  flex-direction: row;
-  display: flex;
-  flex: 1;
-  justify-content: space-between;
+  margin-right: 12pt;
+  margin-bottom: -8pt;
 }
 
 .tagsRow {

@@ -1,3 +1,6 @@
+import { faGlobeAmericas, faPenFancy, faSmile } from '@fortawesome/free-solid-svg-icons'
+import { AccessTier } from '../providers/Patreon/Api'
+
 export const isNotEmpty = <T>(item: T | undefined | null): item is T => {
   return item !== undefined && item !== null
 }
@@ -38,4 +41,35 @@ export const TypedKeys = <T extends object>(object: T): ObjectKeys<T> => {
 
 export interface ObjectConstructor {
   keys<T>(o: T): ObjectKeys<T>
+}
+
+export const userCanAccessTier = (user: { patreonTier?: string } | undefined, tier: AccessTier): boolean => {
+  if (!user) {
+    return tier === 'free'
+  }
+  switch (tier) {
+    case 'free':
+      return true
+    case 'story':
+      return user.patreonTier === 'story' || user.patreonTier === 'world'
+    case 'world':
+      return user.patreonTier === 'world'
+    default:
+      return false
+  }
+}
+
+export const TierData = {
+  free: {
+    title: 'Free',
+    icon: faSmile,
+  },
+  story: {
+    title: 'Story',
+    icon: faPenFancy,
+  },
+  world: {
+    title: 'World',
+    icon: faGlobeAmericas,
+  },
 }

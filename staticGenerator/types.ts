@@ -10,6 +10,7 @@ export type ContentId = {
 export type Meta = ContentId & {
   title: string
   date: string
+  isPublic: boolean
 }
 
 /** === CHATPER === */

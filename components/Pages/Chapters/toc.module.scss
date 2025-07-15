@@ -28,7 +28,12 @@
   }
 }
 
+.accessContainer {
+  margin-right: 10pt;
+}
+
 .chapterTitle {
+vertical-align: center;
   margin-right: 5pt;
     transition: transform 300ms ease-in-out;
 
@@ -50,4 +55,10 @@
 .chapterRow {
   margin: 5pt 0pt;
   align-self: stretch;
+}
+
+.storyIcon {
+  font-size: 0.8rem;
+  color: var(--accent-color);
+  margin-right: 5pt;
 }

@@ -18,7 +18,9 @@ import { includeHistoryItem } from './utils/includeHistoryItem'
 import { getSortedHistoryData, SortDirection } from './utils/sortedHistoryData'
 import { useQueryParams } from '../../../hooks/useQueryParams'
 import Tags from '../../Tags/Tags'
-import { classes } from '../../../lib/utils'
+import { classes, userCanAccessTier } from '../../../lib/utils'
+import { PatreonContext } from '../../../providers/Patreon/Provider'
+import { AccessNeeded } from '../../Patreon/AccessNeeded'
 
 export type Props = {
   id: string
@@ -34,8 +36,12 @@ const History = ({ item }: Props) => {
   const tag = params['tag']
   const paramFilter = params['filter']
   const sort: SortDirection = params['sort'] === 'ascending' ? 'ascending' : 'descending'
+  const {
+    state: { user },
+  } = useContext(PatreonContext)
   const { history } = useContext(ContentContext)
   const { data } = useCategoricalFilter(history, includeHistoryItem, paramFilter, tag)
+  const hasAccess = item.isPublic || userCanAccessTier(user, 'world')
 
   const [prev, next] = useMemo((): [HistoryMeta | undefined, HistoryMeta | undefined] => {
     const sorted = getSortedHistoryData(data, sort).flatMap(d => d.data)
@@ -69,7 +75,11 @@ const History = ({ item }: Props) => {
         </Row>
       </Header>
       <ContentBlock>
-        <div className={postStyles.post} dangerouslySetInnerHTML={{ __html: html }} />
+        {hasAccess ? (
+          <div className={postStyles.post} dangerouslySetInnerHTML={{ __html: html }} />
+        ) : (
+          <AccessNeeded tier="world" content={html} isAlreadyLinked={user !== undefined} />
+        )}
       </ContentBlock>
       <Row horizontal="space-between" vertical="center" className={utilStyles.hPadding}>
         {prev ? (

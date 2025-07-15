@@ -43,6 +43,7 @@ const HistoryHub = ({ historyData }: Props) => {
         {viewData.data.map(item => (
           <ExcerptItem
             key={item.id}
+            tier="world"
             {...item}
             tags={item.turning ? [item.turning] : undefined}
             subTitle={`${item.startDate} → ${item.endDate}`}

@@ -1,5 +1,5 @@
 'use client'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { LoreExcerpt } from '../../../staticGenerator/types'
 import Header from '../../Header/Header'
 import Row from '../../Row'
@@ -47,7 +47,7 @@ const LoreHub = ({ loreData }: Props) => {
       <section key={viewData.category}>
         <Header title={viewData.category} type="Secondary" />
         {viewData.data.map(item => (
-          <ExcerptItem key={item.id} {...item} />
+          <ExcerptItem tier="world" key={item.id} {...item} />
         ))}
       </section>
     ))
@@ -56,7 +56,7 @@ const LoreHub = ({ loreData }: Props) => {
     const allData = data
       .flatMap(d => d.data)
       .toSorted((l, r) => new Date(r.date).getTime() - new Date(l.date).getTime())
-    return allData.map(item => <ExcerptItem key={item.id} {...item} />)
+    return allData.map(item => <ExcerptItem tier="world" key={item.id} {...item} />)
   }
 
   useEffect(() => setParam('filter', { filter, tag: currentCategory }), [currentCategory, filter, setParam])

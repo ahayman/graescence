@@ -13,11 +13,12 @@ export default async function PatreonRedirectHandler(props: Props) {
   try {
     const params = await props.searchParams
     const code = params['code']
+    const redirectUrl = params['state'] || '/patreon'
     console.log(`Logging in using code: ${code}`)
     if (!code) throw new Error('Missing authorization code. Did you deny access?')
     const result = await fetchAuthAndIdentity(code)
     console.log({ result })
-    return <PatreonRedirectPage {...result} />
+    return <PatreonRedirectPage {...result} redirectUrl={redirectUrl} />
   } catch (error) {
     console.log({ error })
     return (

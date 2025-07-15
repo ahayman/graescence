@@ -11,16 +11,19 @@ import { useRouter } from 'next/navigation'
 type Props = {
   authData: AuthData
   userData: UserData
+  redirectUrl: string
 }
 
-export const PatreonRedirectPage: FunctionComponent<Props> = ({ authData, userData }) => {
-  const { actions } = useContext(PatreonContext)
+export const PatreonRedirectPage: FunctionComponent<Props> = ({ authData, userData, redirectUrl }) => {
+  const {
+    actions: { handleAuth },
+  } = useContext(PatreonContext)
   const router = useRouter()
 
   useEffect(() => {
-    actions.handleAuth(authData, userData)
-    router.replace('/patreon')
-  }, [authData, userData])
+    handleAuth(authData, userData)
+    router.replace(redirectUrl)
+  }, [authData, userData, handleAuth, router, redirectUrl])
 
   return (
     <div className={styles.container}>
