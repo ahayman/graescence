@@ -6,6 +6,7 @@ import { classes } from '../../lib/utils'
 import styles from './Content.module.scss'
 import popoverStyles from '../Popover/Popover.module.scss'
 import { usePathname } from 'next/navigation'
+import { PatreonContext } from '../../providers/Patreon/Provider'
 
 type Props = {
   children: ReactNode
@@ -16,6 +17,7 @@ const Content = ({ children }: Props) => {
     state: { popover },
     actions: { closePopover },
   } = useContext(DisplayContext)
+  const { logs } = useContext(PatreonContext)
   const contId = useId()
   const path = usePathname()
 
@@ -32,6 +34,20 @@ const Content = ({ children }: Props) => {
     <div className={styles.mainContainer}>
       <div id="main-content-container" className={styles.main}>
         {children}
+        <div
+          style={{
+            position: 'absolute',
+            bottom: 20,
+            left: 0,
+            height: 100,
+            overflow: 'scroll',
+            zIndex: 100000,
+            backgroundColor: 'darkgoldenrod',
+          }}>
+          {logs.map((l, i) => (
+            <p key={`log-${i}`}>{l}</p>
+          ))}
+        </div>
       </div>
       <div
         id={contId}

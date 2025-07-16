@@ -12,6 +12,7 @@ const emptyFn = async () => undefined
 export const PatreonContext = createContext<Context>({
   state: {},
   actions: { logout: emptyFn, signIn: emptyFn },
+  logs: [],
 })
 
 type Props = PropsWithChildren
@@ -20,12 +21,14 @@ const channel = new BroadcastChannel(SW_BroadcastChannel)
 
 export const PatreonProvider: FunctionComponent<Props> = ({ children }) => {
   const [state, setState] = useState<State>({})
+  const [logs, setLogs] = useState<string[]>([])
   const path = usePathname()
 
   useEffect(() => {
     const storedUser = Storage.get('--patreon-user-data')
     if (storedUser) setState({ user: JSON.parse(storedUser) })
     channel.onmessage = (event: MessageEvent<BroadCastMessage>) => {
+      setLogs(l => [...l, `Provider Message Received: ${JSON.stringify(event.data)}`])
       console.log(`Provider Message Received: `, event.data)
       if (event.data.type === 'update-patreon-data') {
         const data = event.data.data
@@ -52,6 +55,7 @@ export const PatreonProvider: FunctionComponent<Props> = ({ children }) => {
   }, [])
 
   useEffect(() => {
+    setLogs(l => [...l, `Posting 'get-patreon-data' message`])
     channel.postMessage({ type: 'get-patreon-data' })
   }, [path])
 
@@ -72,5 +76,7 @@ export const PatreonProvider: FunctionComponent<Props> = ({ children }) => {
     }
   }, [])
 
-  return <PatreonContext.Provider value={{ state, actions: { logout, signIn } }}>{children}</PatreonContext.Provider>
+  return (
+    <PatreonContext.Provider value={{ logs, state, actions: { logout, signIn } }}>{children}</PatreonContext.Provider>
+  )
 }
