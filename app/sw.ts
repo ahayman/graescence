@@ -2,7 +2,7 @@ import { defaultCache } from '@serwist/next/worker'
 import type { PrecacheEntry, SerwistGlobalConfig } from 'serwist'
 import { Serwist } from 'serwist'
 import { SHARED_DATA_ENDPOINT } from '../api/patreon/types'
-import { BroadCastMessage } from './types'
+import { BroadCastMessage, SW_BroadcastChannel } from './types'
 
 // // This declares the value of `injectionPoint` to TypeScript.
 // // `injectionPoint` is the string that will be replaced by the
@@ -30,13 +30,23 @@ serwist.addEventListeners()
 self.addEventListener('activate', event => {
   console.log('--------Service Worker activated--------')
   event.waitUntil(self.clients.claim())
+  caches.open(SHARED_DATA_ENDPOINT).then(function (cache) {
+    console.log('Cache opened:', cache)
+    cache.match(SHARED_DATA_ENDPOINT).then(function (response) {
+      console.log('Cache match response:', response)
+      channel.postMessage({
+        type: 'return-patreon-data',
+        data: response ? response.json() : {},
+      })
+    })
+  })
 })
 
 self.addEventListener('install', function (event) {
   self.skipWaiting()
 })
 
-const channel = new BroadcastChannel('sw-channel')
+const channel = new BroadcastChannel(SW_BroadcastChannel)
 
 channel.onmessage = (event: MessageEvent<BroadCastMessage>) => {
   console.log('Message from service worker:', event.data)
@@ -54,8 +64,11 @@ channel.onmessage = (event: MessageEvent<BroadCastMessage>) => {
       {
         caches.open(SHARED_DATA_ENDPOINT).then(function (cache) {
           cache.match(SHARED_DATA_ENDPOINT).then(function (response) {
-            channel.postMessage({ type: 'return-patreon-data', data: response ? response.json() : {} })
-          }) || new Response('{}')
+            channel.postMessage({
+              type: 'return-patreon-data',
+              data: response ? response.json() : {},
+            })
+          })
         })
       }
       break

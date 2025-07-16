@@ -2,6 +2,8 @@ import { AuthWithExpiration, UserData } from '../api/patreon/types'
 
 type CachedData = { auth: AuthWithExpiration; user: UserData }
 
+export const SW_BroadcastChannel = 'sw-channel'
+
 export type BroadCastMessage =
   | {
       type: 'update-patreon-data'

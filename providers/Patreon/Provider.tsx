@@ -5,7 +5,7 @@ import { Storage } from '../../lib/globals'
 import { fetchAuthSignIn, fetchIdentity } from './Api'
 import { AuthCookieKey, AuthWithExpiration, SHARED_DATA_ENDPOINT, UserData } from '../../api/patreon/types'
 import { getCookie, setCookie } from 'cookies-next/client'
-import { BroadCastMessage } from '../../app/types'
+import { BroadCastMessage, SW_BroadcastChannel } from '../../app/types'
 import { usePathname } from 'next/navigation'
 
 const emptyFn = async () => undefined
@@ -16,7 +16,7 @@ export const PatreonContext = createContext<Context>({
 
 type Props = PropsWithChildren
 
-const channel = new BroadcastChannel('sw-channel')
+const channel = new BroadcastChannel(SW_BroadcastChannel)
 
 export const PatreonProvider: FunctionComponent<Props> = ({ children }) => {
   const [state, setState] = useState<State>({})
@@ -26,6 +26,7 @@ export const PatreonProvider: FunctionComponent<Props> = ({ children }) => {
     const storedUser = Storage.get('--patreon-user-data')
     if (storedUser) setState({ user: JSON.parse(storedUser) })
     channel.onmessage = (event: MessageEvent<BroadCastMessage>) => {
+      console.log(`Provider Message Received: `, event.data)
       if (event.data.type === 'return-patreon-data') {
         const data = event.data.data
         if ('user' in data && (!storedUser || JSON.parse(storedUser).updatedTime < data.user.updatedTime)) {
