@@ -7,7 +7,8 @@ export type AuthData = {
 }
 
 export type AuthWithExpiration = AuthData & {
-  expireDate: number
+  expireDateTime: number
+  updatedAtTime: number
 }
 
 type PatreonResource<Type extends string, Data, Relationships = {}> = {
@@ -83,4 +84,9 @@ export type UserData = {
   fullName: string
   patreonTier: AccessTier
   updatedAt: string
+  updatedTime: number
 }
+
+export const AuthCookieKey = '--patreon-auth-data'
+
+export const SHARED_DATA_ENDPOINT = '/shared-data'

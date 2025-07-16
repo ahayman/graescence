@@ -1,5 +1,5 @@
 import { cookies } from 'next/headers'
-import { AuthData, AuthWithExpiration } from '../types'
+import { AuthCookieKey, AuthData, AuthWithExpiration } from '../types'
 
 export const GET = async (request: Request) => {
   const requestUrl = new URL(request.url)
@@ -39,15 +39,16 @@ export const GET = async (request: Request) => {
     })
   }
 
-  const now = new Date()
-  const expireDate = now.getTime() + authData.expires_in * 1000
+  const now = Date.now()
+  const expireDateTime = now + authData.expires_in * 1000
   const auth: AuthWithExpiration = {
     ...authData,
-    expireDate,
+    expireDateTime,
+    updatedAtTime: now,
   }
 
   const cookieStore = await cookies()
-  cookieStore.set('--patreon-auth-data', JSON.stringify(auth), {
+  cookieStore.set(AuthCookieKey, JSON.stringify(auth), {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
     sameSite: 'strict',

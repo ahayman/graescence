@@ -1,5 +1,8 @@
 {
   "compilerOptions": {
+    "types": [
+      "@serwist/next/typings"
+    ],
     "plugins": [
       {
         "name": "typescript-plugin-css-modules"
@@ -12,7 +15,8 @@
     "lib": [
       "dom",
       "dom.iterable",
-      "esnext"
+      "esnext",
+      "webworker"
     ],
     "allowJs": true,
     "skipLibCheck": true,
@@ -37,5 +41,6 @@
   "exclude": [
     "node_modules",
     "markdown-content",
+    "public/sw.js",
   ]
 }

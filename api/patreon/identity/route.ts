@@ -1,5 +1,5 @@
 import { cookies } from 'next/headers'
-import { AccessTier, Member, PatreonIdentity, UserData } from '../types'
+import { AccessTier, AuthCookieKey, Member, PatreonIdentity, UserData } from '../types'
 
 export const GET = async () => {
   const url = new URL('https://www.patreon.com/api/oauth2/v2/identity')
@@ -13,7 +13,7 @@ export const GET = async () => {
   url.searchParams.set('fields[tier]', 'description,published,title,url,amount_cents')
 
   const cookieStore = await cookies()
-  const authCookie = cookieStore.get('--patreon-auth-data')
+  const authCookie = cookieStore.get(AuthCookieKey)
   if (!authCookie) {
     return new Response(JSON.stringify({ message: 'Unauthorized' }), {
       headers: { 'Content-Type': 'application/json' },
@@ -54,6 +54,7 @@ export const GET = async () => {
     fullName: data.data.attributes.full_name,
     patreonTier: getSubscriptionsTier(data.included),
     updatedAt: new Date().toISOString(),
+    updatedTime: Date.now(),
   }
 
   return new Response(JSON.stringify(userData), {

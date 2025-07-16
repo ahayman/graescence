@@ -268,12 +268,6 @@ export const generateRSS = async (type: ContentType) => {
   const feed = new Feed({
     id: title,
     title,
-    namespaces: [
-      {
-        name: 'xmlns:readform',
-        link: 'https://readform.app/faq',
-      },
-    ],
     description: `RSS Feed of ${type} from the Graescence Webnovel`,
     copyright: `All rights reserved ${date.getFullYear()}, apotesanon`,
     link: siteUrl,
