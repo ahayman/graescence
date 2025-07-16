@@ -49,7 +49,7 @@ self.addEventListener('install', function (event) {
 const channel = new BroadcastChannel(SW_BroadcastChannel)
 
 channel.onmessage = (event: MessageEvent<BroadCastMessage>) => {
-  console.log('Message from service worker:', event.data)
+  console.log('Message to service worker:', event.data)
   channel.postMessage('received')
   switch (event.data.type) {
     case 'update-patreon-data':
@@ -64,9 +64,9 @@ channel.onmessage = (event: MessageEvent<BroadCastMessage>) => {
       {
         caches.open(SHARED_DATA_ENDPOINT).then(function (cache) {
           cache.match(SHARED_DATA_ENDPOINT).then(function (response) {
-            channel.postMessage({
-              type: 'return-patreon-data',
-              data: response ? response.json() : {},
+            console.log('Cache match response:', response)
+            response?.json().then(data => {
+              channel.postMessage({ type: 'return-patreon-data', data })
             })
           })
         })
