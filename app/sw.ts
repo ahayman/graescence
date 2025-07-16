@@ -1,7 +1,7 @@
 import { defaultCache } from '@serwist/next/worker'
 import type { PrecacheEntry, SerwistGlobalConfig } from 'serwist'
 import { Serwist } from 'serwist'
-import { SHARED_DATA_ENDPOINT } from '../api/patreon/types'
+import { SHARED_DATA_ENDPOINT } from './api/patreon/types'
 import { BroadCastMessage, SW_BroadcastChannel } from './types'
 
 // // This declares the value of `injectionPoint` to TypeScript.

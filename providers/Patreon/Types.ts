@@ -1,4 +1,4 @@
-import { UserData } from '../../api/patreon/types'
+import { UserData } from '../../app/api/patreon/types'
 
 export type State = {
   user?: UserData

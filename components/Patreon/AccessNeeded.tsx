@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Link from 'next/link'
 import { classes, TierData } from '../../lib/utils'
 import { usePathname } from 'next/navigation'
-import { AccessTier } from '../../api/patreon/types'
+import { AccessTier } from '../../app/api/patreon/types'
 import Column from '../Column'
 
 import styles from './index.module.scss'

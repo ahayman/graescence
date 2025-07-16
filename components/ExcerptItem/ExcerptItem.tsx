@@ -12,7 +12,7 @@ import { PatreonContext } from '../../providers/Patreon/Provider'
 import { TierData, userCanAccessTier } from '../../lib/utils'
 import { AccessNeeded } from '../Patreon/AccessNeeded'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { AccessTier } from '../../api/patreon/types'
+import { AccessTier } from '../../app/api/patreon/types'
 
 export type Props = {
   type: 'lore' | 'history' | 'blog'

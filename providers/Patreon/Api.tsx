@@ -1,4 +1,4 @@
-import { AuthWithExpiration, UserData } from '../../api/patreon/types'
+import { AuthWithExpiration, UserData } from '../../app/api/patreon/types'
 
 export const getPatreonLoginUrl = (path: string) => `https://www.patreon.com/oauth2/authorize?
 response_type=code

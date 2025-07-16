@@ -3,7 +3,7 @@ import { createContext, FunctionComponent, PropsWithChildren, useCallback, useEf
 import { Context, State } from './Types'
 import { Storage } from '../../lib/globals'
 import { fetchAuthSignIn, fetchIdentity } from './Api'
-import { AuthCookieKey, AuthWithExpiration, SHARED_DATA_ENDPOINT, UserData } from '../../api/patreon/types'
+import { AuthCookieKey, AuthWithExpiration, SHARED_DATA_ENDPOINT, UserData } from '../../app/api/patreon/types'
 import { getCookie, setCookie } from 'cookies-next/client'
 import { BroadCastMessage, SW_BroadcastChannel } from '../../app/types'
 import { usePathname } from 'next/navigation'

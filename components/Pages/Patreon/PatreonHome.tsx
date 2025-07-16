@@ -16,7 +16,7 @@ import styles from './page.module.scss'
 
 import { content } from './content'
 import { usePathname } from 'next/navigation'
-import { AccessTier } from '../../../api/patreon/types'
+import { AccessTier } from '../../../app/api/patreon/types'
 import { getPatreonLoginUrl } from '../../../providers/Patreon/Api'
 
 export const PatreonHome: FunctionComponent = () => {
