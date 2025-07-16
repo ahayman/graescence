@@ -7,7 +7,6 @@ import ContentBlock from '../../../components/ContentBlock/ContentBlock'
 import { PatreonContext } from '../../../providers/Patreon/Provider'
 import Column from '../../../components/Column'
 import Row from '../../../components/Row'
-import { getLoginUrl, UserData } from '../../../providers/Patreon/Api'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons'
 
@@ -17,6 +16,8 @@ import styles from './page.module.scss'
 
 import { content } from './content'
 import { usePathname } from 'next/navigation'
+import { AccessTier } from '../../../api/patreon/types'
+import { getPatreonLoginUrl } from '../../../providers/Patreon/Api'
 
 export const PatreonHome: FunctionComponent = () => {
   const {
@@ -54,7 +55,7 @@ export const PatreonHome: FunctionComponent = () => {
         </Row>
       ) : (
         <Row>
-          <Link className={classes(styles.hLink, styles.loginButton)} href={getLoginUrl(path)}>
+          <Link className={classes(styles.hLink, styles.loginButton)} href={getPatreonLoginUrl('/patreon')}>
             <span className={styles.linkTitle}>Link Patreon Account</span>
           </Link>
         </Row>
@@ -66,7 +67,7 @@ export const PatreonHome: FunctionComponent = () => {
   )
 }
 
-const TierBlock: FunctionComponent<{ tier: UserData['patreonTier'] }> = ({ tier }) => (
+const TierBlock: FunctionComponent<{ tier: AccessTier }> = ({ tier }) => (
   <Column className={styles.tierBlock}>
     <h2>
       <Row className={styles.tierHeaderRow} vertical="center">

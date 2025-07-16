@@ -1,5 +1,5 @@
 import { faGlobeAmericas, faPenFancy, faSmile } from '@fortawesome/free-solid-svg-icons'
-import { AccessTier } from '../providers/Patreon/Api'
+import { AccessTier } from '../api/patreon/types'
 
 export const isNotEmpty = <T>(item: T | undefined | null): item is T => {
   return item !== undefined && item !== null

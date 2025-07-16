@@ -1,14 +1,15 @@
 import { FunctionComponent } from 'react'
-import { AccessTier, getLoginUrl } from '../../providers/Patreon/Api'
 import Row from '../Row'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Link from 'next/link'
 import { classes, TierData } from '../../lib/utils'
 import { usePathname } from 'next/navigation'
+import { AccessTier } from '../../api/patreon/types'
 import Column from '../Column'
 
 import styles from './index.module.scss'
 import postStyles from '../../styles/post.module.scss'
+import { getPatreonLoginUrl } from '../../providers/Patreon/Api'
 
 type Props = {
   tier: AccessTier
@@ -39,7 +40,7 @@ export const AccessNeeded: FunctionComponent<Props> = ({ tier, isAlreadyLinked, 
             <span>Subscribe</span>
           </Link>
         ) : (
-          <Link className={classes(styles.hLink, styles.loginButton)} href={getLoginUrl(path)}>
+          <Link className={classes(styles.hLink, styles.loginButton)} href={getPatreonLoginUrl(path)}>
             <span>Link Patreon</span>
           </Link>
         )}

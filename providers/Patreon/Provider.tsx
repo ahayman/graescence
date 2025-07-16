@@ -1,53 +1,41 @@
 'use client'
 import { createContext, FunctionComponent, PropsWithChildren, useCallback, useEffect, useState } from 'react'
 import { Context, State } from './Types'
-import { AuthData, UserData } from './Api'
 import { Storage } from '../../lib/globals'
+import { fetchAuthSignIn, fetchIdentity } from './Api'
 
 const emptyFn = async () => undefined
 export const PatreonContext = createContext<Context>({
   state: {},
-  actions: { logout: emptyFn, handleAuth: emptyFn },
+  actions: { logout: emptyFn, signIn: emptyFn },
 })
 
 type Props = PropsWithChildren
 
-type CalculatedAuth = AuthData & {
-  expireDate: number
-}
-
 export const PatreonProvider: FunctionComponent<Props> = ({ children }) => {
-  const [auth, setAuth] = useState<CalculatedAuth>()
   const [state, setState] = useState<State>({})
 
   useEffect(() => {}, [])
 
   useEffect(() => {
-    const auth = Storage.get('--patreon-auth-data')
-    if (auth) setAuth(JSON.parse(auth))
-
     const user = Storage.get('--patreon-user-data')
     if (user) setState({ user: JSON.parse(user) })
   }, [])
 
   const logout = useCallback(() => {
-    setAuth(undefined)
     setState({})
-    Storage.set('--patreon-auth-data')
     Storage.set('--patreon-user-data')
   }, [])
 
-  const handleAuth = useCallback((auth: AuthData, user: UserData) => {
-    const now = new Date()
-    const expireDate = now.getTime() + auth.expires_in * 1000
-    const authData = { ...auth, expireDate }
-    setAuth(authData)
-    setState({ user })
-    Storage.set('--patreon-auth-data', JSON.stringify(authData))
-    Storage.set('--patreon-user-data', JSON.stringify(user))
+  const signIn = useCallback(async (code: string) => {
+    try {
+      await fetchAuthSignIn(code)
+      const user = await fetchIdentity()
+      setState({ user })
+    } catch (error: any) {
+      setState(s => ({ ...s, error: error.message }))
+    }
   }, [])
 
-  return (
-    <PatreonContext.Provider value={{ state, actions: { logout, handleAuth } }}>{children}</PatreonContext.Provider>
-  )
+  return <PatreonContext.Provider value={{ state, actions: { logout, signIn } }}>{children}</PatreonContext.Provider>
 }
