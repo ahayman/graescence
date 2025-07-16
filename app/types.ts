@@ -10,9 +10,5 @@ export type BroadCastMessage =
       data: CachedData
     }
   | {
-      type: 'return-patreon-data'
-      data: CachedData
-    }
-  | {
       type: 'get-patreon-data'
     }

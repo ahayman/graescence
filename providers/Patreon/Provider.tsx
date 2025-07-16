@@ -27,7 +27,7 @@ export const PatreonProvider: FunctionComponent<Props> = ({ children }) => {
     if (storedUser) setState({ user: JSON.parse(storedUser) })
     channel.onmessage = (event: MessageEvent<BroadCastMessage>) => {
       console.log(`Provider Message Received: `, event.data)
-      if (event.data.type === 'return-patreon-data') {
+      if (event.data.type === 'update-patreon-data') {
         const data = event.data.data
         if ('user' in data && (!storedUser || JSON.parse(storedUser).updatedTime < data.user.updatedTime)) {
           setState({ user: data.user })

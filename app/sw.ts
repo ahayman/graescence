@@ -34,9 +34,8 @@ self.addEventListener('activate', event => {
     console.log('Cache opened:', cache)
     cache.match(SHARED_DATA_ENDPOINT).then(function (response) {
       console.log('Cache match response:', response)
-      channel.postMessage({
-        type: 'return-patreon-data',
-        data: response ? response.json() : {},
+      response?.json().then(data => {
+        channel.postMessage({ type: 'update-patreon-data', data })
       })
     })
   })
@@ -66,14 +65,11 @@ channel.onmessage = (event: MessageEvent<BroadCastMessage>) => {
           cache.match(SHARED_DATA_ENDPOINT).then(function (response) {
             console.log('Cache match response:', response)
             response?.json().then(data => {
-              channel.postMessage({ type: 'return-patreon-data', data })
+              channel.postMessage({ type: 'update-patreon-data', data })
             })
           })
         })
       }
-      break
-
-    case 'return-patreon-data':
       break
   }
 }
