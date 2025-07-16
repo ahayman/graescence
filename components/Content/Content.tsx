@@ -40,6 +40,7 @@ const Content = ({ children }: Props) => {
             bottom: 20,
             left: 0,
             height: 100,
+            width: '100%',
             overflow: 'scroll',
             zIndex: 100000,
             backgroundColor: 'darkgoldenrod',

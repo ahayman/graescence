@@ -7,6 +7,7 @@ import { AuthCookieKey, AuthWithExpiration, SHARED_DATA_ENDPOINT, UserData } fro
 import { getCookie, setCookie } from 'cookies-next/client'
 import { BroadCastMessage, SW_BroadcastChannel } from '../../app/types'
 import { usePathname } from 'next/navigation'
+import FingerPrinter from '@fingerprintjs/fingerprintjs'
 
 const emptyFn = async () => undefined
 export const PatreonContext = createContext<Context>({
@@ -25,10 +26,15 @@ export const PatreonProvider: FunctionComponent<Props> = ({ children }) => {
   const path = usePathname()
 
   useEffect(() => {
+    FingerPrinter.load()
+      .then(fp => fp.get())
+      .then(result => {
+        setLogs(l => [...l, `VisitorId: ${result.visitorId}`])
+      })
     const storedUser = Storage.get('--patreon-user-data')
     if (storedUser) setState({ user: JSON.parse(storedUser) })
     channel.onmessage = (event: MessageEvent<BroadCastMessage>) => {
-      setLogs(l => [...l, `Provider Message Received: ${JSON.stringify(event.data)}`])
+      // setLogs(l => [...l, `Provider Message Received: ${JSON.stringify(event.data)}`])
       console.log(`Provider Message Received: `, event.data)
       if (event.data.type === 'update-patreon-data') {
         const data = event.data.data
