@@ -55,9 +55,11 @@ export const PatreonHome: FunctionComponent = () => {
         </Row>
       ) : (
         <Row>
-          <Link className={classes(styles.hLink, styles.loginButton)} href={getPatreonLoginUrl('/patreon')}>
+          <div
+            className={classes(styles.hLink, styles.loginButton)}
+            onClick={() => (window.location.href = getPatreonLoginUrl('/patreon'))}>
             <span className={styles.linkTitle}>Link Patreon Account</span>
-          </Link>
+          </div>
         </Row>
       )}
       <ContentBlock className={styles.contentBlock}>
