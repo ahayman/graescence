@@ -5,6 +5,8 @@ import { Storage } from '../../lib/globals'
 import { fetchAuthSignIn, fetchIdentity } from './Api'
 import { AuthCookieKey, AuthWithExpiration, SHARED_DATA_ENDPOINT, UserData } from '../../api/patreon/types'
 import { getCookie, setCookie } from 'cookies-next/client'
+import { BroadCastMessage } from '../../app/types'
+import { usePathname } from 'next/navigation'
 
 const emptyFn = async () => undefined
 export const PatreonContext = createContext<Context>({
@@ -13,17 +15,19 @@ export const PatreonContext = createContext<Context>({
 })
 
 type Props = PropsWithChildren
-type CachedData = { auth: AuthWithExpiration; user: UserData }
+
+const channel = new BroadcastChannel('sw-channel')
 
 export const PatreonProvider: FunctionComponent<Props> = ({ children }) => {
   const [state, setState] = useState<State>({})
+  const path = usePathname()
 
   useEffect(() => {
     const storedUser = Storage.get('--patreon-user-data')
     if (storedUser) setState({ user: JSON.parse(storedUser) })
-    fetch(SHARED_DATA_ENDPOINT)
-      .then(r => r.json())
-      .then((data: CachedData | {}) => {
+    channel.onmessage = (event: MessageEvent<BroadCastMessage>) => {
+      if (event.data.type === 'return-patreon-data') {
+        const data = event.data.data
         if ('user' in data && (!storedUser || JSON.parse(storedUser).updatedTime < data.user.updatedTime)) {
           setState({ user: data.user })
         }
@@ -38,8 +42,17 @@ export const PatreonProvider: FunctionComponent<Props> = ({ children }) => {
             setCookie(AuthCookieKey, JSON.stringify(data.auth))
           }
         }
-      })
+      }
+    }
+    channel.postMessage({ type: 'get-patreon-data' })
+    return () => {
+      channel.close()
+    }
   }, [])
+
+  useEffect(() => {
+    channel.postMessage({ type: 'get-patreon-data' })
+  }, [path])
 
   const logout = useCallback(() => {
     setState({})
@@ -52,7 +65,7 @@ export const PatreonProvider: FunctionComponent<Props> = ({ children }) => {
       const user = await fetchIdentity()
       setState({ user })
 
-      await fetch(SHARED_DATA_ENDPOINT, { method: 'POST', body: JSON.stringify({ auth, user }) })
+      channel.postMessage({ type: 'update-patreon-data', data: { auth, user } })
     } catch (error: any) {
       setState(s => ({ ...s, error: error.message }))
     }
