@@ -91,9 +91,26 @@ const ProgressProvider = ({ children }: Props) => {
     Storage.set('--reading-progress', JSON.stringify(dehydrateState(state)))
   }, [state])
 
+  const updateStateWithProgress = useCallback((progress: State['progress']) => {
+    setState(s => ({
+      ...s,
+      lastUpdated: new Date(),
+      currentChapter:
+        Object.values({ ...s.progress, ...progress })
+          .filter(i => i.type === 'chapter')
+          .reduce((max, c) => (c.updatedAt > max.updatedAt ? c : max)) ?? s.currentChapter,
+      progress: {
+        ...s.progress,
+        ...progress,
+      },
+    }))
+  }, [])
+
   useEffect(() => {
     if (!user || user.tier === 'free') return
+
     const syncData = async () => {
+      if (initialUser.current && initialUser.current.tier !== 'free') return
       const updates = await fetchProgress(user.id, lastUpdatedRef.current)
       const localEntries = getStoredProgressData().progress
       const validatedUpdates = updates.progressData
@@ -107,19 +124,11 @@ const ProgressProvider = ({ children }: Props) => {
         ...localEntries,
         ...Object.fromEntries(validatedUpdates.map(u => [u.id, u])),
       }
-      if (!initialUser) {
-        setState(s => ({
-          ...s,
-          lastUpdated: new Date(),
-          progress: {
-            ...s.progress,
-            ...mergedEntries,
-          },
-        }))
-      }
+      updateStateWithProgress(mergedEntries)
     }
+
     syncData()
-  }, [user])
+  }, [updateStateWithProgress, user])
 
   useEffect(() => {
     if (!user || user.tier === 'free') return
@@ -128,17 +137,13 @@ const ProgressProvider = ({ children }: Props) => {
     postProgress(user.id, updatedItems, lastUpdatedRef.current)
       .then(updates => {
         setUpdates({}, true)
-        setState(s => ({
-          ...s,
-          lastUpdated: new Date(),
-          progress: {
-            ...s.progress,
-            ...Object.fromEntries(updates.progressData.map(p => [p.id, hydratedProgressItem(p as StoreProgressItem)])),
-          },
-        }))
+        const progress = Object.fromEntries(
+          updates.progressData.map(p => [p.id, hydratedProgressItem(p as StoreProgressItem)]),
+        )
+        updateStateWithProgress(progress)
       })
       .catch(e => console.log(`Error posting updates: `, e))
-  }, [updates, state.lastUpdated, user, setUpdates])
+  }, [setUpdates, updateStateWithProgress, updates, user])
 
   return (
     <ProgressContext.Provider
