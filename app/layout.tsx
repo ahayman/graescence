@@ -1,6 +1,7 @@
 import './globals.scss'
 import {} from '../lib/array'
 import Head from 'next/head'
+import { Analytics } from '@vercel/analytics/next'
 import { ReactNode } from 'react'
 import styles from './layout.module.scss'
 import Providers from '../components/Pages/Providers'
@@ -158,6 +159,7 @@ const Layout = async ({ children }: Props) => {
             <MainLayout>{children}</MainLayout>
           </Providers>
         </div>
+        <Analytics />
       </body>
     </html>
   )
