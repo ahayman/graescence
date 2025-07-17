@@ -11,14 +11,12 @@ const emptyFn = async () => undefined
 export const PatreonContext = createContext<Context>({
   state: {},
   actions: { logout: emptyFn, signIn: emptyFn },
-  logs: [],
 })
 
 type Props = PropsWithChildren
 
 export const PatreonProvider: FunctionComponent<Props> = ({ children }) => {
   const [state, setState] = useState<State>({})
-  const [logs, setLogs] = useState<string[]>([])
   const path = usePathname()
 
   useEffect(() => {
@@ -45,10 +43,7 @@ export const PatreonProvider: FunctionComponent<Props> = ({ children }) => {
     }
   }, [])
 
-  useEffect(() => {
-    setLogs(l => [...l, `Posting 'get-patreon-data' message`])
-    // channel.postMessage({ type: 'get-patreon-data' })
-  }, [path])
+  useEffect(() => {}, [path])
 
   const logout = useCallback(() => {
     setState({})
@@ -68,7 +63,5 @@ export const PatreonProvider: FunctionComponent<Props> = ({ children }) => {
     }
   }, [])
 
-  return (
-    <PatreonContext.Provider value={{ logs, state, actions: { logout, signIn } }}>{children}</PatreonContext.Provider>
-  )
+  return <PatreonContext.Provider value={{ state, actions: { logout, signIn } }}>{children}</PatreonContext.Provider>
 }

@@ -13,5 +13,4 @@ export type Actions = {
 export type Context = {
   state: State
   actions: Actions
-  logs: string[]
 }
