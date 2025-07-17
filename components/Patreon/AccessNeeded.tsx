@@ -1,16 +1,17 @@
-import { FunctionComponent } from 'react'
+import { FunctionComponent, useContext } from 'react'
 import Row from '../Row'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Link from 'next/link'
 import { classes, TierData } from '../../lib/utils'
-import { usePathname } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import { AccessTier } from '../../app/api/types'
 import Column from '../Column'
 
 import styles from './index.module.scss'
 import postStyles from '../../styles/post.module.scss'
-import { getPatreonLoginUrl } from '../../providers/Patreon/Api'
+import { getPatreonLoginUrl, isPWA } from '../../providers/Patreon/Api'
 import { useInstallId } from '../../hooks/useInstallId'
+import { PatreonContext } from '../../providers/Patreon/Provider'
 
 type Props = {
   tier: AccessTier
@@ -20,10 +21,20 @@ type Props = {
 }
 
 export const AccessNeeded: FunctionComponent<Props> = ({ tier, isAlreadyLinked, content, className }) => {
-  const path = usePathname() ?? ''
+  const {
+    actions: { needsInstallAuth },
+  } = useContext(PatreonContext)
+  const path = usePathname() ?? '/patreon'
+  const router = useRouter()
   const installId = useInstallId()
   const textArray = content?.split(/(?<=>[^<>]*?)\s(?=[^<>]*?<)/) // Split the text into words without
   const __html = textArray?.slice(0, 100).join(' ')
+
+  const routeToPatreonAuth = () => {
+    if (isPWA()) needsInstallAuth()
+    router.push(getPatreonLoginUrl(path, installId))
+  }
+
   return (
     <Column className={classes(styles.container, className)} vertical="center" horizontal="space-between">
       {__html && (
@@ -42,9 +53,9 @@ export const AccessNeeded: FunctionComponent<Props> = ({ tier, isAlreadyLinked, 
             <span>Subscribe</span>
           </Link>
         ) : (
-          <Link className={classes(styles.hLink, styles.loginButton)} href={getPatreonLoginUrl(path, installId)}>
+          <div className={classes(styles.hLink, styles.loginButton)} onClick={routeToPatreonAuth}>
             <span>Link Patreon</span>
-          </Link>
+          </div>
         )}
       </Row>
     </Column>

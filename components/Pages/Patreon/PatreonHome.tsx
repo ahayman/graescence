@@ -15,19 +15,25 @@ import postStyles from '../../../styles/post.module.scss'
 import styles from './page.module.scss'
 
 import { content } from './content'
-import { usePathname } from 'next/navigation'
-import { getPatreonLoginUrl } from '../../../providers/Patreon/Api'
+import { usePathname, useRouter } from 'next/navigation'
+import { getPatreonLoginUrl, isPWA } from '../../../providers/Patreon/Api'
 import { useInstallId } from '../../../hooks/useInstallId'
 import { AccessTier } from '../../../app/api/types'
 
 export const PatreonHome: FunctionComponent = () => {
   const {
     state: { user },
-    actions: { logout },
+    actions: { logout, needsInstallAuth },
   } = useContext(PatreonContext)
-  const path = usePathname() ?? ''
   const installId = useInstallId()
+  const router = useRouter()
   const [privacyExpanded, setPrivacyExpanded] = useState(false)
+
+  const routeToPatreonAuth = () => {
+    if (isPWA()) needsInstallAuth()
+    router.push(getPatreonLoginUrl('/patreon', installId))
+  }
+
   return (
     <Column horizontal="center" className={classes(utilStyles.pageMain)}>
       <Link key={`$patreon`} className={classes(styles.hLink)} href="https://patreon.com/apoetsanon">
@@ -57,9 +63,7 @@ export const PatreonHome: FunctionComponent = () => {
         </Row>
       ) : (
         <Row>
-          <div
-            className={classes(styles.hLink, styles.loginButton)}
-            onClick={() => (window.location.href = getPatreonLoginUrl('/patreon', installId))}>
+          <div className={classes(styles.hLink, styles.loginButton)} onClick={routeToPatreonAuth}>
             <span className={styles.linkTitle}>Link Patreon Account</span>
           </div>
         </Row>

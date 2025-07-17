@@ -2,7 +2,7 @@
 import { createContext, FunctionComponent, PropsWithChildren, useCallback, useEffect, useState } from 'react'
 import { Context, State } from './Types'
 import { Storage } from '../../lib/globals'
-import { fetchAuthSignIn, fetchIdentity, fetchInstallData } from './Api'
+import { fetchAuthSignIn, fetchIdentity, fetchInstallData, isPWA } from './Api'
 import { usePathname } from 'next/navigation'
 import { useInstallId } from '../../hooks/useInstallId'
 import { AuthCookieKey } from '../../app/api/types'
@@ -18,7 +18,7 @@ type Props = PropsWithChildren
 
 export const PatreonProvider: FunctionComponent<Props> = ({ children }) => {
   const [state, setState] = useState<State>({})
-  const [_needsInstallAuth, setNeedsInstallAuth] = useState(false)
+  const [_needsInstallAuth, setNeedsInstallAuth] = useState(isPWA())
   const installId = useInstallId()
   const path = usePathname()
 
