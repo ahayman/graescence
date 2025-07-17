@@ -1,4 +1,4 @@
-import { FunctionComponent, useContext } from 'react'
+import { FunctionComponent } from 'react'
 import Row from '../Row'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Link from 'next/link'
@@ -9,9 +9,7 @@ import Column from '../Column'
 
 import styles from './index.module.scss'
 import postStyles from '../../styles/post.module.scss'
-import { getPatreonLoginUrl, isPWA } from '../../providers/Patreon/Api'
-import { useInstallId } from '../../hooks/useInstallId'
-import { PatreonContext } from '../../providers/Patreon/Provider'
+import { getPatreonLoginUrl } from '../../providers/Patreon/Api'
 
 type Props = {
   tier: AccessTier
@@ -21,18 +19,13 @@ type Props = {
 }
 
 export const AccessNeeded: FunctionComponent<Props> = ({ tier, isAlreadyLinked, content, className }) => {
-  const {
-    actions: { needsInstallAuth },
-  } = useContext(PatreonContext)
   const path = usePathname() ?? '/patreon'
   const router = useRouter()
-  const installId = useInstallId()
   const textArray = content?.split(/(?<=>[^<>]*?)\s(?=[^<>]*?<)/) // Split the text into words without
   const __html = textArray?.slice(0, 100).join(' ')
 
   const routeToPatreonAuth = () => {
-    if (isPWA()) needsInstallAuth()
-    router.push(getPatreonLoginUrl(path, installId))
+    router.push(getPatreonLoginUrl(path))
   }
 
   return (

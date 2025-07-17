@@ -16,22 +16,19 @@ import styles from './page.module.scss'
 
 import { content } from './content'
 import { usePathname, useRouter } from 'next/navigation'
-import { getPatreonLoginUrl, isPWA } from '../../../providers/Patreon/Api'
-import { useInstallId } from '../../../hooks/useInstallId'
+import { getPatreonLoginUrl } from '../../../providers/Patreon/Api'
 import { AccessTier } from '../../../app/api/types'
 
 export const PatreonHome: FunctionComponent = () => {
   const {
     state: { user },
-    actions: { logout, needsInstallAuth },
+    actions: { logout },
   } = useContext(PatreonContext)
-  const installId = useInstallId()
   const router = useRouter()
   const [privacyExpanded, setPrivacyExpanded] = useState(false)
 
   const routeToPatreonAuth = () => {
-    if (isPWA()) needsInstallAuth()
-    router.push(getPatreonLoginUrl('/patreon', installId))
+    router.push(getPatreonLoginUrl('/patreon'))
   }
 
   return (

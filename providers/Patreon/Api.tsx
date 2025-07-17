@@ -5,21 +5,11 @@ export type PatreonLoginState = {
   installId?: string
 }
 
-export const isPWA = () =>
-  typeof window !== 'undefined' &&
-  (['fullscreen', 'standalone', 'minimal-ui'].some(mode => window.matchMedia(`(display-mode: ${mode})`).matches) ||
-    ('standalone' in window.navigator && window.navigator.standalone) ||
-    document.referrer.includes('android-app://'))
-
-export const getPatreonLoginUrl = (path: string, installId: string) => {
-  const state: PatreonLoginState = {
-    redirectUrl: encodeURIComponent(path),
-    installId: isPWA() ? installId : undefined, // InstallIds are only needed for PWAs
-  }
+export const getPatreonLoginUrl = (path: string) => {
   return `https://www.patreon.com/oauth2/authorize?response_type=code&client_id=${
     process.env.NEXT_PUBLIC_PATREON_CLIENT_ID
-  }&redirect_uri=${encodeURIComponent(process.env.NEXT_PUBLIC_PATREON_REDIRECT_URL ?? '')}&state=${JSON.stringify(
-    state,
+  }&redirect_uri=${encodeURIComponent(process.env.NEXT_PUBLIC_PATREON_REDIRECT_URL ?? '')}&state=${encodeURIComponent(
+    path,
   )}`
 }
 

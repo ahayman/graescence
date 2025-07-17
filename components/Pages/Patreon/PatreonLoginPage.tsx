@@ -7,21 +7,13 @@ import styles from './page.module.scss'
 import { PatreonContext } from '../../../providers/Patreon/Provider'
 import { useRouter } from 'next/navigation'
 import { useQueryParams } from '../../../hooks/useQueryParams'
-import { isPWA, PatreonLoginState } from '../../../providers/Patreon/Api'
-import { useInstallId } from '../../../hooks/useInstallId'
 
 type Params = 'code' | 'state'
 
 export const PatreonLoginPage: FunctionComponent = () => {
   const [params] = useQueryParams<Params>()
-  const installId = useInstallId()
-  const defaultLoginState: PatreonLoginState = {
-    redirectUrl: '/patreon',
-    installId: isPWA() ? installId : undefined,
-  }
   const code = params.code
-  const state = params.state || JSON.stringify(defaultLoginState)
-  const loginState: PatreonLoginState = JSON.parse(state)
+  const redirectUrl = params.state || '/patreon'
   const {
     state: { error },
     actions: { signIn },
@@ -30,8 +22,8 @@ export const PatreonLoginPage: FunctionComponent = () => {
 
   useEffect(() => {
     if (!code) return
-    signIn(code, loginState.installId).then(() => router.replace(loginState.redirectUrl))
-  }, [code, loginState.installId, loginState.redirectUrl, params, router, signIn])
+    signIn(code).then(() => router.replace(redirectUrl))
+  }, [code, params, redirectUrl, router, signIn])
 
   return (
     <div className={styles.container}>
