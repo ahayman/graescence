@@ -9,7 +9,7 @@
     "lint": "next lint",
     "validate": "tsc --noEmit && next lint",
     "prisma:gen": "prisma generate",
-    "postinstall": "patch-package && prisma generate"
+    "postinstall": "patch-package && prisma generate --no-engine"
   },
   "dependencies": {
     "@fingerprintjs/fingerprintjs": "^4.6.2",

@@ -7,6 +7,7 @@ export const GET = async (request: Request) => {
   const params = new URLSearchParams(requestUrl.searchParams)
   const code = params.get('code')
   const installId = params.get('installId')
+  console.log('Patreon token route called with code:', code, 'and installId:', installId)
   if (!code) {
     return new Response(JSON.stringify({ message: 'Code parameter is missing' }), {
       headers: { 'Content-Type': 'application/json' },
