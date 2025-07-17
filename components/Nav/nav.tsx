@@ -27,14 +27,14 @@ const Nav = () => {
   } = useContext(OptionsContext)
   const { blog, chapters } = useContext(ContentContext)
   const {
-    state: { currentChapterId },
+    state: { currentChapter: currentChapterProgress },
   } = useContext(ProgressContext)
   const {
     actions: { toggleFullScreen },
   } = useContext(DisplayContext)
   const currentChapter = useMemo(
-    () => chapters.find(c => c.id === currentChapterId) ?? chapters[0],
-    [chapters, currentChapterId],
+    () => chapters.find(c => c.id === currentChapterProgress?.id) ?? chapters[0],
+    [chapters, currentChapterProgress?.id],
   )
   const latestPost = blog[0]
   const clickDiscardIds = useRef(new Set<string>()).current
@@ -95,7 +95,7 @@ const Nav = () => {
       </Link>,
       currentChapter ? (
         <Link key={`${type}-currentChapter`} className={classes(styles.link)} href={`/chapters/${currentChapter.id}`}>
-          <span className={styles.linkTitle}>{!currentChapterId ? 'Begin Story' : 'Continue Story'}</span>
+          <span className={styles.linkTitle}>{!currentChapterProgress ? 'Begin Story' : 'Continue Story'}</span>
           <span className={styles.linkDesc}>
             {currentChapter.title.length > 20 ? currentChapter.title.slice(0, 17) + '...' : currentChapter.title}
           </span>

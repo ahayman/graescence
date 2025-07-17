@@ -1,10 +1,20 @@
 export type State = {
-  currentChapterId?: string
-  chapterProgress: { [chapterId: string]: number | undefined }
+  lastUpdated?: Date
+  currentChapter?: ProgressItem
+  progress: { [id: string]: ProgressItem }
+}
+
+export type ProgressType = 'chapter' | 'lore' | 'blog' | 'history'
+
+export type ProgressItem = {
+  id: string
+  progress: number
+  type: ProgressType
+  updatedAt: Date
 }
 
 export type Actions = {
-  updateCurrentChapter: (id?: string, progress?: number) => void
+  updateProgress: (id: string, type: ProgressType, progress?: number) => void
 }
 
 export type Context = {

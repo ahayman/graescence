@@ -82,9 +82,20 @@ export type UserData = {
   id: string
   email?: string
   fullName: string
-  patreonTier: AccessTier
+  tier: AccessTier
   updatedAt: string
   updatedTime: number
+}
+
+export type ProgressDataItem = {
+  id: string
+  progress: number
+  type: string
+  updatedAt: string
+}
+
+export type ProgressData = {
+  progressData: ProgressDataItem[]
 }
 
 export const AuthCookieKey = '--patreon-auth-data'

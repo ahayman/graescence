@@ -18,11 +18,11 @@ export interface Props {
 export const Home = ({ content }: Props) => {
   const { chapters, blog } = useContext(ContentContext)
   const {
-    state: { currentChapterId },
+    state: { currentChapter: chapterProgress },
   } = useContext(ProgressContext)
   const currentChapter = useMemo(
-    () => chapters.find(c => c.id === currentChapterId) ?? chapters[0],
-    [chapters, currentChapterId],
+    () => chapters.find(c => c.id === chapterProgress?.id) ?? chapters[0],
+    [chapters, chapterProgress],
   )
   const firstChapter = chapters[0]
   const latestChapter = chapters[chapters.length - 1]

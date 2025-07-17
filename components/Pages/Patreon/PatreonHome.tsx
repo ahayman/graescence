@@ -16,8 +16,9 @@ import styles from './page.module.scss'
 
 import { content } from './content'
 import { usePathname } from 'next/navigation'
-import { AccessTier } from '../../../app/api/patreon/types'
 import { getPatreonLoginUrl } from '../../../providers/Patreon/Api'
+import { useInstallId } from '../../../hooks/useInstallId'
+import { AccessTier } from '../../../app/api/types'
 
 export const PatreonHome: FunctionComponent = () => {
   const {
@@ -25,6 +26,7 @@ export const PatreonHome: FunctionComponent = () => {
     actions: { logout },
   } = useContext(PatreonContext)
   const path = usePathname() ?? ''
+  const installId = useInstallId()
   const [privacyExpanded, setPrivacyExpanded] = useState(false)
   return (
     <Column horizontal="center" className={classes(utilStyles.pageMain)}>
@@ -43,7 +45,7 @@ export const PatreonHome: FunctionComponent = () => {
         {user && (
           <>
             <h3>{`Welcome ${user.fullName}!`}</h3>
-            <TierBlock tier={user.patreonTier} />
+            <TierBlock tier={user.tier} />
           </>
         )}
       </ContentBlock>
@@ -57,7 +59,7 @@ export const PatreonHome: FunctionComponent = () => {
         <Row>
           <div
             className={classes(styles.hLink, styles.loginButton)}
-            onClick={() => (window.location.href = getPatreonLoginUrl('/patreon'))}>
+            onClick={() => (window.location.href = getPatreonLoginUrl('/patreon', installId))}>
             <span className={styles.linkTitle}>Link Patreon Account</span>
           </div>
         </Row>

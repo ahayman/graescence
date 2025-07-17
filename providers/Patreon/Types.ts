@@ -1,4 +1,4 @@
-import { UserData } from '../../app/api/patreon/types'
+import { UserData } from '../../app/api/types'
 
 export type State = {
   user?: UserData
@@ -7,7 +7,8 @@ export type State = {
 
 export type Actions = {
   logout: () => void
-  signIn: (code: string) => Promise<void>
+  signIn: (code: string, installId?: string) => Promise<void>
+  needsInstallAuth: () => void
 }
 
 export type Context = {

@@ -1,24 +1,71 @@
-import { AuthWithExpiration, UserData } from '../../app/api/patreon/types'
+import { AuthWithExpiration, ProgressData, ProgressDataItem, UserData } from '../../app/api/types'
 
-export const getPatreonLoginUrl = (path: string) => `https://www.patreon.com/oauth2/authorize?
+export type PatreonLoginState = {
+  redirectUrl: string
+  installId?: string
+}
+
+export const isPWA = () =>
+  typeof window !== undefined &&
+  (['fullscreen', 'standalone', 'minimal-ui'].some(mode => window.matchMedia(`(display-mode: ${mode})`).matches) ||
+    ('standalone' in window.navigator && window.navigator.standalone) ||
+    document.referrer.includes('android-app://'))
+
+export const getPatreonLoginUrl = (path: string, installId: string) => {
+  const state: PatreonLoginState = {
+    redirectUrl: encodeURIComponent(path),
+    installId: isPWA() ? installId : undefined, // InstallIds are only needed for PWAs
+  }
+  return `https://www.patreon.com/oauth2/authorize? 
 response_type=code
 &client_id=${process.env.NEXT_PUBLIC_PATREON_CLIENT_ID}
 &redirect_uri=${encodeURIComponent(process.env.NEXT_PUBLIC_PATREON_REDIRECT_URL ?? '')}
-&state=${encodeURIComponent(path)}`
+&state=${JSON.stringify(state)}`
+}
 
-export const fetchAuthSignIn = async (code: string): Promise<AuthWithExpiration> => {
+export const fetchAuthSignIn = async (code: string, installId?: string): Promise<AuthWithExpiration> => {
   const url = new URL('https://graescence.com/api/patreon/token')
   url.searchParams.set('code', code)
-  const authUrl = url.toString()
-
-  const result = await fetch(authUrl)
-  if (!result.ok) throw new Error(await result.text())
+  if (installId) url.searchParams.set('installId', installId)
+  const result = await fetch(url.toString())
+  if (!result.ok) throw await result.json()
 
   return await result.json()
 }
 
 export const fetchIdentity = async (): Promise<UserData> => {
   const result = await fetch('https://graescence.com/api/patreon/identity')
-  if (!result.ok) throw new Error(await result.text())
+  if (!result.ok) throw await result.json()
+  return await result.json()
+}
+
+export const fetchInstallData = async (installId: string): Promise<boolean> => {
+  return (await fetch(`https://graescence.com/api/install/${installId}`)).ok
+}
+
+export const fetchProgress = async (userId: string, sinceUpdate?: Date): Promise<ProgressData> => {
+  const url = new URL(`https://graescence.com/api/progress/${userId}`)
+  if (sinceUpdate) url.searchParams.set('sinceUpdate', sinceUpdate.toISOString())
+  const result = await fetch(url.toString())
+  if (!result.ok) throw await result.json()
+  return await result.json()
+}
+
+export const postProgress = async (
+  userId: string,
+  progress: ProgressDataItem[],
+  sinceUpdate?: Date,
+): Promise<ProgressData> => {
+  const progressData: ProgressData = {
+    progressData: progress,
+  }
+  const url = new URL(`https://graescence.com/api/progress/${userId}`)
+  if (sinceUpdate) url.searchParams.set('sinceUpdate', sinceUpdate.toISOString())
+
+  const result = await fetch(url, {
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(progressData),
+  })
+  if (!result.ok) throw await result.json()
   return await result.json()
 }

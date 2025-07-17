@@ -87,8 +87,9 @@ const extractData = async <T extends ContentType>(
   const title = data.title
   const date = data.date instanceof Date ? data.date.toISOString() : data.date?.toString()
   const published = data.published
+  const uuid = data.uuid
 
-  if (!date || !title || !published) {
+  if (!date || !title || !published || !uuid) {
     return undefined
   }
 
@@ -121,6 +122,7 @@ const extractData = async <T extends ContentType>(
       const extract: ContentData['Chapters'] = {
         type: 'chapter',
         id,
+        uuid,
         title,
         date,
         volumeNo,
@@ -142,7 +144,7 @@ const extractData = async <T extends ContentType>(
         .process(front.content.replace(excerpt_separator, ''))
       const html = processedContent.toString()
       const isPublic = true
-      const extract: ContentData['Blog'] = { type: 'blog', id, title, date, excerpt, html, isPublic }
+      const extract: ContentData['Blog'] = { type: 'blog', id, uuid, title, date, excerpt, html, isPublic }
       return extract as ContentData[T]
     }
     case 'History': {
@@ -164,6 +166,7 @@ const extractData = async <T extends ContentType>(
       const extract: ContentData['History'] = {
         type: 'history',
         id,
+        uuid,
         title,
         date,
         startDate,
@@ -193,6 +196,7 @@ const extractData = async <T extends ContentType>(
       const extract: ContentData['Lore'] = {
         type: 'lore',
         id,
+        uuid,
         title,
         date,
         category: parent,
@@ -454,8 +458,8 @@ export const getSortedContentData = async <T extends ContentType>(
 
 export const getAllContentIds = async (type: ContentType): Promise<StaticParam<ContentId>[]> => {
   const data = await getSortedContentData(type)
-  return data.map(({ id }) => {
-    return { params: { id } }
+  return data.map(({ id, uuid }) => {
+    return { params: { id, uuid } }
   })
 }
 

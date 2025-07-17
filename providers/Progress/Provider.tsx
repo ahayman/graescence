@@ -1,6 +1,10 @@
-import { createContext, ReactNode, useCallback, useState } from 'react'
+import { createContext, ReactNode, use, useCallback, useContext, useEffect, useRef, useState } from 'react'
 import { Storage } from '../../lib/globals'
-import { Context, State } from './Types'
+import { Actions, Context, ProgressItem, ProgressType, State } from './Types'
+import { ProgressDataItem } from '../../app/api/types'
+import { useStateDebouncer } from '../../hooks/useStateDebouncer'
+import { PatreonContext } from '../Patreon/Provider'
+import { fetchProgress, postProgress } from '../Patreon/Api'
 
 export const ProgressContext = createContext<Context>({} as any)
 
@@ -8,40 +12,139 @@ export type Props = {
   children: ReactNode
 }
 
-const getStoredProgressData = () => {
-  const currentChapterId = Storage.get('--current-chapter-id')
-  const chapterProgressJson = Storage.get('--chapter-progress')
-  const chapterProgress = chapterProgressJson ? JSON.parse(chapterProgressJson) : {}
-  return { currentChapterId, chapterProgress }
+type StoreProgressItem = {
+  id: string
+  progress: number
+  type: ProgressType
+  updatedAt: string
+}
+type StoredState = {
+  lastUpdated?: Date
+  currentChapter?: StoreProgressItem
+  progress: { [id: string]: StoreProgressItem }
+}
+
+const hydrateState = (state: StoredState): State => ({
+  currentChapter: state.currentChapter ? hydratedProgressItem(state.currentChapter) : undefined,
+  progress: Object.fromEntries(Object.entries(state.progress).map(([key, item]) => [key, hydratedProgressItem(item)])),
+})
+
+const hydratedProgressItem = (item: StoreProgressItem): ProgressItem => ({
+  ...item,
+  updatedAt: new Date(item.updatedAt),
+})
+
+const dehydrateState = (state: State): StoredState => ({
+  currentChapter: state.currentChapter ? dehydratedProgressItem(state.currentChapter) : undefined,
+  progress: Object.fromEntries(
+    Object.entries(state.progress).map(([key, item]) => [key, dehydratedProgressItem(item)]),
+  ),
+})
+
+const dehydratedProgressItem = (item: ProgressItem): StoreProgressItem => ({
+  ...item,
+  updatedAt: item.updatedAt.toISOString(),
+})
+
+const getStoredProgressData = (): State => {
+  const readingDataString = Storage.get('--reading-progress')
+  if (!readingDataString) return { progress: {} }
+  const data: StoredState = JSON.parse(readingDataString)
+  return {
+    currentChapter: data.currentChapter ? hydratedProgressItem(data.currentChapter) : undefined,
+    progress: Object.fromEntries(Object.entries(data.progress).map(([key, item]) => [key, hydratedProgressItem(item)])),
+  }
 }
 
 const ProgressProvider = ({ children }: Props) => {
-  const [state, setState] = useState<State>(
-    typeof window === 'undefined'
-      ? {
-          currentChapterId: undefined,
-          chapterProgress: {},
+  const {
+    state: { user },
+  } = useContext(PatreonContext)
+  const [updates, _, setUpdates] = useStateDebouncer<{ [id: string]: StoreProgressItem }>({}, 1000)
+  const [state, setState] = useState<State>(typeof window === 'undefined' ? { progress: {} } : getStoredProgressData())
+  const initialUser = useRef(user)
+  const lastUpdatedRef = useRef(state.lastUpdated)
+  lastUpdatedRef.current = state.lastUpdated
+
+  const updateProgress: Actions['updateProgress'] = useCallback(
+    (id, type, progress) => {
+      setState(current => {
+        const progressItem: ProgressItem = {
+          id,
+          type,
+          progress: progress ?? current.progress[id]?.progress ?? 0,
+          updatedAt: new Date(),
         }
-      : getStoredProgressData(),
+        const state: State = { ...current, progress: { ...current.progress, [id]: progressItem } }
+
+        if (progressItem.type === 'chapter') {
+          state.currentChapter = progressItem
+        }
+        setUpdates(updates => ({ ...updates, [id]: dehydratedProgressItem(progressItem) }))
+        return state
+      })
+    },
+    [setUpdates],
   )
 
-  const updateCurrentChapter = useCallback((currentChapterId?: string, progress?: number) => {
-    Storage.set('--current-chapter-id', currentChapterId)
-    setState(current => {
-      const state = { ...current, currentChapterId }
-      if (progress !== undefined && currentChapterId !== undefined) {
-        state.chapterProgress[currentChapterId] = progress
-        Storage.set('--chapter-progress', JSON.stringify(state.chapterProgress))
+  useEffect(() => {
+    Storage.set('--reading-progress', JSON.stringify(dehydrateState(state)))
+  }, [state])
+
+  useEffect(() => {
+    if (!user || user.tier === 'free') return
+    const syncData = async () => {
+      const updates = await fetchProgress(user.id, lastUpdatedRef.current)
+      const localEntries = getStoredProgressData().progress
+      const validatedUpdates = updates.progressData
+        .map(u => hydratedProgressItem(u as StoreProgressItem))
+        .filter(update => {
+          const localEntry = localEntries[update.id]
+          if (localEntry && localEntry.updatedAt > update.updatedAt) return false
+          return true
+        })
+      const mergedEntries = {
+        ...localEntries,
+        ...Object.fromEntries(validatedUpdates.map(u => [u.id, u])),
       }
-      return state
-    })
-  }, [])
+      if (!initialUser) {
+        setState(s => ({
+          ...s,
+          lastUpdated: new Date(),
+          progress: {
+            ...s.progress,
+            ...mergedEntries,
+          },
+        }))
+      }
+    }
+    syncData()
+  }, [user])
+
+  useEffect(() => {
+    if (!user || user.tier === 'free') return
+    const updatedItems = Object.values(updates)
+    if (updatedItems.length <= 0) return
+    postProgress(user.id, updatedItems, lastUpdatedRef.current)
+      .then(updates => {
+        setUpdates({}, true)
+        setState(s => ({
+          ...s,
+          lastUpdated: new Date(),
+          progress: {
+            ...s.progress,
+            ...Object.fromEntries(updates.progressData.map(p => [p.id, hydratedProgressItem(p as StoreProgressItem)])),
+          },
+        }))
+      })
+      .catch(e => console.log(`Error posting updates: `, e))
+  }, [updates, state.lastUpdated, user, setUpdates])
 
   return (
     <ProgressContext.Provider
       value={{
         state,
-        actions: { updateCurrentChapter },
+        actions: { updateProgress },
       }}>
       {children}
     </ProgressContext.Provider>

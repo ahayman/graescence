@@ -1,5 +1,5 @@
 import { faGlobeAmericas, faPenFancy, faSmile } from '@fortawesome/free-solid-svg-icons'
-import { AccessTier } from '../app/api/patreon/types'
+import { AccessTier } from '../app/api/types'
 
 export const isNotEmpty = <T>(item: T | undefined | null): item is T => {
   return item !== undefined && item !== null
@@ -43,7 +43,7 @@ export interface ObjectConstructor {
   keys<T>(o: T): ObjectKeys<T>
 }
 
-export const userCanAccessTier = (user: { patreonTier?: string } | undefined, tier: AccessTier): boolean => {
+export const userCanAccessTier = (user: { tier?: string } | undefined, tier: AccessTier): boolean => {
   if (!user) {
     return tier === 'free'
   }
@@ -51,9 +51,9 @@ export const userCanAccessTier = (user: { patreonTier?: string } | undefined, ti
     case 'free':
       return true
     case 'story':
-      return user.patreonTier === 'story' || user.patreonTier === 'world'
+      return user.tier === 'story' || user.tier === 'world'
     case 'world':
-      return user.patreonTier === 'world'
+      return user.tier === 'world'
     default:
       return false
   }

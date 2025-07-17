@@ -4,12 +4,13 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Link from 'next/link'
 import { classes, TierData } from '../../lib/utils'
 import { usePathname } from 'next/navigation'
-import { AccessTier } from '../../app/api/patreon/types'
+import { AccessTier } from '../../app/api/types'
 import Column from '../Column'
 
 import styles from './index.module.scss'
 import postStyles from '../../styles/post.module.scss'
 import { getPatreonLoginUrl } from '../../providers/Patreon/Api'
+import { useInstallId } from '../../hooks/useInstallId'
 
 type Props = {
   tier: AccessTier
@@ -20,6 +21,7 @@ type Props = {
 
 export const AccessNeeded: FunctionComponent<Props> = ({ tier, isAlreadyLinked, content, className }) => {
   const path = usePathname() ?? ''
+  const installId = useInstallId()
   const textArray = content?.split(/(?<=>[^<>]*?)\s(?=[^<>]*?<)/) // Split the text into words without
   const __html = textArray?.slice(0, 100).join(' ')
   return (
@@ -40,7 +42,7 @@ export const AccessNeeded: FunctionComponent<Props> = ({ tier, isAlreadyLinked, 
             <span>Subscribe</span>
           </Link>
         ) : (
-          <Link className={classes(styles.hLink, styles.loginButton)} href={getPatreonLoginUrl(path)}>
+          <Link className={classes(styles.hLink, styles.loginButton)} href={getPatreonLoginUrl(path, installId)}>
             <span>Link Patreon</span>
           </Link>
         )}

@@ -12,11 +12,11 @@ export type GlobalVariable =
 
 export type StorageVariable =
   | GlobalVariable
-  | '--current-chapter-id'
-  | '--chapter-progress'
   | '--page-layout'
   | '--full-screen'
   | '--patreon-user-data'
+  | '--installation-id'
+  | '--reading-progress'
 
 export type UITheme = 'dark' | 'light'
 

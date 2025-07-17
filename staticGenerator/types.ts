@@ -4,6 +4,7 @@ export type ContentType = 'Blog' | 'Chapters' | 'Lore' | 'History'
 /// Content ID for all content.
 export type ContentId = {
   id: string
+  uuid: string
 }
 
 /// Metadata common to all Content

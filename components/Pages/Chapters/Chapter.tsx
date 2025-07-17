@@ -75,11 +75,11 @@ const Chapter = ({ id, chapter }: Props) => {
   const pagedContentRef = useRef<HTMLDivElement>(null)
   const scrolledContentRef = useRef<HTMLDivElement>(null)
   const {
-    state: { chapterProgress },
-    actions: { updateCurrentChapter },
+    state: { progress },
+    actions: { updateProgress },
   } = useContext(ProgressContext)
   const [currentProgress, latestCurrentProgress, setCurrentProgress] = useStateDebouncer(
-    chapterProgress[chapter.id] ?? 0,
+    progress[chapter.uuid]?.progress ?? 0,
     300,
   )
   const progressRef = useRef(latestCurrentProgress)
@@ -158,8 +158,8 @@ const Chapter = ({ id, chapter }: Props) => {
   }
 
   useEffect(() => {
-    updateCurrentChapter(chapter.id, currentProgress)
-  }, [chapter.id, currentProgress, updateCurrentChapter])
+    updateProgress(chapter.uuid, 'chapter', currentProgress)
+  }, [chapter.uuid, currentProgress, updateProgress])
 
   useEffect(() => {
     if (popover && readingOptions.pageLayout === 'paged') return // Don't update when a popover is displayed to prevent the layout from locking us out
@@ -192,7 +192,7 @@ const Chapter = ({ id, chapter }: Props) => {
   })
 
   useEffect(() => {
-    updateCurrentChapter(chapter.id)
+    updateProgress(chapter.uuid, 'chapter')
     const scrollable = readingOptions.pageLayout === 'paged' ? pagedContentRef.current : scrolledContentRef.current
     scrollable?.addEventListener('scroll', onScroll, { passive: true })
 
@@ -206,7 +206,7 @@ const Chapter = ({ id, chapter }: Props) => {
       observer?.disconnect()
       window.removeEventListener('resize', onResize)
     }
-  }, [chapter, onScroll, onResize, updateCurrentChapter, readingOptions.pageLayout])
+  }, [chapter, onScroll, onResize, readingOptions.pageLayout, updateProgress])
 
   useEffect(() => {
     const calculatePages = async () => {

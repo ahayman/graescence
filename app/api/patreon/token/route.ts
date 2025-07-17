@@ -1,10 +1,12 @@
 import { cookies } from 'next/headers'
-import { AuthCookieKey, AuthData, AuthWithExpiration } from '../types'
+import prisma from '../../../../lib/prisma'
+import { AuthCookieKey, AuthData, AuthWithExpiration } from '../../types'
 
 export const GET = async (request: Request) => {
   const requestUrl = new URL(request.url)
   const params = new URLSearchParams(requestUrl.searchParams)
   const code = params.get('code')
+  const installId = params.get('installId')
   if (!code) {
     return new Response(JSON.stringify({ message: 'Code parameter is missing' }), {
       headers: { 'Content-Type': 'application/json' },
@@ -23,6 +25,7 @@ export const GET = async (request: Request) => {
     method: 'POST',
     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
   })
+
   if (!response.ok) {
     const errorData = await response.json()
     return new Response(JSON.stringify({ message: 'Failed to fetch token', error: errorData }), {
@@ -36,6 +39,17 @@ export const GET = async (request: Request) => {
     return new Response(JSON.stringify({ message: 'Invalid auth data received', error: authData }), {
       headers: { 'Content-Type': 'application/json' },
       status: 500,
+    })
+  }
+
+  if (installId) {
+    await prisma.installation.upsert({
+      where: { id: installId },
+      update: { authData: JSON.stringify(authData) },
+      create: {
+        id: installId,
+        authData: JSON.stringify(authData),
+      },
     })
   }
 

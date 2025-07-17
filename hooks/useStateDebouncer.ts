@@ -10,7 +10,7 @@ type SetStateAction<S> = S | ((prior: S) => S)
  * Set State action is the function returned by the useStateDebouncer function
  * to allow updating stored state.
  */
-type SetState<State> = (action: SetStateAction<State>) => void
+type SetState<State> = (action: SetStateAction<State>, immediate?: boolean) => void
 
 /**
  * Typescript has a weird issue with using `f === 'function'` in a conditional.
@@ -51,12 +51,16 @@ export const useStateDebouncer = <State>(
   const timerRef = useRef<NodeJS.Timeout>(undefined)
 
   const debounceSetState: SetState<State> = useCallback(
-    (action: SetStateAction<State>) => {
+    (action: SetStateAction<State>, immediate?: boolean) => {
       const newState = isFunction(action) ? action(latestRef.current) : action
       latestRef.current = newState
       setLatestState(newState)
       if (timerRef.current) {
         clearTimeout(timerRef.current)
+      }
+      if (immediate) {
+        setResolvedState(newState)
+        return
       }
       timerRef.current = setTimeout(() => setResolvedState(latestRef.current), debounceMs)
       return () => {
