@@ -110,43 +110,26 @@ export const POST = async (request: Request, { params }: Params) => {
     })
   }
 
-  const existingProgressIds = user.progress.map(item => item.id)
+  await prisma.$transaction(
+    progressData.map(item =>
+      prisma.readingProgress.upsert({
+        where: { userId: userId, id: item.id },
+        update: {
+          progress: item.progress,
+          updatedAt: item.updatedAt,
+        },
+        create: {
+          userId,
+          type: item.type,
+          id: item.id,
+          progress: item.progress,
+          updatedAt: item.updatedAt,
+        },
+      }),
+    ),
+  )
 
-  const updates: ProgressDataItem[] = []
-  const newItems: ProgressDataItem[] = []
-
-  for (const item of progressData) {
-    if (existingProgressIds.includes(item.id)) {
-      updates.push(item)
-    } else {
-      newItems.push(item)
-    }
-  }
-
-  await prisma.$transaction([
-    prisma.readingProgress.updateMany({
-      where: {
-        userId,
-        id: { in: updates.map(item => item.id) },
-      },
-      data: updates.map(item => ({
-        progress: item.progress,
-        updatedAt: item.updatedAt,
-      })),
-    }),
-    prisma.readingProgress.createMany({
-      data: newItems.map(item => ({
-        userId,
-        type: item.type,
-        id: item.id,
-        progress: item.progress,
-        updatedAt: item.updatedAt,
-      })),
-    }),
-  ])
-
-  const updatedIds = [...updates, ...newItems].map(item => item.id)
-
+  const updatedIds = progressData.map(item => item.id)
   const updatedSince = user.progress.filter(item => !updatedIds.includes(item.id))
 
   return new Response(JSON.stringify({ progressData: updatedSince }), {
