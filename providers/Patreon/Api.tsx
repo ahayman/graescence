@@ -6,7 +6,7 @@ export type PatreonLoginState = {
 }
 
 export const isPWA = () =>
-  typeof window !== undefined &&
+  typeof window !== 'undefined' &&
   (['fullscreen', 'standalone', 'minimal-ui'].some(mode => window.matchMedia(`(display-mode: ${mode})`).matches) ||
     ('standalone' in window.navigator && window.navigator.standalone) ||
     document.referrer.includes('android-app://'))
