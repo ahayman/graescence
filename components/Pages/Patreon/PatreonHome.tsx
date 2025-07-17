@@ -3,7 +3,6 @@ import Link from 'next/link'
 import { FunctionComponent, useContext, useState } from 'react'
 import { classes, TierData } from '../../../lib/utils'
 import { PatreonLogo } from '../../../components/Logos/PatreonLogo'
-import ContentBlock from '../../../components/ContentBlock/ContentBlock'
 import { PatreonContext } from '../../../providers/Patreon/Provider'
 import Column from '../../../components/Column'
 import Row from '../../../components/Row'
@@ -15,7 +14,7 @@ import postStyles from '../../../styles/post.module.scss'
 import styles from './page.module.scss'
 
 import { content } from './content'
-import { usePathname, useRouter } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 import { getPatreonLoginUrl } from '../../../providers/Patreon/Api'
 import { AccessTier } from '../../../app/api/types'
 
@@ -32,26 +31,26 @@ export const PatreonHome: FunctionComponent = () => {
   }
 
   return (
-    <Column horizontal="center" className={classes(utilStyles.pageMain)}>
+    <Column horizontal="center" className={classes(utilStyles.pageMain, styles.main)}>
       <Link key={`$patreon`} className={classes(styles.hLink)} href="https://patreon.com/apoetsanon">
         <PatreonLogo className={styles.supportLogo} />
         <span className={styles.patreonTitle}>{content.home.title}</span>
       </Link>
-      <ContentBlock className={styles.contentBlock}>
+      <div className={styles.contentBlock}>
         <div className={postStyles.post}>
           {content.home.content.map((c, idx) => (
             <p key={`${content.home.title}-content-${idx}`} dangerouslySetInnerHTML={{ __html: c }} />
           ))}
         </div>
-      </ContentBlock>
-      <ContentBlock className={styles.contentBlock}>
+      </div>
+      <div className={styles.contentBlock}>
         {user && (
           <>
             <h3>{`Welcome ${user.fullName}!`}</h3>
             <TierBlock tier={user.tier} />
           </>
         )}
-      </ContentBlock>
+      </div>
       {user ? (
         <Row>
           <div className={classes(styles.hLink, styles.logoutButton)} onClick={logout}>
@@ -65,9 +64,9 @@ export const PatreonHome: FunctionComponent = () => {
           </div>
         </Row>
       )}
-      <ContentBlock className={styles.contentBlock}>
+      <div className={styles.contentBlock}>
         <PrivacyPolicy expanded={privacyExpanded} toggleState={() => setPrivacyExpanded(c => !c)} />
-      </ContentBlock>
+      </div>
     </Column>
   )
 }

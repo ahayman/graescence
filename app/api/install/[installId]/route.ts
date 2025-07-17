@@ -8,6 +8,7 @@ export type Params = {
 
 export async function GET(request: Request, { params }: Params) {
   const { installId } = await params
+  console.log('install route called with: ', installId)
   const auth = await prisma.installation.findUnique({
     where: { id: installId },
     select: { authData: true },

@@ -55,6 +55,7 @@ export const postProgress = async (
   const result = await fetch(url, {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(progressData),
+    method: 'POST',
   })
   if (!result.ok) throw await result.json()
   return await result.json()

@@ -63,9 +63,11 @@ export const POST = async (request: Request, { params }: Params) => {
 
   const url = new URL(request.url)
   const sinceUpdateParam = url.searchParams.get('sinceUpdate')
+
   const sinceUpdate = sinceUpdateParam ? new Date(sinceUpdateParam) : null
 
   const body = await request.json()
+  console.log('Progress POST called with', { userId, sinceUpdateParam, body })
   if (!isProgressData(body)) {
     return new Response(JSON.stringify({ message: 'Invalid progress data format' }), {
       headers: { 'Content-Type': 'application/json' },

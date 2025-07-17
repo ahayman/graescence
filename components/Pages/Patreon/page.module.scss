@@ -1,4 +1,14 @@
 
+.main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-height: 100%;
+  overflow: scroll;
+}
+
 .container {
   display: flex;
   flex-direction: column;
@@ -52,6 +62,11 @@
 }
 
 .contentBlock {
+  padding: 5pt 10pt;
+  border-color: var(--border-highlight-color);
+  border-width: 1pt;
+  margin-bottom: 1pt;
+  background-color: var(--background-tertiary-color);
   display: flex;
   flex-direction: column;
   align-items: stretch;
