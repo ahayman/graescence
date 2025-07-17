@@ -1,5 +1,5 @@
 import prisma from '../../../../lib/prisma'
-import { ProgressData } from '../../types'
+import { ProgressData, ProgressDataItem } from '../../types'
 
 export type Params = {
   params: Promise<{ userId: string }>
@@ -58,12 +58,6 @@ export async function GET(request: Request, { params }: Params) {
   })
 }
 
-type ProgressUpdate = {
-  id: string
-  type: string
-  progress: number
-  updatedAt: Date
-}
 export const POST = async (request: Request, { params }: Params) => {
   const { userId } = await params
 
@@ -116,14 +110,14 @@ export const POST = async (request: Request, { params }: Params) => {
 
   const existingProgressIds = user.progress.map(item => item.id)
 
-  const updates: ProgressUpdate[] = []
-  const newItems: ProgressUpdate[] = []
+  const updates: ProgressDataItem[] = []
+  const newItems: ProgressDataItem[] = []
 
   for (const item of progressData) {
     if (existingProgressIds.includes(item.id)) {
-      updates.push({ ...item, updatedAt: new Date(item.updatedAt) })
+      updates.push(item)
     } else {
-      newItems.push({ ...item, updatedAt: new Date(item.updatedAt) })
+      newItems.push(item)
     }
   }
 
@@ -151,12 +145,7 @@ export const POST = async (request: Request, { params }: Params) => {
 
   const updatedIds = [...updates, ...newItems].map(item => item.id)
 
-  const updatedSince: ProgressData['progressData'] = user.progress
-    .filter(item => !updatedIds.includes(item.id))
-    .map(item => ({
-      ...item,
-      updatedAt: item.updatedAt.toISOString(),
-    }))
+  const updatedSince = user.progress.filter(item => !updatedIds.includes(item.id))
 
   return new Response(JSON.stringify({ progressData: updatedSince }), {
     headers: { 'Content-Type': 'application/json' },

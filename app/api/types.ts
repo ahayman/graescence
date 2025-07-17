@@ -84,7 +84,6 @@ export type UserData = {
   fullName: string
   tier: AccessTier
   updatedAt: string
-  updatedTime: number
 }
 
 export type ProgressDataItem = {

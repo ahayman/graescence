@@ -1,6 +1,7 @@
 import { cookies } from 'next/headers'
 import prisma from '../../../../lib/prisma'
 import { AccessTier, AuthCookieKey, Member, PatreonIdentity, UserData } from '../../types'
+import { Prisma } from '../../../../lib/generated/prisma'
 
 export const GET = async () => {
   const url = new URL('https://www.patreon.com/api/oauth2/v2/identity')
@@ -49,22 +50,21 @@ export const GET = async () => {
   const data = await response.json()
   if (!isResultIdentity(data)) throw data
 
-  const userData: UserData = {
+  const userData: Prisma.UserCreateInput = {
     id: data.data.id,
     email: data.data.attributes.email,
     fullName: data.data.attributes.full_name,
     tier: getSubscriptionsTier(data.included),
-    updatedAt: new Date().toISOString(),
-    updatedTime: Date.now(),
+    updatedAt: new Date(),
   }
 
-  await prisma.user.upsert({
+  const user = await prisma.user.upsert({
     where: { id: userData.id },
     update: userData,
     create: userData,
   })
 
-  return new Response(JSON.stringify(userData), {
+  return new Response(JSON.stringify(user), {
     headers: { 'Content-Type': 'application/json' },
     status: 200,
   })
