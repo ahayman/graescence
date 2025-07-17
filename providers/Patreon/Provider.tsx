@@ -65,6 +65,7 @@ export const PatreonProvider: FunctionComponent<Props> = ({ children }) => {
       Storage.set('--patreon-user-data', JSON.stringify(user))
       setState({ user })
     } catch (error: any) {
+      console.log({ error })
       setState(s => ({ ...s, error: error.message }))
     }
   }, [])

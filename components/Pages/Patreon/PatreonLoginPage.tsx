@@ -22,17 +22,15 @@ export const PatreonLoginPage: FunctionComponent = () => {
   const code = params.code
   const state = params.state || JSON.stringify(defaultLoginState)
   const loginState: PatreonLoginState = JSON.parse(state)
-  const [error, setError] = useState<string>()
   const {
+    state: { error },
     actions: { signIn },
   } = useContext(PatreonContext)
   const router = useRouter()
 
   useEffect(() => {
-    if (!code) return setError('Missing Code. Please try again')
-    signIn(code, loginState.installId)
-      .then(() => router.replace(loginState.redirectUrl))
-      .catch(error => setError(error.message || JSON.stringify(error)))
+    if (!code) return
+    signIn(code, loginState.installId).then(() => router.replace(loginState.redirectUrl))
   }, [code, loginState.installId, loginState.redirectUrl, params, router, signIn])
 
   return (
@@ -40,7 +38,7 @@ export const PatreonLoginPage: FunctionComponent = () => {
       <Link key={`$patreon`} className={classes(styles.hLink)} href="/patreon">
         <PatreonLogo className={styles.supportLogo} />
         <span className={styles.linkTitle}>Patreon</span>
-        {error && <span>{error}</span>}
+        {error && <span>{error.message}</span>}
       </Link>
     </div>
   )
