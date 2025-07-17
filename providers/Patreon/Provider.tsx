@@ -5,7 +5,6 @@ import { Storage } from '../../lib/globals'
 import { fetchAuthSignIn, fetchIdentity } from './Api'
 import { AuthCookieKey, AuthWithExpiration, SHARED_DATA_ENDPOINT, UserData } from '../../app/api/patreon/types'
 import { getCookie, setCookie } from 'cookies-next/client'
-import { BroadCastMessage, SW_BroadcastChannel } from '../../app/types'
 import { usePathname } from 'next/navigation'
 
 const emptyFn = async () => undefined
@@ -16,8 +15,6 @@ export const PatreonContext = createContext<Context>({
 })
 
 type Props = PropsWithChildren
-
-// const channel = new BroadcastChannel(SW_BroadcastChannel)
 
 export const PatreonProvider: FunctionComponent<Props> = ({ children }) => {
   const [state, setState] = useState<State>({})
@@ -46,32 +43,6 @@ export const PatreonProvider: FunctionComponent<Props> = ({ children }) => {
         }
       }
     }
-
-    // channel.onmessage = (event: MessageEvent<BroadCastMessage>) => {
-    //   // setLogs(l => [...l, `Provider Message Received: ${JSON.stringify(event.data)}`])
-    //   console.log(`Provider Message Received: `, event.data)
-    //   if (event.data.type === 'update-patreon-data') {
-    //     const data = event.data.data
-    //     if ('user' in data && (!storedUser || JSON.parse(storedUser).updatedTime < data.user.updatedTime)) {
-    //       setState({ user: data.user })
-    //     }
-    //     if ('auth' in data) {
-    //       const authCookie = getCookie(AuthCookieKey)
-    //       if (authCookie) {
-    //         const authData = JSON.parse(authCookie)
-    //         if (authData.updatedAtTime < data.auth.updatedAtTime) {
-    //           setCookie(AuthCookieKey, JSON.stringify(data.auth))
-    //         }
-    //       } else {
-    //         setCookie(AuthCookieKey, JSON.stringify(data.auth))
-    //       }
-    //     }
-    //   }
-    // }
-    // channel.postMessage({ type: 'get-patreon-data' })
-    // return () => {
-    //   channel.close()
-    // }
   }, [])
 
   useEffect(() => {

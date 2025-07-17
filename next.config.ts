@@ -1,10 +1,4 @@
 import { NextConfig } from 'next'
-import withSerwistInit from '@serwist/next'
-
-const withSerwist = withSerwistInit({
-  swSrc: 'app/sw.ts',
-  swDest: 'public/sw.js',
-})
 
 const path = require('path')
 const nextConfig: NextConfig = {
@@ -23,4 +17,4 @@ const nextConfig: NextConfig = {
   },
 }
 
-module.exports = withSerwist(nextConfig)
+module.exports = nextConfig
