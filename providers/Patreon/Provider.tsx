@@ -3,8 +3,6 @@ import { createContext, FunctionComponent, PropsWithChildren, useCallback, useEf
 import { Context, State } from './Types'
 import { Storage } from '../../lib/globals'
 import { fetchAuthSignIn, fetchIdentity } from './Api'
-import { AuthCookieKey, AuthWithExpiration, SHARED_DATA_ENDPOINT, UserData } from '../../app/api/patreon/types'
-import { getCookie, setCookie } from 'cookies-next/client'
 import { usePathname } from 'next/navigation'
 
 const emptyFn = async () => undefined
@@ -22,25 +20,6 @@ export const PatreonProvider: FunctionComponent<Props> = ({ children }) => {
   useEffect(() => {
     const storedUser = Storage.get('--patreon-user-data')
     if (storedUser) setState({ user: JSON.parse(storedUser) })
-
-    const userData = sessionStorage.getItem('--patreon-user-data')
-    if (!storedUser && userData) {
-      const data = JSON.parse(userData)
-      if ('user' in data && (!storedUser || JSON.parse(storedUser).updatedTime < data.user.updatedTime)) {
-        setState({ user: data.user })
-      }
-      if ('auth' in data) {
-        const authCookie = getCookie(AuthCookieKey)
-        if (authCookie) {
-          const authData = JSON.parse(authCookie)
-          if (authData.updatedAtTime < data.auth.updatedAtTime) {
-            setCookie(AuthCookieKey, JSON.stringify(data.auth))
-          }
-        } else {
-          setCookie(AuthCookieKey, JSON.stringify(data.auth))
-        }
-      }
-    }
   }, [])
 
   useEffect(() => {}, [path])
@@ -52,12 +31,9 @@ export const PatreonProvider: FunctionComponent<Props> = ({ children }) => {
 
   const signIn = useCallback(async (code: string) => {
     try {
-      const auth = await fetchAuthSignIn(code)
+      await fetchAuthSignIn(code)
       const user = await fetchIdentity()
       setState({ user })
-
-      // channel.postMessage({ type: 'update-patreon-data', data: { auth, user } })
-      sessionStorage.setItem('--patreon-user-data', JSON.stringify({ auth, user }))
     } catch (error: any) {
       setState(s => ({ ...s, error: error.message }))
     }

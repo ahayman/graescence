@@ -4,14 +4,6 @@
   "start_url": "/",
   "display": "standalone",
   "background_color": "#221e1e",
-  "url_handlers": [
-    {
-      "origin": "https://www.patreon.com"
-    },
-    {
-      "origin": "https://patreon.com"
-    }
-  ],
   "theme_color": "#151312",
   "shortcuts": [
     {
