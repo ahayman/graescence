@@ -87,7 +87,7 @@ const extractData = async <T extends ContentType>(
   const title = data.title
   const date = data.date instanceof Date ? data.date.toISOString() : data.date?.toString()
   const published = data.published
-  const uuid = data.uuid
+  const uuid = `${data.uuid}`
 
   if (!date || !title || !published || !uuid) {
     return undefined

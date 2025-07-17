@@ -20,6 +20,7 @@ import { useStructuredChapterData } from './useStructuredChapterData'
 import { useQueryParams } from '../../../hooks/useQueryParams'
 import { PatreonContext } from '../../../providers/Patreon/Provider'
 import { AccessNeeded } from '../../Patreon/AccessNeeded'
+import { ProgressContext } from '../../../providers/Progress/Provider'
 
 const includeChapter = (chapter: ChapterMeta, filter: string) => {
   if (chapter.title.includes(filter)) {
@@ -41,6 +42,9 @@ type QueryParam = 'tag' | 'filter'
 
 export const TableOfContents = () => {
   const { chapters } = useContext(ContentContext)
+  const {
+    state: { currentChapter, progress },
+  } = useContext(ProgressContext)
   const chapterData = useStructuredChapterData(chapters)
   const [params, setParam] = useQueryParams<QueryParam>()
   const tag = params['tag'] ?? 'All'
@@ -109,31 +113,33 @@ export const TableOfContents = () => {
           </Header>
           {!collapsed[vol.volNo] && (
             <ContentBlock>
-              {vol.chapters.map(({ id, tags, date, title, chapterNo, isPublic }) => (
+              {vol.chapters.map(({ id, uuid, tags, date, title, chapterNo, isPublic }) => (
                 <Link href={`/chapters/${id}`} key={id}>
-                  <Row vertical="center" horizontal="center" className={styles.chapterRow}>
-                    <div className={styles.chapterTitle}>
-                      {chapterNo} | {title}
-                    </div>
-                    <Tags tags={tags} onSelect={() => undefined} />
-                    <div style={{ flex: 1 }} />
-                    {!(isPublic || hasPatreonAccess) && (
-                      <AccessNeeded
-                        className={styles.accessContainer}
-                        tier="story"
-                        content=""
-                        isAlreadyLinked={user !== undefined}
-                      />
-                    )}
-                    {!isPublic && hasPatreonAccess && (
-                      <FontAwesomeIcon className={styles.storyIcon} icon={TierData.story.icon} />
-                    )}
-                    {date && (
-                      <div className={classes(utilStyles.lightText, utilStyles.smallText, styles.chapterDate)}>
-                        <Date dateString={date} />
+                  <Column>
+                    <Row vertical="center" horizontal="center" className={styles.chapterRow}>
+                      <div className={styles.chapterTitle}>
+                        {chapterNo} | {title}
                       </div>
-                    )}
-                  </Row>
+                      <Tags tags={tags} onSelect={() => undefined} />
+                      <div style={{ flex: 1 }} />
+                      {!(isPublic || hasPatreonAccess) && (
+                        <AccessNeeded
+                          className={styles.accessContainer}
+                          tier="story"
+                          content=""
+                          isAlreadyLinked={user !== undefined}
+                        />
+                      )}
+                      {!isPublic && hasPatreonAccess && (
+                        <FontAwesomeIcon className={styles.storyIcon} icon={TierData.story.icon} />
+                      )}
+                      {date && (
+                        <div className={classes(utilStyles.lightText, utilStyles.smallText, styles.chapterDate)}>
+                          <Date dateString={date} />
+                        </div>
+                      )}
+                    </Row>
+                  </Column>
                 </Link>
               ))}
             </ContentBlock>

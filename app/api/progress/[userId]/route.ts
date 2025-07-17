@@ -156,23 +156,59 @@ export const POST = async (request: Request, { params }: Params) => {
 }
 
 const isProgressData = (data: unknown): data is ProgressData => {
-  return (
-    typeof data === 'object' &&
-    data !== null &&
-    'progressData' in data &&
-    Array.isArray(data.progressData) &&
-    data.progressData.every(
-      (item: unknown) =>
-        typeof item === 'object' &&
-        item !== null &&
-        'id' in item &&
-        'progress' in item &&
-        'type' in item &&
-        'updatedAt' in item &&
-        typeof item.id === 'string' &&
-        typeof item.progress === 'number' &&
-        typeof item.type === 'string' &&
-        typeof item.updatedAt === 'string',
+  if (!(typeof data === 'object' && data !== null)) {
+    console.error('Invalid progress data format:', data)
+    return false
+  }
+  if (!('progressData' in data && Array.isArray(data.progressData))) {
+    console.error('Invalid progress data format:', data)
+    return false
+  }
+
+  return data.progressData.every((item: unknown) => {
+    if (typeof item !== 'object' || item === null) {
+      console.error('Invalid progress item format:', item)
+      return false
+    }
+    if (!('id' in item)) {
+      console.error('Missing id in progress item format:', item)
+      return false
+    }
+    if (!('progress' in item)) {
+      console.error('Missing progress in progress item format:', item)
+      return false
+    }
+    if (!('type' in item)) {
+      console.error('Missing type in progress item format:', item)
+      return false
+    }
+    if (!('updatedAt' in item)) {
+      console.error('Missing updatedAt in progress item format:', item)
+      return false
+    }
+    if (typeof item.id !== 'string' || typeof item.type !== 'string' || typeof item.updatedAt !== 'string') {
+      console.error('Invalid string field in progress item format:', item)
+      return false
+    }
+    if (typeof item.progress !== 'number') {
+      console.error('Invalid progress field type in progress item format:', item)
+      return false
+    }
+    // Ensure updatedAt is a valid date string
+    const date = new Date(item.updatedAt)
+    if (isNaN(date.getTime())) {
+      console.error('Invalid updatedAt field type in progress item format:', item)
+      return false
+    }
+    return (
+      'id' in item &&
+      'progress' in item &&
+      'type' in item &&
+      'updatedAt' in item &&
+      typeof item.id === 'string' &&
+      typeof item.progress === 'number' &&
+      typeof item.type === 'string' &&
+      typeof item.updatedAt === 'string'
     )
-  )
+  })
 }
