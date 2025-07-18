@@ -58,6 +58,8 @@ export const GET = async () => {
     updatedAt: new Date(),
   }
 
+  console.log('data:', userData)
+
   try {
     const user = await prisma.user.upsert({
       where: { id: userData.id },
