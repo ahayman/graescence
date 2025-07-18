@@ -5,12 +5,17 @@
   font-size: 0.7rem;
   color: var(--foreground-secondary-color);
   background-color: var(--background-tertiary-color);
+  margin-bottom: 5pt;
 }
 
 .content {
   position: relative;
   max-height: 30pt;
   overflow: hidden;
+}
+
+.largeContent {
+  max-height: 200pt;
 }
 
 .overlay {
@@ -37,11 +42,25 @@
   margin-right: 0.5em;
 }
 
+.largeTier {
+  font-size: 1.2rem;
+  margin-left: 0.5em;
+}
+
 .loginButton {
   text-align: center;
   padding: 0.15rem 0.25rem;
   margin-left: 5pt;
   border-radius: 5pt;
+  background-color: var(--accent-color);
+  color: var(--foreground-color);
+}
+
+.largeButton {
+  padding: 0.25rem 0.5rem;
+  font-size: 1.2rem;
+  margin-right: 10pt;
+  border-radius: 10pt;
   background-color: var(--accent-color);
   color: var(--foreground-color);
 }

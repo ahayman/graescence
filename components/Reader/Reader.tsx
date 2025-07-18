@@ -297,7 +297,7 @@ export const Reader: FunctionComponent<Props> = ({ html, type, tier, uuid, isPub
             />
           </>
         ) : (
-          <AccessNeeded content={html} tier="story" isAlreadyLinked={user !== undefined} />
+          <AccessNeeded largeLayout content={html} tier="story" isAlreadyLinked={user !== undefined} />
         )}
       </div>
       <Row className={styles.bottomNav} horizontal="space-between" vertical="center">

@@ -11,7 +11,7 @@ import Header from '../../Header/Header'
 import ContentBlock from '../../ContentBlock/ContentBlock'
 import Row from '../../Row'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faChevronDown, faChevronUp, faPenFancy } from '@fortawesome/free-solid-svg-icons'
+import { faChevronDown, faChevronUp, faGlasses, faPenFancy } from '@fortawesome/free-solid-svg-icons'
 import Tags from '../../Tags/Tags'
 import { ChapterMeta } from '../../../staticGenerator/types'
 import SearchField from '../../Search/SearchField'
@@ -57,6 +57,7 @@ export const TableOfContents = () => {
     state: { user },
   } = useContext(PatreonContext)
   const hasPatreonAccess = userCanAccessTier(user, 'story')
+  const currentChapterData = chapters.find(c => c.uuid === currentChapter?.id)
 
   const data: ChapterViewData[] = useMemo(() => {
     const tagged = tag !== 'All' ? chapterData.byTag[tag] : undefined
@@ -99,6 +100,27 @@ export const TableOfContents = () => {
         <Tags tags={tags} selected={tag} onSelect={tag => setParam('tag', tag)} />
         <SearchField text={filter} onChange={setFilter} />
       </Row>
+      {currentChapterData && currentChapterData !== chapters[0] && (
+        <Column className={styles.continueContainer} key={'ContinueCurrent'}>
+          <Header type="Secondary">
+            <Row horizontal="space-between" vertical="center">
+              <Row horizontal="start" vertical="center">
+                <span>Continue Reading</span>
+              </Row>
+            </Row>
+          </Header>
+          <ContentBlock>
+            <ChapterItem
+              key={`continue-${currentChapterData.uuid}`}
+              {...currentChapterData}
+              hasPatreonAccess={hasPatreonAccess}
+              isPatreonLinked={user !== undefined}
+              currentChapter={undefined}
+              progress={progress}
+            />
+          </ContentBlock>
+        </Column>
+      )}
       {data.map(vol => (
         <Column className={styles.volumeContainer} key={vol.volume}>
           <Header type="Secondary">
@@ -153,17 +175,19 @@ const ChapterItem: FunctionComponent<ChapterItemProps> = ({
   progress,
 }) => {
   const cProgress = progress[uuid]?.progress
+  const isCurrentChapter = currentChapter?.id === uuid
   return (
     <Link href={`/chapters/${id}`} key={id}>
       <Column>
         <Row
           vertical="center"
           horizontal="center"
-          className={classes(styles.chapterRow, currentChapter?.id === uuid ? styles.chapterRowCurrent : undefined)}>
+          className={classes(styles.chapterRow, isCurrentChapter ? styles.chapterRowCurrent : undefined)}>
           <div className={styles.chapterTitle}>
             {chapterNo} | {title}
           </div>
           <Tags tags={tags} onSelect={() => undefined} />
+          {isCurrentChapter && <FontAwesomeIcon icon={faGlasses} />}
           <div style={{ flex: 1 }} />
           {!isPublic && hasPatreonAccess && <FontAwesomeIcon className={styles.storyIcon} icon={TierData.story.icon} />}
           {date && (
