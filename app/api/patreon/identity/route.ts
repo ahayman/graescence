@@ -72,9 +72,9 @@ export const GET = async () => {
     })
   } catch (error: any) {
     console.error('Error upserting user:', error)
-    return new Response(JSON.stringify({ message: error.message || 'Failed to upsert user', error }), {
+    return new Response(JSON.stringify(userData), {
       headers: { 'Content-Type': 'application/json' },
-      status: 500,
+      status: 200,
     })
   }
 }
