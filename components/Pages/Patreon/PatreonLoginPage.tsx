@@ -1,6 +1,6 @@
 'use client'
 import Link from 'next/link'
-import { FunctionComponent, useContext, useEffect, useState } from 'react'
+import { FunctionComponent, useContext, useEffect, useRef, useState } from 'react'
 import { PatreonLogo } from '../../Logos/PatreonLogo'
 import { classes } from '../../../lib/utils'
 import styles from './page.module.scss'
@@ -19,10 +19,15 @@ export const PatreonLoginPage: FunctionComponent = () => {
     actions: { signIn },
   } = useContext(PatreonContext)
   const router = useRouter()
+  const signingIn = useRef(false)
 
   useEffect(() => {
-    if (!code) return
-    signIn(code).then(() => router.replace(redirectUrl))
+    if (!code || signingIn.current) return
+    signingIn.current = true
+    signIn(code).then(() => {
+      signingIn.current = false
+      router.replace(redirectUrl)
+    })
   }, [code, params, redirectUrl, router, signIn])
 
   return (

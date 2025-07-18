@@ -47,7 +47,7 @@ export const PatreonProvider: FunctionComponent<Props> = ({ children }) => {
       setState({ user })
     } catch (error: any) {
       console.log({ error })
-      setState(s => ({ ...s, error: error.message ?? JSON.stringify(error) }))
+      setState(s => ({ ...s, error }))
     } finally {
       fetchingAuth.current = false
     }
@@ -68,7 +68,7 @@ export const PatreonProvider: FunctionComponent<Props> = ({ children }) => {
       setState({ user })
     } catch (error: any) {
       console.log({ error })
-      setState(s => ({ ...s, error: error.message ?? JSON.stringify(error) }))
+      setState(s => ({ ...s, error }))
     } finally {
       fetchingAuth.current = false
     }
