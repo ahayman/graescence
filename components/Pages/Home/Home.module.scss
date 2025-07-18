@@ -48,6 +48,12 @@
 }
 
 .supportContainer {
-  margin-top: 20pt;
+  margin-bottom: 20pt;
+}
+
+.pwaLi {
+  margin-bottom: 5pt !important;
+  font-family: var(--reading-font-family, Helvetica, sans-serif);
+  font-size: var(--reading-font-size), 1rem;
 }
 

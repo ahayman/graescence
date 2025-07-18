@@ -54,7 +54,7 @@ export const GET = async () => {
     id: data.data.id,
     email: data.data.attributes.email,
     fullName: data.data.attributes.full_name,
-    tier: getSubscriptionsTier(data.included),
+    tier: getSubscriptionsTier(data),
     updatedAt: new Date(),
   }
 
@@ -70,9 +70,12 @@ export const GET = async () => {
   })
 }
 
-const campaignId = '2708199'
-const worldTier = '3580309'
-const storyTier = '10126695'
+const freeUserEmails = ['apoetsanon@gmail.com']
+const campaignId = '6296047' // https://www.patreon.com/6296047/join
+const worldTier = '24500193' // https://www.patreon.com/checkout/apoetsanon?rid=24500193&vanity=6296047
+const storyTier = '6799500' // https://www.patreon.com/checkout/apoetsanon?rid=6799500&vanity=6296047
+const niceTier = '24500193' //https://www.patreon.com/checkout/apoetsanon?rid=24500193&vanity=6296047
+const insaneTier = '24500294' // https://www.patreon.com/checkout/apoetsanon?rid=24500294&vanity=6296047
 
 const isResultIdentity = (data: unknown): data is PatreonIdentity => {
   if (!(typeof data === 'object' && data !== null)) return false
@@ -82,14 +85,17 @@ const isResultIdentity = (data: unknown): data is PatreonIdentity => {
   return true
 }
 
-const getSubscriptionsTier = (data: PatreonIdentity['included']): AccessTier => {
-  const membership = data.find(d => d.type === 'member' && d.relationships.campaign.data.id === campaignId) as
+const getSubscriptionsTier = (user: PatreonIdentity): AccessTier => {
+  if (user.data.attributes.email && freeUserEmails.includes(user.data.attributes.email)) return 'world'
+  const membership = user.included.find(d => d.type === 'member' && d.relationships.campaign.data.id === campaignId) as
     | Member
     | undefined
   if (!membership) return 'free'
 
   const tiers = membership.relationships.currently_entitled_tiers.data.map(d => d.id)
   if (tiers.includes(worldTier)) return 'world'
+  if (tiers.includes(niceTier)) return 'world'
+  if (tiers.includes(insaneTier)) return 'world'
   if (tiers.includes(storyTier)) return 'story'
 
   return 'free'

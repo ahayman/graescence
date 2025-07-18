@@ -24,6 +24,7 @@
     // letter-spacing: var(--reading-letter-spacing, 0rem);
     // word-spacing: var(--reading-word-spacing, 0rem);
     text-align: var(--reading-text-align, left);
+    margin-bottom: var(--reading-paragraph-spacing, 0rem);
   }
 
   h2 {
@@ -60,10 +61,6 @@
   ul {
     margin-left: 3em;
     margin-bottom: 0.5rem;
-  }
-
-  li {
-    margin-bottom: var(--reading-paragraph-spacing, 0rem);
   }
 
   del {

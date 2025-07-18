@@ -18,6 +18,12 @@ export interface Props {
   content: string
 }
 
+export const isPWA = () =>
+  typeof window !== 'undefined' &&
+  (['fullscreen', 'standalone', 'minimal-ui'].some(mode => window.matchMedia(`(display-mode: ${mode})`).matches) ||
+    ('standalone' in window.navigator && window.navigator.standalone) ||
+    document.referrer.includes('android-app://'))
+
 const feedTypes: GeneratedContentType[] = ['Blog', 'Chapters', 'Lore', 'History']
 const contentTitle: { [type in GeneratedContentType]: string } = {
   Blog: 'Blog',
@@ -68,7 +74,7 @@ export const Home = ({ content }: Props) => {
           height={533.2}
         />
       </Row>
-      <div className={postStyles.post} dangerouslySetInnerHTML={{ __html: content }} />
+      <div className={classes(postStyles.post, s.supportContainer)} dangerouslySetInnerHTML={{ __html: content }} />
       <div className={classes(postStyles.post, s.supportContainer)}>
         <h4>Follow & Support</h4>
         <p>
@@ -90,17 +96,53 @@ export const Home = ({ content }: Props) => {
         <ul>
           {feedTypes.map(type => (
             <li key={`rss-feed-${type}`}>
-              <p>
-                <Link
-                  className={classes(utilStyles.coloredLink, utilStyles.scaleHover)}
-                  href={`/feeds/${type}/feed.xml`}>
-                  {`${contentTitle[type]} Feed`}
-                  <FontAwesomeIcon className={s.rssIcon} icon={faRssSquare} />
-                </Link>
-              </p>
+              <Link className={classes(utilStyles.coloredLink, utilStyles.scaleHover)} href={`/feeds/${type}/feed.xml`}>
+                <span>{`${contentTitle[type]} Feed`}</span>
+                <FontAwesomeIcon className={s.rssIcon} icon={faRssSquare} />
+              </Link>
             </li>
           ))}
         </ul>
+      </div>
+      <div className={classes(postStyles.post, s.supportContainer)}>
+        {!isPWA() && (
+          <div>
+            <h4>PWA Install</h4>
+            <p>
+              This website can be installed as a separate app on your device as a PWA (progressive web app). This allows
+              you to interact with the website as though it were a native app, removing navigation bars and other
+              browser-specific items, which provides a much cleaner reading experience. Not all browsers support
+              installing PWAs. On some devices (Apple devices), installing a website will require you to re-link your
+              Patreon account.
+            </p>
+            <ul>
+              <li className={s.pwaLi} key={`pwa-ios`}>
+                <span>
+                  <strong>iOS Devices</strong> (iPhone, iPad): Tap on the Share button in your toolbar at the bottom
+                  (usually an arrow pointing out of a box) and select the &quot;Add to Home Screen&quot; option.
+                </span>
+              </li>
+              <li className={s.pwaLi} key={`pwa-android`}>
+                <span>
+                  <strong>Android Devices</strong> (Chrome): On the right of the address bar, tap More (usually three
+                  dots) and then &quot;Add to home screen&quot; and then &quot;Install&quot;.
+                </span>
+              </li>
+              <li className={s.pwaLi} key={`pwa-safari`}>
+                <span>
+                  <strong>Safari</strong> (MacOS): Click on the Share button in your toolbar at the top of the screen
+                  (usually an arrow pointing out of a box) and select the &quot;Add to Dock&quot; option.
+                </span>
+              </li>
+              <li className={s.pwaLi} key={`pwa-chrome`}>
+                <span>
+                  <strong>Chrome</strong> (MacOS & Windows): Click on the Install App button in your search bar at the
+                  top of the screen (usually an arrow pointing out of a box) and select the Install button.
+                </span>
+              </li>
+            </ul>
+          </div>
+        )}
       </div>
     </Column>
   )
