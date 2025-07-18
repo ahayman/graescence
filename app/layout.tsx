@@ -9,6 +9,7 @@ import { ChapterMeta, HistoryMeta, LoreMeta, Meta } from '../staticGenerator/typ
 import { getSortedContentData } from '../staticGenerator/contentData'
 import { MainLayout } from '../components/MainLayout/MainLayout'
 import { Metadata, Viewport } from 'next'
+import { VercelAnalytics } from '../components/VercelAnalytics/VercelAnalytics'
 
 export type Props = {
   children?: ReactNode
@@ -159,7 +160,7 @@ const Layout = async ({ children }: Props) => {
             <MainLayout>{children}</MainLayout>
           </Providers>
         </div>
-        <Analytics />
+        <VercelAnalytics />
       </body>
     </html>
   )

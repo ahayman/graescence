@@ -15,6 +15,12 @@ const nextConfig: NextConfig = {
   outputFileTracingIncludes: {
     '/': ['./markdown-content/**/*.md'],
   },
+  rewrites: async () => [
+    {
+      source: '/api/data/:match*',
+      destination: 'https://graescence.com/_vercel/insights/:match*',
+    },
+  ],
 }
 
 module.exports = nextConfig
