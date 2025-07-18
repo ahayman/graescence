@@ -33,7 +33,7 @@ export const GET = async (request: Request) => {
 
   if (!response.ok) {
     const errorData = await response.json()
-    return new Response(JSON.stringify({ message: 'Failed to fetch token', error: errorData }), {
+    return new Response(JSON.stringify({ message: errorData.message || 'Failed to fetch token', error: errorData }), {
       headers: { 'Content-Type': 'application/json' },
       status: response.status,
     })
@@ -41,10 +41,13 @@ export const GET = async (request: Request) => {
 
   const authData = await response.json()
   if (!isResultAuthData(authData)) {
-    return new Response(JSON.stringify({ message: 'Invalid auth data received', error: authData }), {
-      headers: { 'Content-Type': 'application/json' },
-      status: 500,
-    })
+    return new Response(
+      JSON.stringify({ message: authData.message || 'Invalid auth data received', error: authData }),
+      {
+        headers: { 'Content-Type': 'application/json' },
+        status: 500,
+      },
+    )
   }
 
   const now = Date.now()
