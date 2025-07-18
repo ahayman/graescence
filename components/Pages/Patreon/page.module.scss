@@ -83,6 +83,10 @@
   gap: 10pt;
 }
 
+.error {
+  color: var(--error-color);
+}
+
 .privacyHeaderRow {
   gap: 5pt;
   font-size: 0.8rem;

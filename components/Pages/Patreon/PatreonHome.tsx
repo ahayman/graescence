@@ -38,7 +38,7 @@ export const PatreonHome: FunctionComponent = () => {
       </Link>
       {error && (
         <div className={styles.contentBlock}>
-          <div className={postStyles.post}>{error.message}</div>
+          <span className={styles.error}>{error.message}</span>
         </div>
       )}
       <div className={styles.contentBlock}>
