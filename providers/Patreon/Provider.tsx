@@ -75,6 +75,7 @@ export const PatreonProvider: FunctionComponent<Props> = ({ children }) => {
   }, [])
 
   useEffect(() => {
+    setState(s => (s.error ? { ...s, error: undefined } : s))
     const storedUser = Storage.get('--patreon-user-data')
     if (storedUser) {
       const user: UserData = userRef.current || JSON.parse(storedUser)
