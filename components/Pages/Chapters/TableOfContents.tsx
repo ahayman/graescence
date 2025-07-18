@@ -4,7 +4,7 @@ import utilStyles from '../../../styles/utils.module.scss'
 import styles from './toc.module.scss'
 import Date from '../../date'
 import Link from 'next/link'
-import { useContext, useEffect, useMemo, useState } from 'react'
+import { FunctionComponent, useContext, useEffect, useMemo, useState } from 'react'
 import { ContentContext } from '../../../providers/Content/Provider'
 import Column from '../../Column'
 import Header from '../../Header/Header'
@@ -21,6 +21,7 @@ import { useQueryParams } from '../../../hooks/useQueryParams'
 import { PatreonContext } from '../../../providers/Patreon/Provider'
 import { AccessNeeded } from '../../Patreon/AccessNeeded'
 import { ProgressContext } from '../../../providers/Progress/Provider'
+import { ProgressItem } from '../../../providers/Progress/Types'
 
 const includeChapter = (chapter: ChapterMeta, filter: string) => {
   if (chapter.title.includes(filter)) {
@@ -113,39 +114,71 @@ export const TableOfContents = () => {
           </Header>
           {!collapsed[vol.volNo] && (
             <ContentBlock>
-              {vol.chapters.map(({ id, uuid, tags, date, title, chapterNo, isPublic }) => (
-                <Link href={`/chapters/${id}`} key={id}>
-                  <Column>
-                    <Row vertical="center" horizontal="center" className={styles.chapterRow}>
-                      <div className={styles.chapterTitle}>
-                        {chapterNo} | {title}
-                      </div>
-                      <Tags tags={tags} onSelect={() => undefined} />
-                      <div style={{ flex: 1 }} />
-                      {!(isPublic || hasPatreonAccess) && (
-                        <AccessNeeded
-                          className={styles.accessContainer}
-                          tier="story"
-                          content=""
-                          isAlreadyLinked={user !== undefined}
-                        />
-                      )}
-                      {!isPublic && hasPatreonAccess && (
-                        <FontAwesomeIcon className={styles.storyIcon} icon={TierData.story.icon} />
-                      )}
-                      {date && (
-                        <div className={classes(utilStyles.lightText, utilStyles.smallText, styles.chapterDate)}>
-                          <Date dateString={date} />
-                        </div>
-                      )}
-                    </Row>
-                  </Column>
-                </Link>
+              {vol.chapters.map(chapter => (
+                <ChapterItem
+                  key={chapter.uuid}
+                  {...chapter}
+                  hasPatreonAccess={hasPatreonAccess}
+                  isPatreonLinked={user !== undefined}
+                  currentChapter={currentChapter}
+                  progress={progress}
+                />
               ))}
             </ContentBlock>
           )}
         </Column>
       ))}
     </Column>
+  )
+}
+
+type ChapterItemProps = ChapterMeta & {
+  hasPatreonAccess: boolean
+  isPatreonLinked: boolean
+  currentChapter?: ProgressItem
+  progress: { [id: string]: ProgressItem | undefined }
+}
+
+const ChapterItem: FunctionComponent<ChapterItemProps> = ({
+  id,
+  chapterNo,
+  title,
+  tags,
+  isPublic,
+  date,
+  uuid,
+  hasPatreonAccess,
+  isPatreonLinked,
+  currentChapter,
+  progress,
+}) => {
+  const cProgress = progress[uuid]?.progress
+  return (
+    <Link href={`/chapters/${id}`} key={id}>
+      <Column>
+        <Row
+          vertical="center"
+          horizontal="center"
+          className={classes(styles.chapterRow, currentChapter?.id === uuid ? styles.chapterRowCurrent : undefined)}>
+          <div className={styles.chapterTitle}>
+            {chapterNo} | {title}
+          </div>
+          <Tags tags={tags} onSelect={() => undefined} />
+          <div style={{ flex: 1 }} />
+          {!isPublic && hasPatreonAccess && <FontAwesomeIcon className={styles.storyIcon} icon={TierData.story.icon} />}
+          {date && (
+            <div className={classes(utilStyles.lightText, utilStyles.smallText, styles.chapterDate)}>
+              <Date dateString={date} />
+            </div>
+          )}
+        </Row>
+        {!(isPublic || hasPatreonAccess) && (
+          <AccessNeeded className={styles.accessContainer} tier="story" content="" isAlreadyLinked={isPatreonLinked} />
+        )}
+        <div className={styles.progressContainer}>
+          {cProgress && <div style={{ width: `${cProgress * 100}%` }} className={styles.progressIndicator} />}
+        </div>
+      </Column>
+    </Link>
   )
 }
