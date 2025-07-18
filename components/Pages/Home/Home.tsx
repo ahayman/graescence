@@ -21,7 +21,7 @@ export const Home = ({ content }: Props) => {
     state: { currentChapter: chapterProgress },
   } = useContext(ProgressContext)
   const currentChapter = useMemo(
-    () => chapters.find(c => c.id === chapterProgress?.id) ?? chapters[0],
+    () => chapters.find(c => c.uuid === chapterProgress?.id) ?? chapters[0],
     [chapters, chapterProgress],
   )
   const firstChapter = chapters[0]

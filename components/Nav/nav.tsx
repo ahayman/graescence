@@ -33,7 +33,7 @@ const Nav = () => {
     actions: { toggleFullScreen },
   } = useContext(DisplayContext)
   const currentChapter = useMemo(
-    () => chapters.find(c => c.id === currentChapterProgress?.id) ?? chapters[0],
+    () => chapters.find(c => c.uuid === currentChapterProgress?.id) ?? chapters[0],
     [chapters, currentChapterProgress?.id],
   )
   const latestPost = blog[0]
