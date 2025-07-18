@@ -20,7 +20,7 @@ import { AccessTier } from '../../../app/api/types'
 
 export const PatreonHome: FunctionComponent = () => {
   const {
-    state: { user },
+    state: { user, error },
     actions: { logout },
   } = useContext(PatreonContext)
   const router = useRouter()
@@ -36,6 +36,11 @@ export const PatreonHome: FunctionComponent = () => {
         <PatreonLogo className={styles.supportLogo} />
         <span className={styles.patreonTitle}>{content.home.title}</span>
       </Link>
+      {error && (
+        <div className={styles.contentBlock}>
+          <div className={postStyles.post}>{error.message}</div>
+        </div>
+      )}
       <div className={styles.contentBlock}>
         <div className={postStyles.post}>
           {content.home.content.map((c, idx) => (
