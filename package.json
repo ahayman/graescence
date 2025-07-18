@@ -9,6 +9,8 @@
     "lint": "next lint",
     "validate": "tsc --noEmit && next lint",
     "prisma:gen": "prisma generate",
+    "prisma:push": "prisma db push",
+    "prisma:studio": "prisma studio",
     "postinstall": "patch-package && prisma generate --no-engine"
   },
   "dependencies": {
