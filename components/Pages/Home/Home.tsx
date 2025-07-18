@@ -48,9 +48,9 @@ export const Home = ({ content }: Props) => {
   const renderInfoBlock = (header: string, title: string, link: string) => (
     <Link href={link} className={classes(s.infoBlock, utilStyles.scaleHover)}>
       <div className={s.infoHeader}>{header}</div>
-      <Column vertical="center" horizontal="center">
+      <Row vertical="center" horizontal="center" style={{ flex: 1 }}>
         <div className={s.infoData}>{title}</div>
-      </Column>
+      </Row>
     </Link>
   )
 
