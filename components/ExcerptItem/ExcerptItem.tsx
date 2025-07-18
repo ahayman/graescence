@@ -17,7 +17,7 @@ import { ProgressContext } from '../../providers/Progress/Provider'
 
 export type Props = {
   type: 'lore' | 'history' | 'blog'
-  id: string
+  slug: string
   uuid: string
   title: string
   excerpt: string
@@ -30,7 +30,7 @@ export type Props = {
 }
 export const ExcerptItem = ({
   type,
-  id,
+  slug,
   uuid,
   title,
   date,
@@ -48,7 +48,7 @@ export const ExcerptItem = ({
 
   return (
     <div className={styles.container}>
-      <Link href={createURL(`/${type}/${id}`, passThroughQuery)}>
+      <Link href={createURL(`/${type}/${slug}`, passThroughQuery)}>
         <Row className={styles.headerRow} horizontal="space-between" vertical="center">
           <Row style={{ gap: 5 }}>
             <Header scaleHover type="Tertiary" title={title} />
@@ -69,7 +69,7 @@ export const ExcerptItem = ({
         <div className={styles.excerpt}>
           <div className={postStyles.post} dangerouslySetInnerHTML={{ __html: excerpt }} />
           <Row horizontal="end" vertical="center">
-            <Link className={utilStyles.coloredLink} href={createURL(`/${type}/${id}`, passThroughQuery)}>
+            <Link className={utilStyles.coloredLink} href={createURL(`/${type}/${slug}`, passThroughQuery)}>
               <span>More →</span>
             </Link>
           </Row>

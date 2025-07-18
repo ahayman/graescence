@@ -12,7 +12,7 @@ const ChapterLore = ({ data }: Props) => (
     <Header type="Primary" title="Lore" />
     <Column className={styles.loreContainer}>
       {data.map(item => (
-        <ExcerptItem tier="world" key={item.id} {...item} />
+        <ExcerptItem tier="world" key={item.slug} {...item} />
       ))}
     </Column>
   </>

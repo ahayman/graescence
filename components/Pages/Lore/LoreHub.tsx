@@ -47,7 +47,7 @@ const LoreHub = ({ loreData }: Props) => {
       <section key={viewData.category}>
         <Header title={viewData.category} type="Secondary" />
         {viewData.data.map(item => (
-          <ExcerptItem tier="world" key={item.id} {...item} />
+          <ExcerptItem tier="world" key={item.slug} {...item} />
         ))}
       </section>
     ))
@@ -56,7 +56,7 @@ const LoreHub = ({ loreData }: Props) => {
     const allData = data
       .flatMap(d => d.data)
       .toSorted((l, r) => new Date(r.date).getTime() - new Date(l.date).getTime())
-    return allData.map(item => <ExcerptItem tier="world" key={item.id} {...item} />)
+    return allData.map(item => <ExcerptItem tier="world" key={item.slug} {...item} />)
   }
 
   useEffect(() => setParam('filter', { filter, tag: currentCategory }), [currentCategory, filter, setParam])

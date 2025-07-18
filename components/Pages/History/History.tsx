@@ -37,15 +37,15 @@ const History = ({ item }: Props) => {
 
   const [prev, next] = useMemo((): [NavLink | undefined, NavLink | undefined] => {
     const sorted = getSortedHistoryData(data, sort).flatMap(d => d.data)
-    const idx = sorted.findIndex(d => d.id === item.id)
+    const idx = sorted.findIndex(d => d.slug === item.slug)
     const nextLore = sorted[idx + 1]
     const prevLore = idx > 0 ? sorted[idx - 1] : undefined
-    const next = nextLore ? { title: nextLore.title, url: `/history/${nextLore.id}` } : undefined
+    const next = nextLore ? { title: nextLore.title, url: `/history/${nextLore.slug}` } : undefined
     const prev = prevLore
-      ? { title: prevLore.title, url: `/history/${prevLore.id}` }
+      ? { title: prevLore.title, url: `/history/${prevLore.slug}` }
       : { title: 'Back', onClick: nav.back }
     return [prev, next]
-  }, [data, item.id, nav.back, sort])
+  }, [data, item.slug, nav.back, sort])
 
   return (
     <div className={utilStyles.pageMain}>

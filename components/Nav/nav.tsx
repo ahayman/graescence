@@ -94,7 +94,7 @@ const Nav = () => {
         <span>World History</span>
       </Link>,
       currentChapter ? (
-        <Link key={`${type}-currentChapter`} className={classes(styles.link)} href={`/chapters/${currentChapter.id}`}>
+        <Link key={`${type}-currentChapter`} className={classes(styles.link)} href={`/chapters/${currentChapter.slug}`}>
           <span className={styles.linkTitle}>{!currentChapterProgress ? 'Begin Story' : 'Continue Story'}</span>
           <span className={styles.linkDesc}>
             {currentChapter.title.length > 20 ? currentChapter.title.slice(0, 17) + '...' : currentChapter.title}
@@ -102,7 +102,7 @@ const Nav = () => {
         </Link>
       ) : null,
       latestPost ? (
-        <Link key={`${type}-latestPost`} className={classes(styles.link)} href={`/blog/${latestPost.id}`}>
+        <Link key={`${type}-latestPost`} className={classes(styles.link)} href={`/blog/${latestPost.slug}`}>
           <span className={styles.linkTitle}>Latest Post</span>
           <span className={styles.linkDesc}>
             {latestPost.title.length > 20 ? latestPost.title.slice(0, 17) + '...' : latestPost.title}

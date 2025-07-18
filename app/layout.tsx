@@ -95,18 +95,18 @@ const Layout = async ({ children }: Props) => {
    * Otherwise, the entire dataset will be loaded into each page (since this is a layout)
    * which will bloat the website. We _only_ want metatdata here.
    */
-  const blog: Meta[] = (await getSortedContentData('Blog')).map(({ id, uuid, title, date, isPublic }) => ({
-    id,
+  const blog: Meta[] = (await getSortedContentData('Blog')).map(({ slug, uuid, title, date, isPublic }) => ({
+    slug,
     uuid,
     title,
     date,
     isPublic,
   }))
   const chapters: ChapterMeta[] = (await getSortedContentData('Chapters')).map(
-    ({ type, id, uuid, title, date, volumeNo, volumeName, chapterNo, tags, isPublic }) => ({
+    ({ type, slug, uuid, title, date, volumeNo, volumeName, chapterNo, tags, isPublic }) => ({
       type,
       uuid,
-      id,
+      slug,
       title,
       date,
       volumeNo,
@@ -117,10 +117,10 @@ const Layout = async ({ children }: Props) => {
     }),
   )
   const lore: LoreMeta[] = (await getSortedContentData('Lore')).map(
-    ({ type, uuid, id, title, date, tags, category, isPublic }) => ({
+    ({ type, uuid, slug, title, date, tags, category, isPublic }) => ({
       type,
       uuid,
-      id,
+      slug,
       title,
       date,
       tags,
@@ -130,10 +130,10 @@ const Layout = async ({ children }: Props) => {
   )
   const history: HistoryMeta[] = await (
     await getSortedContentData('History')
-  ).map(({ type, uuid, id, title, date, tags, startDate, endDate, category, turning, isPublic }) => ({
+  ).map(({ type, uuid, slug, title, date, tags, startDate, endDate, category, turning, isPublic }) => ({
     type,
     uuid,
-    id,
+    slug,
     title,
     date,
     startDate,

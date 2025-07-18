@@ -42,7 +42,7 @@ const HistoryHub = ({ historyData }: Props) => {
         <Header title={viewData.category} type="Secondary" />
         {viewData.data.map(item => (
           <ExcerptItem
-            key={item.id}
+            key={item.slug}
             tier="world"
             {...item}
             tags={item.turning ? [item.turning] : undefined}

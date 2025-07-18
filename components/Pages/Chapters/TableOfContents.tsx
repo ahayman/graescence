@@ -162,7 +162,7 @@ type ChapterItemProps = ChapterMeta & {
 }
 
 const ChapterItem: FunctionComponent<ChapterItemProps> = ({
-  id,
+  slug: id,
   chapterNo,
   title,
   tags,

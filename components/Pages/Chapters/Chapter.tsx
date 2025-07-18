@@ -50,11 +50,11 @@ const Chapter = ({ id, chapter }: Props) => {
   const { chapterNo, title, tags, notes } = chapter
   const [lorePopover, setLorePopover] = useState<LorePopoverState>()
   const { chapters } = useContext(ContentContext)
-  const chapterIdx = useMemo(() => chapters.findIndex(c => c.id === id), [chapters, id])
+  const chapterIdx = useMemo(() => chapters.findIndex(c => c.slug === id), [chapters, id])
   const nextChapter: ChapterMeta | undefined = chapters[chapterIdx + 1]
   const prevChapter: ChapterMeta | undefined = chapters[chapterIdx - 1]
-  const next: NavLink | undefined = nextChapter ? { title: 'Next', url: `/chapters/${nextChapter.id}` } : undefined
-  const prev: NavLink | undefined = prevChapter ? { title: 'Prev', url: `/chapters/${prevChapter.id}` } : undefined
+  const next: NavLink | undefined = nextChapter ? { title: 'Next', url: `/chapters/${nextChapter.slug}` } : undefined
+  const prev: NavLink | undefined = prevChapter ? { title: 'Prev', url: `/chapters/${prevChapter.slug}` } : undefined
 
   const onLoreClick = useCallback(
     (event: Event) => {

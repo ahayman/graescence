@@ -17,7 +17,7 @@ export const useStructuredChapterData = (items: ChapterMeta[]): ChapterData => {
     const volumeName: { [key: number]: string | undefined } = {}
     items.forEach((chapter, index) => {
       // Set Chapter id data
-      byID[chapter.id] = index
+      byID[chapter.slug] = index
 
       if (!volumeName[chapter.volumeNo] && chapter.volumeName) {
         volumeName[chapter.volumeNo] = chapter.volumeName

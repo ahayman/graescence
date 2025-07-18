@@ -5,7 +5,7 @@ export type ContentType = (ChapterMeta | LoreMeta | BlogMeta | HistoryMeta)['typ
 
 /// Content ID for all content.
 export type ContentId = {
-  id: string
+  slug: string
   uuid: string
 }
 

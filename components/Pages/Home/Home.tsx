@@ -48,7 +48,9 @@ export const Home = ({ content }: Props) => {
   const renderInfoBlock = (header: string, title: string, link: string) => (
     <Link href={link} className={classes(s.infoBlock, utilStyles.scaleHover)}>
       <div className={s.infoHeader}>{header}</div>
-      <div className={s.infoData}>{title}</div>
+      <Column vertical="center" horizontal="center">
+        <div className={s.infoData}>{title}</div>
+      </Column>
     </Link>
   )
 
@@ -56,12 +58,12 @@ export const Home = ({ content }: Props) => {
     <Column>
       <div className={s.infoContainer}>
         {currentChapter
-          ? renderInfoBlock('Continue', currentChapter.title, `/chapters/${currentChapter.id}`)
-          : renderInfoBlock('Begin', firstChapter.title, `/chapters/${firstChapter.id}`)}
+          ? renderInfoBlock('Continue', currentChapter.title, `/chapters/${currentChapter.slug}`)
+          : renderInfoBlock('Begin', firstChapter.title, `/chapters/${firstChapter.slug}`)}
         {latestChapter &&
           latestChapter !== currentChapter &&
-          renderInfoBlock('Latest', latestChapter.title, `/chapters/${latestChapter.id}`)}
-        {latestPost && renderInfoBlock('Blog', latestPost.title, `/blog/${latestPost.id}`)}
+          renderInfoBlock('Latest', latestChapter.title, `/chapters/${latestChapter.slug}`)}
+        {latestPost && renderInfoBlock('Blog', latestPost.title, `/blog/${latestPost.slug}`)}
       </div>
       <Row horizontal="center">
         <Image

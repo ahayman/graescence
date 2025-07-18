@@ -89,7 +89,7 @@ const extractData = async <T extends GeneratedContentType>(
   const published = data.published
   const uuid = `${data.uuid}`
 
-  if (!date || !title || !published || !uuid) {
+  if (!date || !title || !published || !data.uuid) {
     return undefined
   }
 
@@ -122,7 +122,7 @@ const extractData = async <T extends GeneratedContentType>(
       const excerpt = await getExcerpt(front)
       const extract: ContentData['Chapters'] = {
         type: 'chapter',
-        id,
+        slug: id,
         uuid,
         excerpt,
         title,
@@ -146,7 +146,7 @@ const extractData = async <T extends GeneratedContentType>(
         .process(front.content.replace(excerpt_separator, ''))
       const html = processedContent.toString()
       const isPublic = true
-      const extract: ContentData['Blog'] = { type: 'blog', id, uuid, title, date, excerpt, html, isPublic }
+      const extract: ContentData['Blog'] = { type: 'blog', slug: id, uuid, title, date, excerpt, html, isPublic }
       return extract as ContentData[T]
     }
     case 'History': {
@@ -167,7 +167,7 @@ const extractData = async <T extends GeneratedContentType>(
       const excerpt = await getExcerpt(front)
       const extract: ContentData['History'] = {
         type: 'history',
-        id,
+        slug: id,
         uuid,
         title,
         date,
@@ -197,7 +197,7 @@ const extractData = async <T extends GeneratedContentType>(
       const excerpt = await getExcerpt(front)
       const extract: ContentData['Lore'] = {
         type: 'lore',
-        id,
+        slug: id,
         uuid,
         title,
         date,
@@ -292,8 +292,8 @@ export const generateRSS = async (type: GeneratedContentType) => {
   feed.items = data.map(content => {
     const item: Item = {
       title: content.title,
-      id: content.id,
-      link: `${siteUrl}/${type}/${content.id}`,
+      id: content.slug,
+      link: `${siteUrl}/${type}/${content.slug}`,
       description: content.excerpt,
       author: [{ name: 'apoetsanon' }],
       date: parseISO(content.date),
@@ -414,7 +414,7 @@ export const getSortedContentData = async <T extends GeneratedContentType>(
         const extracted = await extractData(type, id, file.name, parent, result)
         if (extracted) {
           const fileName = file.name.replace(/\.md|\.markdown$/, '')
-          const path = `/${type.toLocaleLowerCase()}/${extracted.id}`
+          const path = `/${type.toLocaleLowerCase()}/${extracted.slug}`
           addPath(fileName, path)
         }
         return extracted
@@ -438,8 +438,8 @@ export const getSortedContentData = async <T extends GeneratedContentType>(
 
 export const getAllContentIds = async (type: GeneratedContentType): Promise<StaticParam<ContentId>[]> => {
   const data = await getSortedContentData(type)
-  return data.map(({ id, uuid }) => {
-    return { params: { id, uuid } }
+  return data.map(({ slug, uuid }) => {
+    return { params: { slug, uuid } }
   })
 }
 
