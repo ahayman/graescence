@@ -13,10 +13,12 @@ import { TierData, userCanAccessTier } from '../../lib/utils'
 import { AccessNeeded } from '../Patreon/AccessNeeded'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { AccessTier } from '../../app/api/types'
+import { ProgressContext } from '../../providers/Progress/Provider'
 
 export type Props = {
   type: 'lore' | 'history' | 'blog'
   id: string
+  uuid: string
   title: string
   excerpt: string
   tier: AccessTier
@@ -29,6 +31,7 @@ export type Props = {
 export const ExcerptItem = ({
   type,
   id,
+  uuid,
   title,
   date,
   excerpt,
@@ -38,11 +41,10 @@ export const ExcerptItem = ({
   tier,
   isPublic,
 }: Props) => {
-  const {
-    state: { user },
-  } = useContext(PatreonContext)
+  const user = useContext(PatreonContext).state.user
   const canAccess = isPublic || userCanAccessTier(user, tier)
   const isLinked = user !== undefined
+  const itemProgress = useContext(ProgressContext).state.progress[uuid]?.progress
 
   return (
     <div className={styles.container}>
@@ -71,6 +73,9 @@ export const ExcerptItem = ({
               <span>More →</span>
             </Link>
           </Row>
+          <div className={styles.progressContainer}>
+            {itemProgress && <div style={{ width: `${itemProgress * 100}%` }} className={styles.progressIndicator} />}
+          </div>
         </div>
       ) : (
         <AccessNeeded tier={tier} isAlreadyLinked={isLinked} content={excerpt} />

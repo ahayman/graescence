@@ -33,7 +33,7 @@ const includeChapter = (chapter: ChapterMeta, filter: string) => {
   return false
 }
 
-type ChapaterViewData = {
+type ChapterViewData = {
   volume: string
   volNo: number
   chapters: ChapterMeta[]
@@ -58,7 +58,7 @@ export const TableOfContents = () => {
   } = useContext(PatreonContext)
   const hasPatreonAccess = userCanAccessTier(user, 'story')
 
-  const data: ChapaterViewData[] = useMemo(() => {
+  const data: ChapterViewData[] = useMemo(() => {
     const tagged = tag !== 'All' ? chapterData.byTag[tag] : undefined
     //Filter Lore according to search
     const filtered = chapterData.items.filter((chapter, idx) => {

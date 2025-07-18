@@ -8,16 +8,16 @@ import remarkGfm from 'remark-gfm'
 import { Extension, Feed, Item } from 'feed'
 import { parseISO } from 'date-fns'
 import { isNotEmpty } from '../lib/utils'
-import { ChapterData, ContentId, ContentType, HistoryData, LoreData, BlogData } from './types'
+import { ChapterData, ContentId, GeneratedContentType, HistoryData, LoreData, BlogData } from './types'
 
 //Must match the actual content directory name
 const contentDir = path.join(process.cwd(), 'markdown-content')
-const contentTypeDir = (type: ContentType) => path.join(contentDir, type)
+const contentTypeDir = (type: GeneratedContentType) => path.join(contentDir, type)
 const excerpt_separator = '<-- excerpt -->'
 const notes_separator = '<-- note -->'
 
 const VolumeNames: { [key: number]: string | undefined } = {}
-const Cache: { [key in ContentType]: ContentData[key][] | undefined } = {
+const Cache: { [key in GeneratedContentType]: ContentData[key][] | undefined } = {
   Blog: undefined,
   Chapters: undefined,
   Lore: undefined,
@@ -56,7 +56,7 @@ const getPath = (idOrPath: string): string | undefined => {
 /**
  * The definition of content includes the type of content along with the data.
  */
-export type ContentDefinition<Type extends ContentType, Data extends {}> = { [key in Type]: Data }
+export type ContentDefinition<Type extends GeneratedContentType, Data extends {}> = { [key in Type]: Data }
 
 /**
  * Content Data is a union type that represents Blog, Chapters,
@@ -76,7 +76,7 @@ export type PageContent = 'Home'
  * @param front  The front matter to extract data from.
  * @returns
  */
-const extractData = async <T extends ContentType>(
+const extractData = async <T extends GeneratedContentType>(
   type: T,
   id: string,
   fileName: string,
@@ -93,7 +93,7 @@ const extractData = async <T extends ContentType>(
     return undefined
   }
 
-  switch (type as ContentType) {
+  switch (type as GeneratedContentType) {
     case 'Chapters': {
       const volumeNo = Number.parseInt(parent.split(' ')[1].split(' - ')[0])
       const chapterNo = Number.parseInt(fileName.split(' ')[0])
@@ -119,10 +119,12 @@ const extractData = async <T extends ContentType>(
       const notes = processedNotes?.toString()
       const lore = Cache['Lore'] ?? (await getSortedContentData('Lore'))
       const { chapterLore, highlightedHtml } = parseHighlightedLore(html, lore)
+      const excerpt = await getExcerpt(front)
       const extract: ContentData['Chapters'] = {
         type: 'chapter',
         id,
         uuid,
+        excerpt,
         title,
         date,
         volumeNo,
@@ -219,13 +221,13 @@ const getExcerpt = async (front: matter.GrayMatterFile<string>): Promise<string>
   return (await remark().use(remarkGfm).use(HTML).process(excerpt)).toString()
 }
 
-type ContentSortFn<T extends ContentType> = (l: ContentData[T], r: ContentData[T]) => number
+type ContentSortFn<T extends GeneratedContentType> = (l: ContentData[T], r: ContentData[T]) => number
 
 /**
  * A sort function to sort content data. Sort order depends on the type
  * of data.
  */
-const sortFn = <T extends ContentType>(type: T): ContentSortFn<T> => {
+const sortFn = <T extends GeneratedContentType>(type: T): ContentSortFn<T> => {
   if (type === 'Chapters') {
     const sort: ContentSortFn<'Chapters'> = (l, r) => {
       if (l.volumeNo === r.volumeNo) {
@@ -264,7 +266,7 @@ export const getContent = async (type: PageContent): Promise<string> => {
  * Generates RSS data from the content, and then writes the
  * rss data to public/feeds folder.
  */
-export const generateRSS = async (type: ContentType) => {
+export const generateRSS = async (type: GeneratedContentType) => {
   const data = await getSortedContentData(type)
   const title = `${process.env.SITE_NAME ?? 'Graescence'} ${type.charAt(0).toUpperCase() + type.slice(1)} Feed`
   const siteUrl = process.env.HOST ?? 'http://localhost:3000'
@@ -287,40 +289,15 @@ export const generateRSS = async (type: ContentType) => {
       name: 'apoetsanon',
     },
   })
-  if (type === 'Chapters') {
-    feed.addExtension({
-      name: 'readform:lore',
-      objects: `${siteUrl}/feeds/lore/feed.xml`,
-    })
-  }
   feed.items = data.map(content => {
     const item: Item = {
       title: content.title,
       id: content.id,
       link: `${siteUrl}/${type}/${content.id}`,
-      description: content.html,
+      description: content.excerpt,
       author: [{ name: 'apoetsanon' }],
       date: parseISO(content.date),
     }
-    let extensions: Extension[] = []
-    switch (content.type) {
-      case 'lore':
-      case 'chapter': {
-        if (content.tags.length > 0) {
-          extensions.push({
-            name: 'readform:tags',
-            objects: content.tags.join(','),
-          })
-        }
-        if (content.type == 'chapter' && content.notes !== undefined) {
-          extensions.push({
-            name: 'readform:notes',
-            objects: { _cdata: content.notes },
-          })
-        }
-      }
-    }
-    item.extensions = extensions
     return item
   })
   fs.mkdirSync(`./public/feeds/${type}`, { recursive: true })
@@ -334,7 +311,10 @@ const generateAllPaths = async () => {
   await generatePathsIn('Chapters')
 }
 
-const generatePathsIn = async <T extends ContentType>(type: T, dir: string = contentTypeDir(type)): Promise<void> => {
+const generatePathsIn = async <T extends GeneratedContentType>(
+  type: T,
+  dir: string = contentTypeDir(type),
+): Promise<void> => {
   //Remove the rootDirectory and replace slashes with a dot to create a rootId
   const rootDir = contentTypeDir(type)
   const rootId =
@@ -376,7 +356,7 @@ const generatePathsIn = async <T extends ContentType>(type: T, dir: string = con
  * retrieves additional content data from subfolders. If no directory is provided,
  * then the root directory for the specified type is used.
  */
-export const getSortedContentData = async <T extends ContentType>(
+export const getSortedContentData = async <T extends GeneratedContentType>(
   type: T,
   dir: string = contentTypeDir(type),
   parent: string = 'root',
@@ -456,7 +436,7 @@ export const getSortedContentData = async <T extends ContentType>(
   return data
 }
 
-export const getAllContentIds = async (type: ContentType): Promise<StaticParam<ContentId>[]> => {
+export const getAllContentIds = async (type: GeneratedContentType): Promise<StaticParam<ContentId>[]> => {
   const data = await getSortedContentData(type)
   return data.map(({ id, uuid }) => {
     return { params: { id, uuid } }

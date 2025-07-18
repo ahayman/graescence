@@ -1,20 +1,20 @@
+import { ContentType } from '../../staticGenerator/types'
+
 export type State = {
   lastUpdated?: Date
   currentChapter?: ProgressItem
-  progress: { [id: string]: ProgressItem }
+  progress: { [id: string]: ProgressItem | undefined }
 }
-
-export type ProgressType = 'chapter' | 'lore' | 'blog' | 'history'
 
 export type ProgressItem = {
   id: string
   progress: number
-  type: ProgressType
+  type: ContentType
   updatedAt: Date
 }
 
 export type Actions = {
-  updateProgress: (id: string, type: ProgressType, progress?: number) => void
+  updateProgress: (id: string, type: ContentType, progress?: number) => void
 }
 
 export type Context = {

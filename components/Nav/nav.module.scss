@@ -153,11 +153,6 @@
   text-align: center;
   vertical-align: middle;
   margin-bottom: 0.1rem;
-
-  @include mobile {
-    font-size: 0.8rem;
-  }
-
 }
 
 .hLink {
@@ -178,7 +173,6 @@
 
   @include mobile {
     margin: 0.5rem 0.2rem;
-    font-size: 0.8rem;
   }
 }
 
@@ -196,30 +190,17 @@
     transition: transform 300ms ease-in-out;
     transform: scale(1.1);
   }
-
-  @include mobile {
-    margin: 0.5rem 0.2rem;
-    font-size: 0.8rem;
-  }
 }
 
 .linkTitle {
   text-align: center;
   margin-bottom: 0.1rem;
-
-  @include mobile {
-    font-size: 0.8rem;
-  }
 }
 
 .linkDesc {
   color: var(--link-color);
   text-align: center;
   font-size: 0.8rem;
-
-  @include mobile {
-    font-size: 0.6rem;
-  }
 }
 
 

@@ -1,83 +1,9 @@
 @use '../../../styles/mixins' as *;
 
-.main {
-  position: absolute;
-  top: 0;
-  left: 0;
-  flex: 1;
-  flex-direction: column;
-  display: flex;
-  width: 100%;
-  min-width: 100%;
-  height: 100%;
-  max-height: 100%;
-  overflow: hidden;
-}
-
 .readOptions {
   position: absolute;
   right: 20pt;
   top: 2pt;
-}
-
-.chapterContainer {
-  position: relative;
-  flex: 1;
-  width: 100%;
-  min-width: 100%;
-  max-height: 100%;
-  background-color: var(--background-tertiary-color);
-  overflow: hidden;
-}
-
-.chapterMeasure {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  z-index: -1;
-}
-
-.pagedContent {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  display: flex;
-  flex: 1;
-  flex-direction: row;
-  overflow-x: scroll;
-  scroll-snap-type: x mandatory;
-  scrollbar-width: none;
-  scrollbar-color: transparent transparent;
-}
-
-.scrolledContent {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-  overflow-y: scroll;
-}
-
-.contentVisible {
-  opacity: 1;
-  pointer-events: auto;
-}
-.contentHidden {
-  opacity: 0;
-  pointer-events: none;
-}
-
-.chapterPage {
-  scroll-snap-align: start;
 }
 
 .loreContainer {
@@ -144,23 +70,4 @@
   height: 0pt;
   max-height: 0pt;
   display: none;
-}
-
-.bottomNav {
-  height: 20pt;
-  border-top-width: 1pt;
-  border-top-color: var(--background-secondary-color);
-  border-top-style: groove;
-  padding-inline: 3pt;
-  padding-block: 3pt;
-}
-
-.bottomNavItem {
-  flex: 1;
-  white-space: nowrap;
-}
-
-.bottomNavIndicator {
-  flex: 3;
-  margin-inline: 5pt;
 }

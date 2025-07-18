@@ -11,6 +11,7 @@ import { BlogData } from '../../../staticGenerator/types'
 import { faSliders } from '@fortawesome/free-solid-svg-icons'
 import Popover from '../../../components/Popover/Popover'
 import { useRouter } from 'next/navigation'
+import { Reader } from '../../Reader/Reader'
 
 export type Props = {
   id: string
@@ -34,15 +35,7 @@ export const BlogPost = ({ post }: Props) => {
           <Date dateString={post.date} />
         </span>
       </Header>
-      <div className={utilStyles.lightText}></div>
-      <ContentBlock>
-        <div className={postStyles.post} dangerouslySetInnerHTML={{ __html: post.html }} />
-      </ContentBlock>
-      <Row className={utilStyles.hPadding}>
-        <span className={utilStyles.coloredLink} onClick={nav.back}>
-          {'← Back'}
-        </span>
-      </Row>
+      <Reader {...post} tier="free" nav={{ prev: { title: 'Back', onClick: nav.back } }} />
     </div>
   )
 }

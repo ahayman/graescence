@@ -25,7 +25,7 @@ type GhostIndexes = [number | null, number | null]
 
 const calculateScale = (page: number, count: number, progress: number): number => {
   if (count < 1) return 0
-  const pageDist = 1 / count
+  const pageDist = 1 / (count - 1)
   const distFromProgress = Math.abs(page * pageDist - progress)
   if (distFromProgress >= pageDist) return 0
   const pageProgress = (pageDist - distFromProgress) / pageDist

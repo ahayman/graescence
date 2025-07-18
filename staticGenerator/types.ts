@@ -1,5 +1,7 @@
 /** Major types of content displayed on the website. */
-export type ContentType = 'Blog' | 'Chapters' | 'Lore' | 'History'
+export type GeneratedContentType = 'Blog' | 'Chapters' | 'Lore' | 'History'
+
+export type ContentType = (ChapterMeta | LoreMeta | BlogMeta | HistoryMeta)['type']
 
 /// Content ID for all content.
 export type ContentId = {
@@ -14,23 +16,27 @@ export type Meta = ContentId & {
   isPublic: boolean
 }
 
-/** === CHATPER === */
+/** === CHAPTER === */
 
 /**
  * Meta associated with a chapter (missing content)
  */
 export type ChapterMeta = Meta & {
+  type: 'chapter'
   volumeNo: number
   volumeName?: string
   chapterNo: number
   tags: string[]
 }
 
+export type ChapterExcerpt = ChapterMeta & {
+  excerpt: string
+}
+
 /**
  * All data associated with a Chapter
  */
-export type ChapterData = ChapterMeta & {
-  type: 'chapter'
+export type ChapterData = ChapterExcerpt & {
   notes?: string
   html: string
   lore: LoreData[]
@@ -53,7 +59,7 @@ export type BlogData = BlogMeta & {
 /** === LORE === */
 
 /**
- * Lore Metatdata includes everything except lore content.
+ * Lore Metadata includes everything except lore content.
  */
 export type LoreMeta = Meta & {
   type: 'lore'

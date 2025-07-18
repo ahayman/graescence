@@ -1,16 +1,13 @@
 'use client'
 import Date from '../../date'
 import utilStyles from '../../../styles/utils.module.scss'
-import postStyles from '../../../styles/post.module.scss'
 import Row from '../../Row'
-import ContentBlock from '../../ContentBlock/ContentBlock'
 import Header from '../../Header/Header'
 import ReadingOptions from '../../ReadingOptions/ReadingOptions'
-import { HistoryData, HistoryMeta } from '../../../staticGenerator/types'
+import { HistoryData } from '../../../staticGenerator/types'
 import { faSliders } from '@fortawesome/free-solid-svg-icons'
 import Popover from '../../Popover/Popover'
 import { useRouter } from 'next/navigation'
-import Link from 'next/link'
 import { useContext, useMemo } from 'react'
 import { useCategoricalFilter } from '../../../hooks/useCategoricalFilter'
 import { ContentContext } from '../../../providers/Content/Provider'
@@ -18,9 +15,8 @@ import { includeHistoryItem } from './utils/includeHistoryItem'
 import { getSortedHistoryData, SortDirection } from './utils/sortedHistoryData'
 import { useQueryParams } from '../../../hooks/useQueryParams'
 import Tags from '../../Tags/Tags'
-import { classes, userCanAccessTier } from '../../../lib/utils'
-import { PatreonContext } from '../../../providers/Patreon/Provider'
-import { AccessNeeded } from '../../Patreon/AccessNeeded'
+import { classes } from '../../../lib/utils'
+import { NavLink, Reader } from '../../Reader/Reader'
 
 export type Props = {
   id: string
@@ -30,26 +26,26 @@ export type Props = {
 type QueryParam = 'sort' | 'filter' | 'tag'
 
 const History = ({ item }: Props) => {
-  const { title, date, html, category, startDate, endDate, turning } = item
+  const { title, date, category, startDate, endDate, turning } = item
   const [params] = useQueryParams<QueryParam>()
   const nav = useRouter()
   const tag = params['tag']
   const paramFilter = params['filter']
   const sort: SortDirection = params['sort'] === 'ascending' ? 'ascending' : 'descending'
-  const {
-    state: { user },
-  } = useContext(PatreonContext)
   const { history } = useContext(ContentContext)
   const { data } = useCategoricalFilter(history, includeHistoryItem, paramFilter, tag)
-  const hasAccess = item.isPublic || userCanAccessTier(user, 'world')
 
-  const [prev, next] = useMemo((): [HistoryMeta | undefined, HistoryMeta | undefined] => {
+  const [prev, next] = useMemo((): [NavLink | undefined, NavLink | undefined] => {
     const sorted = getSortedHistoryData(data, sort).flatMap(d => d.data)
     const idx = sorted.findIndex(d => d.id === item.id)
-    const next = sorted[idx + 1]
-    const prev = idx > 0 ? sorted[idx - 1] : undefined
+    const nextLore = sorted[idx + 1]
+    const prevLore = idx > 0 ? sorted[idx - 1] : undefined
+    const next = nextLore ? { title: nextLore.title, url: `/history/${nextLore.id}` } : undefined
+    const prev = prevLore
+      ? { title: prevLore.title, url: `/history/${prevLore.id}` }
+      : { title: 'Back', onClick: nav.back }
     return [prev, next]
-  }, [data, item.id, sort])
+  }, [data, item.id, nav.back, sort])
 
   return (
     <div className={utilStyles.pageMain}>
@@ -74,29 +70,7 @@ const History = ({ item }: Props) => {
           </span>
         </Row>
       </Header>
-      <ContentBlock>
-        {hasAccess ? (
-          <div className={postStyles.post} dangerouslySetInnerHTML={{ __html: html }} />
-        ) : (
-          <AccessNeeded tier="world" content={html} isAlreadyLinked={user !== undefined} />
-        )}
-      </ContentBlock>
-      <Row horizontal="space-between" vertical="center" className={utilStyles.hPadding}>
-        {prev ? (
-          <Link className={utilStyles.coloredLink} href={`/history/${prev.id}`}>
-            {`← ${prev.title}`}
-          </Link>
-        ) : (
-          <span className={utilStyles.coloredLink} onClick={nav.back}>
-            {'← To History'}
-          </span>
-        )}
-        {next && (
-          <Link className={utilStyles.coloredLink} href={`/history/${next.id}`}>
-            {`${next.title} →`}
-          </Link>
-        )}
-      </Row>
+      <Reader {...item} tier="world" nav={{ prev, next }} />
     </div>
   )
 }

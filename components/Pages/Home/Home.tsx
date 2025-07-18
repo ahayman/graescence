@@ -10,9 +10,20 @@ import Column from '../../Column'
 import { ProgressContext } from '../../../providers/Progress/Provider'
 import Image from 'next/image'
 import Row from '../../Row'
+import { GeneratedContentType } from '../../../staticGenerator/types'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faRssSquare } from '@fortawesome/free-solid-svg-icons'
 
 export interface Props {
   content: string
+}
+
+const feedTypes: GeneratedContentType[] = ['Blog', 'Chapters', 'Lore', 'History']
+const contentTitle: { [type in GeneratedContentType]: string } = {
+  Blog: 'Blog',
+  Chapters: 'Chapter',
+  History: 'World History',
+  Lore: 'Lore',
 }
 
 export const Home = ({ content }: Props) => {
@@ -58,6 +69,39 @@ export const Home = ({ content }: Props) => {
         />
       </Row>
       <div className={postStyles.post} dangerouslySetInnerHTML={{ __html: content }} />
+      <div className={classes(postStyles.post, s.supportContainer)}>
+        <h4>Follow & Support</h4>
+        <p>
+          To support this project and get the latest updates and content, you can subscribe to my{' '}
+          <Link
+            className={classes(utilStyles.coloredLink, utilStyles.scaleHover)}
+            href="https://patreon.com/apoetsanon">
+            Patreon
+          </Link>{' '}
+          and then{' '}
+          <Link className={classes(utilStyles.coloredLink, utilStyles.scaleHover)} href="/patreon">
+            link your Patreon account here
+          </Link>
+          .
+        </p>
+        <Row className={s.rssContainer}>
+          <p>RSS Feeds are also provided:</p>
+        </Row>
+        <ul>
+          {feedTypes.map(type => (
+            <li key={`rss-feed-${type}`}>
+              <p>
+                <Link
+                  className={classes(utilStyles.coloredLink, utilStyles.scaleHover)}
+                  href={`/feeds/${type}/feed.xml`}>
+                  {`${contentTitle[type]} Feed`}
+                  <FontAwesomeIcon className={s.rssIcon} icon={faRssSquare} />
+                </Link>
+              </p>
+            </li>
+          ))}
+        </ul>
+      </div>
     </Column>
   )
 }

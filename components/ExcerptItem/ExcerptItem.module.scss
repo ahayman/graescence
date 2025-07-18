@@ -48,3 +48,20 @@
 .excerpt {
   padding: 5pt;
 }
+
+.progressContainer {
+  position: relative;
+  background-color: var(--background-color);
+  width: 100%;
+  height: 2pt;
+  border-radius: 2pt;
+  overflow: hidden;
+}
+
+.progressIndicator {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  background-color: var(--accent-color);
+}

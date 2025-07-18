@@ -1,27 +1,30 @@
 import { cookies } from 'next/headers'
-import prisma from '../../../../lib/prisma'
-import { AuthCookieKey, AuthData, AuthWithExpiration } from '../../types'
-import { isResultAuthData } from './isResultAuthData'
+import { AuthWithExpiration, AuthCookieKey } from '../../../types'
+import { isResultAuthData } from '../isResultAuthData'
 
 export const GET = async (request: Request) => {
-  const requestUrl = new URL(request.url)
-  const params = new URLSearchParams(requestUrl.searchParams)
-  const code = params.get('code')
-  const installId = params.get('installId')
-  console.log('Patreon token route called with code:', code, 'and installId:', installId)
-  if (!code) {
-    return new Response(JSON.stringify({ message: 'Code parameter is missing' }), {
+  const cookieStore = await cookies()
+  const authCookie = cookieStore.get(AuthCookieKey)
+  if (!authCookie) {
+    return new Response(JSON.stringify({ message: 'Unauthorized' }), {
       headers: { 'Content-Type': 'application/json' },
-      status: 400,
+      status: 401,
+    })
+  }
+
+  const authCookieData: AuthWithExpiration = JSON.parse(authCookie.value)
+  if (!authCookieData.refresh_token) {
+    return new Response(JSON.stringify({ message: 'Unauthorized' }), {
+      headers: { 'Content-Type': 'application/json' },
+      status: 401,
     })
   }
 
   const url = new URL('https://www.patreon.com/api/oauth2/token')
-  url.searchParams.set('code', code)
-  url.searchParams.set('grant_type', 'authorization_code')
+  url.searchParams.set('refresh_token', authCookieData.refresh_token)
+  url.searchParams.set('grant_type', 'refresh_token')
   url.searchParams.set('client_id', process.env.NEXT_PUBLIC_PATREON_CLIENT_ID || '')
   url.searchParams.set('client_secret', process.env.PATREON_CLIENT_SECRET || '')
-  url.searchParams.set('redirect_uri', process.env.NEXT_PUBLIC_PATREON_REDIRECT_URL || '')
 
   const response = await fetch(url.toString(), {
     method: 'POST',
@@ -44,17 +47,6 @@ export const GET = async (request: Request) => {
     })
   }
 
-  if (installId) {
-    await prisma.installation.upsert({
-      where: { id: installId },
-      update: { authData: JSON.stringify(authData) },
-      create: {
-        id: installId,
-        authData: JSON.stringify(authData),
-      },
-    })
-  }
-
   const now = Date.now()
   const expireDateTime = now + authData.expires_in * 1000
   const auth: AuthWithExpiration = {
@@ -63,7 +55,6 @@ export const GET = async (request: Request) => {
     updatedAtTime: now,
   }
 
-  const cookieStore = await cookies()
   cookieStore.set(AuthCookieKey, JSON.stringify(auth), {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',

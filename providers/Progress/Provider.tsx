@@ -1,10 +1,11 @@
 import { createContext, ReactNode, use, useCallback, useContext, useEffect, useRef, useState } from 'react'
 import { Storage } from '../../lib/globals'
-import { Actions, Context, ProgressItem, ProgressType, State } from './Types'
-import { ProgressDataItem } from '../../app/api/types'
+import { Actions, Context, ProgressItem, State } from './Types'
 import { useStateDebouncer } from '../../hooks/useStateDebouncer'
 import { PatreonContext } from '../Patreon/Provider'
 import { fetchProgress, postProgress } from '../Patreon/Api'
+import { ContentType } from '../../staticGenerator/types'
+import { isNotEmpty } from '../../lib/utils'
 
 export const ProgressContext = createContext<Context>({} as any)
 
@@ -15,7 +16,7 @@ export type Props = {
 type StoreProgressItem = {
   id: string
   progress: number
-  type: ProgressType
+  type: ContentType
   updatedAt: string
 }
 type StoredState = {
@@ -37,7 +38,9 @@ const hydratedProgressItem = (item: StoreProgressItem): ProgressItem => ({
 const dehydrateState = (state: State): StoredState => ({
   currentChapter: state.currentChapter ? dehydratedProgressItem(state.currentChapter) : undefined,
   progress: Object.fromEntries(
-    Object.entries(state.progress).map(([key, item]) => [key, dehydratedProgressItem(item)]),
+    Object.entries(state.progress)
+      .map(([key, item]) => (item ? [key, dehydratedProgressItem(item)] : undefined))
+      .filter(isNotEmpty),
   ),
 })
 
@@ -50,10 +53,7 @@ const getStoredProgressData = (): State => {
   const readingDataString = Storage.get('--reading-progress')
   if (!readingDataString) return { progress: {} }
   const data: StoredState = JSON.parse(readingDataString)
-  return {
-    currentChapter: data.currentChapter ? hydratedProgressItem(data.currentChapter) : undefined,
-    progress: Object.fromEntries(Object.entries(data.progress).map(([key, item]) => [key, hydratedProgressItem(item)])),
-  }
+  return hydrateState(data)
 }
 
 const ProgressProvider = ({ children }: Props) => {
@@ -97,7 +97,8 @@ const ProgressProvider = ({ children }: Props) => {
       lastUpdated: new Date(),
       currentChapter:
         Object.values({ ...s.progress, ...progress })
-          .filter(i => i.type === 'chapter')
+          .filter(isNotEmpty)
+          .filter(i => i?.type === 'chapter')
           .reduce((max, c) => (c.updatedAt > max.updatedAt ? c : max)) ?? s.currentChapter,
       progress: {
         ...s.progress,

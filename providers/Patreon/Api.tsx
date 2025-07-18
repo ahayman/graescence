@@ -23,6 +23,13 @@ export const fetchAuthSignIn = async (code: string, installId?: string): Promise
   return await result.json()
 }
 
+export const refreshToken = async (): Promise<AuthWithExpiration> => {
+  const result = await fetch('https://graescence.com/api/patreon/token/refresh')
+  if (!result.ok) throw await result.json()
+
+  return await result.json()
+}
+
 export const fetchIdentity = async (): Promise<UserData> => {
   const result = await fetch('https://graescence.com/api/patreon/identity')
   if (!result.ok) throw await result.json()
