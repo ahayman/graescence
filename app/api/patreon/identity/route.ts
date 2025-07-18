@@ -58,16 +58,23 @@ export const GET = async () => {
     updatedAt: new Date(),
   }
 
-  const user = await prisma.user.upsert({
-    where: { id: userData.id },
-    update: userData,
-    create: userData,
-  })
-
-  return new Response(JSON.stringify(user), {
-    headers: { 'Content-Type': 'application/json' },
-    status: 200,
-  })
+  try {
+    const user = await prisma.user.upsert({
+      where: { id: userData.id },
+      update: userData,
+      create: userData,
+    })
+    return new Response(JSON.stringify(user), {
+      headers: { 'Content-Type': 'application/json' },
+      status: 200,
+    })
+  } catch (error: any) {
+    console.error('Error upserting user:', error)
+    return new Response(JSON.stringify({ message: error.message || 'Failed to upsert user', error }), {
+      headers: { 'Content-Type': 'application/json' },
+      status: 500,
+    })
+  }
 }
 
 const freeUserEmails = ['apoetsanon@gmail.com']
