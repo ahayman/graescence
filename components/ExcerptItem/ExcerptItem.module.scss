@@ -4,6 +4,8 @@
   padding-left: 5pt;
   padding-right: 5pt;
   font-weight: 500;
+  font-size: 1.1rem;
+  color: var(--foreground-secondary-color);
 }
 
 .date {
@@ -62,4 +64,8 @@
   height: 100%;
   border-radius: 2pt;
   background-color: var(--accent-secondary-color);
+}
+
+.moreLink {
+  font-size: 0.9rem;
 }

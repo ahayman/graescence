@@ -9,7 +9,7 @@ import Tags from '../Tags/Tags'
 import { createURL } from '../Pages/History/utils/createURL'
 import { useContext } from 'react'
 import { PatreonContext } from '../../providers/Patreon/Provider'
-import { TierData, userCanAccessTier } from '../../lib/utils'
+import { classes, TierData, userCanAccessTier } from '../../lib/utils'
 import { AccessNeeded } from '../Patreon/AccessNeeded'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { AccessTier } from '../../app/api/types'
@@ -69,7 +69,9 @@ export const ExcerptItem = ({
         <div className={styles.excerpt}>
           <div className={postStyles.post} dangerouslySetInnerHTML={{ __html: excerpt }} />
           <Row horizontal="end" vertical="center">
-            <Link className={utilStyles.coloredLink} href={createURL(`/${type}/${slug}`, passThroughQuery)}>
+            <Link
+              className={classes(utilStyles.coloredLink, styles.moreLink)}
+              href={createURL(`/${type}/${slug}`, passThroughQuery)}>
               <span>More →</span>
             </Link>
           </Row>
