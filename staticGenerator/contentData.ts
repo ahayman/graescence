@@ -17,12 +17,6 @@ const excerpt_separator = '<-- excerpt -->'
 const notes_separator = '<-- note -->'
 
 const VolumeNames: { [key: number]: string | undefined } = {}
-const Cache: { [key in GeneratedContentType]: ContentData[key][] | undefined } = {
-  Blog: undefined,
-  Chapters: undefined,
-  Lore: undefined,
-  History: undefined,
-}
 const Paths: { [k: string]: string } = {}
 const PathIds: { [k: string]: string } = {}
 const SanitizedPaths: { [k: string]: string } = {}
@@ -117,7 +111,7 @@ const extractData = async <T extends GeneratedContentType>(
       const processedNotes = notesMd ? await remark().use(remarkGfm).use(HTML).process(notesMd.trim()) : undefined
       const html = processedContent.toString()
       const notes = processedNotes?.toString()
-      const lore = Cache['Lore'] ?? (await getSortedContentData('Lore'))
+      const lore = await getSortedContentData('Lore')
       const { chapterLore, highlightedHtml } = parseHighlightedLore(html, lore)
       const excerpt = await getExcerpt(front)
       const extract: ContentData['Chapters'] = {
@@ -361,16 +355,6 @@ export const getSortedContentData = async <T extends GeneratedContentType>(
   dir: string = contentTypeDir(type),
   parent: string = 'root',
 ): Promise<ContentData[T][]> => {
-  const cached = Cache[type]
-  if (cached !== undefined) {
-    return cached
-  }
-
-  //Always cache Lore first
-  if (type !== 'Lore' && Cache['Lore'] === undefined) {
-    getSortedContentData('Lore')
-  }
-
   //Remove the rootDirectory and replace slashes with a dot to create a rootId
   const rootDir = contentTypeDir(type)
   const rootId =
@@ -432,7 +416,6 @@ export const getSortedContentData = async <T extends GeneratedContentType>(
       l.html = processObsidianLinks(l.html)
     }
   }
-  Cache[type] = data as any
   return data
 }
 
