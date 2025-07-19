@@ -23,6 +23,7 @@ export const PatreonProvider: FunctionComponent<Props> = ({ children }) => {
   const fetchingAuth = useRef(false)
   const path = usePathname()
   const userRef = useRef(state.user)
+  const usedCodes = useRef<string[]>([])
   userRef.current = state.user
 
   const updateUser = useCallback(async () => {
@@ -59,8 +60,9 @@ export const PatreonProvider: FunctionComponent<Props> = ({ children }) => {
   }, [])
 
   const signIn = useCallback(async (code: string) => {
-    if (fetchingAuth.current) return
+    if (fetchingAuth.current || usedCodes.current.includes(code)) return
     fetchingAuth.current = true
+    usedCodes.current.push(code)
     try {
       await fetchAuthSignIn(code)
       const user = await fetchIdentity()
