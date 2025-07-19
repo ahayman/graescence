@@ -72,9 +72,9 @@ export const GET = async () => {
     })
   } catch (error: any) {
     console.error('Error upserting user:', error)
-    return new Response(JSON.stringify(userData), {
+    return new Response(JSON.stringify(error), {
       headers: { 'Content-Type': 'application/json' },
-      status: 200,
+      status: 500,
     })
   }
 }
