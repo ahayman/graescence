@@ -1,7 +1,7 @@
 import { cookies } from 'next/headers'
+import { AccessTier, AuthCookieKey, Member, PatreonIdentity } from '../../types'
 import prisma from '../../../../lib/prisma'
-import { AccessTier, AuthCookieKey, Member, PatreonIdentity, UserData } from '../../types'
-import { Prisma } from '../../../../lib/generated/prisma'
+import { Prisma } from '../../../../lib/generated/prisma/client'
 
 export const GET = async () => {
   const url = new URL('https://www.patreon.com/api/oauth2/v2/identity')
