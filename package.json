@@ -20,7 +20,6 @@
     "@fortawesome/free-solid-svg-icons": "^6.6.0",
     "@fortawesome/react-fontawesome": "^0.2.2",
     "@prisma/client": "^6.12.0",
-    "@prisma/extension-accelerate": "^2.0.2",
     "@vercel/analytics": "^1.5.0",
     "cookies-next": "^6.1.0",
     "date-fns": "^4.1.0",
