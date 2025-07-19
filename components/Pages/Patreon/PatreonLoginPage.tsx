@@ -19,17 +19,41 @@ export const PatreonLoginPage: FunctionComponent = () => {
   const signingIn = useRef(false)
 
   useEffect(() => {
-    if (!code || signingIn.current) return
+    if (signingIn.current) return
+    if (!code) {
+      setTimeout(() => router.replace(redirectUrl), 5000)
+      return
+    }
     signingIn.current = true
-    signIn(code).then(() => router.replace(redirectUrl))
+    signIn(code).finally(() => router.replace(redirectUrl))
   }, [code, params, redirectUrl, router, signIn])
 
   return (
     <div className={styles.container}>
       <Link key={`$patreon`} className={classes(styles.hLink)} href="/patreon">
         <PatreonLogo className={styles.supportLogo} />
-        <span className={styles.linkTitle}>Patreon</span>
+        <span className={styles.patreonTitle}>Patreon</span>
       </Link>
+      {!code ? (
+        <>
+          <span className={styles.error}>Authorization Code Missing!</span>
+          <span className={styles.authText}>Redirecting...</span>
+        </>
+      ) : (
+        <>
+          <span className={styles.authText}>Authenticating...</span>
+          <div className={styles['lds-roller']}>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+          </div>
+        </>
+      )}
     </div>
   )
 }
