@@ -14,7 +14,7 @@ export const getPatreonLoginUrl = (path: string) => {
 }
 
 export const fetchAuthSignIn = async (code: string, installId?: string): Promise<AuthWithExpiration> => {
-  const url = new URL('https://graescence.com/api/patreon/token')
+  const url = new URL(`${process.env.NEXT_PUBLIC_HOST}/api/patreon/token`)
   url.searchParams.set('code', code)
   if (installId) url.searchParams.set('installId', installId)
   const result = await fetch(url.toString())
@@ -24,24 +24,24 @@ export const fetchAuthSignIn = async (code: string, installId?: string): Promise
 }
 
 export const refreshToken = async (): Promise<AuthWithExpiration> => {
-  const result = await fetch('https://graescence.com/api/patreon/token/refresh')
+  const result = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/patreon/token/refresh`)
   if (!result.ok) throw await result.json()
 
   return await result.json()
 }
 
 export const fetchIdentity = async (): Promise<UserData> => {
-  const result = await fetch('https://graescence.com/api/patreon/identity')
+  const result = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/patreon/identity`)
   if (!result.ok) throw await result.json()
   return await result.json()
 }
 
 export const fetchInstallData = async (installId: string): Promise<boolean> => {
-  return (await fetch(`https://graescence.com/api/install/${installId}`)).ok
+  return (await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/install/${installId}`)).ok
 }
 
 export const fetchProgress = async (userId: string, sinceUpdate?: Date): Promise<ProgressData> => {
-  const url = new URL(`https://graescence.com/api/progress/${userId}`)
+  const url = new URL(`${process.env.NEXT_PUBLIC_HOST}/api/progress/${userId}`)
   if (sinceUpdate) url.searchParams.set('sinceUpdate', sinceUpdate.toISOString())
   const result = await fetch(url.toString())
   if (!result.ok) throw await result.json()
@@ -56,7 +56,7 @@ export const postProgress = async (
   const progressData: ProgressData = {
     progressData: progress,
   }
-  const url = new URL(`https://graescence.com/api/progress/${userId}`)
+  const url = new URL(`${process.env.NEXT_PUBLIC_HOST}/api/progress/${userId}`)
   if (sinceUpdate) url.searchParams.set('sinceUpdate', sinceUpdate.toISOString())
 
   const result = await fetch(url, {
