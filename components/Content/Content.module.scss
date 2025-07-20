@@ -27,3 +27,40 @@
 .hidden {
    opacity: 0;
 }
+
+.errorContainer {
+   display: flex;
+   flex-direction: row;
+   align-items: center;
+   justify-content: center;
+   width: 100%;
+ }
+
+.errorText {
+   font-size: 1rem;
+   color: var(--error-color);
+   text-align: center;
+   margin-inline: 0.5rem;
+   margin-top: 0.5rem;
+ }
+
+.unauthorizedLink {
+   color: var(--accent-color);
+   text-decoration: underline;
+   cursor: pointer;
+   font-size: 1rem;
+   margin-top: 0.5rem;
+
+   &:hover {
+     color: var(--accent-color-hover);
+   }
+ }
+
+ .contentBlock {
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   justify-content: center;
+   width: 100%;
+ }
+

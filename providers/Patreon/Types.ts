@@ -2,7 +2,7 @@ import { UserData } from '../../app/api/types'
 
 export type State = {
   user?: UserData | null
-  error?: { message: string }
+  error?: { message: string; isUnauthorized?: boolean }
 }
 
 export type Actions = {

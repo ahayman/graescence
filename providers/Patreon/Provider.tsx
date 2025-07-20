@@ -28,6 +28,7 @@ const refreshTimeout = 1000 * 60 * 60 * 24 * 7 // 1 Week
 export const PatreonProvider: FunctionComponent<Props> = ({ children }) => {
   const [state, setState] = useState<State>({})
   const {
+    state: { error: apiError },
     actions: { fetchIdentity, fetchAuthSignIn },
   } = useContext(ApiContext)
   const fetchingUser = useRef(false)
@@ -74,11 +75,11 @@ export const PatreonProvider: FunctionComponent<Props> = ({ children }) => {
   )
 
   useEffect(() => {
-    setState(s => (s.error ? { ...s, error: undefined } : s))
+    setState(s => (s.error && (!s.error.isUnauthorized || path === '/patreon/') ? { ...s, error: undefined } : s))
     const storedUser = Storage.get('--patreon-user-data')
     if (storedUser) {
       const user: UserData = userRef.current || JSON.parse(storedUser)
-      setState({ user })
+      setState(s => ({ ...s, user }))
 
       const now = Date.now()
       const updatedAt = new Date(user.updatedAt).getTime()
@@ -87,6 +88,16 @@ export const PatreonProvider: FunctionComponent<Props> = ({ children }) => {
       }
     }
   }, [path, updateUser])
+
+  useEffect(
+    function checkForUnauthorized() {
+      if (apiError?.statusCode === 401) {
+        Storage.set('--patreon-user-data')
+        setState({ error: { message: 'Authentication has expired.', isUnauthorized: true } })
+      }
+    },
+    [apiError],
+  )
 
   return <PatreonContext.Provider value={{ state, actions: { logout, signIn } }}>{children}</PatreonContext.Provider>
 }

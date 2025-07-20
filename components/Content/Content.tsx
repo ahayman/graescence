@@ -6,6 +6,8 @@ import { classes } from '../../lib/utils'
 import styles from './Content.module.scss'
 import popoverStyles from '../Popover/Popover.module.scss'
 import { usePathname } from 'next/navigation'
+import { PatreonContext } from '../../providers/Patreon/Provider'
+import Link from 'next/link'
 
 type Props = {
   children: ReactNode
@@ -16,6 +18,9 @@ const Content = ({ children }: Props) => {
     state: { popover },
     actions: { closePopover },
   } = useContext(DisplayContext)
+  const {
+    state: { error },
+  } = useContext(PatreonContext)
   const contId = useId()
   const path = usePathname()
 
@@ -30,6 +35,16 @@ const Content = ({ children }: Props) => {
 
   return (
     <div className={styles.mainContainer}>
+      {error && (
+        <div className={styles.errorContainer}>
+          <span className={styles.errorText}>{error.message}</span>
+          {error.isUnauthorized && (
+            <Link className={styles.unauthorizedLink} href="/patreon">
+              Re-link to Patreon
+            </Link>
+          )}
+        </div>
+      )}
       <div id="main-content-container" className={styles.main}>
         {children}
       </div>
