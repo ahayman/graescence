@@ -2,15 +2,14 @@ import { cookies } from 'next/headers'
 import prisma from '../../../../lib/prisma'
 import { AuthCookieKey, isServerError } from '../../types'
 import { isResultAuthData } from './isResultAuthData'
-import { getIdentityUser } from '../identity/getIdentity'
 import { convertErrorToResponse } from '../../utils/convertErrorToResponse'
+import { getIdentityUser } from '../identity/getIdentity'
 
 export const GET = async (request: Request) => {
   const requestUrl = new URL(request.url)
   const params = new URLSearchParams(requestUrl.searchParams)
   const code = params.get('code')
-  const installId = params.get('installId')
-  console.log('Patreon token route called with code:', code, 'and installId:', installId)
+  console.log('Patreon token route called with code:', code)
   if (!code) {
     return new Response(JSON.stringify({ message: 'Code parameter is missing' }), {
       headers: { 'Content-Type': 'application/json' },
@@ -48,6 +47,8 @@ export const GET = async (request: Request) => {
       },
     )
   }
+
+  console.log({ authData })
 
   try {
     const user = await getIdentityUser(authData.access_token)
