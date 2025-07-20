@@ -43,7 +43,7 @@ export interface ObjectConstructor {
   keys<T>(o: T): ObjectKeys<T>
 }
 
-export const userCanAccessTier = (user: { tier?: string } | undefined, tier: AccessTier): boolean => {
+export const userCanAccessTier = (user: { tier?: string } | undefined | null, tier: AccessTier): boolean => {
   if (!user) {
     return tier === 'free'
   }

@@ -3,9 +3,9 @@ import { Storage } from '../../lib/globals'
 import { Actions, Context, ProgressItem, State } from './Types'
 import { useStateDebouncer } from '../../hooks/useStateDebouncer'
 import { PatreonContext } from '../Patreon/Provider'
-import { fetchProgress, postProgress } from '../Patreon/Api'
 import { ContentType } from '../../staticGenerator/types'
 import { isNotEmpty } from '../../lib/utils'
+import { ApiContext } from '../API/Provider'
 
 export const ProgressContext = createContext<Context>({} as any)
 
@@ -60,6 +60,9 @@ const ProgressProvider = ({ children }: Props) => {
   const {
     state: { user },
   } = useContext(PatreonContext)
+  const {
+    actions: { fetchProgress, postProgress },
+  } = useContext(ApiContext)
   const [updates, _, setUpdates] = useStateDebouncer<{ [id: string]: StoreProgressItem }>({}, 1000)
   const [state, setState] = useState<State>(typeof window === 'undefined' ? { progress: {} } : getStoredProgressData())
   const initialUser = useRef(user)
@@ -107,29 +110,46 @@ const ProgressProvider = ({ children }: Props) => {
     }))
   }, [])
 
-  useEffect(() => {
-    if (!user || user.tier === 'free') return
+  useEffect(
+    function syncLocalDataWithServer() {
+      if (!user || user.tier === 'free') return
 
-    const syncData = async () => {
-      if (initialUser.current && initialUser.current.tier !== 'free') return
-      const updates = await fetchProgress(user.id, lastUpdatedRef.current)
-      const localEntries = getStoredProgressData().progress
-      const validatedUpdates = updates.progressData
-        .map(u => hydratedProgressItem(u as StoreProgressItem))
-        .filter(update => {
-          const localEntry = localEntries[update.id]
-          if (localEntry && localEntry.updatedAt > update.updatedAt) return false
-          return true
-        })
-      const mergedEntries = {
-        ...localEntries,
-        ...Object.fromEntries(validatedUpdates.map(u => [u.id, u])),
+      const syncData = async () => {
+        if (initialUser.current && initialUser.current.tier !== 'free') return
+        const updates = await fetchProgress(user.id, lastUpdatedRef.current)
+        const localEntries = getStoredProgressData().progress
+        const updateServerEntries: StoreProgressItem[] = []
+        const validatedUpdates = updates.progressData
+          .map(u => hydratedProgressItem(u as StoreProgressItem))
+          .filter(update => {
+            const localEntry = localEntries[update.id]
+            if (localEntry && localEntry.updatedAt > update.updatedAt) {
+              updateServerEntries.push(dehydratedProgressItem(update))
+              return false
+            }
+            return true
+          })
+        const mergedEntries = {
+          ...localEntries,
+          ...Object.fromEntries(validatedUpdates.map(u => [u.id, u])),
+        }
+        updateStateWithProgress(mergedEntries)
+        if (updateServerEntries.length > 0) {
+          postProgress(user.id, updateServerEntries, lastUpdatedRef.current)
+            .then(updates => {
+              const progress = Object.fromEntries(
+                updates.progressData.map(p => [p.id, hydratedProgressItem(p as StoreProgressItem)]),
+              )
+              updateStateWithProgress(progress)
+            })
+            .catch(e => console.log(`Error posting updates: `, e))
+        }
       }
-      updateStateWithProgress(mergedEntries)
-    }
 
-    syncData()
-  }, [updateStateWithProgress, user])
+      syncData()
+    },
+    [updateStateWithProgress, user],
+  )
 
   useEffect(() => {
     if (!user || user.tier === 'free') return

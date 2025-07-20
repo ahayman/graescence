@@ -9,7 +9,7 @@ import Column from '../Column'
 
 import styles from './index.module.scss'
 import postStyles from '../../styles/post.module.scss'
-import { getPatreonLoginUrl } from '../../providers/Patreon/Api'
+import { getPatreonLoginUrl } from '../../providers/API/getPatreonLoginUrl'
 
 type Props = {
   tier: AccessTier

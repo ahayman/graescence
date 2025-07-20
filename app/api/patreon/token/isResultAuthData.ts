@@ -1,6 +1,6 @@
-import { AuthData } from '../../types'
+import { PatreonAuthData } from '../../types'
 
-export const isResultAuthData = (data: unknown): data is AuthData => {
+export const isResultAuthData = (data: unknown): data is PatreonAuthData => {
   return (
     typeof data === 'object' &&
     data !== null &&

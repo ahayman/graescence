@@ -1,7 +1,9 @@
 import { cookies } from 'next/headers'
 import prisma from '../../../../lib/prisma'
-import { AuthCookieKey, AuthData, AuthWithExpiration } from '../../types'
+import { AuthCookieKey, isServerError } from '../../types'
 import { isResultAuthData } from './isResultAuthData'
+import { getIdentityUser } from '../identity/getIdentity'
+import { convertErrorToResponse } from '../../utils/convertErrorToResponse'
 
 export const GET = async (request: Request) => {
   const requestUrl = new URL(request.url)
@@ -47,34 +49,37 @@ export const GET = async (request: Request) => {
     )
   }
 
-  if (installId) {
-    await prisma.installation.upsert({
-      where: { id: installId },
-      update: { authData: JSON.stringify(authData) },
+  try {
+    const user = await getIdentityUser(authData.access_token)
+    const auth = user.authData.find(d => d.accessToken === authData.access_token)
+
+    const cookieStore = await cookies()
+    cookieStore.set(AuthCookieKey, authData.access_token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'strict',
+    })
+
+    await prisma.authData.upsert({
+      where: { accessToken: auth?.accessToken },
+      update: {
+        accessToken: authData.access_token,
+        refreshToken: authData.refresh_token,
+        expiresAt: new Date(Date.now() + authData.expires_in * 1000),
+      },
       create: {
-        id: installId,
-        authData: JSON.stringify(authData),
+        accessToken: authData.access_token,
+        refreshToken: authData.refresh_token,
+        expiresAt: new Date(Date.now() + authData.expires_in * 1000),
+        userId: user.id,
       },
     })
+
+    return new Response(JSON.stringify(user), {
+      status: 200,
+      headers: { 'Content-Type': 'application/json' },
+    })
+  } catch (error) {
+    return convertErrorToResponse(error)
   }
-
-  const now = Date.now()
-  const expireDateTime = now + authData.expires_in * 1000
-  const auth: AuthWithExpiration = {
-    ...authData,
-    expireDateTime,
-    updatedAtTime: now,
-  }
-
-  const cookieStore = await cookies()
-  cookieStore.set(AuthCookieKey, JSON.stringify(auth), {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === 'production',
-    sameSite: 'strict',
-  })
-
-  return new Response(JSON.stringify(auth), {
-    status: 200,
-    headers: { 'Content-Type': 'application/json' },
-  })
 }

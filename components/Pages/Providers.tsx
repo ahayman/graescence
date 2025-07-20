@@ -6,6 +6,7 @@ import OptionsProvider from '../../providers/Options/Provider'
 import ProgressProvider from '../../providers/Progress/Provider'
 import DisplayProvider from '../../providers/Display/Provider'
 import { PatreonProvider } from '../../providers/Patreon/Provider'
+import { APIProvider } from '../../providers/API/Provider'
 
 export type Props = {
   children: ReactNode
@@ -19,15 +20,17 @@ export type Props = {
 
 const Providers = ({ children, content: { blog, chapters, lore, history } }: Props) => {
   return (
-    <OptionsProvider>
-      <PatreonProvider>
-        <ContentProvider blog={blog} chapters={chapters} lore={lore} history={history}>
-          <DisplayProvider>
-            <ProgressProvider>{children}</ProgressProvider>
-          </DisplayProvider>
-        </ContentProvider>
-      </PatreonProvider>
-    </OptionsProvider>
+    <APIProvider>
+      <OptionsProvider>
+        <PatreonProvider>
+          <ContentProvider blog={blog} chapters={chapters} lore={lore} history={history}>
+            <DisplayProvider>
+              <ProgressProvider>{children}</ProgressProvider>
+            </DisplayProvider>
+          </ContentProvider>
+        </PatreonProvider>
+      </OptionsProvider>
+    </APIProvider>
   )
 }
 export default Providers

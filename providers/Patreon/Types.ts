@@ -1,7 +1,7 @@
 import { UserData } from '../../app/api/types'
 
 export type State = {
-  user?: UserData
+  user?: UserData | null
   error?: { message: string }
 }
 

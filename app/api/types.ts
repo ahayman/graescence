@@ -1,4 +1,4 @@
-export type AuthData = {
+export type PatreonAuthData = {
   access_token: string
   refresh_token: string
   expires_in: number
@@ -6,9 +6,18 @@ export type AuthData = {
   token_type: 'Bearer'
 }
 
-export type AuthWithExpiration = AuthData & {
-  expireDateTime: number
-  updatedAtTime: number
+export type ServerError = {
+  message: string
+  statusCode: number
+  error?: Record<string, unknown>
+}
+
+export const isServerError = (data: unknown): data is ServerError => {
+  if (!(typeof data === 'object' && data !== null)) return false
+  if (!('message' in data && typeof data.message === 'string')) return false
+  if ('error' in data && !(typeof data.error === 'object' && data.error !== null)) return false
+  if (!('statusCode' in data && typeof data.statusCode === 'number')) return false
+  return true
 }
 
 type PatreonResource<Type extends string, Data, Relationships = {}> = {
@@ -80,7 +89,7 @@ export type AccessTier = 'free' | 'story' | 'world'
 
 export type UserData = {
   id: string
-  email?: string
+  email?: string | null
   fullName: string
   tier: AccessTier
   updatedAt: string
@@ -97,6 +106,6 @@ export type ProgressData = {
   progressData: ProgressDataItem[]
 }
 
-export const AuthCookieKey = '--patreon-auth-data'
+export const AuthCookieKey = '--patreon-auth-token'
 
 export const SHARED_DATA_ENDPOINT = '/shared-data'

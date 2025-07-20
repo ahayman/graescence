@@ -1,5 +1,8 @@
+import { cookies } from 'next/headers'
 import prisma from '../../../../lib/prisma'
-import { ProgressData, ProgressDataItem } from '../../types'
+import { AuthCookieKey, ProgressData } from '../../types'
+import { validateAuthToken } from '../../utils/validateAuthToken'
+import { convertErrorToResponse } from '../../utils/convertErrorToResponse'
 
 export type Params = {
   params: Promise<{ userId: string }>
@@ -10,6 +13,14 @@ export async function GET(request: Request, { params }: Params) {
   const url = new URL(request.url)
   const sinceUpdateParam = url.searchParams.get('sinceUpdate')
   const sinceUpdate = sinceUpdateParam ? new Date(sinceUpdateParam) : null
+  const cookieStore = await cookies()
+  const authCookie = cookieStore.get(AuthCookieKey)?.value
+  if (!authCookie) {
+    return new Response(JSON.stringify({ message: 'Unauthorized' }), {
+      headers: { 'Content-Type': 'application/json' },
+      status: 401,
+    })
+  }
   if (sinceUpdate && isNaN(sinceUpdate.getTime())) {
     return new Response(JSON.stringify({ message: 'Invalid sinceUpdate date' }), {
       headers: { 'Content-Type': 'application/json' },
@@ -31,6 +42,12 @@ export async function GET(request: Request, { params }: Params) {
         },
         ...where,
       },
+      authData: {
+        select: {
+          accessToken: true,
+          expiresAt: true,
+        },
+      },
     },
   })
 
@@ -47,6 +64,13 @@ export async function GET(request: Request, { params }: Params) {
       status: 403,
     })
   }
+
+  try {
+    await validateAuthToken(authCookie, user.authData)
+  } catch (error) {
+    return convertErrorToResponse(error)
+  }
+
   const progressData: ProgressData['progressData'] = user.progress.map(item => ({
     ...item,
     updatedAt: item.updatedAt.toISOString(),
@@ -60,6 +84,15 @@ export async function GET(request: Request, { params }: Params) {
 
 export const POST = async (request: Request, { params }: Params) => {
   const { userId } = await params
+
+  const cookieStore = await cookies()
+  const authCookie = cookieStore.get(AuthCookieKey)?.value
+  if (!authCookie) {
+    return new Response(JSON.stringify({ message: 'Unauthorized' }), {
+      headers: { 'Content-Type': 'application/json' },
+      status: 401,
+    })
+  }
 
   const url = new URL(request.url)
   const sinceUpdateParam = url.searchParams.get('sinceUpdate')
@@ -93,6 +126,12 @@ export const POST = async (request: Request, { params }: Params) => {
           OR: [{ id: { in: progressIds } }, { updatedAt: sinceUpdate ? { gte: sinceUpdate } : undefined }],
         },
       },
+      authData: {
+        select: {
+          accessToken: true,
+          expiresAt: true,
+        },
+      },
     },
   })
 
@@ -101,6 +140,12 @@ export const POST = async (request: Request, { params }: Params) => {
       headers: { 'Content-Type': 'application/json' },
       status: 404,
     })
+  }
+
+  try {
+    await validateAuthToken(authCookie, user.authData)
+  } catch (error) {
+    return convertErrorToResponse(error)
   }
 
   if (user.tier === 'free') {
