@@ -52,6 +52,7 @@ export const GET = async (request: Request) => {
 
   try {
     const user = await getIdentityUser(authData.access_token)
+    console.log({ identityUser: user })
     const auth = user.authData.find(d => d.accessToken === authData.access_token)
 
     const cookieStore = await cookies()

@@ -50,7 +50,7 @@ export const getIdentityUser = async (accessToken?: string): Promise<UserRespons
     updatedAt: new Date(),
   }
 
-  console.log('data:', userData)
+  console.log('userData:', userData)
 
   try {
     return await prisma.user.upsert({
