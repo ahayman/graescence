@@ -51,9 +51,9 @@ export const GET = async (request: Request) => {
   console.log({ authData })
 
   try {
-    const user = await getIdentityUser(authData.access_token)
-    console.log({ identityUser: user })
-    const auth = user.authData.find(d => d.accessToken === authData.access_token)
+    const identityUser = await getIdentityUser(authData.access_token)
+    console.log({ identityUser })
+    const auth = identityUser.authData.find(d => d.accessToken === authData.access_token)
 
     const cookieStore = await cookies()
     cookieStore.set(AuthCookieKey, authData.access_token, {
@@ -62,18 +62,26 @@ export const GET = async (request: Request) => {
       sameSite: 'strict',
     })
 
+    const expiresAt = new Date(Date.now() + authData.expires_in * 1000)
+
+    const user = await prisma.user.findUnique({
+      where: { id: identityUser.id },
+    })
+
+    console.log('User found:', user)
+
     await prisma.authData.upsert({
       where: { accessToken: auth?.accessToken },
       update: {
         accessToken: authData.access_token,
         refreshToken: authData.refresh_token,
-        expiresAt: new Date(Date.now() + authData.expires_in * 1000),
+        expiresAt,
       },
       create: {
         accessToken: authData.access_token,
         refreshToken: authData.refresh_token,
-        expiresAt: new Date(Date.now() + authData.expires_in * 1000),
-        userId: user.id,
+        expiresAt,
+        userId: user?.id || identityUser.id,
       },
     })
 

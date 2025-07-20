@@ -7,7 +7,7 @@ export const convertErrorToResponse = (error: any): Response => {
       status: error.statusCode,
     })
   }
-  return new Response(JSON.stringify({ message: 'Failed to fetch user', error }), {
+  return new Response(JSON.stringify({ message: error.message || 'An error occurred', error }), {
     headers: { 'Content-Type': 'application/json' },
     status: 500,
   })
