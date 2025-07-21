@@ -59,6 +59,8 @@ export const GET = async (request: Request) => {
 
     const expiresAt = new Date(Date.now() + authData.expires_in * 1000)
 
+    console.log({ user })
+
     await prisma.authData.upsert({
       where: { accessToken: authData.access_token },
       update: {
