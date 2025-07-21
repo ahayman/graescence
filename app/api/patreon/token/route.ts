@@ -9,7 +9,6 @@ export const GET = async (request: Request) => {
   const requestUrl = new URL(request.url)
   const params = new URLSearchParams(requestUrl.searchParams)
   const code = params.get('code')
-  console.log('Patreon token route called with code:', code)
   if (!code) {
     return new Response(JSON.stringify({ message: 'Code parameter is missing' }), {
       headers: { 'Content-Type': 'application/json' },
@@ -48,12 +47,8 @@ export const GET = async (request: Request) => {
     )
   }
 
-  console.log({ authData })
-
   try {
-    const identityUser = await getIdentityUser(authData.access_token)
-    console.log({ identityUser })
-    const auth = identityUser.authData.find(d => d.accessToken === authData.access_token)
+    const user = await getIdentityUser(authData.access_token)
 
     const cookieStore = await cookies()
     cookieStore.set(AuthCookieKey, authData.access_token, {
@@ -64,16 +59,9 @@ export const GET = async (request: Request) => {
 
     const expiresAt = new Date(Date.now() + authData.expires_in * 1000)
 
-    const user = await prisma.user.findUnique({
-      where: { id: identityUser.id },
-    })
-
-    console.log('User found:', user)
-
     await prisma.authData.upsert({
-      where: { accessToken: auth?.accessToken },
+      where: { accessToken: authData.access_token },
       update: {
-        accessToken: authData.access_token,
         refreshToken: authData.refresh_token,
         expiresAt,
       },
@@ -81,7 +69,7 @@ export const GET = async (request: Request) => {
         accessToken: authData.access_token,
         refreshToken: authData.refresh_token,
         expiresAt,
-        userId: user?.id || identityUser.id,
+        userId: user.id,
       },
     })
 
