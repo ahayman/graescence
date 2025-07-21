@@ -10,6 +10,6 @@ export const GET = async () => {
       status: 200,
     })
   } catch (error) {
-    return convertErrorToResponse(error)
+    return convertErrorToResponse(error, 'GET /api/patreon/identity')
   }
 }

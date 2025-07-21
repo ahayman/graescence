@@ -51,13 +51,12 @@ export const getIdentityUser = async (accessToken?: string): Promise<UserRespons
   }
 
   try {
-    const user = await prisma.user.upsert({
+    return await prisma.user.upsert({
       where: { id: userData.id },
       update: userData,
       create: userData,
       include: { authData: true },
     })
-    return user
   } catch (error: any) {
     throw { message: 'Failed to upsert user', error, statusCode: 500 }
   }

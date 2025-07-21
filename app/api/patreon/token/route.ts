@@ -78,6 +78,6 @@ export const GET = async (request: Request) => {
       headers: { 'Content-Type': 'application/json' },
     })
   } catch (error) {
-    return convertErrorToResponse(error)
+    return convertErrorToResponse(error, 'GET /api/patreon/token')
   }
 }

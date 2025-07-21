@@ -68,7 +68,7 @@ export async function GET(request: Request, { params }: Params) {
   try {
     await validateAuthToken(authCookie, user.authData)
   } catch (error) {
-    return convertErrorToResponse(error)
+    return convertErrorToResponse(error, 'GET /api/progress/[userId]')
   }
 
   const progressData: ProgressData['progressData'] = user.progress.map(item => ({
@@ -145,7 +145,7 @@ export const POST = async (request: Request, { params }: Params) => {
   try {
     await validateAuthToken(authCookie, user.authData)
   } catch (error) {
-    return convertErrorToResponse(error)
+    return convertErrorToResponse(error, 'POST /api/progress/[userId]')
   }
 
   if (user.tier === 'free') {
