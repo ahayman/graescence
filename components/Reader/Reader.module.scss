@@ -43,15 +43,16 @@
   flex: 1;
   flex-direction: column;
   overflow-y: scroll;
+  padding: 5pt 5pt 0pt 5pt;
 }
 
 .contentVisible {
   opacity: 1;
-  pointer-events: auto;
+  // pointer-events: auto;
 }
 .contentHidden {
   opacity: 0;
-  pointer-events: none;
+  // pointer-events: none;
 }
 
 .contentPage {

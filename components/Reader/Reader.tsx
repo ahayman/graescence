@@ -27,6 +27,7 @@ type Props = {
   tier: AccessTier
   uuid: string
   isPublic: boolean
+  onLore?: (tag: string) => void
   nav: {
     prev?: NavLink
     next?: NavLink
@@ -41,7 +42,7 @@ type LayoutMetrics = {
   fullScreen: boolean
 }
 
-export const Reader: FunctionComponent<Props> = ({ html, type, tier, uuid, isPublic, nav }) => {
+export const Reader: FunctionComponent<Props> = ({ html, type, tier, uuid, isPublic, nav, onLore }) => {
   const {
     state: { readingOptions },
   } = useContext(OptionsContext)
@@ -68,6 +69,24 @@ export const Reader: FunctionComponent<Props> = ({ html, type, tier, uuid, isPub
   const progressRef = useRef(latestCurrentProgress)
   progressRef.current = latestCurrentProgress
   const [pageCount, setPageCount] = useState(0)
+
+  useEffect(() => {
+    if (!onLore) return
+
+    const onLoreClick = (event: Event) => {
+      const targetElement: Element = event.target as unknown as Element
+      const tag = targetElement?.textContent
+      console.log(`Lore clicked: ${tag}`)
+      if (!tag || !onLore) return
+      onLore(tag)
+    }
+
+    const lore = Array.from(document.getElementsByClassName('loreHighlight'))
+    lore.forEach(l => l.addEventListener('click', onLoreClick))
+    return () => {
+      lore.forEach(l => l.removeEventListener('click', onLoreClick))
+    }
+  })
 
   const scrollTo = useCallback((progress: number) => {
     const scrollable = scrolledContentRef.current
