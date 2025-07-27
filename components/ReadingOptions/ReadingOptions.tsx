@@ -33,7 +33,7 @@ const ReadingOptions = () => {
   }, [setShowReadingOptions])
 
   return (
-    <Column>
+    <Column className={styles.container}>
       <div className={styles.optionHeader}>Page Layout</div>
       <PageLayoutSelect selected={readingOptions.pageLayout} onSelect={setPageLayout} />
       <div className={styles.optionHeader}>Text</div>

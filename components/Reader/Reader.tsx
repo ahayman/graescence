@@ -303,6 +303,7 @@ export const Reader: FunctionComponent<Props> = ({ html, type, tier, uuid, isPub
                 styles.pagedContent,
                 readingOptions.pageLayout === 'paged' ? styles.contentVisible : styles.contentHidden,
               )}
+              autoFocus
             />
             <div
               ref={scrolledContentRef}

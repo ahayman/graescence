@@ -1,12 +1,24 @@
 @use '../styles/mixins' as *;
 
+
+.mainContainer {
+  width: 100%;
+  height: 100%;
+  padding-bottom: 3rem;
+  overflow: scroll;
+}
+
 .infoContainer {
+  position: absolute;
   display: flex;
   flex-direction: row;
   margin-block: 5pt;
   margin-inline: 5pt;
   border-radius: 8pt;
   overflow: hidden;
+  bottom: 0;
+  left: 0;
+  right: 0;
 }
 
 .infoBlock {
@@ -15,7 +27,8 @@
   flex-direction: column;
   overflow: hidden;
   width: min-content;
-  background-color: var(--background-color);
+  // background-color: var(--background-color);
+  backdrop-filter: blur(5px);
 }
 
 .infoBlock + .infoBlock {
@@ -26,7 +39,8 @@
   font-size: 0.9rem;
   font-weight: 500;
   text-align: center;
-  background-color: var(--primary-header-color);
+  background-color: var(--primary-header-color-alpha);
+  backdrop-filter: blur(5px);
 }
 
 .infoData {
