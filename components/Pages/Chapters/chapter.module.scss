@@ -30,7 +30,7 @@
   bottom: 0;
   padding-left: 40pt;
   padding-right: 40pt;
-  background-color: var(--skim-background);
+  backdrop-filter: blur(5px);
   @include mobile {
     padding-left: 5pt;
     padding-right: 5pt;

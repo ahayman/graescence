@@ -26,6 +26,8 @@
   visibility: visible;
   opacity: 1;
   transition: opacity 0s linear 0s, opacity 300ms;
+  transition: backdrop-filter 300ms;
+  backdrop-filter: blur(5px) opacity(1);
 }
 
 .popoverHiding {
@@ -33,6 +35,8 @@
   visibility: hidden;
   opacity: 0;
   transition: opacity 0s linear 300ms, opacity 300ms;
+  transition: backdrop-filter 300ms;
+  backdrop-filter: blur(5px) opacity(0);
 }
 
 .icon {
