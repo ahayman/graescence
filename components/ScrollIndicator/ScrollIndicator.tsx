@@ -42,7 +42,7 @@ export const ScrollIndicator: FunctionComponent<Props> = ({
   const containerRef = useRef<HTMLDivElement | null>(null)
   const [hoverState, setHoverState] = useState<boolean[]>([])
   const [ghosts, setGhosts] = useState<GhostIndexes>([null, null])
-  const currentIndex = Math.floor(pageCount * progress)
+  const currentIndex = Math.min(Math.floor(pageCount * progress), pageCount - 1)
 
   const calculateIndicator = (idx: number) => {
     const scale = calculateScale(idx, pageCount, progress)
@@ -126,11 +126,13 @@ export const ScrollIndicator: FunctionComponent<Props> = ({
   }
 
   const incrementIndex = () => {
+    console.log({ progress, currentIndex })
     if (currentIndex >= pageCount) return
     onClick?.(currentIndex + 1)
   }
 
   const decrementIndex = () => {
+    console.log({ progress, currentIndex })
     if (currentIndex <= 0) return
     onClick?.(currentIndex - 1)
   }

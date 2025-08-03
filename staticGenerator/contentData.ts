@@ -239,8 +239,34 @@ const sortFn = <T extends GeneratedContentType>(type: T): ContentSortFn<T> => {
     return sort as ContentSortFn<T>
   }
 
+  if (type === 'History') {
+    const sort: ContentSortFn<'History'> = (l, r) => {
+      if (l.startDate < r.startDate) {
+        return 1
+      } else {
+        return -1
+      }
+    }
+    return sort as ContentSortFn<T>
+  }
+
+  if (type === 'Blog') {
+    const sort: ContentSortFn<'Blog'> = (l, r) => {
+      const lDate = new Date(l.date)
+      const rDate = new Date(r.date)
+      if (rDate > lDate) {
+        return 1
+      } else {
+        return -1
+      }
+    }
+    return sort as ContentSortFn<T>
+  }
+
   return (l, r) => {
-    if (l.date < r.date) {
+    const lDate = new Date(l.date)
+    const rDate = new Date(r.date)
+    if (lDate < rDate) {
       return 1
     } else {
       return -1
