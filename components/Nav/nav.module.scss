@@ -11,6 +11,7 @@
   max-width: 20rem;
   overflow: scroll;
   backdrop-filter: blur(5px);
+  background-color: var(--alpha4-overlay);
 
   @include mobile {
     flex-direction: row;
@@ -73,12 +74,12 @@
 }
 
 .menu {
-  background-color: var(--background-color-alpha);
+  background-color: var(--alpha4-overlay);
   backdrop-filter: blur(5px);
   border-radius: 5pt;
   border-color: var(--border-highlight-color);
   border-width: 1pt;
-  border-style: groove;
+  border-style: solid;
   z-index: 1000000;
 }
 

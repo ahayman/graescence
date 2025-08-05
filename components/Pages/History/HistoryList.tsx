@@ -38,8 +38,8 @@ const HistoryHub = ({ historyData }: Props) => {
 
   const renderByCategory = () =>
     sortedData.map(viewData => (
-      <section key={viewData.category}>
-        <Header title={viewData.category} type="Secondary" />
+      <div className={styles.section} key={viewData.category}>
+        <Header className={styles.sectionHeader} title={viewData.category} type="Secondary" />
         {viewData.data.map(item => (
           <ExcerptItem
             key={item.slug}
@@ -51,7 +51,7 @@ const HistoryHub = ({ historyData }: Props) => {
             date={undefined}
           />
         ))}
-      </section>
+      </div>
     ))
 
   return (

@@ -1,3 +1,4 @@
+@use '../styles/mixins' as *;
 
 .tagsContainer {
   padding: 3pt 5pt;
@@ -5,6 +6,25 @@
 
 .tagsRow {
   padding: 5pt 0pt;
+}
+
+.section {
+  backdrop-filter: blur(5px);
+  background-color: var(--alpha2-overlay);
+  border-radius: 10pt;
+  margin-top: 5pt;
+  border-style: solid;
+  border-width: 1pt;
+  border-color: var(--alpha3-overlay);
+}
+
+.sectionHeader {
+  border-top-left-radius: 10pt;
+  border-top-right-radius: 10pt;
+  @include mobile {
+    margin-inline: 0pt;
+    margin-top: 0pt;
+  }
 }
 
 .hr {

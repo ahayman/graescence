@@ -5,6 +5,7 @@
   border-width: 1pt;
   margin-bottom: 1pt;
   max-height: 100%;
-  background-color: var(--background-tertiary-color);
+  background-color: var(--alpha5-overlay);
+  backdrop-filter: blur(10px);
   overflow: scroll;
 }

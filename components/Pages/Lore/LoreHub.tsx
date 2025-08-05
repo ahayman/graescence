@@ -44,8 +44,8 @@ const LoreHub = ({ loreData }: Props) => {
 
   const renderLoreByCategory = () =>
     data.map(viewData => (
-      <section key={viewData.category}>
-        <Header title={viewData.category} type="Secondary" />
+      <section className={styles.section} key={viewData.category}>
+        <Header className={styles.sectionHeader} title={viewData.category} type="Secondary" />
         {viewData.data.map(item => (
           <ExcerptItem tier="world" key={item.slug} {...item} />
         ))}
