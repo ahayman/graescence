@@ -30,13 +30,14 @@ export interface Props {
 type QueryParam = 'tag' | 'filter' | 'sort'
 
 const LoreHub = ({ loreData }: Props) => {
+  const publishedData = loreData.filter(item => Date.now() >= new Date(item.publishedDate).getTime())
   const [params, setParam] = useQueryParams<QueryParam>()
   const paramTag = params['tag']
   const paramFilter = params['filter']
   const sortByLatest = params['sort'] === 'byLatest'
 
   const { data, setFilter, setCategory, categories, currentCategory, filter } = useCategoricalFilter(
-    loreData,
+    publishedData,
     includeLoreItem,
     paramFilter,
     paramTag,
@@ -55,7 +56,7 @@ const LoreHub = ({ loreData }: Props) => {
   const renderByLatest = () => {
     const allData = data
       .flatMap(d => d.data)
-      .toSorted((l, r) => new Date(r.date).getTime() - new Date(l.date).getTime())
+      .toSorted((l, r) => new Date(r.publishedDate).getTime() - new Date(l.publishedDate).getTime())
     return allData.map(item => <ExcerptItem tier="world" key={item.slug} {...item} />)
   }
 

@@ -4,16 +4,16 @@ import LoreHub from '../../components/Pages/Lore/LoreHub'
 
 export default async function PageData() {
   const data: LoreExcerpt[] = (await getSortedContentData('Lore')).map(
-    ({ type, uuid, slug, title, date, tags, category, excerpt, isPublic }) => ({
+    ({ type, uuid, slug, title, publishedDate, tags, category, excerpt, publicDate }) => ({
       type,
       uuid,
       slug,
       title,
-      date,
+      publishedDate,
       tags,
       category,
       excerpt,
-      isPublic,
+      publicDate,
     }),
   )
   return <LoreHub loreData={data} />

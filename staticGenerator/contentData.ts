@@ -79,11 +79,21 @@ const extractData = async <T extends GeneratedContentType>(
 ): Promise<ContentData[T] | undefined> => {
   const data = front.data
   const title = data.title
-  const date = data.date instanceof Date ? data.date.toISOString() : data.date?.toString()
-  const published = data.published
+  const publishedDate =
+    data.publishedDate instanceof Date
+      ? data.publishedDate.toISOString()
+      : typeof data.publishedDate === 'string'
+      ? data.publishedDate
+      : undefined
+  const publicDate =
+    data.publicDate instanceof Date
+      ? data.publicDate.toISOString()
+      : typeof data.publicDate === 'string'
+      ? data.publicDate
+      : undefined
   const uuid = `${data.uuid}`
 
-  if (!date || !title || !published || !data.uuid) {
+  if (!publishedDate || !title || !data.uuid) {
     return undefined
   }
 
@@ -91,7 +101,6 @@ const extractData = async <T extends GeneratedContentType>(
     case 'Chapters': {
       const volumeNo = Number.parseInt(parent.split(' ')[1].split(' - ')[0])
       const chapterNo = Number.parseInt(fileName.split(' ')[0])
-      const isPublic = Boolean(data.isPublic ?? false)
       const tagData = data.tags
       const tags: string[] = (
         (typeof tagData === 'string' ? tagData.split(/,\s*/) : tagData instanceof Array ? tagData : []) as string[]
@@ -120,14 +129,14 @@ const extractData = async <T extends GeneratedContentType>(
         uuid,
         excerpt,
         title,
-        date,
+        publishedDate,
         volumeNo,
         chapterNo,
         tags,
         html: highlightedHtml,
         volumeName,
         notes,
-        isPublic,
+        publicDate,
         lore: chapterLore,
       }
       return extract as ContentData[T]
@@ -139,8 +148,16 @@ const extractData = async <T extends GeneratedContentType>(
         .use(HTML)
         .process(front.content.replace(excerpt_separator, ''))
       const html = processedContent.toString()
-      const isPublic = true
-      const extract: ContentData['Blog'] = { type: 'blog', slug: id, uuid, title, date, excerpt, html, isPublic }
+      const extract: ContentData['Blog'] = {
+        type: 'blog',
+        slug: id,
+        uuid,
+        title,
+        publishedDate,
+        excerpt,
+        html,
+        publicDate,
+      }
       return extract as ContentData[T]
     }
     case 'History': {
@@ -148,7 +165,6 @@ const extractData = async <T extends GeneratedContentType>(
       const startDate = data.startDate instanceof Date ? data.startDate.toISOString() : data.startDate?.toString()
       const endDate = data.endDate instanceof Date ? data.endDate.toISOString() : data.endDate?.toString()
       const turning = data.turning
-      const isPublic = Boolean(data.isPublic ?? false)
       const tags: string[] = (
         (typeof tagData === 'string' ? tagData.split(/,\s*/) : tagData instanceof Array ? tagData : []) as string[]
       ).map(t => t.replaceAll('_', ' '))
@@ -164,7 +180,7 @@ const extractData = async <T extends GeneratedContentType>(
         slug: id,
         uuid,
         title,
-        date,
+        publishedDate,
         startDate,
         endDate,
         turning,
@@ -172,13 +188,12 @@ const extractData = async <T extends GeneratedContentType>(
         tags,
         html,
         excerpt,
-        isPublic,
+        publicDate,
       }
       return extract as ContentData[T]
     }
     case 'Lore': {
       const tagData = data.tags
-      const isPublic = Boolean(data.isPublic ?? false)
       const tags: string[] = (
         (typeof tagData === 'string' ? tagData.split(/,\s*/) : tagData instanceof Array ? tagData : []) as string[]
       ).map(t => t.replaceAll('_', ' '))
@@ -194,12 +209,12 @@ const extractData = async <T extends GeneratedContentType>(
         slug: id,
         uuid,
         title,
-        date,
+        publishedDate,
         category: parent,
         tags,
         html,
         excerpt,
-        isPublic,
+        publicDate,
       }
       return extract as ContentData[T]
     }
@@ -252,8 +267,8 @@ const sortFn = <T extends GeneratedContentType>(type: T): ContentSortFn<T> => {
 
   if (type === 'Blog') {
     const sort: ContentSortFn<'Blog'> = (l, r) => {
-      const lDate = new Date(l.date)
-      const rDate = new Date(r.date)
+      const lDate = new Date(l.publishedDate)
+      const rDate = new Date(r.publishedDate)
       if (rDate > lDate) {
         return 1
       } else {
@@ -264,8 +279,8 @@ const sortFn = <T extends GeneratedContentType>(type: T): ContentSortFn<T> => {
   }
 
   return (l, r) => {
-    const lDate = new Date(l.date)
-    const rDate = new Date(r.date)
+    const lDate = new Date(l.publishedDate)
+    const rDate = new Date(r.publishedDate)
     if (lDate < rDate) {
       return 1
     } else {
@@ -316,7 +331,7 @@ export const generateRSS = async (type: GeneratedContentType) => {
       link: `${siteUrl}/${type}/${content.slug}`,
       description: content.excerpt,
       author: [{ name: 'apoetsanon' }],
-      date: parseISO(content.date),
+      date: parseISO(content.publishedDate),
     }
     return item
   })

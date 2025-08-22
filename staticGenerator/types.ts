@@ -12,8 +12,8 @@ export type ContentId = {
 /// Metadata common to all Content
 export type Meta = ContentId & {
   title: string
-  date: string
-  isPublic: boolean
+  publishedDate: string
+  publicDate?: string
 }
 
 /** === CHAPTER === */

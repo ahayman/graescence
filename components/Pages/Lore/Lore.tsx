@@ -17,7 +17,7 @@ export type Props = {
 }
 
 const Lore = ({ lore }: Props) => {
-  const { title, date, tags, category } = lore
+  const { title, publishedDate, tags, category } = lore
   const nav = useRouter()
 
   return (
@@ -36,7 +36,7 @@ const Lore = ({ lore }: Props) => {
       <Header type="Secondary">
         <Row horizontal="space-between" vertical="center">
           <span>{category}</span>
-          <span className={utilStyles.smallText}>{date && <Date dateString={date} />}</span>
+          <span className={utilStyles.smallText}>{publishedDate && <Date dateString={publishedDate} />}</span>
         </Row>
       </Header>
       <Reader {...lore} tier="world" nav={{ prev: { title: 'Back', onClick: nav.back } }} />

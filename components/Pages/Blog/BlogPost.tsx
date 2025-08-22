@@ -32,7 +32,7 @@ export const BlogPost = ({ post }: Props) => {
       </Header>
       <Header type="Secondary">
         <span className={classes(utilStyles.lightText, utilStyles.smallText)}>
-          <Date dateString={post.date} />
+          <Date dateString={post.publishedDate} />
         </span>
       </Header>
       <Reader {...post} tier="free" nav={{ prev: { title: 'Back', onClick: nav.back } }} />

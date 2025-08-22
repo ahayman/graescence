@@ -1,7 +1,6 @@
 import './globals.scss'
 import {} from '../lib/array'
 import Head from 'next/head'
-import { Analytics } from '@vercel/analytics/next'
 import { ReactNode } from 'react'
 import styles from './layout.module.scss'
 import Providers from '../components/Pages/Providers'
@@ -89,60 +88,66 @@ export const metadata: Metadata = {
   ],
 }
 
+const isPublished = (item: Meta): boolean => {
+  return Date.now() > new Date(item.publishedDate).getTime()
+}
+
 const Layout = async ({ children }: Props) => {
   /**
    * Note: It's very important to map the data here.
    * Otherwise, the entire dataset will be loaded into each page (since this is a layout)
    * which will bloat the website. We _only_ want metatdata here.
    */
-  const blog: Meta[] = (await getSortedContentData('Blog')).map(({ slug, uuid, title, date, isPublic }) => ({
-    slug,
-    uuid,
-    title,
-    date,
-    isPublic,
-  }))
-  const chapters: ChapterMeta[] = (await getSortedContentData('Chapters')).map(
-    ({ type, slug, uuid, title, date, volumeNo, volumeName, chapterNo, tags, isPublic }) => ({
+  const blog: Meta[] = (await getSortedContentData('Blog'))
+    .filter(isPublished)
+    .map(({ slug, uuid, title, publishedDate, publicDate }) => ({
+      slug,
+      uuid,
+      title,
+      publishedDate,
+      publicDate,
+    }))
+  const chapters: ChapterMeta[] = (await getSortedContentData('Chapters'))
+    .filter(isPublished)
+    .map(({ type, slug, uuid, title, publishedDate, volumeNo, volumeName, chapterNo, tags, publicDate }) => ({
       type,
       uuid,
       slug,
       title,
-      date,
+      publishedDate,
       volumeNo,
       volumeName,
       chapterNo,
       tags,
-      isPublic,
-    }),
-  )
-  const lore: LoreMeta[] = (await getSortedContentData('Lore')).map(
-    ({ type, uuid, slug, title, date, tags, category, isPublic }) => ({
+      publicDate,
+    }))
+  const lore: LoreMeta[] = (await getSortedContentData('Lore'))
+    .filter(isPublished)
+    .map(({ type, uuid, slug, title, publishedDate, tags, category, publicDate }) => ({
       type,
       uuid,
       slug,
       title,
-      date,
+      publishedDate,
       tags,
       category,
-      isPublic,
-    }),
-  )
-  const history: HistoryMeta[] = await (
-    await getSortedContentData('History')
-  ).map(({ type, uuid, slug, title, date, tags, startDate, endDate, category, turning, isPublic }) => ({
-    type,
-    uuid,
-    slug,
-    title,
-    date,
-    startDate,
-    endDate,
-    tags,
-    category,
-    turning,
-    isPublic,
-  }))
+      publicDate,
+    }))
+  const history: HistoryMeta[] = (await getSortedContentData('History'))
+    .filter(isPublished)
+    .map(({ type, uuid, slug, title, publishedDate, tags, startDate, endDate, category, turning, publicDate }) => ({
+      type,
+      uuid,
+      slug,
+      title,
+      publishedDate,
+      startDate,
+      endDate,
+      tags,
+      category,
+      turning,
+      publicDate,
+    }))
 
   return (
     <html>

@@ -26,7 +26,7 @@ export type Props = {
 type QueryParam = 'sort' | 'filter' | 'tag'
 
 const History = ({ item }: Props) => {
-  const { title, date, category, startDate, endDate, turning } = item
+  const { title, publishedDate, category, startDate, endDate, turning } = item
   const [params] = useQueryParams<QueryParam>()
   const nav = useRouter()
   const tag = params['tag']
@@ -66,7 +66,7 @@ const History = ({ item }: Props) => {
             <span className={classes(utilStyles.smallText, utilStyles.lightText)}>{`(${startDate} → ${endDate})`}</span>
           </Row>
           <span className={classes(utilStyles.smallText, utilStyles.lightText)}>
-            {date && <Date dateString={date} />}
+            {publishedDate && <Date dateString={publishedDate} />}
           </span>
         </Row>
       </Header>

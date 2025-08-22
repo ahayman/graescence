@@ -26,7 +26,7 @@ type Props = {
   type: ContentType
   tier: AccessTier
   uuid: string
-  isPublic: boolean
+  publicDate?: string
   onLore?: (tag: string) => void
   nav: {
     prev?: NavLink
@@ -42,7 +42,8 @@ type LayoutMetrics = {
   fullScreen: boolean
 }
 
-export const Reader: FunctionComponent<Props> = ({ html, type, tier, uuid, isPublic, nav, onLore }) => {
+export const Reader: FunctionComponent<Props> = ({ html, type, tier, uuid, publicDate, nav, onLore }) => {
+  const isPublic = publicDate && Date.now() >= new Date(publicDate).getTime()
   const {
     state: { readingOptions },
   } = useContext(OptionsContext)

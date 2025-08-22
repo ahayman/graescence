@@ -2,7 +2,7 @@
 import { classes, TierData, TypedKeys, userCanAccessTier } from '../../../lib/utils'
 import utilStyles from '../../../styles/utils.module.scss'
 import styles from './toc.module.scss'
-import Date from '../../date'
+import DateView from '../../date'
 import Link from 'next/link'
 import { FunctionComponent, useContext, useEffect, useMemo, useState } from 'react'
 import { ContentContext } from '../../../providers/Content/Provider'
@@ -11,7 +11,7 @@ import Header from '../../Header/Header'
 import ContentBlock from '../../ContentBlock/ContentBlock'
 import Row from '../../Row'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faChevronDown, faChevronUp, faGlasses, faPenFancy } from '@fortawesome/free-solid-svg-icons'
+import { faChevronDown, faChevronUp, faGlasses } from '@fortawesome/free-solid-svg-icons'
 import Tags from '../../Tags/Tags'
 import { ChapterMeta } from '../../../staticGenerator/types'
 import SearchField from '../../Search/SearchField'
@@ -43,9 +43,7 @@ type QueryParam = 'tag' | 'filter'
 
 export const TableOfContents = () => {
   const { chapters } = useContext(ContentContext)
-  const {
-    state: { currentChapter, progress },
-  } = useContext(ProgressContext)
+  const { currentChapter, progress } = useContext(ProgressContext).state
   const chapterData = useStructuredChapterData(chapters)
   const [params, setParam] = useQueryParams<QueryParam>()
   const tag = params['tag'] ?? 'All'
@@ -53,9 +51,7 @@ export const TableOfContents = () => {
   const [collapsed, setCollapsed] = useState<{ [k: number]: boolean }>({})
   const tags = useMemo(() => ['All', ...Object.keys(chapterData.byTag).sort()], [chapterData.byTag])
   const [activeFilter, filter, setFilter] = useStateDebouncer(paramFilter, 500)
-  const {
-    state: { user },
-  } = useContext(PatreonContext)
+  const { user } = useContext(PatreonContext).state
   const hasPatreonAccess = userCanAccessTier(user, 'story')
   const currentChapterData = chapters.find(c => c.uuid === currentChapter?.id)
 
@@ -166,8 +162,8 @@ const ChapterItem: FunctionComponent<ChapterItemProps> = ({
   chapterNo,
   title,
   tags,
-  isPublic,
-  date,
+  publishedDate,
+  publicDate,
   uuid,
   hasPatreonAccess,
   isPatreonLinked,
@@ -176,6 +172,7 @@ const ChapterItem: FunctionComponent<ChapterItemProps> = ({
 }) => {
   const cProgress = progress[uuid]?.progress
   const isCurrentChapter = currentChapter?.id === uuid
+  const isPublic = publicDate && Date.now() >= new Date(publicDate).getTime()
   return (
     <Link href={`/chapters/${id}`} key={id}>
       <Column>
@@ -190,9 +187,9 @@ const ChapterItem: FunctionComponent<ChapterItemProps> = ({
           {isCurrentChapter && <FontAwesomeIcon icon={faGlasses} />}
           <div style={{ flex: 1 }} />
           {!isPublic && hasPatreonAccess && <FontAwesomeIcon className={styles.storyIcon} icon={TierData.story.icon} />}
-          {date && (
+          {publishedDate && (
             <div className={classes(utilStyles.lightText, utilStyles.smallText, styles.chapterDate)}>
-              <Date dateString={date} />
+              <DateView dateString={publishedDate} />
             </div>
           )}
         </Row>

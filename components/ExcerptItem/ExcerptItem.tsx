@@ -3,7 +3,7 @@ import Row from '../../components/Row'
 import styles from './ExcerptItem.module.scss'
 import postStyles from '../../styles/post.module.scss'
 import utilStyles from '../../styles/utils.module.scss'
-import Date from '../../components/date'
+import DateView from '../../components/date'
 import Tags from '../Tags/Tags'
 import { createURL } from '../Pages/History/utils/createURL'
 import { useContext } from 'react'
@@ -21,7 +21,7 @@ export type Props = {
   title: string
   excerpt: string
   tier: AccessTier
-  isPublic: boolean
+  publicDate?: string
   date?: string
   subTitle?: string
   tags?: string[]
@@ -38,9 +38,10 @@ export const ExcerptItem = ({
   tags,
   subTitle,
   tier,
-  isPublic,
+  publicDate,
 }: Props) => {
   const user = useContext(PatreonContext).state.user
+  const isPublic = publicDate && Date.now() >= new Date(publicDate).getTime()
   const canAccess = isPublic || userCanAccessTier(user, tier)
   const isLinked = user !== undefined
   const itemProgress = useContext(ProgressContext).state.progress[uuid]?.progress
@@ -56,7 +57,7 @@ export const ExcerptItem = ({
           {subTitle && <span className={styles.subTitle}>{subTitle}</span>}
           {date && (
             <span className={styles.date}>
-              <Date dateString={date} />
+              <DateView dateString={date} />
               {!isPublic && tier !== 'free' && (
                 <FontAwesomeIcon className={styles.tierIcon} icon={TierData[tier].icon} />
               )}

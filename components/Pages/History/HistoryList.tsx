@@ -21,13 +21,14 @@ export interface Props {
 type QueryParam = 'sort' | 'filter' | 'tag'
 
 const HistoryHub = ({ historyData }: Props) => {
+  const publishedData = historyData.filter(item => Date.now() >= new Date(item.publishedDate).getTime())
   const [params, setParam] = useQueryParams<QueryParam>()
   const tag = params['tag']
   const paramFilter = params['filter']
   const sort: SortDirection = params['sort'] === 'ascending' ? 'ascending' : 'descending'
 
   const { data, setFilter, setCategory, categories, currentCategory, filter } = useCategoricalFilter(
-    historyData,
+    publishedData,
     includeHistoryItem,
     paramFilter,
     tag,
