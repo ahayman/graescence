@@ -78,7 +78,7 @@ export const ExcerptItem = ({
             </Row>
           </div>
         ) : (
-          <AccessNeeded tier={tier} isAlreadyLinked={isLinked} content={excerpt} />
+          <AccessNeeded tier={tier} isAlreadyLinked={isLinked} content={excerpt} publicDate={publicDate} />
         )}
         <div className={styles.progressContainer}>
           {itemProgress && <div style={{ width: `${itemProgress * 100}%` }} className={styles.progressIndicator} />}

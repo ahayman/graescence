@@ -194,7 +194,13 @@ const ChapterItem: FunctionComponent<ChapterItemProps> = ({
           )}
         </Row>
         {!(isPublic || hasPatreonAccess) && (
-          <AccessNeeded className={styles.accessContainer} tier="story" content="" isAlreadyLinked={isPatreonLinked} />
+          <AccessNeeded
+            className={styles.accessContainer}
+            tier="story"
+            content=""
+            isAlreadyLinked={isPatreonLinked}
+            publicDate={publicDate}
+          />
         )}
         <div className={styles.progressContainer}>
           {cProgress && <div style={{ width: `${cProgress * 100}%` }} className={styles.progressIndicator} />}
