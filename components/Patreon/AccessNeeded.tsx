@@ -34,9 +34,10 @@ export const AccessNeeded: FunctionComponent<Props> = ({
   const textArray = content?.split(/(?<=>[^<>]*?)\s(?=[^<>]*?<)/) // Split the text into words without
   const [timeUntilPublic, setTimeUntilPublic] = useState(publicDate ? formatDistanceToNow(publicDate) : undefined)
   const __html = textArray?.slice(0, largeLayout ? 200 : 100).join(' ')
-  const tierText = timeUntilPublic?.includes('ago')
-    ? 'Refresh page to see content'
-    : `${TierData[tier].title} Tier Required` + (timeUntilPublic ? ` (unlocks in ${timeUntilPublic})` : '')
+  const tierText =
+    timeUntilPublic && new Date(timeUntilPublic).getTime() < Date.now()
+      ? 'Refresh page to see unlocked content'
+      : `${TierData[tier].title} Tier Required` + (timeUntilPublic ? ` (unlocks in ${timeUntilPublic})` : '')
 
   const routeToPatreonAuth = () => {
     router.push(getPatreonLoginUrl(path))
@@ -54,7 +55,10 @@ export const AccessNeeded: FunctionComponent<Props> = ({
       ? 1000 // 1 second
       : 1000 * 60 // default to 1 minute
 
-    const timeoutHandler = setTimeout(() => setTimeUntilPublic(formatDistanceToNow(publicDate)), updateIn)
+    const timeoutHandler = setTimeout(
+      () => setTimeUntilPublic(formatDistanceToNow(publicDate, { addSuffix: true })),
+      updateIn,
+    )
     return () => {
       clearTimeout(timeoutHandler)
     }
