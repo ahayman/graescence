@@ -12,7 +12,7 @@ import Image from 'next/image'
 import Row from '../../Row'
 import { GeneratedContentType } from '../../../staticGenerator/types'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faRssSquare } from '@fortawesome/free-solid-svg-icons'
+import { faRssSquare, faMailReply, faVoicemail, faEnvelope } from '@fortawesome/free-solid-svg-icons'
 
 export interface Props {
   content: string
@@ -149,6 +149,15 @@ export const Home = ({ content }: Props) => {
                 </ul>
               </div>
             )}
+          </div>
+          <div className={classes(postStyles.post, s.supportContainer)}>
+            If you&apos;re having issues with the website or just want to drop me a comment, my email is:
+            <Link
+              className={classes(utilStyles.coloredLink, utilStyles.scaleHover)}
+              href={'mailto:apoetsanon@gmail.com'}>
+              <span> apoetsanon@gmail.com</span>
+              <FontAwesomeIcon className={s.rssIcon} icon={faEnvelope} />
+            </Link>
           </div>
         </div>
       </Column>
