@@ -54,13 +54,11 @@ export const ExcerptItem = ({
             <div className={styles.header}>{title}</div>
             {tags && <Tags tags={tags} type="secondary" />}
           </Row>
+          {!isPublic && tier !== 'free' && <FontAwesomeIcon className={styles.tierIcon} icon={TierData[tier].icon} />}
           {subTitle && <span className={styles.subTitle}>{subTitle}</span>}
           {date && (
             <span className={styles.date}>
               <DateView dateString={date} />
-              {!isPublic && tier !== 'free' && (
-                <FontAwesomeIcon className={styles.tierIcon} icon={TierData[tier].icon} />
-              )}
             </span>
           )}
         </Row>
