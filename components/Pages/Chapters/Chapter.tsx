@@ -39,8 +39,12 @@ const Chapter = ({ id, chapter }: Props) => {
   const chapterIdx = useMemo(() => chapters.findIndex(c => c.slug === id), [chapters, id])
   const nextChapter: ChapterMeta | undefined = chapters[chapterIdx + 1]
   const prevChapter: ChapterMeta | undefined = chapters[chapterIdx - 1]
-  const next: NavLink | undefined = nextChapter ? { title: 'Next', url: `/chapters/${nextChapter.slug}` } : undefined
-  const prev: NavLink | undefined = prevChapter ? { title: 'Prev', url: `/chapters/${prevChapter.slug}` } : undefined
+  const next: NavLink | undefined = nextChapter
+    ? { title: 'Next Chapter', url: `/chapters/${nextChapter.slug}` }
+    : undefined
+  const prev: NavLink | undefined = prevChapter
+    ? { title: 'Prev Chapter', url: `/chapters/${prevChapter.slug}` }
+    : undefined
 
   const onLoreClick = useCallback(
     (tag: string) => {
