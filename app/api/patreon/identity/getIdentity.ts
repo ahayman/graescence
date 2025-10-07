@@ -40,7 +40,8 @@ export const getIdentityUser = async (accessToken?: string): Promise<UserRespons
   }
 
   const data = await response.json()
-  if (!isResultIdentity(data)) throw { message: 'Invalid identity response', data, statusCode: 500 }
+  if (!isResultIdentity(data))
+    throw { message: 'Invalid identity response', data: JSON.stringify(data, null, 2), statusCode: 500 }
 
   const userData: Prisma.UserCreateInput = {
     id: data.data.id,
@@ -71,14 +72,15 @@ const insaneTier = '24500294' // https://www.patreon.com/checkout/apoetsanon?rid
 
 const isResultIdentity = (data: unknown): data is PatreonIdentity => {
   if (!(typeof data === 'object' && data !== null)) return false
-  if (!('data' in data && typeof data.data === 'object' && data.data !== null && 'included' in data)) return false
+  if (!('data' in data && typeof data.data === 'object' && data.data !== null)) return false
   if (!('type' in data.data && data.data.type === 'user')) return false
-  if (!('included' in data && data.included instanceof Array)) return false
+  if ('included' in data && !(data.included instanceof Array)) return false
   return true
 }
 
 const getSubscriptionsTier = (user: PatreonIdentity): AccessTier => {
   if (user.data.attributes.email && freeUserEmails.includes(user.data.attributes.email)) return 'world'
+  if (!user.included) return 'free'
   const membership = user.included.find(d => d.type === 'member' && d.relationships.campaign.data.id === campaignId) as
     | Member
     | undefined
