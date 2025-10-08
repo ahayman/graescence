@@ -82,7 +82,7 @@ type User = PatreonResource<
 
 export type PatreonIdentity = {
   data: User
-  included: (Member | Campaign | Tier)[]
+  included?: (Member | Campaign | Tier)[]
 }
 
 export type AccessTier = 'free' | 'story' | 'world'

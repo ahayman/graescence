@@ -66,6 +66,7 @@ export const getIdentityUser = async (accessToken?: string): Promise<UserRespons
 }
 
 const freeUserEmails = ['apoetsanon@gmail.com', 'switz2001@gmail.com']
+const freeUserIds = []
 const campaignId = '6296047' // https://www.patreon.com/6296047/join
 const worldTier = '24500193' // https://www.patreon.com/checkout/apoetsanon?rid=24500193&vanity=6296047
 const storyTier = '6799500' // https://www.patreon.com/checkout/apoetsanon?rid=6799500&vanity=6296047

@@ -91,19 +91,24 @@ const ProgressProvider = ({ children }: Props) => {
   )
 
   const updateStateWithProgress = useCallback((progress: State['progress']) => {
-    setState(s => ({
-      ...s,
-      lastUpdated: new Date(),
-      currentChapter:
-        Object.values({ ...s.progress, ...progress })
-          .filter(isNotEmpty)
-          .filter(i => i?.type === 'chapter')
-          .reduce((max, c) => (c.updatedAt > max.updatedAt ? c : max)) ?? s.currentChapter,
-      progress: {
-        ...s.progress,
-        ...progress,
-      },
-    }))
+    setState(s => {
+      const progressItems = Object.values({ ...s.progress, ...progress })
+        .filter(isNotEmpty)
+        .filter(i => i?.type === 'chapter')
+
+      return {
+        ...s,
+        lastUpdated: new Date(),
+        currentChapter:
+          progressItems.length > 0
+            ? progressItems.reduce((max, c) => (c.updatedAt > max.updatedAt ? c : max))
+            : s.currentChapter,
+        progress: {
+          ...s.progress,
+          ...progress,
+        },
+      }
+    })
   }, [])
 
   const syncLocalDataWithServer = useCallback(async () => {
