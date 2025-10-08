@@ -43,6 +43,8 @@ export const getIdentityUser = async (accessToken?: string): Promise<UserRespons
   if (!isResultIdentity(data))
     throw { message: 'Invalid identity response', data: JSON.stringify(data, null, 2), statusCode: 500 }
 
+  console.log('Patreon user data:', JSON.stringify(data, null, 2))
+
   const userData: Prisma.UserCreateInput = {
     id: data.data.id,
     email: data.data.attributes.email,
