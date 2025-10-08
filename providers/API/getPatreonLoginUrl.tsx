@@ -8,5 +8,5 @@ export const getPatreonLoginUrl = (path: string) => {
     process.env.NEXT_PUBLIC_PATREON_CLIENT_ID
   }&redirect_uri=${encodeURIComponent(process.env.NEXT_PUBLIC_PATREON_REDIRECT_URL ?? '')}&state=${encodeURIComponent(
     path,
-  )}`
+  )}&scope=identity%20identity%5Bemail%5D`
 }
