@@ -5,7 +5,12 @@ const nextConfig: NextConfig = {
   reactStrictMode: true,
   trailingSlash: true,
   // output: 'export',
-  images: { unoptimized: false },
+  images: {
+    unoptimized: false,
+    remotePatterns: [
+      { protocol: 'https', hostname: 'hkpbb36pmnqgqbnx.public.blob.vercel-storage.com', pathname: '/**' },
+    ],
+  },
   sassOptions: {
     includePaths: [path.join(__dirname, 'styles')],
   },

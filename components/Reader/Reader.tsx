@@ -62,6 +62,7 @@ export const Reader: FunctionComponent<Props> = ({ html, type, tier, uuid, publi
     progress[uuid]?.progress ?? 0,
     300,
   )
+  console.log(html)
   const user = useContext(PatreonContext).state.user
   const pagedMeasureRef = useRef<HTMLDivElement>(null)
   const pagedContentRef = useRef<HTMLDivElement>(null)

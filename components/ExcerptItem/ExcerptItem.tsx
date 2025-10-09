@@ -13,6 +13,7 @@ import { AccessNeeded } from '../Patreon/AccessNeeded'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { AccessTier } from '../../app/api/types'
 import { ProgressContext } from '../../providers/Progress/Provider'
+import Image from 'next/image'
 
 export type Props = {
   type: 'lore' | 'history' | 'blog'
@@ -25,6 +26,7 @@ export type Props = {
   date?: string
   subTitle?: string
   tags?: string[]
+  thumbnail?: string
   passThroughQuery?: URLSearchParams | Record<string, string | undefined>
 }
 export const ExcerptItem = ({
@@ -39,6 +41,7 @@ export const ExcerptItem = ({
   subTitle,
   tier,
   publicDate,
+  thumbnail,
 }: Props) => {
   const user = useContext(PatreonContext).state.user
   const isPublic = publicDate && Date.now() >= new Date(publicDate).getTime()
@@ -66,7 +69,10 @@ export const ExcerptItem = ({
       <div className={styles.content}>
         {canAccess ? (
           <div className={styles.excerpt}>
-            <div className={postStyles.post} dangerouslySetInnerHTML={{ __html: excerpt }} />
+            <div className={styles.thumbRow}>
+              {!!thumbnail && <Image src={thumbnail} className={styles.thumbnail} width={50} height={50} alt="" />}
+              <div className={postStyles.post} dangerouslySetInnerHTML={{ __html: excerpt }} />
+            </div>
             <Row horizontal="end" vertical="center">
               <Link
                 className={classes(utilStyles.coloredLink, styles.moreLink)}

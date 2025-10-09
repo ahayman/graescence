@@ -96,34 +96,38 @@ const Layout = async ({ children }: Props) => {
   /**
    * Note: It's very important to map the data here.
    * Otherwise, the entire dataset will be loaded into each page (since this is a layout)
-   * which will bloat the website. We _only_ want metatdata here.
+   * which will bloat the website. We _only_ want metadata here.
    */
   const blog: Meta[] = (await getSortedContentData('Blog'))
     .filter(isPublished)
-    .map(({ slug, uuid, title, publishedDate, publicDate }) => ({
+    .map(({ slug, uuid, title, publishedDate, publicDate, thumbnail }) => ({
       slug,
       uuid,
       title,
       publishedDate,
       publicDate,
+      thumbnail,
     }))
   const chapters: ChapterMeta[] = (await getSortedContentData('Chapters'))
     .filter(isPublished)
-    .map(({ type, slug, uuid, title, publishedDate, volumeNo, volumeName, chapterNo, tags, publicDate }) => ({
-      type,
-      uuid,
-      slug,
-      title,
-      publishedDate,
-      volumeNo,
-      volumeName,
-      chapterNo,
-      tags,
-      publicDate,
-    }))
+    .map(
+      ({ type, slug, uuid, title, publishedDate, volumeNo, volumeName, chapterNo, tags, publicDate, thumbnail }) => ({
+        type,
+        uuid,
+        slug,
+        title,
+        publishedDate,
+        volumeNo,
+        volumeName,
+        chapterNo,
+        tags,
+        publicDate,
+        thumbnail,
+      }),
+    )
   const lore: LoreMeta[] = (await getSortedContentData('Lore'))
     .filter(isPublished)
-    .map(({ type, uuid, slug, title, publishedDate, tags, category, publicDate }) => ({
+    .map(({ type, uuid, slug, title, publishedDate, tags, category, publicDate, thumbnail }) => ({
       type,
       uuid,
       slug,
@@ -132,22 +136,39 @@ const Layout = async ({ children }: Props) => {
       tags,
       category,
       publicDate,
+      thumbnail,
     }))
   const history: HistoryMeta[] = (await getSortedContentData('History'))
     .filter(isPublished)
-    .map(({ type, uuid, slug, title, publishedDate, tags, startDate, endDate, category, turning, publicDate }) => ({
-      type,
-      uuid,
-      slug,
-      title,
-      publishedDate,
-      startDate,
-      endDate,
-      tags,
-      category,
-      turning,
-      publicDate,
-    }))
+    .map(
+      ({
+        type,
+        uuid,
+        slug,
+        title,
+        publishedDate,
+        tags,
+        startDate,
+        endDate,
+        category,
+        turning,
+        publicDate,
+        thumbnail,
+      }) => ({
+        type,
+        uuid,
+        slug,
+        title,
+        publishedDate,
+        startDate,
+        endDate,
+        tags,
+        category,
+        turning,
+        publicDate,
+        thumbnail,
+      }),
+    )
 
   return (
     <html>

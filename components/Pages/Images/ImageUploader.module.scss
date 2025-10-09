@@ -1,0 +1,74 @@
+
+.imageList {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  overflow: scroll;
+}
+
+.imageList img {
+  aspect-ratio: attr(width) / attr(height);
+  border-radius: 8px;
+}
+
+.textInput {
+  font-size: 16px;
+  padding: 8px 0px;
+  box-sizing: border-box;
+}
+
+.spinner {
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+  animation: spin 2s linear infinite;
+}
+
+.uploadButton {
+  padding: 2pt 8pt;
+  border-radius: 8pt;
+  font-size: 1rem;
+}
+
+.errorText {
+  color: var(--error-color);
+  font-weight: bold;
+}
+
+.progressContainer {
+  width: 100%;
+  overflow: hidden;
+}
+
+.progressValues {
+  font-size: 0.5rem;
+  align-self: flex-end;
+}
+
+.progressIndicator {
+  height: 2pt;
+  border-radius: 10pt;
+  background-color: var(--accent-color);
+}
+
+.resultContainer {
+  padding: 8pt;
+  background-color: var(--background-color);
+  border: 1px solid var(--border-color);
+  border-radius: 8pt;
+  margin-bottom: 5pt;
+}
+
+.resultRow {
+  width: 100%;
+  padding: 3pt;
+  background-color: var(--background-secondary-color);
+}
+.resultUrl {
+  font-size: 0.7rem;
+}

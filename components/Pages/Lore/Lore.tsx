@@ -17,6 +17,7 @@ export type Props = {
 }
 
 const Lore = ({ lore }: Props) => {
+  console.log(lore)
   const { title, publishedDate, tags, category } = lore
   const nav = useRouter()
 

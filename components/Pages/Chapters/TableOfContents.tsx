@@ -22,6 +22,7 @@ import { PatreonContext } from '../../../providers/Patreon/Provider'
 import { AccessNeeded } from '../../Patreon/AccessNeeded'
 import { ProgressContext } from '../../../providers/Progress/Provider'
 import { ProgressItem } from '../../../providers/Progress/Types'
+import Image from 'next/image'
 
 const includeChapter = (chapter: ChapterMeta, filter: string) => {
   if (chapter.title.includes(filter)) {
@@ -169,6 +170,7 @@ const ChapterItem: FunctionComponent<ChapterItemProps> = ({
   isPatreonLinked,
   currentChapter,
   progress,
+  thumbnail,
 }) => {
   const cProgress = progress[uuid]?.progress
   const isCurrentChapter = currentChapter?.id === uuid
@@ -180,6 +182,15 @@ const ChapterItem: FunctionComponent<ChapterItemProps> = ({
           vertical="center"
           horizontal="center"
           className={classes(styles.chapterRow, isCurrentChapter ? styles.chapterRowCurrent : undefined)}>
+          {thumbnail !== undefined && (
+            <Image
+              className={styles.thumbnail}
+              width={50}
+              height={50}
+              src={thumbnail}
+              alt={`Chapter ${chapterNo} thumbnail image`}
+            />
+          )}
           <div className={styles.chapterTitle}>
             {chapterNo} | {title}
           </div>

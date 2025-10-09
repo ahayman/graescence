@@ -4,6 +4,12 @@
   flex: 1;
 }
 
+.thumbnail {
+  margin-right: 5pt;
+  border-radius: 5pt;
+  object-fit: cover;
+}
+
 .tagsContainer {
   padding: 10pt 3pt 5pt;
 }

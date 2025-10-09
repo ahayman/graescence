@@ -14,6 +14,9 @@ export type Meta = ContentId & {
   title: string
   publishedDate: string
   publicDate?: string
+  thumbnail?: string
+  largeImage?: string
+  fullImage?: string
 }
 
 /** === CHAPTER === */

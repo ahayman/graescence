@@ -92,6 +92,9 @@ const extractData = async <T extends GeneratedContentType>(
       ? data.publicDate
       : undefined
   const uuid = `${data.uuid}`
+  const thumbnail = data.thumbnail
+  const largeImage = data.largeImage
+  const fullImage = data.fullImage
 
   if (!publishedDate || !title || !data.uuid) {
     return undefined
@@ -127,13 +130,16 @@ const extractData = async <T extends GeneratedContentType>(
         type: 'chapter',
         slug: id,
         uuid,
+        thumbnail,
+        largeImage,
+        fullImage,
         excerpt,
         title,
         publishedDate,
         volumeNo,
         chapterNo,
         tags,
-        html: highlightedHtml,
+        html: processHtml(highlightedHtml),
         volumeName,
         notes,
         publicDate,
@@ -147,11 +153,14 @@ const extractData = async <T extends GeneratedContentType>(
         .use(remarkGfm)
         .use(HTML)
         .process(front.content.replace(excerpt_separator, ''))
-      const html = processedContent.toString()
+      const html = processHtml(processedContent.toString())
       const extract: ContentData['Blog'] = {
         type: 'blog',
         slug: id,
         uuid,
+        thumbnail,
+        largeImage,
+        fullImage,
         title,
         publishedDate,
         excerpt,
@@ -173,12 +182,15 @@ const extractData = async <T extends GeneratedContentType>(
         .use(HTML)
         .process(front.content.replace(excerpt_separator, ''))
 
-      const html = processedContent.toString()
+      const html = processHtml(processedContent.toString())
       const excerpt = await getExcerpt(front)
       const extract: ContentData['History'] = {
         type: 'history',
         slug: id,
         uuid,
+        thumbnail,
+        largeImage,
+        fullImage,
         title,
         publishedDate,
         startDate,
@@ -202,12 +214,15 @@ const extractData = async <T extends GeneratedContentType>(
         .use(HTML)
         .process(front.content.replace(excerpt_separator, ''))
 
-      const html = processedContent.toString()
+      const html = processHtml(processedContent.toString())
       const excerpt = await getExcerpt(front)
       const extract: ContentData['Lore'] = {
         type: 'lore',
         slug: id,
         uuid,
+        thumbnail,
+        largeImage,
+        fullImage,
         title,
         publishedDate,
         category: parent,
@@ -222,12 +237,13 @@ const extractData = async <T extends GeneratedContentType>(
 }
 
 const getExcerpt = async (front: matter.GrayMatterFile<string>): Promise<string> => {
-  if (front.excerpt) return (await remark().use(remarkGfm).use(HTML).process(front.excerpt)).toString()
+  if (front.excerpt)
+    return processHtml((await remark().use(remarkGfm).use(HTML).process(front.excerpt)).toString(), true)
 
   // If no excerpt is provided, use the first paragraph of the content as the excerpt
   const paragraphs = front.content.replace(excerpt_separator, '').split('\n')
   const excerpt = paragraphs.find(p => p.trim().length > 0) || front.content
-  return (await remark().use(remarkGfm).use(HTML).process(excerpt)).toString()
+  return processHtml((await remark().use(remarkGfm).use(HTML).process(excerpt)).toString(), true)
 }
 
 type ContentSortFn<T extends GeneratedContentType> = (l: ContentData[T], r: ContentData[T]) => number
@@ -294,7 +310,7 @@ export const getContent = async (type: PageContent): Promise<string> => {
   const fileContents = fs.readFileSync(homePath, 'utf8')
   await generateAllPaths()
   const processedContent = await remark().use(remarkGfm).use(HTML).process(fileContents)
-  return processObsidianLinks(processedContent.toString())
+  return processHtml(processedContent.toString())
 }
 
 /**
@@ -453,8 +469,8 @@ export const getSortedContentData = async <T extends GeneratedContentType>(
   //Process obsidian links
   if (['Lore', 'History', 'Blog'].includes(type)) {
     for (const l of data as ContentData['Lore' | 'History' | 'Blog'][]) {
-      l.excerpt = processObsidianLinks(l.excerpt)
-      l.html = processObsidianLinks(l.html)
+      l.excerpt = processHtml(l.excerpt, true)
+      l.html = processHtml(l.html)
     }
   }
   return data
@@ -467,7 +483,7 @@ export const getAllContentIds = async (type: GeneratedContentType): Promise<Stat
   })
 }
 
-const processObsidianLinks = (content: string): string => {
+const processHtml = (content: string, removeImages: boolean = false): string => {
   const re = new RegExp(/\[\[(.*?)\]\]/g)
   let found: RegExpExecArray[] = []
   let match: RegExpExecArray | null = null
@@ -499,6 +515,16 @@ const processObsidianLinks = (content: string): string => {
       processed = processed.substring(0, match.index) + name + processed.substring(match.index + matchLength)
     }
   }
+
+  //Process <hr> tags, remove the tag and replace with a custom paragraph
+  // that can be styled with CSS.
+  processed = processed.replaceAll(/<hr\s*\/?>/g, '<p class="contentHr">༺࿈༻</p>')
+
+  // Optionally remove images (for excerpts, usually)
+  if (removeImages) {
+    processed = processed.replaceAll(/<img[^>]*>/g, '')
+  }
+
   return processed
 }
 

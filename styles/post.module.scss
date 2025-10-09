@@ -1,3 +1,5 @@
+@use './mixins' as *;
+
 .infoContainer {
   padding-left: 5pt;
   padding-right: 5pt;
@@ -5,6 +7,21 @@
 }
 
 .post {
+
+  img {
+    display: block;
+    text-indent: 0;
+    max-width: 70%;
+    margin-inline: auto;
+    border-radius: 8pt;
+    margin-block: 5pt;
+    text-align: center;
+
+    @include mobile {
+      max-width: 90%;
+      max-height: 50%;
+    }
+  }
 
   p, span {
     font-family: var(--reading-font-family, Helvetica, sans-serif);
@@ -46,16 +63,6 @@
     background-color: transparent;
     margin-top: 1rem;
     margin-bottom: 1rem;
-  }
-
-  hr:after {
-    content: "༺࿈༻";
-    display: inline-block;
-    position: relative;
-    left:50%;
-    transform:translate(-50%, 0%);
-    text-align:center;
-    font-size: 2em;
   }
 
   ul {

@@ -20,6 +20,12 @@ export const isServerError = (data: unknown): data is ServerError => {
   return true
 }
 
+export const isError = (data: unknown): data is Error => {
+  if (!(typeof data === 'object' && data !== null)) return false
+  if (!('message' in data && typeof data.message === 'string')) return false
+  return true
+}
+
 type PatreonResource<Type extends string, Data, Relationships = {}> = {
   id: string
   type: Type

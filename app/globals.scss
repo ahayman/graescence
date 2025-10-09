@@ -224,3 +224,12 @@ hr {
     transform: scale(1.1);
   }
 }
+
+.contentHr {
+  display: block;
+  text-align: center !important;
+  color: var(--foreground-secondary-color);
+  font-size: 1.5rem !important;
+  margin-top: 1rem;
+  margin-bottom: 1rem !important;
+}
