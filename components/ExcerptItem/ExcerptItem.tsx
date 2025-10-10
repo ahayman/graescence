@@ -69,10 +69,8 @@ export const ExcerptItem = ({
       <div className={styles.content}>
         {canAccess ? (
           <div className={styles.excerpt}>
-            <div className={styles.thumbRow}>
-              {!!thumbnail && <Image src={thumbnail} className={styles.thumbnail} width={50} height={50} alt="" />}
-              <div className={postStyles.post} dangerouslySetInnerHTML={{ __html: excerpt }} />
-            </div>
+            {!!thumbnail && <Image src={thumbnail} className={styles.thumbnail} width={100} height={100} alt="" />}
+            <div className={postStyles.post} dangerouslySetInnerHTML={{ __html: excerpt }} />
             <Row horizontal="end" vertical="center">
               <Link
                 className={classes(utilStyles.coloredLink, styles.moreLink)}

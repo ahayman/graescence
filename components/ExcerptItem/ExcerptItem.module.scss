@@ -51,21 +51,11 @@
   backdrop-filter: blur(5px);
 }
 
-.thumbRow {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 5pt;
-
-  @include mobile {
-    flex-direction: column;
-    align-items: center;
-  }
-}
-
 .thumbnail {
   border-radius: 5pt;
   object-fit: cover;
+  float: left;
+  margin-right: 5pt;
 }
 
 .container {
