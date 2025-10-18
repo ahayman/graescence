@@ -228,6 +228,7 @@ hr {
 .contentHr {
   display: block;
   text-align: center !important;
+  text-indent: 0 !important;
   color: var(--foreground-secondary-color);
   font-size: 1.5rem !important;
   margin-top: 1rem;

@@ -15,6 +15,7 @@ export const POST = async (request: Request): Promise<NextResponse> => {
       request,
       onBeforeGenerateToken: async () => ({
         allowedContentTypes: ['image/png', 'image/jpeg', 'image/jpg', 'image/gif', 'image/webp'],
+        allowOverwrite: true,
       }),
     })
     return NextResponse.json(result)
